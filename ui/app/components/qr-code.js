@@ -1,35 +1,35 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const qrCode = require('qrcode-npm').qrcode
-const inherits = require('util').inherits
-const connect = require('react-redux').connect
-const { isHexPrefixed } = require('ethereumjs-util')
-const ReadOnlyInput = require('./readonly-input')
-const { checksumAddress } = require('../util')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const qrCode = require('qrcode-npm').qrcode;
+const inherits = require('util').inherits;
+const connect = require('react-redux').connect;
+const {isHexPrefixed} = require('ethereumjs-util');
+const ReadOnlyInput = require('./readonly-input');
+const {checksumAddress} = require('../util');
 
-module.exports = connect(mapStateToProps)(QrCodeView)
+module.exports = connect(mapStateToProps)(QrCodeView);
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     // Qr code is not fetched from state. 'message' and 'data' props are passed instead.
     buyView: state.appState.buyView,
     warning: state.appState.warning,
-  }
+  };
 }
 
-inherits(QrCodeView, Component)
+inherits(QrCodeView, Component);
 
-function QrCodeView () {
-  Component.call(this)
+function QrCodeView() {
+  Component.call(this);
 }
 
-QrCodeView.prototype.render = function () {
-  const props = this.props
-  const { message, data } = props.Qr
-  const address = `${isHexPrefixed(data) ? 'ethereum:' : ''}${data}`
-  const qrImage = qrCode(4, 'M')
-  qrImage.addData(address)
-  qrImage.make()
+QrCodeView.prototype.render = function() {
+  const props = this.props;
+  const {message, data} = props.Qr;
+  const address = `${isHexPrefixed(data) ? 'ethereum:' : ''}${data}`;
+  const qrImage = qrCode(4, 'M');
+  qrImage.addData(address);
+  qrImage.make();
 
   return h('.div.flex-column.flex-center', [
     Array.isArray(message)
@@ -37,10 +37,9 @@ QrCodeView.prototype.render = function () {
       : message && h('.qr-header', message),
 
     this.props.warning ? this.props.warning && h('span.error.flex-center', {
-      style: {
+        style: {},
       },
-    },
-    this.props.warning) : null,
+      this.props.warning) : null,
 
     h('.div.qr-wrapper', {
       style: {},
@@ -53,11 +52,11 @@ QrCodeView.prototype.render = function () {
       inputClass: 'qr-ellip-address',
       value: checksumAddress(data),
     }),
-  ])
-}
+  ]);
+};
 
-QrCodeView.prototype.renderMultiMessage = function () {
-  var Qr = this.props.Qr
-  var multiMessage = Qr.message.map((message) => h('.qr-message', message))
-  return multiMessage
-}
+QrCodeView.prototype.renderMultiMessage = function() {
+  var Qr = this.props.Qr;
+  var multiMessage = Qr.message.map((message) => h('.qr-message', message));
+  return multiMessage;
+};

@@ -1,6 +1,6 @@
-const ObservableStore = require('obs-store')
-const normalizeAddress = require('eth-sig-util').normalize
-const extend = require('xtend')
+const ObservableStore = require('obs-store');
+const normalizeAddress = require('eth-sig-util').normalize;
+const extend = require('xtend');
 
 class PreferencesController {
 
@@ -9,7 +9,7 @@ class PreferencesController {
    * @typedef {Object} PreferencesController
    * @param {object} opts Overrides the defaults for the initial state of this.store
    * @property {object} store The stored object containing a users preferences, stored in local storage
-	 * @property {array} store.frequentRpcList A list of custom rpcs to provide the user
+   * @property {array} store.frequentRpcList A list of custom rpcs to provide the user
    * @property {string} store.currentAccountTab Indicates the selected tab in the ui
    * @property {array} store.tokens The tokens the user wants display in their token lists
    * @property {boolean} store.useBlockie The users preference for blockie identicons within the UI
@@ -19,7 +19,7 @@ class PreferencesController {
    * @property {string} store.selectedAddress A hex string that matches the currently selected address in the app
    *
    */
-  constructor (opts = {}) {
+  constructor(opts = {}) {
     const initState = extend({
       frequentRpcList: [],
       currentAccountTab: 'history',
@@ -27,9 +27,10 @@ class PreferencesController {
       useBlockie: false,
       featureFlags: {},
       currentLocale: opts.initLangCode,
-    }, opts.initState)
-    this.store = new ObservableStore(initState)
+    }, opts.initState);
+    this.store = new ObservableStore(initState);
   }
+
 // PUBLIC METHODS
 
   /**
@@ -38,8 +39,8 @@ class PreferencesController {
    * @param {boolean} val Whether or not the user prefers blockie indicators
    *
    */
-  setUseBlockie (val) {
-    this.store.updateState({ useBlockie: val })
+  setUseBlockie(val) {
+    this.store.updateState({useBlockie: val});
   }
 
   /**
@@ -48,8 +49,8 @@ class PreferencesController {
    * @returns {boolean} this.store.useBlockie
    *
    */
-  getUseBlockie () {
-    return this.store.getState().useBlockie
+  getUseBlockie() {
+    return this.store.getState().useBlockie;
   }
 
   /**
@@ -58,8 +59,8 @@ class PreferencesController {
    * @param {string} key he preferred language locale key
    *
    */
-  setCurrentLocale (key) {
-    this.store.updateState({ currentLocale: key })
+  setCurrentLocale(key) {
+    this.store.updateState({currentLocale: key});
   }
 
   /**
@@ -69,12 +70,12 @@ class PreferencesController {
    * @returns {Promise<void>} Promise resolves with undefined
    *
    */
-  setSelectedAddress (_address) {
+  setSelectedAddress(_address) {
     return new Promise((resolve, reject) => {
-      const address = normalizeAddress(_address)
-      this.store.updateState({ selectedAddress: address })
-      resolve()
-    })
+      const address = normalizeAddress(_address);
+      this.store.updateState({selectedAddress: address});
+      resolve();
+    });
   }
 
   /**
@@ -83,8 +84,8 @@ class PreferencesController {
    * @returns {string} The hex address for the currently selected account
    *
    */
-  getSelectedAddress () {
-    return this.store.getState().selectedAddress
+  getSelectedAddress() {
+    return this.store.getState().selectedAddress;
   }
 
   /**
@@ -100,7 +101,7 @@ class PreferencesController {
   /**
    * Adds a new token to the token array, or updates the token if passed an address that already exists.
    * Modifies the existing tokens array from the store. All objects in the tokens array array AddedToken objects.
-   * @see AddedToken {@link AddedToken} 
+   * @see AddedToken {@link AddedToken}
    *
    * @param {string} rawAddress Hex address of the token contract. May or may not be a checksum address.
    * @param {string} symbol The symbol of the token
@@ -108,25 +109,25 @@ class PreferencesController {
    * @returns {Promise<array>} Promises the new array of AddedToken objects.
    *
    */
-  async addToken (rawAddress, symbol, decimals) {
-    const address = normalizeAddress(rawAddress)
-    const newEntry = { address, symbol, decimals }
+  async addToken(rawAddress, symbol, decimals) {
+    const address = normalizeAddress(rawAddress);
+    const newEntry = {address, symbol, decimals};
 
-    const tokens = this.store.getState().tokens
+    const tokens = this.store.getState().tokens;
     const previousEntry = tokens.find((token, index) => {
-      return token.address === address
-    })
-    const previousIndex = tokens.indexOf(previousEntry)
+      return token.address === address;
+    });
+    const previousIndex = tokens.indexOf(previousEntry);
 
     if (previousEntry) {
-      tokens[previousIndex] = newEntry
+      tokens[previousIndex] = newEntry;
     } else {
-      tokens.push(newEntry)
+      tokens.push(newEntry);
     }
 
-    this.store.updateState({ tokens })
+    this.store.updateState({tokens});
 
-    return Promise.resolve(tokens)
+    return Promise.resolve(tokens);
   }
 
   /**
@@ -136,13 +137,13 @@ class PreferencesController {
    * @returns {Promise<array>} The new array of AddedToken objects
    *
    */
-  removeToken (rawAddress) {
-    const tokens = this.store.getState().tokens
+  removeToken(rawAddress) {
+    const tokens = this.store.getState().tokens;
 
-    const updatedTokens = tokens.filter(token => token.address !== rawAddress)
+    const updatedTokens = tokens.filter(token => token.address !== rawAddress);
 
-    this.store.updateState({ tokens: updatedTokens })
-    return Promise.resolve(updatedTokens)
+    this.store.updateState({tokens: updatedTokens});
+    return Promise.resolve(updatedTokens);
   }
 
   /**
@@ -151,8 +152,8 @@ class PreferencesController {
    * @returns {array} The current array of AddedToken objects
    *
    */
-  getTokens () {
-    return this.store.getState().tokens
+  getTokens() {
+    return this.store.getState().tokens;
   }
 
   /**
@@ -162,26 +163,26 @@ class PreferencesController {
    * @returns {Promise<void>} Promise resolves with undefined
    *
    */
-  updateFrequentRpcList (_url) {
+  updateFrequentRpcList(_url) {
     return this.addToFrequentRpcList(_url)
-      .then((rpcList) => {
-        this.store.updateState({ frequentRpcList: rpcList })
-        return Promise.resolve()
-      })
+               .then((rpcList) => {
+                 this.store.updateState({frequentRpcList: rpcList});
+                 return Promise.resolve();
+               });
   }
 
   /**
-   * Setter for the `currentAccountTab` property 
+   * Setter for the `currentAccountTab` property
    *
    * @param {string} currentAccountTab Specifies the new tab to be marked as current
    * @returns {Promise<void>} Promise resolves with undefined
    *
    */
-  setCurrentAccountTab (currentAccountTab) {
+  setCurrentAccountTab(currentAccountTab) {
     return new Promise((resolve, reject) => {
-      this.store.updateState({ currentAccountTab })
-      resolve()
-    })
+      this.store.updateState({currentAccountTab});
+      resolve();
+    });
   }
 
   /**
@@ -190,22 +191,22 @@ class PreferencesController {
    * end of the list. The current list is modified and returned as a promise.
    *
    * @param {string} _url The rpc url to add to the frequentRpcList.
-   * @returns {Promise<array>} The updated frequentRpcList. 
+   * @returns {Promise<array>} The updated frequentRpcList.
    *
    */
-  addToFrequentRpcList (_url) {
-    const rpcList = this.getFrequentRpcList()
-    const index = rpcList.findIndex((element) => { return element === _url })
+  addToFrequentRpcList(_url) {
+    const rpcList = this.getFrequentRpcList();
+    const index = rpcList.findIndex((element) => { return element === _url; });
     if (index !== -1) {
-      rpcList.splice(index, 1)
+      rpcList.splice(index, 1);
     }
     if (_url !== 'http://localhost:8545') {
-      rpcList.push(_url)
+      rpcList.push(_url);
     }
     if (rpcList.length > 2) {
-      rpcList.shift()
+      rpcList.shift();
     }
-    return Promise.resolve(rpcList)
+    return Promise.resolve(rpcList);
   }
 
   /**
@@ -214,8 +215,8 @@ class PreferencesController {
    * @returns {array<string>} An array of one or two rpc urls.
    *
    */
-  getFrequentRpcList () {
-    return this.store.getState().frequentRpcList
+  getFrequentRpcList() {
+    return this.store.getState().frequentRpcList;
   }
 
   /**
@@ -226,16 +227,16 @@ class PreferencesController {
    * @returns {Promise<object>} Promises a new object; the updated featureFlags object.
    *
    */
-  setFeatureFlag (feature, activated) {
-    const currentFeatureFlags = this.store.getState().featureFlags
+  setFeatureFlag(feature, activated) {
+    const currentFeatureFlags = this.store.getState().featureFlags;
     const updatedFeatureFlags = {
       ...currentFeatureFlags,
       [feature]: activated,
-    }
+    };
 
-    this.store.updateState({ featureFlags: updatedFeatureFlags })
+    this.store.updateState({featureFlags: updatedFeatureFlags});
 
-    return Promise.resolve(updatedFeatureFlags)
+    return Promise.resolve(updatedFeatureFlags);
   }
 
   /**
@@ -245,12 +246,13 @@ class PreferencesController {
    * user wishes to see that feature
    *
    */
-  getFeatureFlags () {
-    return this.store.getState().featureFlags
+  getFeatureFlags() {
+    return this.store.getState().featureFlags;
   }
+
   //
   // PRIVATE METHODS
   //
 }
 
-module.exports = PreferencesController
+module.exports = PreferencesController;

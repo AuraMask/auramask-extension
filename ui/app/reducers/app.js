@@ -1,38 +1,37 @@
-const extend = require('xtend')
-const actions = require('../actions')
-const txHelper = require('../../lib/tx-helper')
-const log = require('loglevel')
+const extend = require('xtend');
+const actions = require('../actions');
+const txHelper = require('../../lib/tx-helper');
+const log = require('loglevel');
 
-module.exports = reduceApp
+module.exports = reduceApp;
 
-
-function reduceApp (state, action) {
-  log.debug('App Reducer got ' + action.type)
+function reduceApp(state, action) {
+  log.debug('App Reducer got ' + action.type);
   // clone and defaults
-  const selectedAddress = state.metamask.selectedAddress
-  const hasUnconfActions = checkUnconfActions(state)
-  let name = 'accounts'
+  const selectedAddress = state.metamask.selectedAddress;
+  const hasUnconfActions = checkUnconfActions(state);
+  let name = 'accounts';
   if (selectedAddress) {
-    name = 'accountDetail'
+    name = 'accountDetail';
   }
 
   if (hasUnconfActions) {
-    log.debug('pending txs detected, defaulting to conf-tx view.')
-    name = 'confTx'
+    log.debug('pending txs detected, defaulting to conf-tx view.');
+    name = 'confTx';
   }
 
   var defaultView = {
     name,
     detailView: null,
     context: selectedAddress,
-  }
+  };
 
   // confirm seed words
-  var seedWords = state.metamask.seedWords
+  var seedWords = state.metamask.seedWords;
   var seedConfView = {
     name: 'createVaultComplete',
     seedWords,
-  }
+  };
 
   // default state
   var appState = extend({
@@ -61,62 +60,62 @@ function reduceApp (state, action) {
     warning: null,
     buyView: {},
     isMouseUser: false,
-  }, state.appState)
+  }, state.appState);
 
   switch (action.type) {
     // dropdown methods
     case actions.NETWORK_DROPDOWN_OPEN:
       return extend(appState, {
         networkDropdownOpen: true,
-      })
+      });
 
     case actions.NETWORK_DROPDOWN_CLOSE:
       return extend(appState, {
         networkDropdownOpen: false,
-      })
+      });
 
     // sidebar methods
     case actions.SIDEBAR_OPEN:
       return extend(appState, {
         sidebarOpen: true,
-      })
+      });
 
     case actions.SIDEBAR_CLOSE:
       return extend(appState, {
         sidebarOpen: false,
-      })
+      });
 
     // modal methods:
     case actions.MODAL_OPEN:
       return extend(appState, {
         modal: Object.assign(
           state.appState.modal,
-          { open: true },
-          { modalState: action.payload },
-          { previousModalState: appState.modal.modalState},
+          {open: true},
+          {modalState: action.payload},
+          {previousModalState: appState.modal.modalState},
         ),
-      })
+      });
 
     case actions.MODAL_CLOSE:
       return extend(appState, {
         modal: Object.assign(
           state.appState.modal,
-          { open: false },
-          { modalState: { name: null } },
-          { previousModalState: appState.modal.modalState},
+          {open: false},
+          {modalState: {name: null}},
+          {previousModalState: appState.modal.modalState},
         ),
-      })
+      });
 
     // transition methods
     case actions.TRANSITION_FORWARD:
       return extend(appState, {
         transForward: true,
-      })
+      });
 
     case actions.TRANSITION_BACKWARD:
       return extend(appState, {
         transForward: false,
-      })
+      });
 
     // intialize
 
@@ -127,7 +126,7 @@ function reduceApp (state, action) {
         },
         transForward: true,
         warning: null,
-      })
+      });
 
     case actions.SHOW_RESTORE_VAULT:
       return extend(appState, {
@@ -136,26 +135,26 @@ function reduceApp (state, action) {
         },
         transForward: true,
         forgottenPassword: true,
-      })
+      });
 
     case actions.FORGOT_PASSWORD:
       const newState = extend(appState, {
         forgottenPassword: action.value,
-      })
+      });
 
       if (action.value) {
         newState.currentView = {
           name: 'restoreVault',
-        }
+        };
       }
 
-      return newState
+      return newState;
 
     case actions.SHOW_INIT_MENU:
       return extend(appState, {
         currentView: defaultView,
         transForward: false,
-      })
+      });
 
     case actions.SHOW_CONFIG_PAGE:
       return extend(appState, {
@@ -164,7 +163,7 @@ function reduceApp (state, action) {
           context: appState.currentView.context,
         },
         transForward: action.value,
-      })
+      });
 
     case actions.SHOW_ADD_TOKEN_PAGE:
       return extend(appState, {
@@ -173,7 +172,7 @@ function reduceApp (state, action) {
           context: appState.currentView.context,
         },
         transForward: action.value,
-      })
+      });
 
     case actions.SHOW_IMPORT_PAGE:
       return extend(appState, {
@@ -182,7 +181,7 @@ function reduceApp (state, action) {
         },
         transForward: true,
         warning: null,
-      })
+      });
 
     case actions.SHOW_NEW_ACCOUNT_PAGE:
       return extend(appState, {
@@ -192,7 +191,7 @@ function reduceApp (state, action) {
         },
         transForward: true,
         warning: null,
-      })
+      });
 
     case actions.SET_NEW_ACCOUNT_FORM:
       return extend(appState, {
@@ -200,7 +199,7 @@ function reduceApp (state, action) {
           name: appState.currentView.name,
           context: action.formToSelect,
         },
-      })
+      });
 
     case actions.SHOW_INFO_PAGE:
       return extend(appState, {
@@ -209,9 +208,9 @@ function reduceApp (state, action) {
           context: appState.currentView.context,
         },
         transForward: true,
-      })
+      });
 
-  case actions.CREATE_NEW_VAULT_IN_PROGRESS:
+    case actions.CREATE_NEW_VAULT_IN_PROGRESS:
       return extend(appState, {
         currentView: {
           name: 'createVault',
@@ -219,7 +218,7 @@ function reduceApp (state, action) {
         },
         transForward: true,
         isLoading: true,
-      })
+      });
 
     case actions.SHOW_NEW_VAULT_SEED:
       return extend(appState, {
@@ -229,7 +228,7 @@ function reduceApp (state, action) {
         },
         transForward: true,
         isLoading: false,
-      })
+      });
 
     case actions.NEW_ACCOUNT_SCREEN:
       return extend(appState, {
@@ -238,7 +237,7 @@ function reduceApp (state, action) {
           context: appState.currentView.context,
         },
         transForward: true,
-      })
+      });
 
     case actions.SHOW_SEND_PAGE:
       return extend(appState, {
@@ -248,7 +247,7 @@ function reduceApp (state, action) {
         },
         transForward: true,
         warning: null,
-      })
+      });
 
     case actions.SHOW_SEND_TOKEN_PAGE:
       return extend(appState, {
@@ -258,7 +257,7 @@ function reduceApp (state, action) {
         },
         transForward: true,
         warning: null,
-      })
+      });
 
     case actions.SHOW_NEW_KEYCHAIN:
       return extend(appState, {
@@ -267,9 +266,9 @@ function reduceApp (state, action) {
           context: appState.currentView.context,
         },
         transForward: true,
-      })
+      });
 
-  // unlock
+    // unlock
 
     case actions.UNLOCK_METAMASK:
       return extend(appState, {
@@ -278,14 +277,14 @@ function reduceApp (state, action) {
         transForward: true,
         isLoading: false,
         warning: null,
-      })
+      });
 
     case actions.LOCK_METAMASK:
       return extend(appState, {
         currentView: defaultView,
         transForward: false,
         warning: null,
-      })
+      });
 
     case actions.BACK_TO_INIT_MENU:
       return extend(appState, {
@@ -295,7 +294,7 @@ function reduceApp (state, action) {
         currentView: {
           name: 'InitMenu',
         },
-      })
+      });
 
     case actions.BACK_TO_UNLOCK_VIEW:
       return extend(appState, {
@@ -305,8 +304,8 @@ function reduceApp (state, action) {
         currentView: {
           name: 'UnlockScreen',
         },
-      })
-  // reveal seed words
+      });
+    // reveal seed words
 
     case actions.REVEAL_SEED_CONFIRMATION:
       return extend(appState, {
@@ -315,14 +314,14 @@ function reduceApp (state, action) {
         },
         transForward: true,
         warning: null,
-      })
+      });
 
-  // accounts
+    // accounts
 
     case actions.SET_SELECTED_ACCOUNT:
       return extend(appState, {
         activeAddress: action.value,
-      })
+      });
 
     case actions.GO_HOME:
       return extend(appState, {
@@ -336,7 +335,7 @@ function reduceApp (state, action) {
         },
         transForward: false,
         warning: null,
-      })
+      });
 
     case actions.SHOW_ACCOUNT_DETAIL:
       return extend(appState, {
@@ -351,7 +350,7 @@ function reduceApp (state, action) {
           privateKey: '',
         },
         transForward: false,
-      })
+      });
 
     case actions.BACK_TO_ACCOUNT_DETAIL:
       return extend(appState, {
@@ -365,7 +364,7 @@ function reduceApp (state, action) {
           privateKey: '',
         },
         transForward: false,
-      })
+      });
 
     case actions.SHOW_ACCOUNTS_PAGE:
       return extend(appState, {
@@ -378,18 +377,18 @@ function reduceApp (state, action) {
         warning: null,
         scrollToBottom: false,
         forgottenPassword: false,
-      })
+      });
 
     case actions.SHOW_NOTICE:
       return extend(appState, {
         transForward: true,
         isLoading: false,
-      })
+      });
 
     case actions.REVEAL_ACCOUNT:
       return extend(appState, {
         scrollToBottom: true,
-      })
+      });
 
     case actions.SHOW_CONF_TX_PAGE:
       return extend(appState, {
@@ -400,7 +399,7 @@ function reduceApp (state, action) {
         transForward: action.transForward,
         warning: null,
         isLoading: false,
-      })
+      });
 
     case actions.SHOW_CONF_MSG_PAGE:
       return extend(appState, {
@@ -411,16 +410,16 @@ function reduceApp (state, action) {
         transForward: true,
         warning: null,
         isLoading: false,
-      })
+      });
 
     case actions.COMPLETED_TX:
-      log.debug('reducing COMPLETED_TX for tx ' + action.value)
+      log.debug('reducing COMPLETED_TX for tx ' + action.value);
       const otherUnconfActions = getUnconfActionList(state)
-        .filter(tx => tx.id !== action.value)
-      const hasOtherUnconfActions = otherUnconfActions.length > 0
+        .filter(tx => tx.id !== action.value);
+      const hasOtherUnconfActions = otherUnconfActions.length > 0;
 
       if (hasOtherUnconfActions) {
-        log.debug('reducer detected txs - rendering confTx view')
+        log.debug('reducer detected txs - rendering confTx view');
         return extend(appState, {
           transForward: false,
           currentView: {
@@ -428,9 +427,9 @@ function reduceApp (state, action) {
             context: 0,
           },
           warning: null,
-        })
+        });
       } else {
-        log.debug('attempting to close popup')
+        log.debug('attempting to close popup');
         return extend(appState, {
           // indicate notification should close
           shouldClose: true,
@@ -443,7 +442,7 @@ function reduceApp (state, action) {
           accountDetail: {
             subview: 'transactions',
           },
-        })
+        });
       }
 
     case actions.NEXT_TX:
@@ -454,10 +453,10 @@ function reduceApp (state, action) {
           context: ++appState.currentView.context,
           warning: null,
         },
-      })
+      });
 
     case actions.VIEW_PENDING_TX:
-      const context = indexForPending(state, action.value)
+      const context = indexForPending(state, action.value);
       return extend(appState, {
         transForward: true,
         currentView: {
@@ -465,7 +464,7 @@ function reduceApp (state, action) {
           context,
           warning: null,
         },
-      })
+      });
 
     case actions.PREVIOUS_TX:
       return extend(appState, {
@@ -475,7 +474,7 @@ function reduceApp (state, action) {
           context: --appState.currentView.context,
           warning: null,
         },
-      })
+      });
 
     case actions.TRANSACTION_ERROR:
       return extend(appState, {
@@ -483,38 +482,38 @@ function reduceApp (state, action) {
           name: 'confTx',
           errorMessage: 'There was a problem submitting this transaction.',
         },
-      })
+      });
 
     case actions.UNLOCK_FAILED:
       return extend(appState, {
         warning: action.value || 'Incorrect password. Try again.',
-      })
+      });
 
     case actions.UNLOCK_SUCCEEDED:
       return extend(appState, {
         warning: '',
-      })
+      });
 
     case actions.SHOW_LOADING:
       return extend(appState, {
         isLoading: true,
         loadingMessage: action.value,
-      })
+      });
 
     case actions.HIDE_LOADING:
       return extend(appState, {
         isLoading: false,
-      })
+      });
 
     case actions.SHOW_SUB_LOADING_INDICATION:
       return extend(appState, {
         isSubLoading: true,
-      })
+      });
 
     case actions.HIDE_SUB_LOADING_INDICATION:
       return extend(appState, {
         isSubLoading: false,
-      })
+      });
     case actions.CLEAR_SEED_WORD_CACHE:
       return extend(appState, {
         transForward: true,
@@ -525,18 +524,18 @@ function reduceApp (state, action) {
           accountExport: 'none',
           privateKey: '',
         },
-      })
+      });
 
     case actions.DISPLAY_WARNING:
       return extend(appState, {
         warning: action.value,
         isLoading: false,
-      })
+      });
 
     case actions.HIDE_WARNING:
       return extend(appState, {
         warning: undefined,
-      })
+      });
 
     case actions.REQUEST_ACCOUNT_EXPORT:
       return extend(appState, {
@@ -549,7 +548,7 @@ function reduceApp (state, action) {
           subview: 'export',
           accountExport: 'requested',
         },
-      })
+      });
 
     case actions.EXPORT_ACCOUNT:
       return extend(appState, {
@@ -557,7 +556,7 @@ function reduceApp (state, action) {
           subview: 'export',
           accountExport: 'completed',
         },
-      })
+      });
 
     case actions.SHOW_PRIVATE_KEY:
       return extend(appState, {
@@ -566,7 +565,7 @@ function reduceApp (state, action) {
           accountExport: 'completed',
           privateKey: action.value,
         },
-      })
+      });
 
     case actions.BUY_ETH_VIEW:
       return extend(appState, {
@@ -585,7 +584,7 @@ function reduceApp (state, action) {
             shapeshift: false,
           },
         },
-      })
+      });
 
     case actions.ONBOARDING_BUY_ETH_VIEW:
       return extend(appState, {
@@ -595,7 +594,7 @@ function reduceApp (state, action) {
           context: appState.currentView.name,
         },
         identity: state.metamask.identities[action.value],
-      })
+      });
 
     case actions.COINBASE_SUBVIEW:
       return extend(appState, {
@@ -608,7 +607,7 @@ function reduceApp (state, action) {
           buyAddress: appState.buyView.buyAddress,
           amount: appState.buyView.amount,
         },
-      })
+      });
 
     case actions.SHAPESHIFT_SUBVIEW:
       return extend(appState, {
@@ -623,7 +622,7 @@ function reduceApp (state, action) {
           buyAddress: action.value.buyAddress || appState.buyView.buyAddress,
           amount: appState.buyView.amount || 0,
         },
-      })
+      });
 
     case actions.PAIR_UPDATE:
       return extend(appState, {
@@ -639,7 +638,7 @@ function reduceApp (state, action) {
           amount: appState.buyView.amount,
           warning: null,
         },
-      })
+      });
 
     case actions.SHOW_QR:
       return extend(appState, {
@@ -650,7 +649,7 @@ function reduceApp (state, action) {
           message: action.value.message,
           data: action.value.data,
         },
-      })
+      });
 
     case actions.SHOW_QR_VIEW:
       return extend(appState, {
@@ -663,37 +662,39 @@ function reduceApp (state, action) {
           message: action.value.message,
           data: action.value.data,
         },
-      })
+      });
 
     case actions.SET_MOUSE_USER_STATE:
       return extend(appState, {
         isMouseUser: action.value,
-      })
+      });
 
     default:
-      return appState
+      return appState;
   }
 }
 
-function checkUnconfActions (state) {
-  const unconfActionList = getUnconfActionList(state)
-  const hasUnconfActions = unconfActionList.length > 0
-  return hasUnconfActions
+function checkUnconfActions(state) {
+  const unconfActionList = getUnconfActionList(state);
+  const hasUnconfActions = unconfActionList.length > 0;
+  return hasUnconfActions;
 }
 
-function getUnconfActionList (state) {
-  const { unapprovedTxs, unapprovedMsgs,
-    unapprovedPersonalMsgs, unapprovedTypedMessages, network } = state.metamask
+function getUnconfActionList(state) {
+  const {
+    unapprovedTxs, unapprovedMsgs,
+    unapprovedPersonalMsgs, unapprovedTypedMessages, network,
+  } = state.metamask;
 
-  const unconfActionList = txHelper(unapprovedTxs, unapprovedMsgs, unapprovedPersonalMsgs, unapprovedTypedMessages, network)
-  return unconfActionList
+  const unconfActionList = txHelper(unapprovedTxs, unapprovedMsgs, unapprovedPersonalMsgs, unapprovedTypedMessages, network);
+  return unconfActionList;
 }
 
-function indexForPending (state, txId) {
-  const unconfTxList = getUnconfActionList(state)
-  const match = unconfTxList.find((tx) => tx.id === txId)
-  const index = unconfTxList.indexOf(match)
-  return index
+function indexForPending(state, txId) {
+  const unconfTxList = getUnconfActionList(state);
+  const match = unconfTxList.find((tx) => tx.id === txId);
+  const index = unconfTxList.indexOf(match);
+  return index;
 }
 
 // function indexForLastPending (state) {

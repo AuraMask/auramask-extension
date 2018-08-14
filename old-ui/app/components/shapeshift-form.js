@@ -1,35 +1,35 @@
-const PersistentForm = require('../../lib/persistent-form')
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const connect = require('react-redux').connect
-const actions = require('../../../ui/app/actions')
-const Qr = require('./qr-code')
-const isValidAddress = require('../util').isValidAddress
-module.exports = connect(mapStateToProps)(ShapeshiftForm)
+const PersistentForm = require('../../lib/persistent-form');
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const connect = require('react-redux').connect;
+const actions = require('../../../ui/app/actions');
+const Qr = require('./qr-code');
+const isValidAddress = require('../util').isValidAddress;
+module.exports = connect(mapStateToProps)(ShapeshiftForm);
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     warning: state.appState.warning,
     isSubLoading: state.appState.isSubLoading,
     qrRequested: state.appState.qrRequested,
-  }
+  };
 }
 
-inherits(ShapeshiftForm, PersistentForm)
+inherits(ShapeshiftForm, PersistentForm);
 
-function ShapeshiftForm () {
-  PersistentForm.call(this)
-  this.persistentFormParentId = 'shapeshift-buy-form'
+function ShapeshiftForm() {
+  PersistentForm.call(this);
+  this.persistentFormParentId = 'shapeshift-buy-form';
 }
 
-ShapeshiftForm.prototype.render = function () {
-  return this.props.qrRequested ? h(Qr, {key: 'qr'}) : this.renderMain()
-}
+ShapeshiftForm.prototype.render = function() {
+  return this.props.qrRequested ? h(Qr, {key: 'qr'}) : this.renderMain();
+};
 
-ShapeshiftForm.prototype.renderMain = function () {
-  const marketinfo = this.props.buyView.formView.marketinfo
-  const coinOptions = this.props.buyView.formView.coinOptions
-  var coin = marketinfo.pair.split('_')[0].toUpperCase()
+ShapeshiftForm.prototype.renderMain = function() {
+  const marketinfo = this.props.buyView.formView.marketinfo;
+  const coinOptions = this.props.buyView.formView.coinOptions;
+  var coin = marketinfo.pair.split('_')[0].toUpperCase();
 
   return h('.flex-column', {
     style: {
@@ -144,10 +144,10 @@ ShapeshiftForm.prototype.renderMain = function () {
       this.renderRefundAddressForCoin(coin),
     ]),
 
-  ])
-}
+  ]);
+};
 
-ShapeshiftForm.prototype.renderRefundAddressForCoin = function (coin) {
+ShapeshiftForm.prototype.renderRefundAddressForCoin = function(coin) {
   return h(this.activeToggle('.input-container'), {
     style: {
       marginTop: '1%',
@@ -184,85 +184,84 @@ ShapeshiftForm.prototype.renderRefundAddressForCoin = function (coin) {
       },
     }, [
       h('button', {
-        onClick: this.shift.bind(this),
-        style: {
-          marginTop: '1%',
+          onClick: this.shift.bind(this),
+          style: {
+            marginTop: '1%',
+          },
         },
-      },
-      'Submit'),
+        'Submit'),
     ]),
-  ])
-}
+  ]);
+};
 
-ShapeshiftForm.prototype.shift = function () {
-  var props = this.props
-  var withdrawal = this.props.buyView.buyAddress
-  var returnAddress = document.getElementById('fromCoinAddress').value
-  var pair = this.props.buyView.formView.marketinfo.pair
+ShapeshiftForm.prototype.shift = function() {
+  var props = this.props;
+  var withdrawal = this.props.buyView.buyAddress;
+  var returnAddress = document.getElementById('fromCoinAddress').value;
+  var pair = this.props.buyView.formView.marketinfo.pair;
   var data = {
     'withdrawal': withdrawal,
     'pair': pair,
     'returnAddress': returnAddress,
     //  Public api key
     'apiKey': '803d1f5df2ed1b1476e4b9e6bcd089e34d8874595dda6a23b67d93c56ea9cc2445e98a6748b219b2b6ad654d9f075f1f1db139abfa93158c04e825db122c14b6',
-  }
+  };
   var message = [
     `Deposit Limit: ${props.buyView.formView.marketinfo.limit}`,
     `Deposit Minimum:${props.buyView.formView.marketinfo.minimum}`,
-  ]
+  ];
   if (isValidAddress(withdrawal)) {
-    this.props.dispatch(actions.coinShiftRquest(data, message))
+    this.props.dispatch(actions.coinShiftRquest(data, message));
   }
-}
+};
 
-ShapeshiftForm.prototype.renderCoinList = function () {
+ShapeshiftForm.prototype.renderCoinList = function() {
   var list = Object.keys(this.props.buyView.formView.coinOptions).map((item) => {
     return h('option', {
       value: item,
-    }, item)
-  })
+    }, item);
+  });
 
   return h('datalist#coinList', {
     onClick: (event) => {
-      event.preventDefault()
+      event.preventDefault();
     },
-  }, list)
-}
+  }, list);
+};
 
-ShapeshiftForm.prototype.updateCoin = function (event) {
-  event.preventDefault()
-  const props = this.props
-  var coinOptions = this.props.buyView.formView.coinOptions
-  var coin = document.getElementById('fromCoin').value
-
-  if (!coinOptions[coin.toUpperCase()] || coin.toUpperCase() === 'ETH') {
-    var message = 'Not a valid coin'
-    return props.dispatch(actions.displayWarning(message))
-  } else {
-    return props.dispatch(actions.pairUpdate(coin))
-  }
-}
-
-ShapeshiftForm.prototype.handleLiveInput = function () {
-  const props = this.props
-  var coinOptions = this.props.buyView.formView.coinOptions
-  var coin = document.getElementById('fromCoin').value
+ShapeshiftForm.prototype.updateCoin = function(event) {
+  event.preventDefault();
+  const props = this.props;
+  var coinOptions = this.props.buyView.formView.coinOptions;
+  var coin = document.getElementById('fromCoin').value;
 
   if (!coinOptions[coin.toUpperCase()] || coin.toUpperCase() === 'ETH') {
-    return null
+    var message = 'Not a valid coin';
+    return props.dispatch(actions.displayWarning(message));
   } else {
-    return props.dispatch(actions.pairUpdate(coin))
+    return props.dispatch(actions.pairUpdate(coin));
   }
-}
+};
 
-ShapeshiftForm.prototype.renderInfo = function () {
-  const marketinfo = this.props.buyView.formView.marketinfo
-  const coinOptions = this.props.buyView.formView.coinOptions
-  var coin = marketinfo.pair.split('_')[0].toUpperCase()
+ShapeshiftForm.prototype.handleLiveInput = function() {
+  const props = this.props;
+  var coinOptions = this.props.buyView.formView.coinOptions;
+  var coin = document.getElementById('fromCoin').value;
+
+  if (!coinOptions[coin.toUpperCase()] || coin.toUpperCase() === 'ETH') {
+    return null;
+  } else {
+    return props.dispatch(actions.pairUpdate(coin));
+  }
+};
+
+ShapeshiftForm.prototype.renderInfo = function() {
+  const marketinfo = this.props.buyView.formView.marketinfo;
+  const coinOptions = this.props.buyView.formView.coinOptions;
+  var coin = marketinfo.pair.split('_')[0].toUpperCase();
 
   return h('span', {
-    style: {
-    },
+    style: {},
   }, [
     h('h3.flex-row.text-transform-uppercase', {
       style: {
@@ -277,15 +276,15 @@ ShapeshiftForm.prototype.renderInfo = function () {
     h('.marketinfo', ['Exchange Rate: ', `${marketinfo.rate}`]),
     h('.marketinfo', ['Limit: ', `${marketinfo.limit}`]),
     h('.marketinfo', ['Minimum : ', `${marketinfo.minimum}`]),
-  ])
-}
+  ]);
+};
 
-ShapeshiftForm.prototype.activeToggle = function (elementType) {
-  if (!this.props.buyView.formView.response || this.props.warning) return elementType
-  return `${elementType}.inactive`
-}
+ShapeshiftForm.prototype.activeToggle = function(elementType) {
+  if (!this.props.buyView.formView.response || this.props.warning) return elementType;
+  return `${elementType}.inactive`;
+};
 
-ShapeshiftForm.prototype.renderLoading = function () {
+ShapeshiftForm.prototype.renderLoading = function() {
   return h('span', {
     style: {
       position: 'absolute',
@@ -304,5 +303,5 @@ ShapeshiftForm.prototype.renderLoading = function () {
       },
       src: 'images/loading.svg',
     }),
-  ])
-}
+  ]);
+};

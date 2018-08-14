@@ -1,8 +1,8 @@
-const ObservableStore = require('obs-store')
-const extend = require('xtend')
-const BN = require('ethereumjs-util').BN
-const EthQuery = require('eth-query')
-const log = require('loglevel')
+const ObservableStore = require('obs-store');
+const extend = require('xtend');
+const BN = require('ethereumjs-util').BN;
+const EthQuery = require('eth-query');
+const log = require('loglevel');
 
 class RecentBlocksController {
 
@@ -23,29 +23,29 @@ class RecentBlocksController {
    * @property {array} store.recentBlocks Contains all recent blocks, up to a total that is equal to this.historyLength
    *
    */
-  constructor (opts = {}) {
-    const { blockTracker, provider } = opts
-    this.blockTracker = blockTracker
-    this.ethQuery = new EthQuery(provider)
-    this.historyLength = opts.historyLength || 40
+  constructor(opts = {}) {
+    const {blockTracker, provider} = opts;
+    this.blockTracker = blockTracker;
+    this.ethQuery = new EthQuery(provider);
+    this.historyLength = opts.historyLength || 40;
 
     const initState = extend({
       recentBlocks: [],
-    }, opts.initState)
-    this.store = new ObservableStore(initState)
+    }, opts.initState);
+    this.store = new ObservableStore(initState);
 
-    this.blockTracker.on('block', this.processBlock.bind(this))
-    this.backfill()
+    this.blockTracker.on('block', this.processBlock.bind(this));
+    this.backfill();
   }
 
   /**
    * Sets store.recentBlocks to an empty array
    *
    */
-  resetState () {
+  resetState() {
     this.store.updateState({
       recentBlocks: [],
-    })
+    });
   }
 
   /**
@@ -55,17 +55,17 @@ class RecentBlocksController {
    * @param {object} newBlock The new block to modify and add to the recentBlocks array
    *
    */
-  processBlock (newBlock) {
-    const block = this.mapTransactionsToPrices(newBlock)
+  processBlock(newBlock) {
+    const block = this.mapTransactionsToPrices(newBlock);
 
-    const state = this.store.getState()
-    state.recentBlocks.push(block)
+    const state = this.store.getState();
+    state.recentBlocks.push(block);
 
     while (state.recentBlocks.length > this.historyLength) {
-      state.recentBlocks.shift()
+      state.recentBlocks.shift();
     }
 
-    this.store.updateState(state)
+    this.store.updateState(state);
   }
 
   /**
@@ -77,16 +77,16 @@ class RecentBlocksController {
    * @param {object} newBlock The new block to modify and add to the beginning of the recentBlocks array
    *
    */
-  backfillBlock (newBlock) {
-    const block = this.mapTransactionsToPrices(newBlock)
+  backfillBlock(newBlock) {
+    const block = this.mapTransactionsToPrices(newBlock);
 
-    const state = this.store.getState()
+    const state = this.store.getState();
 
     if (state.recentBlocks.length < this.historyLength) {
-      state.recentBlocks.unshift(block)
+      state.recentBlocks.unshift(block);
     }
 
-    this.store.updateState(state)
+    this.store.updateState(state);
   }
 
   /**
@@ -97,14 +97,14 @@ class RecentBlocksController {
    * @returns {object} The modified block.
    *
    */
-  mapTransactionsToPrices (newBlock) {
+  mapTransactionsToPrices(newBlock) {
     const block = extend(newBlock, {
       gasPrices: newBlock.transactions.map((tx) => {
-        return tx.gasPrice
+        return tx.gasPrice;
       }),
-    })
-    delete block.transactions
-    return block
+    });
+    delete block.transactions;
+    return block;
   }
 
   /**
@@ -119,30 +119,30 @@ class RecentBlocksController {
    */
   async backfill() {
     this.blockTracker.once('block', async (block) => {
-      let blockNum = block.number
-      let recentBlocks
-      let state = this.store.getState()
-      recentBlocks = state.recentBlocks
+      let blockNum = block.number;
+      let recentBlocks;
+      let state = this.store.getState();
+      recentBlocks = state.recentBlocks;
 
       while (recentBlocks.length < this.historyLength) {
         try {
-          let blockNumBn = new BN(blockNum.substr(2), 16)
-          const newNum = blockNumBn.subn(1).toString(10)
-          const newBlock = await this.getBlockByNumber(newNum)
+          let blockNumBn = new BN(blockNum.substr(2), 16);
+          const newNum = blockNumBn.subn(1).toString(10);
+          const newBlock = await this.getBlockByNumber(newNum);
 
           if (newBlock) {
-            this.backfillBlock(newBlock)
-            blockNum = newBlock.number
+            this.backfillBlock(newBlock);
+            blockNum = newBlock.number;
           }
 
-          state = this.store.getState()
-          recentBlocks = state.recentBlocks
+          state = this.store.getState();
+          recentBlocks = state.recentBlocks;
         } catch (e) {
-          log.error(e)
+          log.error(e);
         }
-        await this.wait()
+        await this.wait();
       }
-    })
+    });
   }
 
   /**
@@ -151,10 +151,10 @@ class RecentBlocksController {
    * @returns {Promise<void>} Promises undefined
    *
    */
-  async wait () {
+  async wait() {
     return new Promise((resolve) => {
-      setTimeout(resolve, 100)
-    })
+      setTimeout(resolve, 100);
+    });
   }
 
   /**
@@ -164,16 +164,16 @@ class RecentBlocksController {
    * @returns {Promise<object>} Promises A block with the passed number
    *
    */
-  async getBlockByNumber (number) {
-    const bn = new BN(number)
+  async getBlockByNumber(number) {
+    const bn = new BN(number);
     return new Promise((resolve, reject) => {
       this.ethQuery.getBlockByNumber('0x' + bn.toString(16), true, (err, block) => {
-        if (err) reject(err)
-        resolve(block)
-      })
-    })
+        if (err) reject(err);
+        resolve(block);
+      });
+    });
   }
 
 }
 
-module.exports = RecentBlocksController
+module.exports = RecentBlocksController;

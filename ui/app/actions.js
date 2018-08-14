@@ -1,9 +1,9 @@
-const abi = require('human-standard-token-abi')
-const getBuyEthUrl = require('../../app/scripts/lib/buy-eth-url')
-const { getTokenAddressFromTokenObject } = require('./util')
-const ethUtil = require('ethereumjs-util')
-const { fetchLocale } = require('../i18n-helper')
-const log = require('loglevel')
+const abi = require('human-standard-token-abi');
+const getBuyEthUrl = require('../../app/scripts/lib/buy-eth-url');
+const {getTokenAddressFromTokenObject} = require('./util');
+const ethUtil = require('ethereumjs-util');
+const {fetchLocale} = require('../i18n-helper');
+const log = require('loglevel');
 
 var actions = {
   _setBackgroundConnection: _setBackgroundConnection,
@@ -275,325 +275,326 @@ var actions = {
   UPDATE_NETWORK_ENDPOINT_TYPE: 'UPDATE_NETWORK_ENDPOINT_TYPE',
 
   retryTransaction,
+};
+
+module.exports = actions;
+
+var background = null;
+
+function _setBackgroundConnection(backgroundConnection) {
+  background = backgroundConnection;
 }
 
-module.exports = actions
-
-var background = null
-function _setBackgroundConnection (backgroundConnection) {
-  background = backgroundConnection
-}
-
-function goHome () {
+function goHome() {
   return {
     type: actions.GO_HOME,
-  }
+  };
 }
 
 // async actions
 
-function tryUnlockMetamask (password) {
+function tryUnlockMetamask(password) {
   return dispatch => {
-    dispatch(actions.showLoadingIndication())
-    dispatch(actions.unlockInProgress())
-    log.debug(`background.submitPassword`)
+    dispatch(actions.showLoadingIndication());
+    dispatch(actions.unlockInProgress());
+    log.debug(`background.submitPassword`);
 
     return new Promise((resolve, reject) => {
       background.submitPassword(password, error => {
         if (error) {
-          return reject(error)
+          return reject(error);
         }
 
-        resolve()
-      })
+        resolve();
+      });
     })
       .then(() => {
-        dispatch(actions.unlockSucceeded())
-        return forceUpdateMetamaskState(dispatch)
+        dispatch(actions.unlockSucceeded());
+        return forceUpdateMetamaskState(dispatch);
       })
       .then(() => {
         return new Promise((resolve, reject) => {
           background.verifySeedPhrase(err => {
             if (err) {
-              dispatch(actions.displayWarning(err.message))
+              dispatch(actions.displayWarning(err.message));
             }
 
-            resolve()
-          })
-        })
+            resolve();
+          });
+        });
       })
       .then(() => {
-        dispatch(actions.transitionForward())
-        dispatch(actions.hideLoadingIndication())
+        dispatch(actions.transitionForward());
+        dispatch(actions.hideLoadingIndication());
       })
       .catch(err => {
-        dispatch(actions.unlockFailed(err.message))
-        dispatch(actions.hideLoadingIndication())
-      })
-  }
+        dispatch(actions.unlockFailed(err.message));
+        dispatch(actions.hideLoadingIndication());
+      });
+  };
 }
 
-function transitionForward () {
+function transitionForward() {
   return {
     type: this.TRANSITION_FORWARD,
-  }
+  };
 }
 
-function transitionBackward () {
+function transitionBackward() {
   return {
     type: this.TRANSITION_BACKWARD,
-  }
+  };
 }
 
-function confirmSeedWords () {
+function confirmSeedWords() {
   return dispatch => {
-    dispatch(actions.showLoadingIndication())
-    log.debug(`background.clearSeedWordCache`)
+    dispatch(actions.showLoadingIndication());
+    log.debug(`background.clearSeedWordCache`);
     return new Promise((resolve, reject) => {
       background.clearSeedWordCache((err, account) => {
-        dispatch(actions.hideLoadingIndication())
+        dispatch(actions.hideLoadingIndication());
         if (err) {
-          dispatch(actions.displayWarning(err.message))
-          return reject(err)
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
         }
 
-        log.info('Seed word cache cleared. ' + account)
-        dispatch(actions.showAccountsPage())
-        resolve(account)
-      })
-    })
-  }
+        log.info('Seed word cache cleared. ' + account);
+        dispatch(actions.showAccountsPage());
+        resolve(account);
+      });
+    });
+  };
 }
 
-function createNewVaultAndRestore (password, seed) {
+function createNewVaultAndRestore(password, seed) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
-    log.debug(`background.createNewVaultAndRestore`)
+    dispatch(actions.showLoadingIndication());
+    log.debug(`background.createNewVaultAndRestore`);
 
     return new Promise((resolve, reject) => {
       background.createNewVaultAndRestore(password, seed, err => {
         if (err) {
-          return reject(err)
+          return reject(err);
         }
 
-        resolve()
-      })
+        resolve();
+      });
     })
       .then(() => dispatch(actions.unMarkPasswordForgotten()))
       .then(() => {
-        dispatch(actions.showAccountsPage())
-        dispatch(actions.hideLoadingIndication())
+        dispatch(actions.showAccountsPage());
+        dispatch(actions.hideLoadingIndication());
       })
       .catch(err => {
-        dispatch(actions.displayWarning(err.message))
-        dispatch(actions.hideLoadingIndication())
-      })
-  }
+        dispatch(actions.displayWarning(err.message));
+        dispatch(actions.hideLoadingIndication());
+      });
+  };
 }
 
-function createNewVaultAndKeychain (password) {
+function createNewVaultAndKeychain(password) {
   return dispatch => {
-    dispatch(actions.showLoadingIndication())
-    log.debug(`background.createNewVaultAndKeychain`)
+    dispatch(actions.showLoadingIndication());
+    log.debug(`background.createNewVaultAndKeychain`);
 
     return new Promise((resolve, reject) => {
       background.createNewVaultAndKeychain(password, err => {
         if (err) {
-          dispatch(actions.displayWarning(err.message))
-          return reject(err)
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
         }
 
-        log.debug(`background.placeSeedWords`)
+        log.debug(`background.placeSeedWords`);
 
         background.placeSeedWords((err) => {
           if (err) {
-            dispatch(actions.displayWarning(err.message))
-            return reject(err)
+            dispatch(actions.displayWarning(err.message));
+            return reject(err);
           }
 
-          resolve()
-        })
-      })
+          resolve();
+        });
+      });
     })
       .then(() => forceUpdateMetamaskState(dispatch))
       .then(() => dispatch(actions.hideLoadingIndication()))
-      .catch(() => dispatch(actions.hideLoadingIndication()))
-  }
+      .catch(() => dispatch(actions.hideLoadingIndication()));
+  };
 }
 
-function revealSeedConfirmation () {
+function revealSeedConfirmation() {
   return {
     type: this.REVEAL_SEED_CONFIRMATION,
-  }
+  };
 }
 
-function verifyPassword (password) {
+function verifyPassword(password) {
   return new Promise((resolve, reject) => {
     background.submitPassword(password, error => {
       if (error) {
-        return reject(error)
+        return reject(error);
       }
 
-      resolve(true)
-    })
-  })
+      resolve(true);
+    });
+  });
 }
 
-function verifySeedPhrase () {
+function verifySeedPhrase() {
   return new Promise((resolve, reject) => {
     background.verifySeedPhrase((error, seedWords) => {
       if (error) {
-        return reject(error)
+        return reject(error);
       }
 
-      resolve(seedWords)
-    })
-  })
+      resolve(seedWords);
+    });
+  });
 }
 
-function requestRevealSeed (password) {
+function requestRevealSeed(password) {
   return dispatch => {
-    dispatch(actions.showLoadingIndication())
-    log.debug(`background.submitPassword`)
+    dispatch(actions.showLoadingIndication());
+    log.debug(`background.submitPassword`);
     return new Promise((resolve, reject) => {
       background.submitPassword(password, err => {
         if (err) {
-          dispatch(actions.displayWarning(err.message))
-          return reject(err)
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
         }
 
-        log.debug(`background.placeSeedWords`)
+        log.debug(`background.placeSeedWords`);
         background.placeSeedWords((err, result) => {
           if (err) {
-            dispatch(actions.displayWarning(err.message))
-            return reject(err)
+            dispatch(actions.displayWarning(err.message));
+            return reject(err);
           }
 
-          dispatch(actions.showNewVaultSeed(result))
-          dispatch(actions.hideLoadingIndication())
-          resolve()
-        })
-      })
-    })
-  }
+          dispatch(actions.showNewVaultSeed(result));
+          dispatch(actions.hideLoadingIndication());
+          resolve();
+        });
+      });
+    });
+  };
 }
 
-function requestRevealSeedWords (password) {
+function requestRevealSeedWords(password) {
   return async dispatch => {
-    dispatch(actions.showLoadingIndication())
-    log.debug(`background.submitPassword`)
+    dispatch(actions.showLoadingIndication());
+    log.debug(`background.submitPassword`);
 
     try {
-      await verifyPassword(password)
-      const seedWords = await verifySeedPhrase()
-      dispatch(actions.hideLoadingIndication())
-      return seedWords
+      await verifyPassword(password);
+      const seedWords = await verifySeedPhrase();
+      dispatch(actions.hideLoadingIndication());
+      return seedWords;
     } catch (error) {
-      dispatch(actions.hideLoadingIndication())
-      dispatch(actions.displayWarning(error.message))
-      throw new Error(error.message)
+      dispatch(actions.hideLoadingIndication());
+      dispatch(actions.displayWarning(error.message));
+      throw new Error(error.message);
     }
-  }
+  };
 }
 
-function resetAccount () {
-    return (dispatch) => {
-        background.resetAccount((err, account) => {
-            dispatch(actions.hideLoadingIndication())
-            if (err) {
-                dispatch(actions.displayWarning(err.message))
-            }
-
-            log.info('Transaction history reset for ' + account)
-            dispatch(actions.showAccountsPage())
-        })
-    }
-}
-
-function addNewKeyring (type, opts) {
+function resetAccount() {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
-    log.debug(`background.addNewKeyring`)
+    background.resetAccount((err, account) => {
+      dispatch(actions.hideLoadingIndication());
+      if (err) {
+        dispatch(actions.displayWarning(err.message));
+      }
+
+      log.info('Transaction history reset for ' + account);
+      dispatch(actions.showAccountsPage());
+    });
+  };
+}
+
+function addNewKeyring(type, opts) {
+  return (dispatch) => {
+    dispatch(actions.showLoadingIndication());
+    log.debug(`background.addNewKeyring`);
     background.addNewKeyring(type, opts, (err) => {
-      dispatch(actions.hideLoadingIndication())
-      if (err) return dispatch(actions.displayWarning(err.message))
-      dispatch(actions.showAccountsPage())
-    })
-  }
+      dispatch(actions.hideLoadingIndication());
+      if (err) return dispatch(actions.displayWarning(err.message));
+      dispatch(actions.showAccountsPage());
+    });
+  };
 }
 
-function importNewAccount (strategy, args) {
+function importNewAccount(strategy, args) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication('This may take a while, be patient.'))
-    log.debug(`background.importAccountWithStrategy`)
+    dispatch(actions.showLoadingIndication('This may take a while, be patient.'));
+    log.debug(`background.importAccountWithStrategy`);
     return new Promise((resolve, reject) => {
       background.importAccountWithStrategy(strategy, args, (err) => {
         if (err) {
-          dispatch(actions.displayWarning(err.message))
-          return reject(err)
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
         }
-        log.debug(`background.getState`)
+        log.debug(`background.getState`);
         background.getState((err, newState) => {
-          dispatch(actions.hideLoadingIndication())
+          dispatch(actions.hideLoadingIndication());
           if (err) {
-            dispatch(actions.displayWarning(err.message))
-            return reject(err)
+            dispatch(actions.displayWarning(err.message));
+            return reject(err);
           }
-          dispatch(actions.updateMetamaskState(newState))
+          dispatch(actions.updateMetamaskState(newState));
           dispatch({
             type: actions.SHOW_ACCOUNT_DETAIL,
             value: newState.selectedAddress,
-          })
-          resolve(newState)
-        })
-      })
-    })
-  }
+          });
+          resolve(newState);
+        });
+      });
+    });
+  };
 }
 
-function navigateToNewAccountScreen () {
+function navigateToNewAccountScreen() {
   return {
     type: this.NEW_ACCOUNT_SCREEN,
-  }
+  };
 }
 
-function addNewAccount () {
-  log.debug(`background.addNewAccount`)
+function addNewAccount() {
+  log.debug(`background.addNewAccount`);
   return (dispatch, getState) => {
-    const oldIdentities = getState().metamask.identities
-    dispatch(actions.showLoadingIndication())
+    const oldIdentities = getState().metamask.identities;
+    dispatch(actions.showLoadingIndication());
     return new Promise((resolve, reject) => {
-      background.addNewAccount((err, { identities: newIdentities}) => {
+      background.addNewAccount((err, {identities: newIdentities}) => {
         if (err) {
-          dispatch(actions.displayWarning(err.message))
-          return reject(err)
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
         }
-        const newAccountAddress = Object.keys(newIdentities).find(address => !oldIdentities[address])
+        const newAccountAddress = Object.keys(newIdentities).find(address => !oldIdentities[address]);
 
-        dispatch(actions.hideLoadingIndication())
+        dispatch(actions.hideLoadingIndication());
 
-        forceUpdateMetamaskState(dispatch)
-        return resolve(newAccountAddress)
-      })
-    })
-  }
+        forceUpdateMetamaskState(dispatch);
+        return resolve(newAccountAddress);
+      });
+    });
+  };
 }
 
-function showInfoPage () {
+function showInfoPage() {
   return {
     type: actions.SHOW_INFO_PAGE,
-  }
+  };
 }
 
-function setCurrentCurrency (currencyCode) {
+function setCurrentCurrency(currencyCode) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
-    log.debug(`background.setCurrentCurrency`)
+    dispatch(actions.showLoadingIndication());
+    log.debug(`background.setCurrentCurrency`);
     background.setCurrentCurrency(currencyCode, (err, data) => {
-      dispatch(actions.hideLoadingIndication())
+      dispatch(actions.hideLoadingIndication());
       if (err) {
-        log.error(err.stack)
-        return dispatch(actions.displayWarning(err.message))
+        log.error(err.stack);
+        return dispatch(actions.displayWarning(err.message));
       }
       dispatch({
         type: actions.SET_CURRENT_FIAT,
@@ -602,1226 +603,1225 @@ function setCurrentCurrency (currencyCode) {
           conversionRate: data.conversionRate,
           conversionDate: data.conversionDate,
         },
-      })
-    })
-  }
+      });
+    });
+  };
 }
 
-function signMsg (msgData) {
-  log.debug('action - signMsg')
+function signMsg(msgData) {
+  log.debug('action - signMsg');
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
+    dispatch(actions.showLoadingIndication());
 
     return new Promise((resolve, reject) => {
-      log.debug(`actions calling background.signMessage`)
+      log.debug(`actions calling background.signMessage`);
       background.signMessage(msgData, (err, newState) => {
-        log.debug('signMessage called back')
-        dispatch(actions.updateMetamaskState(newState))
-        dispatch(actions.hideLoadingIndication())
+        log.debug('signMessage called back');
+        dispatch(actions.updateMetamaskState(newState));
+        dispatch(actions.hideLoadingIndication());
 
         if (err) {
-          log.error(err)
-          dispatch(actions.displayWarning(err.message))
-          return reject(err)
+          log.error(err);
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
         }
 
-        dispatch(actions.completedTx(msgData.metamaskId))
-        return resolve(msgData)
-      })
-    })
-  }
+        dispatch(actions.completedTx(msgData.metamaskId));
+        return resolve(msgData);
+      });
+    });
+  };
 }
 
-function signPersonalMsg (msgData) {
-  log.debug('action - signPersonalMsg')
+function signPersonalMsg(msgData) {
+  log.debug('action - signPersonalMsg');
   return dispatch => {
-    dispatch(actions.showLoadingIndication())
+    dispatch(actions.showLoadingIndication());
 
     return new Promise((resolve, reject) => {
-      log.debug(`actions calling background.signPersonalMessage`)
+      log.debug(`actions calling background.signPersonalMessage`);
       background.signPersonalMessage(msgData, (err, newState) => {
-        log.debug('signPersonalMessage called back')
-        dispatch(actions.updateMetamaskState(newState))
-        dispatch(actions.hideLoadingIndication())
+        log.debug('signPersonalMessage called back');
+        dispatch(actions.updateMetamaskState(newState));
+        dispatch(actions.hideLoadingIndication());
 
         if (err) {
-          log.error(err)
-          dispatch(actions.displayWarning(err.message))
-          return reject(err)
+          log.error(err);
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
         }
 
-        dispatch(actions.completedTx(msgData.metamaskId))
-        return resolve(msgData)
-      })
-    })
-  }
+        dispatch(actions.completedTx(msgData.metamaskId));
+        return resolve(msgData);
+      });
+    });
+  };
 }
 
-function signTypedMsg (msgData) {
-  log.debug('action - signTypedMsg')
+function signTypedMsg(msgData) {
+  log.debug('action - signTypedMsg');
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
+    dispatch(actions.showLoadingIndication());
 
     return new Promise((resolve, reject) => {
-      log.debug(`actions calling background.signTypedMessage`)
+      log.debug(`actions calling background.signTypedMessage`);
       background.signTypedMessage(msgData, (err, newState) => {
-        log.debug('signTypedMessage called back')
-        dispatch(actions.updateMetamaskState(newState))
-        dispatch(actions.hideLoadingIndication())
+        log.debug('signTypedMessage called back');
+        dispatch(actions.updateMetamaskState(newState));
+        dispatch(actions.hideLoadingIndication());
 
         if (err) {
-          log.error(err)
-          dispatch(actions.displayWarning(err.message))
-          return reject(err)
+          log.error(err);
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
         }
 
-        dispatch(actions.completedTx(msgData.metamaskId))
-        return resolve(msgData)
-      })
-    })
-  }
+        dispatch(actions.completedTx(msgData.metamaskId));
+        return resolve(msgData);
+      });
+    });
+  };
 }
 
-function signTx (txData) {
+function signTx(txData) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
+    dispatch(actions.showLoadingIndication());
     global.ethQuery.sendTransaction(txData, (err, data) => {
-      dispatch(actions.hideLoadingIndication())
-      if (err) return dispatch(actions.displayWarning(err.message))
-      dispatch(actions.hideWarning())
-    })
-    dispatch(actions.showConfTxPage({}))
-  }
+      dispatch(actions.hideLoadingIndication());
+      if (err) return dispatch(actions.displayWarning(err.message));
+      dispatch(actions.hideWarning());
+    });
+    dispatch(actions.showConfTxPage({}));
+  };
 }
 
-function estimateGas (params = {}) {
+function estimateGas(params = {}) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       global.ethQuery.estimateGas(params, (err, data) => {
         if (err) {
-          dispatch(actions.displayWarning(err.message))
-          return reject(err)
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
         }
-        dispatch(actions.hideWarning())
-        dispatch(actions.updateGasLimit(data))
-        return resolve(data)
-      })
-    })
-  }
+        dispatch(actions.hideWarning());
+        dispatch(actions.updateGasLimit(data));
+        return resolve(data);
+      });
+    });
+  };
 }
 
-function updateGasLimit (gasLimit) {
+function updateGasLimit(gasLimit) {
   return {
     type: actions.UPDATE_GAS_LIMIT,
     value: gasLimit,
-  }
+  };
 }
 
-function getGasPrice () {
+function getGasPrice() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       global.ethQuery.gasPrice((err, data) => {
         if (err) {
-          dispatch(actions.displayWarning(err.message))
-          return reject(err)
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
         }
-        dispatch(actions.hideWarning())
-        dispatch(actions.updateGasPrice(data))
-        return resolve(data)
-      })
-    })
-  }
+        dispatch(actions.hideWarning());
+        dispatch(actions.updateGasPrice(data));
+        return resolve(data);
+      });
+    });
+  };
 }
 
-function updateGasPrice (gasPrice) {
+function updateGasPrice(gasPrice) {
   return {
     type: actions.UPDATE_GAS_PRICE,
     value: gasPrice,
-  }
+  };
 }
 
-function updateGasTotal (gasTotal) {
+function updateGasTotal(gasTotal) {
   return {
     type: actions.UPDATE_GAS_TOTAL,
     value: gasTotal,
-  }
+  };
 }
 
-function updateSendTokenBalance (tokenBalance) {
+function updateSendTokenBalance(tokenBalance) {
   return {
     type: actions.UPDATE_SEND_TOKEN_BALANCE,
     value: tokenBalance,
-  }
+  };
 }
 
-function updateSendFrom (from) {
+function updateSendFrom(from) {
   return {
     type: actions.UPDATE_SEND_FROM,
     value: from,
-  }
+  };
 }
 
-function updateSendTo (to, nickname = '') {
+function updateSendTo(to, nickname = '') {
   return {
     type: actions.UPDATE_SEND_TO,
-    value: { to, nickname },
-  }
+    value: {to, nickname},
+  };
 }
 
-function updateSendAmount (amount) {
+function updateSendAmount(amount) {
   return {
     type: actions.UPDATE_SEND_AMOUNT,
     value: amount,
-  }
+  };
 }
 
-function updateSendMemo (memo) {
+function updateSendMemo(memo) {
   return {
     type: actions.UPDATE_SEND_MEMO,
     value: memo,
-  }
+  };
 }
 
-function updateSendErrors (error) {
+function updateSendErrors(error) {
   return {
     type: actions.UPDATE_SEND_ERRORS,
     value: error,
-  }
+  };
 }
 
-function setMaxModeTo (bool) {
+function setMaxModeTo(bool) {
   return {
     type: actions.UPDATE_MAX_MODE,
     value: bool,
-  }
+  };
 }
 
-function updateSend (newSend) {
+function updateSend(newSend) {
   return {
     type: actions.UPDATE_SEND,
     value: newSend,
-  }
+  };
 }
 
-function clearSend () {
+function clearSend() {
   return {
     type: actions.CLEAR_SEND,
-  }
+  };
 }
 
-
-function sendTx (txData) {
-  log.info(`actions - sendTx: ${JSON.stringify(txData.txParams)}`)
+function sendTx(txData) {
+  log.info(`actions - sendTx: ${JSON.stringify(txData.txParams)}`);
   return (dispatch) => {
-    log.debug(`actions calling background.approveTransaction`)
+    log.debug(`actions calling background.approveTransaction`);
     background.approveTransaction(txData.id, (err) => {
       if (err) {
-        dispatch(actions.txError(err))
-        return log.error(err.message)
+        dispatch(actions.txError(err));
+        return log.error(err.message);
       }
-      dispatch(actions.completedTx(txData.id))
-    })
-  }
+      dispatch(actions.completedTx(txData.id));
+    });
+  };
 }
 
-function signTokenTx (tokenAddress, toAddress, amount, txData) {
+function signTokenTx(tokenAddress, toAddress, amount, txData) {
   return dispatch => {
-    dispatch(actions.showLoadingIndication())
-    const token = global.eth.contract(abi).at(tokenAddress)
+    dispatch(actions.showLoadingIndication());
+    const token = global.eth.contract(abi).at(tokenAddress);
     token.transfer(toAddress, ethUtil.addHexPrefix(amount), txData)
-      .catch(err => {
-        dispatch(actions.hideLoadingIndication())
-        dispatch(actions.displayWarning(err.message))
-      })
-    dispatch(actions.showConfTxPage({}))
-  }
+         .catch(err => {
+           dispatch(actions.hideLoadingIndication());
+           dispatch(actions.displayWarning(err.message));
+         });
+    dispatch(actions.showConfTxPage({}));
+  };
 }
 
-function updateTransaction (txData) {
-  log.info('actions: updateTx: ' + JSON.stringify(txData))
+function updateTransaction(txData) {
+  log.info('actions: updateTx: ' + JSON.stringify(txData));
   return (dispatch) => {
-    log.debug(`actions calling background.updateTx`)
+    log.debug(`actions calling background.updateTx`);
     background.updateTransaction(txData, (err) => {
-      dispatch(actions.hideLoadingIndication())
-      dispatch(actions.updateTransactionParams(txData.id, txData.txParams))
+      dispatch(actions.hideLoadingIndication());
+      dispatch(actions.updateTransactionParams(txData.id, txData.txParams));
       if (err) {
-        dispatch(actions.txError(err))
-        dispatch(actions.goHome())
-        return log.error(err.message)
+        dispatch(actions.txError(err));
+        dispatch(actions.goHome());
+        return log.error(err.message);
       }
-      dispatch(actions.showConfTxPage({ id: txData.id }))
-    })
-  }
+      dispatch(actions.showConfTxPage({id: txData.id}));
+    });
+  };
 }
 
-function updateAndApproveTx (txData) {
-  log.info('actions: updateAndApproveTx: ' + JSON.stringify(txData))
+function updateAndApproveTx(txData) {
+  log.info('actions: updateAndApproveTx: ' + JSON.stringify(txData));
   return (dispatch) => {
-    log.debug(`actions calling background.updateAndApproveTx`)
+    log.debug(`actions calling background.updateAndApproveTx`);
 
     return new Promise((resolve, reject) => {
       background.updateAndApproveTransaction(txData, err => {
-        dispatch(actions.hideLoadingIndication())
-        dispatch(actions.updateTransactionParams(txData.id, txData.txParams))
-        dispatch(actions.clearSend())
+        dispatch(actions.hideLoadingIndication());
+        dispatch(actions.updateTransactionParams(txData.id, txData.txParams));
+        dispatch(actions.clearSend());
 
         if (err) {
-          dispatch(actions.txError(err))
-          dispatch(actions.goHome())
-          log.error(err.message)
-          reject(err)
+          dispatch(actions.txError(err));
+          dispatch(actions.goHome());
+          log.error(err.message);
+          reject(err);
         }
 
-        dispatch(actions.completedTx(txData.id))
-        resolve(txData)
-      })
-    })
-  }
+        dispatch(actions.completedTx(txData.id));
+        resolve(txData);
+      });
+    });
+  };
 }
 
-function completedTx (id) {
+function completedTx(id) {
   return {
     type: actions.COMPLETED_TX,
     value: id,
-  }
+  };
 }
 
-function updateTransactionParams (id, txParams) {
+function updateTransactionParams(id, txParams) {
   return {
     type: actions.UPDATE_TRANSACTION_PARAMS,
     id,
     value: txParams,
-  }
+  };
 }
 
-function txError (err) {
+function txError(err) {
   return {
     type: actions.TRANSACTION_ERROR,
     message: err.message,
-  }
+  };
 }
 
-function cancelMsg (msgData) {
+function cancelMsg(msgData) {
   return dispatch => {
-    dispatch(actions.showLoadingIndication())
+    dispatch(actions.showLoadingIndication());
 
     return new Promise((resolve, reject) => {
-      log.debug(`background.cancelMessage`)
+      log.debug(`background.cancelMessage`);
       background.cancelMessage(msgData.id, (err, newState) => {
-        dispatch(actions.updateMetamaskState(newState))
-        dispatch(actions.hideLoadingIndication())
+        dispatch(actions.updateMetamaskState(newState));
+        dispatch(actions.hideLoadingIndication());
 
         if (err) {
-          return reject(err)
+          return reject(err);
         }
 
-        dispatch(actions.completedTx(msgData.id))
-        return resolve(msgData)
-      })
-    })
-  }
+        dispatch(actions.completedTx(msgData.id));
+        return resolve(msgData);
+      });
+    });
+  };
 }
 
-function cancelPersonalMsg (msgData) {
+function cancelPersonalMsg(msgData) {
   return dispatch => {
-    dispatch(actions.showLoadingIndication())
+    dispatch(actions.showLoadingIndication());
 
     return new Promise((resolve, reject) => {
-      const id = msgData.id
+      const id = msgData.id;
       background.cancelPersonalMessage(id, (err, newState) => {
-        dispatch(actions.updateMetamaskState(newState))
-        dispatch(actions.hideLoadingIndication())
+        dispatch(actions.updateMetamaskState(newState));
+        dispatch(actions.hideLoadingIndication());
 
         if (err) {
-          return reject(err)
+          return reject(err);
         }
 
-        dispatch(actions.completedTx(id))
-        return resolve(msgData)
-      })
-    })
-  }
+        dispatch(actions.completedTx(id));
+        return resolve(msgData);
+      });
+    });
+  };
 }
 
-function cancelTypedMsg (msgData) {
+function cancelTypedMsg(msgData) {
   return dispatch => {
-    dispatch(actions.showLoadingIndication())
+    dispatch(actions.showLoadingIndication());
 
     return new Promise((resolve, reject) => {
-      const id = msgData.id
+      const id = msgData.id;
       background.cancelTypedMessage(id, (err, newState) => {
-        dispatch(actions.updateMetamaskState(newState))
-        dispatch(actions.hideLoadingIndication())
+        dispatch(actions.updateMetamaskState(newState));
+        dispatch(actions.hideLoadingIndication());
 
         if (err) {
-          return reject(err)
+          return reject(err);
         }
 
-        dispatch(actions.completedTx(id))
-        return resolve(msgData)
-      })
-    })
-  }
+        dispatch(actions.completedTx(id));
+        return resolve(msgData);
+      });
+    });
+  };
 }
 
-function cancelTx (txData) {
+function cancelTx(txData) {
   return dispatch => {
-    log.debug(`background.cancelTransaction`)
+    log.debug(`background.cancelTransaction`);
     return new Promise((resolve, reject) => {
       background.cancelTransaction(txData.id, () => {
-        dispatch(actions.clearSend())
-        dispatch(actions.completedTx(txData.id))
-        resolve(txData)
-      })
-    })
-  }
+        dispatch(actions.clearSend());
+        dispatch(actions.completedTx(txData.id));
+        resolve(txData);
+      });
+    });
+  };
 }
 
-function cancelAllTx (txsData) {
+function cancelAllTx(txsData) {
   return (dispatch) => {
     txsData.forEach((txData, i) => {
       background.cancelTransaction(txData.id, () => {
-        dispatch(actions.completedTx(txData.id))
-        i === txsData.length - 1 ? dispatch(actions.goHome()) : null
-      })
-    })
-  }
+        dispatch(actions.completedTx(txData.id));
+        i === txsData.length - 1 ? dispatch(actions.goHome()) : null;
+      });
+    });
+  };
 }
+
 //
 // initialize screen
 //
 
-function showCreateVault () {
+function showCreateVault() {
   return {
     type: actions.SHOW_CREATE_VAULT,
-  }
+  };
 }
 
-function showRestoreVault () {
+function showRestoreVault() {
   return {
     type: actions.SHOW_RESTORE_VAULT,
-  }
+  };
 }
 
-function markPasswordForgotten () {
+function markPasswordForgotten() {
   return (dispatch) => {
     return background.markPasswordForgotten(() => {
-      dispatch(actions.hideLoadingIndication())
-      dispatch(actions.forgotPassword())
-      forceUpdateMetamaskState(dispatch)
-    })
-  }
+      dispatch(actions.hideLoadingIndication());
+      dispatch(actions.forgotPassword());
+      forceUpdateMetamaskState(dispatch);
+    });
+  };
 }
 
-function unMarkPasswordForgotten () {
+function unMarkPasswordForgotten() {
   return dispatch => {
     return new Promise(resolve => {
       background.unMarkPasswordForgotten(() => {
-        dispatch(actions.forgotPassword(false))
-        resolve()
-      })
+        dispatch(actions.forgotPassword(false));
+        resolve();
+      });
     })
-      .then(() => forceUpdateMetamaskState(dispatch))
-  }
+      .then(() => forceUpdateMetamaskState(dispatch));
+  };
 }
 
-function forgotPassword (forgotPasswordState = true) {
+function forgotPassword(forgotPasswordState = true) {
   return {
     type: actions.FORGOT_PASSWORD,
     value: forgotPasswordState,
-  }
+  };
 }
 
-function showInitializeMenu () {
+function showInitializeMenu() {
   return {
     type: actions.SHOW_INIT_MENU,
-  }
+  };
 }
 
-function showImportPage () {
+function showImportPage() {
   return {
     type: actions.SHOW_IMPORT_PAGE,
-  }
+  };
 }
 
-function showNewAccountPage (formToSelect) {
+function showNewAccountPage(formToSelect) {
   return {
     type: actions.SHOW_NEW_ACCOUNT_PAGE,
     formToSelect,
-  }
+  };
 }
 
-function setNewAccountForm (formToSelect) {
+function setNewAccountForm(formToSelect) {
   return {
     type: actions.SET_NEW_ACCOUNT_FORM,
     formToSelect,
-  }
+  };
 }
 
-function createNewVaultInProgress () {
+function createNewVaultInProgress() {
   return {
     type: actions.CREATE_NEW_VAULT_IN_PROGRESS,
-  }
+  };
 }
 
-function showNewVaultSeed (seed) {
+function showNewVaultSeed(seed) {
   return {
     type: actions.SHOW_NEW_VAULT_SEED,
     value: seed,
-  }
+  };
 }
 
-function closeWelcomeScreen () {
+function closeWelcomeScreen() {
   return {
     type: actions.CLOSE_WELCOME_SCREEN,
-  }
+  };
 }
 
-function backToUnlockView () {
+function backToUnlockView() {
   return {
     type: actions.BACK_TO_UNLOCK_VIEW,
-  }
+  };
 }
 
-function showNewKeychain () {
+function showNewKeychain() {
   return {
     type: actions.SHOW_NEW_KEYCHAIN,
-  }
+  };
 }
 
 //
 // unlock screen
 //
 
-function unlockInProgress () {
+function unlockInProgress() {
   return {
     type: actions.UNLOCK_IN_PROGRESS,
-  }
+  };
 }
 
-function unlockFailed (message) {
+function unlockFailed(message) {
   return {
     type: actions.UNLOCK_FAILED,
     value: message,
-  }
+  };
 }
 
-function unlockSucceeded (message) {
+function unlockSucceeded(message) {
   return {
     type: actions.UNLOCK_SUCCEEDED,
     value: message,
-  }
+  };
 }
 
-function unlockMetamask (account) {
+function unlockMetamask(account) {
   return {
     type: actions.UNLOCK_METAMASK,
     value: account,
-  }
+  };
 }
 
-function updateMetamaskState (newState) {
+function updateMetamaskState(newState) {
   return {
     type: actions.UPDATE_METAMASK_STATE,
     value: newState,
-  }
+  };
 }
 
 const backgroundSetLocked = () => {
   return new Promise((resolve, reject) => {
     background.setLocked(error => {
       if (error) {
-        return reject(error)
+        return reject(error);
       }
 
-      resolve()
-    })
-  })
-}
+      resolve();
+    });
+  });
+};
 
 const updateMetamaskStateFromBackground = () => {
-  log.debug(`background.getState`)
+  log.debug(`background.getState`);
 
   return new Promise((resolve, reject) => {
     background.getState((error, newState) => {
       if (error) {
-        return reject(error)
+        return reject(error);
       }
 
-      resolve(newState)
-    })
-  })
-}
+      resolve(newState);
+    });
+  });
+};
 
-function lockMetamask () {
-  log.debug(`background.setLocked`)
+function lockMetamask() {
+  log.debug(`background.setLocked`);
 
   return dispatch => {
-    dispatch(actions.showLoadingIndication())
+    dispatch(actions.showLoadingIndication());
 
     return backgroundSetLocked()
       .then(() => updateMetamaskStateFromBackground())
       .catch(error => {
-        dispatch(actions.displayWarning(error.message))
-        return Promise.reject(error)
+        dispatch(actions.displayWarning(error.message));
+        return Promise.reject(error);
       })
       .then(newState => {
-        dispatch(actions.updateMetamaskState(newState))
-        dispatch(actions.hideLoadingIndication())
-        dispatch({ type: actions.LOCK_METAMASK })
+        dispatch(actions.updateMetamaskState(newState));
+        dispatch(actions.hideLoadingIndication());
+        dispatch({type: actions.LOCK_METAMASK});
       })
       .catch(() => {
-        dispatch(actions.hideLoadingIndication())
-        dispatch({ type: actions.LOCK_METAMASK })
-      })
-  }
+        dispatch(actions.hideLoadingIndication());
+        dispatch({type: actions.LOCK_METAMASK});
+      });
+  };
 }
 
-function setCurrentAccountTab (newTabName) {
-  log.debug(`background.setCurrentAccountTab: ${newTabName}`)
-  return callBackgroundThenUpdateNoSpinner(background.setCurrentAccountTab, newTabName)
+function setCurrentAccountTab(newTabName) {
+  log.debug(`background.setCurrentAccountTab: ${newTabName}`);
+  return callBackgroundThenUpdateNoSpinner(background.setCurrentAccountTab, newTabName);
 }
 
-function setSelectedToken (tokenAddress) {
+function setSelectedToken(tokenAddress) {
   return {
     type: actions.SET_SELECTED_TOKEN,
     value: tokenAddress || null,
-  }
+  };
 }
 
-function setSelectedAddress (address) {
+function setSelectedAddress(address) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
-    log.debug(`background.setSelectedAddress`)
+    dispatch(actions.showLoadingIndication());
+    log.debug(`background.setSelectedAddress`);
     background.setSelectedAddress(address, (err) => {
-      dispatch(actions.hideLoadingIndication())
+      dispatch(actions.hideLoadingIndication());
       if (err) {
-        return dispatch(actions.displayWarning(err.message))
+        return dispatch(actions.displayWarning(err.message));
       }
-    })
-  }
+    });
+  };
 }
 
-function showAccountDetail (address) {
+function showAccountDetail(address) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
-    log.debug(`background.setSelectedAddress`)
+    dispatch(actions.showLoadingIndication());
+    log.debug(`background.setSelectedAddress`);
     background.setSelectedAddress(address, (err) => {
-      dispatch(actions.hideLoadingIndication())
+      dispatch(actions.hideLoadingIndication());
       if (err) {
-        return dispatch(actions.displayWarning(err.message))
+        return dispatch(actions.displayWarning(err.message));
       }
       dispatch({
         type: actions.SHOW_ACCOUNT_DETAIL,
         value: address,
-      })
-      dispatch(actions.setSelectedToken())
-    })
-  }
+      });
+      dispatch(actions.setSelectedToken());
+    });
+  };
 }
 
-function backToAccountDetail (address) {
+function backToAccountDetail(address) {
   return {
     type: actions.BACK_TO_ACCOUNT_DETAIL,
     value: address,
-  }
+  };
 }
 
-function showAccountsPage () {
+function showAccountsPage() {
   return {
     type: actions.SHOW_ACCOUNTS_PAGE,
-  }
+  };
 }
 
-function showConfTxPage ({transForward = true, id}) {
+function showConfTxPage({transForward = true, id}) {
   return {
     type: actions.SHOW_CONF_TX_PAGE,
     transForward,
     id,
-  }
+  };
 }
 
-function nextTx () {
+function nextTx() {
   return {
     type: actions.NEXT_TX,
-  }
+  };
 }
 
-function viewPendingTx (txId) {
+function viewPendingTx(txId) {
   return {
     type: actions.VIEW_PENDING_TX,
     value: txId,
-  }
+  };
 }
 
-function previousTx () {
+function previousTx() {
   return {
     type: actions.PREVIOUS_TX,
-  }
+  };
 }
 
-function editTx (txId) {
+function editTx(txId) {
   return {
     type: actions.EDIT_TX,
     value: txId,
-  }
+  };
 }
 
-function showConfigPage (transitionForward = true) {
+function showConfigPage(transitionForward = true) {
   return {
     type: actions.SHOW_CONFIG_PAGE,
     value: transitionForward,
-  }
+  };
 }
 
-function showAddTokenPage (transitionForward = true) {
+function showAddTokenPage(transitionForward = true) {
   return {
     type: actions.SHOW_ADD_TOKEN_PAGE,
     value: transitionForward,
-  }
+  };
 }
 
-function addToken (address, symbol, decimals) {
+function addToken(address, symbol, decimals) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
+    dispatch(actions.showLoadingIndication());
     return new Promise((resolve, reject) => {
       background.addToken(address, symbol, decimals, (err, tokens) => {
-        dispatch(actions.hideLoadingIndication())
+        dispatch(actions.hideLoadingIndication());
         if (err) {
-          dispatch(actions.displayWarning(err.message))
-          reject(err)
+          dispatch(actions.displayWarning(err.message));
+          reject(err);
         }
-        dispatch(actions.updateTokens(tokens))
-        resolve(tokens)
-      })
-    })
-  }
+        dispatch(actions.updateTokens(tokens));
+        resolve(tokens);
+      });
+    });
+  };
 }
 
-function removeToken (address) {
+function removeToken(address) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
+    dispatch(actions.showLoadingIndication());
     return new Promise((resolve, reject) => {
       background.removeToken(address, (err, tokens) => {
-        dispatch(actions.hideLoadingIndication())
+        dispatch(actions.hideLoadingIndication());
         if (err) {
-          dispatch(actions.displayWarning(err.message))
-          reject(err)
+          dispatch(actions.displayWarning(err.message));
+          reject(err);
         }
-        dispatch(actions.updateTokens(tokens))
-        resolve(tokens)
-      })
-    })
-  }
+        dispatch(actions.updateTokens(tokens));
+        resolve(tokens);
+      });
+    });
+  };
 }
 
-function addTokens (tokens) {
+function addTokens(tokens) {
   return dispatch => {
     if (Array.isArray(tokens)) {
-      dispatch(actions.setSelectedToken(getTokenAddressFromTokenObject(tokens[0])))
-      return Promise.all(tokens.map(({ address, symbol, decimals }) => (
+      dispatch(actions.setSelectedToken(getTokenAddressFromTokenObject(tokens[0])));
+      return Promise.all(tokens.map(({address, symbol, decimals}) => (
         dispatch(addToken(address, symbol, decimals))
-      )))
+      )));
     } else {
-      dispatch(actions.setSelectedToken(getTokenAddressFromTokenObject(tokens)))
+      dispatch(actions.setSelectedToken(getTokenAddressFromTokenObject(tokens)));
       return Promise.all(
         Object
-        .entries(tokens)
-        .map(([_, { address, symbol, decimals }]) => (
-          dispatch(addToken(address, symbol, decimals))
-        ))
-      )
+          .entries(tokens)
+          .map(([_, {address, symbol, decimals}]) => (
+            dispatch(addToken(address, symbol, decimals))
+          )),
+      );
     }
-  }
+  };
 }
 
-function updateTokens (newTokens) {
+function updateTokens(newTokens) {
   return {
     type: actions.UPDATE_TOKENS,
     newTokens,
-  }
+  };
 }
 
-function goBackToInitView () {
+function goBackToInitView() {
   return {
     type: actions.BACK_TO_INIT_MENU,
-  }
+  };
 }
 
 //
 // notice
 //
 
-function markNoticeRead (notice) {
+function markNoticeRead(notice) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
-    log.debug(`background.markNoticeRead`)
+    dispatch(actions.showLoadingIndication());
+    log.debug(`background.markNoticeRead`);
     return new Promise((resolve, reject) => {
       background.markNoticeRead(notice, (err, notice) => {
-        dispatch(actions.hideLoadingIndication())
+        dispatch(actions.hideLoadingIndication());
         if (err) {
-          dispatch(actions.displayWarning(err))
-          return reject(err)
+          dispatch(actions.displayWarning(err));
+          return reject(err);
         }
 
         if (notice) {
-          dispatch(actions.showNotice(notice))
-          resolve(true)
+          dispatch(actions.showNotice(notice));
+          resolve(true);
         } else {
-          dispatch(actions.clearNotices())
-          resolve(false)
+          dispatch(actions.clearNotices());
+          resolve(false);
         }
-      })
-    })
-  }
+      });
+    });
+  };
 }
 
-function showNotice (notice) {
+function showNotice(notice) {
   return {
     type: actions.SHOW_NOTICE,
     value: notice,
-  }
+  };
 }
 
-function clearNotices () {
+function clearNotices() {
   return {
     type: actions.CLEAR_NOTICES,
-  }
+  };
 }
 
-function markAccountsFound () {
-  log.debug(`background.markAccountsFound`)
-  return callBackgroundThenUpdate(background.markAccountsFound)
+function markAccountsFound() {
+  log.debug(`background.markAccountsFound`);
+  return callBackgroundThenUpdate(background.markAccountsFound);
 }
 
-function retryTransaction (txId) {
-  log.debug(`background.retryTransaction`)
+function retryTransaction(txId) {
+  log.debug(`background.retryTransaction`);
   return (dispatch) => {
     background.retryTransaction(txId, (err, newState) => {
       if (err) {
-        return dispatch(actions.displayWarning(err.message))
+        return dispatch(actions.displayWarning(err.message));
       }
-      const { selectedAddressTxList } = newState
-      const { id: newTxId } = selectedAddressTxList[selectedAddressTxList.length - 1]
-      dispatch(actions.updateMetamaskState(newState))
-      dispatch(actions.viewPendingTx(newTxId))
-    })
-  }
+      const {selectedAddressTxList} = newState;
+      const {id: newTxId} = selectedAddressTxList[selectedAddressTxList.length - 1];
+      dispatch(actions.updateMetamaskState(newState));
+      dispatch(actions.viewPendingTx(newTxId));
+    });
+  };
 }
 
 //
 // config
 //
 
-function setProviderType (type) {
+function setProviderType(type) {
   return (dispatch) => {
-    log.debug(`background.setProviderType`, type)
+    log.debug(`background.setProviderType`, type);
     background.setProviderType(type, (err, result) => {
       if (err) {
-        log.error(err)
-        return dispatch(self.displayWarning('Had a problem changing networks!'))
+        log.error(err);
+        return dispatch(self.displayWarning('Had a problem changing networks!'));
       }
-      dispatch(actions.updateProviderType(type))
-      dispatch(actions.setSelectedToken())
-    })
+      dispatch(actions.updateProviderType(type));
+      dispatch(actions.setSelectedToken());
+    });
 
-  }
+  };
 }
 
-function updateProviderType (type) {
+function updateProviderType(type) {
   return {
     type: actions.SET_PROVIDER_TYPE,
     value: type,
-  }
+  };
 }
 
-function setRpcTarget (newRpc) {
+function setRpcTarget(newRpc) {
   return (dispatch) => {
-    log.debug(`background.setRpcTarget: ${newRpc}`)
+    log.debug(`background.setRpcTarget: ${newRpc}`);
     background.setCustomRpc(newRpc, (err, result) => {
       if (err) {
-        log.error(err)
-        return dispatch(self.displayWarning('Had a problem changing networks!'))
+        log.error(err);
+        return dispatch(self.displayWarning('Had a problem changing networks!'));
       }
-      dispatch(actions.setSelectedToken())
-    })
-  }
+      dispatch(actions.setSelectedToken());
+    });
+  };
 }
 
 // Calls the addressBookController to add a new address.
-function addToAddressBook (recipient, nickname = '') {
-  log.debug(`background.addToAddressBook`)
+function addToAddressBook(recipient, nickname = '') {
+  log.debug(`background.addToAddressBook`);
   return (dispatch) => {
     background.setAddressBook(recipient, nickname, (err, result) => {
       if (err) {
-        log.error(err)
-        return dispatch(self.displayWarning('Address book failed to update'))
+        log.error(err);
+        return dispatch(self.displayWarning('Address book failed to update'));
       }
-    })
-  }
+    });
+  };
 }
 
-function useEtherscanProvider () {
-  log.debug(`background.useEtherscanProvider`)
-  background.useEtherscanProvider()
+function useEtherscanProvider() {
+  log.debug(`background.useEtherscanProvider`);
+  background.useEtherscanProvider();
   return {
     type: actions.USE_ETHERSCAN_PROVIDER,
-  }
+  };
 }
 
-function showNetworkDropdown () {
+function showNetworkDropdown() {
   return {
     type: actions.NETWORK_DROPDOWN_OPEN,
-  }
+  };
 }
 
-function hideNetworkDropdown () {
+function hideNetworkDropdown() {
   return {
     type: actions.NETWORK_DROPDOWN_CLOSE,
-  }
+  };
 }
 
-
-function showModal (payload) {
+function showModal(payload) {
   return {
     type: actions.MODAL_OPEN,
     payload,
-  }
+  };
 }
 
-function hideModal (payload) {
+function hideModal(payload) {
   return {
     type: actions.MODAL_CLOSE,
     payload,
-  }
+  };
 }
 
-function showSidebar () {
+function showSidebar() {
   return {
     type: actions.SIDEBAR_OPEN,
-  }
+  };
 }
 
-function hideSidebar () {
+function hideSidebar() {
   return {
     type: actions.SIDEBAR_CLOSE,
-  }
+  };
 }
 
-
-function showLoadingIndication (message) {
+function showLoadingIndication(message) {
   return {
     type: actions.SHOW_LOADING,
     value: message,
-  }
+  };
 }
 
-function hideLoadingIndication () {
+function hideLoadingIndication() {
   return {
     type: actions.HIDE_LOADING,
-  }
+  };
 }
 
-function showSubLoadingIndication () {
+function showSubLoadingIndication() {
   return {
     type: actions.SHOW_SUB_LOADING_INDICATION,
-  }
+  };
 }
 
-function hideSubLoadingIndication () {
+function hideSubLoadingIndication() {
   return {
     type: actions.HIDE_SUB_LOADING_INDICATION,
-  }
+  };
 }
 
-function displayWarning (text) {
+function displayWarning(text) {
   return {
     type: actions.DISPLAY_WARNING,
     value: text,
-  }
+  };
 }
 
-function hideWarning () {
+function hideWarning() {
   return {
     type: actions.HIDE_WARNING,
-  }
+  };
 }
 
-function requestExportAccount () {
+function requestExportAccount() {
   return {
     type: actions.REQUEST_ACCOUNT_EXPORT,
-  }
+  };
 }
 
-function exportAccount (password, address) {
-  var self = this
+function exportAccount(password, address) {
+  var self = this;
 
-  return function (dispatch) {
-    dispatch(self.showLoadingIndication())
+  return function(dispatch) {
+    dispatch(self.showLoadingIndication());
 
-    log.debug(`background.submitPassword`)
+    log.debug(`background.submitPassword`);
     return new Promise((resolve, reject) => {
-      background.submitPassword(password, function (err) {
+      background.submitPassword(password, function(err) {
         if (err) {
-          log.error('Error in submiting password.')
-          dispatch(self.hideLoadingIndication())
-          dispatch(self.displayWarning('Incorrect Password.'))
-          return reject(err)
+          log.error('Error in submiting password.');
+          dispatch(self.hideLoadingIndication());
+          dispatch(self.displayWarning('Incorrect Password.'));
+          return reject(err);
         }
-        log.debug(`background.exportAccount`)
-        return background.exportAccount(address, function (err, result) {
-          dispatch(self.hideLoadingIndication())
+        log.debug(`background.exportAccount`);
+        return background.exportAccount(address, function(err, result) {
+          dispatch(self.hideLoadingIndication());
 
           if (err) {
-            log.error(err)
-            dispatch(self.displayWarning('Had a problem exporting the account.'))
-            return reject(err)
+            log.error(err);
+            dispatch(self.displayWarning('Had a problem exporting the account.'));
+            return reject(err);
           }
 
           // dispatch(self.exportAccountComplete())
-          dispatch(self.showPrivateKey(result))
+          dispatch(self.showPrivateKey(result));
 
-          return resolve(result)
-        })
-      })
-    })
-  }
+          return resolve(result);
+        });
+      });
+    });
+  };
 }
 
-function exportAccountComplete () {
+function exportAccountComplete() {
   return {
     type: actions.EXPORT_ACCOUNT,
-  }
+  };
 }
 
-function showPrivateKey (key) {
+function showPrivateKey(key) {
   return {
     type: actions.SHOW_PRIVATE_KEY,
     value: key,
-  }
+  };
 }
 
-function saveAccountLabel (account, label) {
+function saveAccountLabel(account, label) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
-    log.debug(`background.saveAccountLabel`)
+    dispatch(actions.showLoadingIndication());
+    log.debug(`background.saveAccountLabel`);
 
     return new Promise((resolve, reject) => {
       background.saveAccountLabel(account, label, (err) => {
-        dispatch(actions.hideLoadingIndication())
+        dispatch(actions.hideLoadingIndication());
 
         if (err) {
-          dispatch(actions.displayWarning(err.message))
-          reject(err)
+          dispatch(actions.displayWarning(err.message));
+          reject(err);
         }
 
         dispatch({
           type: actions.SAVE_ACCOUNT_LABEL,
-          value: { account, label },
-        })
+          value: {account, label},
+        });
 
-        resolve(account)
-      })
-    })
-  }
+        resolve(account);
+      });
+    });
+  };
 }
 
-function showSendPage () {
+function showSendPage() {
   return {
     type: actions.SHOW_SEND_PAGE,
-  }
+  };
 }
 
-function showSendTokenPage () {
+function showSendTokenPage() {
   return {
     type: actions.SHOW_SEND_TOKEN_PAGE,
-  }
+  };
 }
 
-function buyEth (opts) {
+function buyEth(opts) {
   return (dispatch) => {
-    const url = getBuyEthUrl(opts)
-    global.platform.openWindow({ url })
+    const url = getBuyEthUrl(opts);
+    global.platform.openWindow({url});
     dispatch({
       type: actions.BUY_ETH,
-    })
-  }
+    });
+  };
 }
 
-function onboardingBuyEthView (address) {
+function onboardingBuyEthView(address) {
   return {
     type: actions.ONBOARDING_BUY_ETH_VIEW,
     value: address,
-  }
+  };
 }
 
-function buyEthView (address) {
+function buyEthView(address) {
   return {
     type: actions.BUY_ETH_VIEW,
     value: address,
-  }
+  };
 }
 
-function coinBaseSubview () {
+function coinBaseSubview() {
   return {
     type: actions.COINBASE_SUBVIEW,
-  }
+  };
 }
 
-function pairUpdate (coin) {
+function pairUpdate(coin) {
   return (dispatch) => {
-    dispatch(actions.showSubLoadingIndication())
-    dispatch(actions.hideWarning())
+    dispatch(actions.showSubLoadingIndication());
+    dispatch(actions.hideWarning());
     shapeShiftRequest('marketinfo', {pair: `${coin.toLowerCase()}_eth`}, (mktResponse) => {
-      dispatch(actions.hideSubLoadingIndication())
-      if (mktResponse.error) return dispatch(actions.displayWarning(mktResponse.error))
+      dispatch(actions.hideSubLoadingIndication());
+      if (mktResponse.error) return dispatch(actions.displayWarning(mktResponse.error));
       dispatch({
         type: actions.PAIR_UPDATE,
         value: {
           marketinfo: mktResponse,
         },
-      })
-    })
-  }
+      });
+    });
+  };
 }
 
-function shapeShiftSubview (network) {
-  var pair = 'btc_eth'
+function shapeShiftSubview(network) {
+  var pair = 'btc_eth';
   return (dispatch) => {
-    dispatch(actions.showSubLoadingIndication())
+    dispatch(actions.showSubLoadingIndication());
     shapeShiftRequest('marketinfo', {pair}, (mktResponse) => {
       shapeShiftRequest('getcoins', {}, (response) => {
-        dispatch(actions.hideSubLoadingIndication())
-        if (mktResponse.error) return dispatch(actions.displayWarning(mktResponse.error))
+        dispatch(actions.hideSubLoadingIndication());
+        if (mktResponse.error) return dispatch(actions.displayWarning(mktResponse.error));
         dispatch({
           type: actions.SHAPESHIFT_SUBVIEW,
           value: {
             marketinfo: mktResponse,
             coinOptions: response,
           },
-        })
-      })
-    })
-  }
+        });
+      });
+    });
+  };
 }
 
-function coinShiftRquest (data, marketData) {
+function coinShiftRquest(data, marketData) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
-    shapeShiftRequest('shift', { method: 'POST', data}, (response) => {
-      dispatch(actions.hideLoadingIndication())
-      if (response.error) return dispatch(actions.displayWarning(response.error))
+    dispatch(actions.showLoadingIndication());
+    shapeShiftRequest('shift', {method: 'POST', data}, (response) => {
+      dispatch(actions.hideLoadingIndication());
+      if (response.error) return dispatch(actions.displayWarning(response.error));
       var message = `
-        Deposit your ${response.depositType} to the address below:`
-      log.debug(`background.createShapeShiftTx`)
-      background.createShapeShiftTx(response.deposit, response.depositType)
-      dispatch(actions.showQrView(response.deposit, [message].concat(marketData)))
-    })
-  }
+        Deposit your ${response.depositType} to the address below:`;
+      log.debug(`background.createShapeShiftTx`);
+      background.createShapeShiftTx(response.deposit, response.depositType);
+      dispatch(actions.showQrView(response.deposit, [message].concat(marketData)));
+    });
+  };
 }
 
-function buyWithShapeShift (data) {
+function buyWithShapeShift(data) {
   return dispatch => new Promise((resolve, reject) => {
-    shapeShiftRequest('shift', { method: 'POST', data}, (response) => {
+    shapeShiftRequest('shift', {method: 'POST', data}, (response) => {
       if (response.error) {
-        return reject(response.error)
+        return reject(response.error);
       }
-      background.createShapeShiftTx(response.deposit, response.depositType)
-      return resolve(response)
-    })
-  })
+      background.createShapeShiftTx(response.deposit, response.depositType);
+      return resolve(response);
+    });
+  });
 }
 
-function showQrView (data, message) {
+function showQrView(data, message) {
   return {
     type: actions.SHOW_QR_VIEW,
     value: {
       message: message,
       data: data,
     },
-  }
+  };
 }
-function reshowQrCode (data, coin) {
+
+function reshowQrCode(data, coin) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
+    dispatch(actions.showLoadingIndication());
     shapeShiftRequest('marketinfo', {pair: `${coin.toLowerCase()}_eth`}, (mktResponse) => {
-      if (mktResponse.error) return dispatch(actions.displayWarning(mktResponse.error))
+      if (mktResponse.error) return dispatch(actions.displayWarning(mktResponse.error));
 
       var message = [
         `Deposit your ${coin} to the address below:`,
         `Deposit Limit: ${mktResponse.limit}`,
         `Deposit Minimum:${mktResponse.minimum}`,
-      ]
+      ];
 
-      dispatch(actions.hideLoadingIndication())
-      return dispatch(actions.showQrView(data, message))
+      dispatch(actions.hideLoadingIndication());
+      return dispatch(actions.showQrView(data, message));
       // return dispatch(actions.showModal({
       //   name: 'SHAPESHIFT_DEPOSIT_TX',
       //   Qr: { data, message },
       // }))
-    })
-  }
+    });
+  };
 }
 
-function shapeShiftRequest (query, options, cb) {
-  var queryResponse, method
-  !options ? options = {} : null
-  options.method ? method = options.method : method = 'GET'
+function shapeShiftRequest(query, options, cb) {
+  var queryResponse, method;
+  !options ? options = {} : null;
+  options.method ? method = options.method : method = 'GET';
 
-  var requestListner = function (request) {
+  var requestListner = function(request) {
     try {
-      queryResponse = JSON.parse(this.responseText)
-      cb ? cb(queryResponse) : null
-      return queryResponse
+      queryResponse = JSON.parse(this.responseText);
+      cb ? cb(queryResponse) : null;
+      return queryResponse;
     } catch (e) {
-      cb ? cb({error: e}) : null
-      return e
+      cb ? cb({error: e}) : null;
+      return e;
     }
-  }
+  };
 
-  var shapShiftReq = new XMLHttpRequest()
-  shapShiftReq.addEventListener('load', requestListner)
-  shapShiftReq.open(method, `https://shapeshift.io/${query}/${options.pair ? options.pair : ''}`, true)
+  var shapShiftReq = new XMLHttpRequest();
+  shapShiftReq.addEventListener('load', requestListner);
+  shapShiftReq.open(method, `https://shapeshift.io/${query}/${options.pair ? options.pair : ''}`, true);
 
   if (options.method === 'POST') {
-    var jsonObj = JSON.stringify(options.data)
-    shapShiftReq.setRequestHeader('Content-Type', 'application/json')
-    return shapShiftReq.send(jsonObj)
+    var jsonObj = JSON.stringify(options.data);
+    shapShiftReq.setRequestHeader('Content-Type', 'application/json');
+    return shapShiftReq.send(jsonObj);
   } else {
-    return shapShiftReq.send()
+    return shapShiftReq.send();
   }
 }
 
-function setFeatureFlag (feature, activated, notificationType) {
+function setFeatureFlag(feature, activated, notificationType) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
+    dispatch(actions.showLoadingIndication());
     return new Promise((resolve, reject) => {
       background.setFeatureFlag(feature, activated, (err, updatedFeatureFlags) => {
-        dispatch(actions.hideLoadingIndication())
+        dispatch(actions.hideLoadingIndication());
         if (err) {
-          dispatch(actions.displayWarning(err.message))
-          return reject(err)
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
         }
-        dispatch(actions.updateFeatureFlags(updatedFeatureFlags))
-        notificationType && dispatch(actions.showModal({ name: notificationType }))
-        resolve(updatedFeatureFlags)
-      })
-    })
-  }
+        dispatch(actions.updateFeatureFlags(updatedFeatureFlags));
+        notificationType && dispatch(actions.showModal({name: notificationType}));
+        resolve(updatedFeatureFlags);
+      });
+    });
+  };
 }
 
-function updateFeatureFlags (updatedFeatureFlags) {
+function updateFeatureFlags(updatedFeatureFlags) {
   return {
     type: actions.UPDATE_FEATURE_FLAGS,
     value: updatedFeatureFlags,
-  }
+  };
 }
 
-function setMouseUserState (isMouseUser) {
+function setMouseUserState(isMouseUser) {
   return {
     type: actions.SET_MOUSE_USER_STATE,
     value: isMouseUser,
-  }
+  };
 }
 
 // Call Background Then Update
@@ -1832,120 +1832,120 @@ function setMouseUserState (isMouseUser) {
 // We hide loading indication.
 // If it errored, we show a warning.
 // If it didn't, we update the state.
-function callBackgroundThenUpdateNoSpinner (method, ...args) {
+function callBackgroundThenUpdateNoSpinner(method, ...args) {
   return (dispatch) => {
     method.call(background, ...args, (err) => {
       if (err) {
-        return dispatch(actions.displayWarning(err.message))
+        return dispatch(actions.displayWarning(err.message));
       }
-      forceUpdateMetamaskState(dispatch)
-    })
-  }
+      forceUpdateMetamaskState(dispatch);
+    });
+  };
 }
 
-function callBackgroundThenUpdate (method, ...args) {
+function callBackgroundThenUpdate(method, ...args) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
+    dispatch(actions.showLoadingIndication());
     method.call(background, ...args, (err) => {
-      dispatch(actions.hideLoadingIndication())
+      dispatch(actions.hideLoadingIndication());
       if (err) {
-        return dispatch(actions.displayWarning(err.message))
+        return dispatch(actions.displayWarning(err.message));
       }
-      forceUpdateMetamaskState(dispatch)
-    })
-  }
+      forceUpdateMetamaskState(dispatch);
+    });
+  };
 }
 
-function forceUpdateMetamaskState (dispatch) {
-  log.debug(`background.getState`)
+function forceUpdateMetamaskState(dispatch) {
+  log.debug(`background.getState`);
   return new Promise((resolve, reject) => {
     background.getState((err, newState) => {
       if (err) {
-        dispatch(actions.displayWarning(err.message))
-        return reject(err)
+        dispatch(actions.displayWarning(err.message));
+        return reject(err);
       }
 
-      dispatch(actions.updateMetamaskState(newState))
-      resolve(newState)
-    })
-  })
+      dispatch(actions.updateMetamaskState(newState));
+      resolve(newState);
+    });
+  });
 }
 
-function toggleAccountMenu () {
+function toggleAccountMenu() {
   return {
     type: actions.TOGGLE_ACCOUNT_MENU,
-  }
+  };
 }
 
-function setUseBlockie (val) {
+function setUseBlockie(val) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
-    log.debug(`background.setUseBlockie`)
+    dispatch(actions.showLoadingIndication());
+    log.debug(`background.setUseBlockie`);
     background.setUseBlockie(val, (err) => {
-      dispatch(actions.hideLoadingIndication())
+      dispatch(actions.hideLoadingIndication());
       if (err) {
-        return dispatch(actions.displayWarning(err.message))
+        return dispatch(actions.displayWarning(err.message));
       }
-    })
+    });
     dispatch({
       type: actions.SET_USE_BLOCKIE,
       value: val,
-    })
-  }
+    });
+  };
 }
 
-function updateCurrentLocale (key) {
+function updateCurrentLocale(key) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication())
+    dispatch(actions.showLoadingIndication());
     fetchLocale(key)
       .then((localeMessages) => {
-        log.debug(`background.setCurrentLocale`)
+        log.debug(`background.setCurrentLocale`);
         background.setCurrentLocale(key, (err) => {
-          dispatch(actions.hideLoadingIndication())
+          dispatch(actions.hideLoadingIndication());
           if (err) {
-            return dispatch(actions.displayWarning(err.message))
+            return dispatch(actions.displayWarning(err.message));
           }
-          dispatch(actions.setCurrentLocale(key))
-          dispatch(actions.setLocaleMessages(localeMessages))
-        })
-      })
-  }
+          dispatch(actions.setCurrentLocale(key));
+          dispatch(actions.setLocaleMessages(localeMessages));
+        });
+      });
+  };
 }
 
-function setCurrentLocale (key) {
+function setCurrentLocale(key) {
   return {
     type: actions.SET_CURRENT_LOCALE,
     value: key,
-  }
+  };
 }
 
-function setLocaleMessages (localeMessages) {
+function setLocaleMessages(localeMessages) {
   return {
     type: actions.SET_LOCALE_MESSAGES,
     value: localeMessages,
-  }
+  };
 }
 
-function setNetworkEndpoints (networkEndpointType) {
+function setNetworkEndpoints(networkEndpointType) {
   return dispatch => {
-    log.debug('background.setNetworkEndpoints')
+    log.debug('background.setNetworkEndpoints');
     return new Promise((resolve, reject) => {
       background.setNetworkEndpoints(networkEndpointType, err => {
         if (err) {
-          dispatch(actions.displayWarning(err.message))
-          return reject(err)
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
         }
 
-        dispatch(actions.updateNetworkEndpointType(networkEndpointType))
-        resolve(networkEndpointType)
-      })
-    })
-  }
+        dispatch(actions.updateNetworkEndpointType(networkEndpointType));
+        resolve(networkEndpointType);
+      });
+    });
+  };
 }
 
-function updateNetworkEndpointType (networkEndpointType) {
+function updateNetworkEndpointType(networkEndpointType) {
   return {
     type: actions.UPDATE_NETWORK_ENDPOINT_TYPE,
     value: networkEndpointType,
-  }
+  };
 }

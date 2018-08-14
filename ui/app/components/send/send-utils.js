@@ -3,12 +3,12 @@ const {
   conversionUtil,
   conversionGTE,
   multiplyCurrencies,
-} = require('../../conversion-util')
+} = require('../../conversion-util');
 const {
   calcTokenAmount,
-} = require('../../token-util')
+} = require('../../token-util');
 
-function isBalanceSufficient ({
+function isBalanceSufficient({
   amount = '0x0',
   gasTotal = '0x0',
   balance,
@@ -20,7 +20,7 @@ function isBalanceSufficient ({
     aBase: 16,
     bBase: 16,
     toNumericBase: 'hex',
-  })
+  });
 
   const balanceIsSufficient = conversionGTE(
     {
@@ -35,19 +35,19 @@ function isBalanceSufficient ({
       conversionRate: amountConversionRate || conversionRate,
       fromCurrency: primaryCurrency,
     },
-  )
+  );
 
-  return balanceIsSufficient
+  return balanceIsSufficient;
 }
 
-function isTokenBalanceSufficient ({
+function isTokenBalanceSufficient({
   amount = '0x0',
   tokenBalance,
   decimals,
 }) {
   const amountInDec = conversionUtil(amount, {
     fromNumericBase: 'hex',
-  })
+  });
 
   const tokenBalanceIsSufficient = conversionGTE(
     {
@@ -58,21 +58,21 @@ function isTokenBalanceSufficient ({
       value: calcTokenAmount(amountInDec, decimals),
       fromNumericBase: 'dec',
     },
-  )
+  );
 
-  return tokenBalanceIsSufficient
+  return tokenBalanceIsSufficient;
 }
 
-function getGasTotal (gasLimit, gasPrice) {
+function getGasTotal(gasLimit, gasPrice) {
   return multiplyCurrencies(gasLimit, gasPrice, {
     toNumericBase: 'hex',
     multiplicandBase: 16,
     multiplierBase: 16,
-  })
+  });
 }
 
 module.exports = {
   getGasTotal,
   isBalanceSufficient,
   isTokenBalanceSufficient,
-}
+};

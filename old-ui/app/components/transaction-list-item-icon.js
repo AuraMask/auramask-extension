@@ -1,36 +1,37 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const Tooltip = require('./tooltip')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const Tooltip = require('./tooltip');
 
-const Identicon = require('./identicon')
+const Identicon = require('./identicon');
 
-module.exports = TransactionIcon
+module.exports = TransactionIcon;
 
-inherits(TransactionIcon, Component)
-function TransactionIcon () {
-  Component.call(this)
+inherits(TransactionIcon, Component);
+
+function TransactionIcon() {
+  Component.call(this);
 }
 
-TransactionIcon.prototype.render = function () {
-  const { transaction, txParams, isMsg } = this.props
+TransactionIcon.prototype.render = function() {
+  const {transaction, txParams, isMsg} = this.props;
   switch (transaction.status) {
     case 'unapproved':
-      return h(!isMsg ? '.unapproved-tx-icon' : 'i.fa.fa-certificate.fa-lg')
+      return h(!isMsg ? '.unapproved-tx-icon' : 'i.fa.fa-certificate.fa-lg');
 
     case 'rejected':
       return h('i.fa.fa-exclamation-triangle.fa-lg.warning', {
         style: {
           width: '24px',
         },
-      })
+      });
 
     case 'failed':
       return h('i.fa.fa-exclamation-triangle.fa-lg.error', {
         style: {
           width: '24px',
         },
-      })
+      });
 
     case 'submitted':
       return h(Tooltip, {
@@ -42,7 +43,7 @@ TransactionIcon.prototype.render = function () {
             fontSize: '27px',
           },
         }),
-      ])
+      ]);
   }
 
   if (isMsg) {
@@ -50,19 +51,19 @@ TransactionIcon.prototype.render = function () {
       style: {
         width: '24px',
       },
-    })
+    });
   }
 
   if (txParams.to) {
     return h(Identicon, {
       diameter: 24,
       address: txParams.to || transaction.hash,
-    })
+    });
   } else {
     return h('i.fa.fa-file-text-o.fa-lg', {
       style: {
         width: '24px',
       },
-    })
+    });
   }
-}
+};

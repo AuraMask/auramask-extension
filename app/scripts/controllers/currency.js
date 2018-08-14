@@ -1,9 +1,9 @@
-  const ObservableStore = require('obs-store')
-const extend = require('xtend')
-const log = require('loglevel')
+const ObservableStore = require('obs-store');
+const extend = require('xtend');
+const log = require('loglevel');
 
 // every ten minutes
-const POLLING_INTERVAL = 600000
+const POLLING_INTERVAL = 600000;
 
 class CurrencyController {
 
@@ -16,20 +16,20 @@ class CurrencyController {
    * currentCurrency, conversionRate and conversionDate properties
    * @property {string} currentCurrency A 2-4 character shorthand that describes a specific currency, currently
    * selected by the user
-   * @property {number} conversionRate The conversion rate from ETH to the selected currency. 
+   * @property {number} conversionRate The conversion rate from ETH to the selected currency.
    * @property {string} conversionDate The date at which the conversion rate was set. Expressed in in milliseconds
-   * since midnight of January 1, 1970 
+   * since midnight of January 1, 1970
    * @property {number} conversionInterval The id of the interval created by the scheduleConversionInterval method.
    * Used to clear an existing interval on subsequent calls of that method.
    *
    */
-  constructor (opts = {}) {
+  constructor(opts = {}) {
     const initState = extend({
       currentCurrency: 'usd',
       conversionRate: 0,
       conversionDate: 'N/A',
-    }, opts.initState)
-    this.store = new ObservableStore(initState)
+    }, opts.initState);
+    this.store = new ObservableStore(initState);
   }
 
   //
@@ -42,8 +42,8 @@ class CurrencyController {
    * @returns {string} A 2-4 character shorthand that describes a specific currency, currently selected by the user
    *
    */
-  getCurrentCurrency () {
-    return this.store.getState().currentCurrency
+  getCurrentCurrency() {
+    return this.store.getState().currentCurrency;
   }
 
   /**
@@ -52,18 +52,18 @@ class CurrencyController {
    * @param {string} currentCurrency The new currency to set as the currentCurrency in the store
    *
    */
-  setCurrentCurrency (currentCurrency) {
-    this.store.updateState({ currentCurrency })
+  setCurrentCurrency(currentCurrency) {
+    this.store.updateState({currentCurrency});
   }
 
   /**
    * A getter for the conversionRate property
    *
-   * @returns {string} The conversion rate from ETH to the selected currency. 
+   * @returns {string} The conversion rate from ETH to the selected currency.
    *
    */
-  getConversionRate () {
-    return this.store.getState().conversionRate
+  getConversionRate() {
+    return this.store.getState().conversionRate;
   }
 
   /**
@@ -72,19 +72,19 @@ class CurrencyController {
    * @param {number} conversionRate The new rate to set as the conversionRate in the store
    *
    */
-  setConversionRate (conversionRate) {
-    this.store.updateState({ conversionRate })
+  setConversionRate(conversionRate) {
+    this.store.updateState({conversionRate});
   }
 
   /**
    * A getter for the conversionDate property
    *
    * @returns {string} The date at which the conversion rate was set. Expressed in milliseconds since midnight of
-   * January 1, 1970 
+   * January 1, 1970
    *
    */
-  getConversionDate () {
-    return this.store.getState().conversionDate
+  getConversionDate() {
+    return this.store.getState().conversionDate;
   }
 
   /**
@@ -94,8 +94,8 @@ class CurrencyController {
    * conversionRate was set
    *
    */
-  setConversionDate (conversionDate) {
-    this.store.updateState({ conversionDate })
+  setConversionDate(conversionDate) {
+    this.store.updateState({conversionDate});
   }
 
   /**
@@ -103,18 +103,18 @@ class CurrencyController {
    * fetched from an external API
    *
    */
-  async updateConversionRate () {
-    let currentCurrency
+  async updateConversionRate() {
+    let currentCurrency;
     try {
-      currentCurrency = this.getCurrentCurrency()
-      const response = await fetch(`https://api.infura.io/v1/ticker/eth${currentCurrency.toLowerCase()}`)
-      const parsedResponse = await response.json()
-      this.setConversionRate(Number(parsedResponse.bid))
-      this.setConversionDate(Number(parsedResponse.timestamp))
+      currentCurrency = this.getCurrentCurrency();
+      const response = await fetch(`https://api.infura.io/v1/ticker/eth${currentCurrency.toLowerCase()}`);
+      const parsedResponse = await response.json();
+      this.setConversionRate(Number(parsedResponse.bid));
+      this.setConversionDate(Number(parsedResponse.timestamp));
     } catch (err) {
-      log.warn(`MetaMask - Failed to query currency conversion:`, currentCurrency, err)
-      this.setConversionRate(0)
-      this.setConversionDate('N/A')
+      log.warn(`MetaMask - Failed to query currency conversion:`, currentCurrency, err);
+      this.setConversionRate(0);
+      this.setConversionDate('N/A');
     }
   }
 
@@ -124,14 +124,14 @@ class CurrencyController {
    * previous interval is clear and a new one is created.
    *
    */
-  scheduleConversionInterval () {
+  scheduleConversionInterval() {
     if (this.conversionInterval) {
-      clearInterval(this.conversionInterval)
+      clearInterval(this.conversionInterval);
     }
     this.conversionInterval = setInterval(() => {
-      this.updateConversionRate()
-    }, POLLING_INTERVAL)
+      this.updateConversionRate();
+    }, POLLING_INTERVAL);
   }
 }
 
-module.exports = CurrencyController
+module.exports = CurrencyController;

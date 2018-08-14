@@ -2,7 +2,9 @@
   "metamask": {
     "isInitialized": true,
     "isUnlocked": true,
-    "featureFlags": {"betaUI": true},
+    "featureFlags": {
+      "betaUI": true
+    },
     "rpcTarget": "https://rawtestrpc.metamask.io/",
     "identities": {
       "0xfdea65c8e26263f6d9a1b5de9555d2931a33b825": {
@@ -96,8 +98,16 @@
         "id": 8997167822566869,
         "msgParams": {
           "data": [
-            {"type": "string", "name": "Message", "value": "Hi, Alice!"},
-            {"type": "uint32", "name": "A number", "value": "1337"}
+            {
+              "type": "string",
+              "name": "Message",
+              "value": "Hi, Alice!"
+            },
+            {
+              "type": "uint32",
+              "name": "A number",
+              "value": "1337"
+            }
           ],
           "from": "0x0d0c7188d9c72b019a5da9bca0d127680c22e659"
         },

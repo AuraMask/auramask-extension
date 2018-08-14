@@ -1,33 +1,34 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
 
-module.exports = CurrencyInput
+module.exports = CurrencyInput;
 
-inherits(CurrencyInput, Component)
-function CurrencyInput (props) {
-  Component.call(this)
+inherits(CurrencyInput, Component);
 
-  const sanitizedValue = sanitizeValue(props.value)
+function CurrencyInput(props) {
+  Component.call(this);
+
+  const sanitizedValue = sanitizeValue(props.value);
 
   this.state = {
     value: sanitizedValue,
     emptyState: false,
     focused: false,
-  }
+  };
 }
 
-function removeNonDigits (str) {
-  return str.match(/\d|$/g).join('')
+function removeNonDigits(str) {
+  return str.match(/\d|$/g).join('');
 }
 
 // Removes characters that are not digits, then removes leading zeros
-function sanitizeInteger (val) {
-  return String(parseInt(removeNonDigits(val) || '0', 10))
+function sanitizeInteger(val) {
+  return String(parseInt(removeNonDigits(val) || '0', 10));
 }
 
-function sanitizeDecimal (val) {
-  return removeNonDigits(val)
+function sanitizeDecimal(val) {
+  return removeNonDigits(val);
 }
 
 // Take a single string param and returns a non-negative integer or float as a string.
@@ -43,61 +44,61 @@ function sanitizeDecimal (val) {
 //  sanitizeValue('22.200') -> '22.200'
 //  sanitizeValue('.200') -> '0.200'
 //  sanitizeValue('a.b.1.c,89.123') -> '0.189123'
-function sanitizeValue (value) {
-  let [ , integer, point, decimal] = (/([^.]*)([.]?)([^.]*)/).exec(value)
+function sanitizeValue(value) {
+  let [, integer, point, decimal] = (/([^.]*)([.]?)([^.]*)/).exec(value);
 
-  integer = sanitizeInteger(integer) || '0'
-  decimal = sanitizeDecimal(decimal)
+  integer = sanitizeInteger(integer) || '0';
+  decimal = sanitizeDecimal(decimal);
 
-  return `${integer}${point}${decimal}`
+  return `${integer}${point}${decimal}`;
 }
 
-CurrencyInput.prototype.handleChange = function (newValue) {
-  const { onInputChange } = this.props
-  const { value } = this.state
+CurrencyInput.prototype.handleChange = function(newValue) {
+  const {onInputChange} = this.props;
+  const {value} = this.state;
 
-  let parsedValue = newValue
-  const newValueLastIndex = newValue.length - 1
+  let parsedValue = newValue;
+  const newValueLastIndex = newValue.length - 1;
 
   if (value === '0' && newValue[newValueLastIndex] === '0') {
-    parsedValue = parsedValue.slice(0, newValueLastIndex)
+    parsedValue = parsedValue.slice(0, newValueLastIndex);
   }
-  const sanitizedValue = sanitizeValue(parsedValue)
+  const sanitizedValue = sanitizeValue(parsedValue);
   this.setState({
     value: sanitizedValue,
     emptyState: newValue === '' && sanitizedValue === '0',
-  })
-  onInputChange(sanitizedValue)
-}
+  });
+  onInputChange(sanitizedValue);
+};
 
 // If state.value === props.value plus a decimal point, or at least one
 // zero or a decimal point and at least one zero, then this returns state.value
 // after it is sanitized with getValueParts
-CurrencyInput.prototype.getValueToRender = function () {
-  const { value } = this.props
-  const { value: stateValue } = this.state
+CurrencyInput.prototype.getValueToRender = function() {
+  const {value} = this.props;
+  const {value: stateValue} = this.state;
 
-  const trailingStateString = (new RegExp(`^${value}(.+)`)).exec(stateValue)
-  const trailingDecimalAndZeroes = trailingStateString && (/^[.0]0*/).test(trailingStateString[1])
+  const trailingStateString = (new RegExp(`^${value}(.+)`)).exec(stateValue);
+  const trailingDecimalAndZeroes = trailingStateString && (/^[.0]0*/).test(trailingStateString[1]);
 
   return sanitizeValue(trailingDecimalAndZeroes
     ? stateValue
-    : value)
-}
+    : value);
+};
 
-CurrencyInput.prototype.render = function () {
+CurrencyInput.prototype.render = function() {
   const {
     className,
     placeholder,
     readOnly,
     inputRef,
     type,
-  } = this.props
-  const { emptyState, focused } = this.state
+  } = this.props;
+  const {emptyState, focused} = this.state;
 
-  const inputSizeMultiplier = readOnly ? 1 : 1.2
+  const inputSizeMultiplier = readOnly ? 1 : 1.2;
 
-  const valueToRender = this.getValueToRender()
+  const valueToRender = this.getValueToRender();
   return h('input', {
     className,
     type,
@@ -105,9 +106,9 @@ CurrencyInput.prototype.render = function () {
     placeholder: focused ? '' : placeholder,
     size: valueToRender.length * inputSizeMultiplier,
     readOnly,
-    onFocus: () => this.setState({ focused: true, emptyState: valueToRender === '0' }),
-    onBlur: () => this.setState({ focused: false, emptyState: false }),
+    onFocus: () => this.setState({focused: true, emptyState: valueToRender === '0'}),
+    onBlur: () => this.setState({focused: false, emptyState: false}),
     onChange: e => this.handleChange(e.target.value),
     ref: inputRef,
-  })
-}
+  });
+};

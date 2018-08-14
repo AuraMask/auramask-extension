@@ -1,25 +1,25 @@
-const { Component } = require('react')
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
+const {Component} = require('react');
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
 
 class Info extends Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
 
     this.state = {
       version: global.platform.getVersion(),
-    }
+    };
   }
 
-  renderLogo () {
+  renderLogo() {
     return (
       h('div.settings__info-logo-wrapper', [
-        h('img.settings__info-logo', { src: 'images/info-logo.png' }),
+        h('img.settings__info-logo', {src: 'images/info-logo.png'}),
       ])
-    )
+    );
   }
 
-  renderInfoLinks () {
+  renderInfoLinks() {
     return (
       h('div.settings__content-item.settings__content-item--without-height', [
         h('div.settings__info-link-header', this.context.t('links')),
@@ -73,10 +73,10 @@ class Info extends Component {
           ]),
         ]),
       ])
-    )
+    );
   }
 
-  render () {
+  render() {
     return (
       h('div.settings__content', [
         h('div.settings__content-row', [
@@ -89,14 +89,14 @@ class Info extends Component {
             h('div.settings__info-item', [
               h(
                 'div.settings__info-about',
-                this.context.t('builtInCalifornia')
+                this.context.t('builtInCalifornia'),
               ),
             ]),
           ]),
           this.renderInfoLinks(),
         ]),
       ])
-    )
+    );
   }
 }
 
@@ -111,10 +111,10 @@ Info.propTypes = {
   location: PropTypes.object,
   history: PropTypes.object,
   t: PropTypes.func,
-}
+};
 
 Info.contextTypes = {
   t: PropTypes.func,
-}
+};
 
-module.exports = Info
+module.exports = Info;

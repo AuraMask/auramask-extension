@@ -1,51 +1,50 @@
-const Component = require('react').Component
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const connect = require('react-redux').connect
-const actions = require('../../actions')
-const Identicon = require('../identicon')
+const Component = require('react').Component;
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const connect = require('react-redux').connect;
+const actions = require('../../actions');
+const Identicon = require('../identicon');
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     network: state.metamask.network,
     token: state.appState.modal.modalState.token,
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     hideModal: () => dispatch(actions.hideModal()),
     hideToken: address => {
       dispatch(actions.removeToken(address))
         .then(() => {
-          dispatch(actions.hideModal())
-        })
+          dispatch(actions.hideModal());
+        });
     },
-  }
+  };
 }
 
-inherits(HideTokenConfirmationModal, Component)
-function HideTokenConfirmationModal () {
-  Component.call(this)
+inherits(HideTokenConfirmationModal, Component);
 
-  this.state = {}
+function HideTokenConfirmationModal() {
+  Component.call(this);
+
+  this.state = {};
 }
 
 HideTokenConfirmationModal.contextTypes = {
   t: PropTypes.func,
-}
+};
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(HideTokenConfirmationModal)
+module.exports = connect(mapStateToProps, mapDispatchToProps)(HideTokenConfirmationModal);
 
-
-HideTokenConfirmationModal.prototype.render = function () {
-  const { token, network, hideToken, hideModal } = this.props
-  const { symbol, address } = token
+HideTokenConfirmationModal.prototype.render = function() {
+  const {token, network, hideToken, hideModal} = this.props;
+  const {symbol, address} = token;
 
   return h('div.hide-token-confirmation', {}, [
-    h('div.hide-token-confirmation__container', {
-    }, [
+    h('div.hide-token-confirmation__container', {}, [
       h('div.hide-token-confirmation__title', {}, [
         this.context.t('hideTokenPrompt'),
       ]),
@@ -76,5 +75,5 @@ HideTokenConfirmationModal.prototype.render = function () {
         ]),
       ]),
     ]),
-  ])
-}
+  ]);
+};

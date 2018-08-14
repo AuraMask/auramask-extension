@@ -1,30 +1,31 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const AccountListItem = require('../send/account-list-item')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const AccountListItem = require('../send/account-list-item');
 
-module.exports = AccountDropdownMini
+module.exports = AccountDropdownMini;
 
-inherits(AccountDropdownMini, Component)
-function AccountDropdownMini () {
-  Component.call(this)
+inherits(AccountDropdownMini, Component);
+
+function AccountDropdownMini() {
+  Component.call(this);
 }
 
-AccountDropdownMini.prototype.getListItemIcon = function (currentAccount, selectedAccount) {
-  const listItemIcon = h(`i.fa.fa-check.fa-lg`, { style: { color: '#02c9b1' } })
+AccountDropdownMini.prototype.getListItemIcon = function(currentAccount, selectedAccount) {
+  const listItemIcon = h(`i.fa.fa-check.fa-lg`, {style: {color: '#02c9b1'}});
 
   return currentAccount.address === selectedAccount.address
     ? listItemIcon
-    : null
-}
+    : null;
+};
 
-AccountDropdownMini.prototype.renderDropdown = function () {
+AccountDropdownMini.prototype.renderDropdown = function() {
   const {
     accounts,
     selectedAccount,
     closeDropdown,
     onSelect,
-  } = this.props
+  } = this.props;
 
   return h('div', {}, [
 
@@ -39,23 +40,23 @@ AccountDropdownMini.prototype.renderDropdown = function () {
         displayBalance: false,
         displayAddress: false,
         handleClick: () => {
-          onSelect(account)
-          closeDropdown()
+          onSelect(account);
+          closeDropdown();
         },
         icon: this.getListItemIcon(account, selectedAccount),
       })),
 
     ]),
 
-  ])
-}
+  ]);
+};
 
-AccountDropdownMini.prototype.render = function () {
+AccountDropdownMini.prototype.render = function() {
   const {
     selectedAccount,
     openDropdown,
     dropdownOpen,
-  } = this.props
+  } = this.props;
 
   return h('div.account-dropdown-mini', {}, [
 
@@ -64,12 +65,12 @@ AccountDropdownMini.prototype.render = function () {
       handleClick: openDropdown,
       displayBalance: false,
       displayAddress: false,
-      icon: h(`i.fa.fa-caret-down.fa-lg`, { style: { color: '#dedede' } }),
+      icon: h(`i.fa.fa-caret-down.fa-lg`, {style: {color: '#dedede'}}),
     }),
 
     dropdownOpen && this.renderDropdown(),
 
-  ])
+  ]);
 
-}
+};
 

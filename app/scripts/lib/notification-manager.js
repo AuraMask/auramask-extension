@@ -1,7 +1,6 @@
-const extension = require('extensionizer')
-const height = 620
-const width = 360
-
+const extension = require('extensionizer');
+const height = 620;
+const width = 360;
 
 class NotificationManager {
 
@@ -17,14 +16,14 @@ class NotificationManager {
    * notification windows are given a 'popup' type.
    *
    */
-  showPopup () {
+  showPopup() {
     this._getPopup((err, popup) => {
-      if (err) throw err
+      if (err) throw err;
 
       // Bring focus to chrome popup
       if (popup) {
         // bring focus to existing chrome popup
-        extension.windows.update(popup.id, { focused: true })
+        extension.windows.update(popup.id, {focused: true});
       } else {
         // create new notification popup
         extension.windows.create({
@@ -32,22 +31,22 @@ class NotificationManager {
           type: 'popup',
           width,
           height,
-        })
+        });
       }
-    })
+    });
   }
 
   /**
    * Closes a MetaMask notification if it window exists.
    *
    */
-  closePopup () {
+  closePopup() {
     // closes notification popup
     this._getPopup((err, popup) => {
-      if (err) throw err
-      if (!popup) return
-      extension.windows.remove(popup.id, console.error)
-    })
+      if (err) throw err;
+      if (!popup) return;
+      extension.windows.remove(popup.id, console.error);
+    });
   }
 
   /**
@@ -58,11 +57,11 @@ class NotificationManager {
    * @param {Function} cb A node style callback that to whcih the found notification window will be passed.
    *
    */
-  _getPopup (cb) {
+  _getPopup(cb) {
     this._getWindows((err, windows) => {
-      if (err) throw err
-      cb(null, this._getPopupIn(windows))
-    })
+      if (err) throw err;
+      cb(null, this._getPopupIn(windows));
+    });
   }
 
   /**
@@ -72,15 +71,15 @@ class NotificationManager {
    * @param {Function} cb A node style callback that to which the windows will be passed.
    *
    */
-  _getWindows (cb) {
+  _getWindows(cb) {
     // Ignore in test environment
     if (!extension.windows) {
-      return cb()
+      return cb();
     }
 
     extension.windows.getAll({}, (windows) => {
-      cb(null, windows)
-    })
+      cb(null, windows);
+    });
   }
 
   /**
@@ -90,13 +89,13 @@ class NotificationManager {
    * @param {array} windows An array of objects containing data about the open MetaMask extension windows.
    *
    */
-  _getPopupIn (windows) {
+  _getPopupIn(windows) {
     return windows ? windows.find((win) => {
       // Returns notification popup
-      return (win && win.type === 'popup')
-    }) : null
+      return (win && win.type === 'popup');
+    }) : null;
   }
 
 }
 
-module.exports = NotificationManager
+module.exports = NotificationManager;

@@ -5,15 +5,14 @@ const sinon = require('sinon');
 const path = require('path');
 const Dropdown = require(path.join(__dirname, '..', '..', '..', '..', 'ui', 'app', 'components', 'dropdowns', 'index.js')).Dropdown;
 
-const { createMockStore } = require('redux-test-utils')
-const { mountWithStore } = require('../../../lib/shallow-with-store')
+const {createMockStore} = require('redux-test-utils');
+const {mountWithStore} = require('../../../lib/shallow-with-store');
 
 const mockState = {
-  metamask: {
-  }
-}
+  metamask: {},
+};
 
-describe('Dropdown components', function () {
+describe('Dropdown components', function() {
   let onClickOutside;
   let closeMenu;
   let onClick;
@@ -28,17 +27,17 @@ describe('Dropdown components', function () {
       top: '36px',
     },
     innerStyle: {},
-  }
+  };
 
-  let dropdownComponent
-  let store
-  let component
-  beforeEach(function () {
+  let dropdownComponent;
+  let store;
+  let component;
+  beforeEach(function() {
     onClickOutside = sinon.spy();
     closeMenu = sinon.spy();
     onClick = sinon.spy();
 
-    store = createMockStore(mockState)
+    store = createMockStore(mockState);
     component = mountWithStore(h(
       Dropdown,
       dropdownComponentProps,
@@ -55,12 +54,12 @@ describe('Dropdown components', function () {
           closeMenu,
           onClick,
         }, 'Item 2'),
-      ]
-    ), store)
-    dropdownComponent = component
-  })
+      ],
+    ), store);
+    dropdownComponent = component;
+  });
 
-  it('can render two items', function () {
+  it('can render two items', function() {
     const items = dropdownComponent.find('li');
     assert.equal(items.length, 2);
   });

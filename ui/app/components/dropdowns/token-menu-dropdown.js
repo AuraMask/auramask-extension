@@ -1,41 +1,39 @@
-const Component = require('react').Component
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const connect = require('react-redux').connect
-const actions = require('../../actions')
-
+const Component = require('react').Component;
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const connect = require('react-redux').connect;
+const actions = require('../../actions');
 
 TokenMenuDropdown.contextTypes = {
   t: PropTypes.func,
-}
+};
 
-module.exports = connect(null, mapDispatchToProps)(TokenMenuDropdown)
+module.exports = connect(null, mapDispatchToProps)(TokenMenuDropdown);
 
-
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     showHideTokenConfirmationModal: (token) => {
-      dispatch(actions.showModal({ name: 'HIDE_TOKEN_CONFIRMATION', token }))
+      dispatch(actions.showModal({name: 'HIDE_TOKEN_CONFIRMATION', token}));
     },
-  }
+  };
 }
 
+inherits(TokenMenuDropdown, Component);
 
-inherits(TokenMenuDropdown, Component)
-function TokenMenuDropdown () {
-  Component.call(this)
+function TokenMenuDropdown() {
+  Component.call(this);
 
-  this.onClose = this.onClose.bind(this)
+  this.onClose = this.onClose.bind(this);
 }
 
-TokenMenuDropdown.prototype.onClose = function (e) {
-  e.stopPropagation()
-  this.props.onClose()
-}
+TokenMenuDropdown.prototype.onClose = function(e) {
+  e.stopPropagation();
+  this.props.onClose();
+};
 
-TokenMenuDropdown.prototype.render = function () {
-  const { showHideTokenConfirmationModal } = this.props
+TokenMenuDropdown.prototype.render = function() {
+  const {showHideTokenConfirmationModal} = this.props;
 
   return h('div.token-menu-dropdown', {}, [
     h('div.token-menu-dropdown__close-area', {
@@ -46,13 +44,13 @@ TokenMenuDropdown.prototype.render = function () {
 
         h('div.token-menu-dropdown__option', {
           onClick: (e) => {
-            e.stopPropagation()
-            showHideTokenConfirmationModal(this.props.token)
-            this.props.onClose()
+            e.stopPropagation();
+            showHideTokenConfirmationModal(this.props.token);
+            this.props.onClose();
           },
         }, this.context.t('hideToken')),
 
       ]),
     ]),
-  ])
-}
+  ]);
+};

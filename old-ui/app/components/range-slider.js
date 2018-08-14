@@ -1,27 +1,28 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
 
-module.exports = RangeSlider
+module.exports = RangeSlider;
 
-inherits(RangeSlider, Component)
-function RangeSlider () {
-  Component.call(this)
+inherits(RangeSlider, Component);
+
+function RangeSlider() {
+  Component.call(this);
 }
 
-RangeSlider.prototype.render = function () {
-  const state = this.state || {}
-  const props = this.props
-  const onInput = props.onInput || function () {}
-  const name = props.name
+RangeSlider.prototype.render = function() {
+  const state = this.state || {};
+  const props = this.props;
+  const onInput = props.onInput || function() {};
+  const name = props.name;
   const {
     min = 0,
     max = 100,
     increment = 1,
     defaultValue = 50,
     mirrorInput = false,
-  } = this.props.options
-  const {container, input, range} = props.style
+  } = this.props.options;
+  const {container, input, range} = props.style;
 
   return (
     h('.flex-row', {
@@ -50,9 +51,9 @@ RangeSlider.prototype.render = function () {
         onChange: this.mirrorInputs.bind(this),
       }) : null,
     ])
-  )
-}
+  );
+};
 
-RangeSlider.prototype.mirrorInputs = function (event) {
-  this.setState({value: event.target.value})
-}
+RangeSlider.prototype.mirrorInputs = function(event) {
+  this.setState({value: event.target.value});
+};

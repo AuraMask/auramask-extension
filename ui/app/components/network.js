@@ -1,35 +1,34 @@
-const Component = require('react').Component
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const connect = require('react-redux').connect
-const classnames = require('classnames')
-const inherits = require('util').inherits
-const NetworkDropdownIcon = require('./dropdowns/components/network-dropdown-icon')
+const Component = require('react').Component;
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const connect = require('react-redux').connect;
+const classnames = require('classnames');
+const inherits = require('util').inherits;
+const NetworkDropdownIcon = require('./dropdowns/components/network-dropdown-icon');
 
 Network.contextTypes = {
   t: PropTypes.func,
+};
+
+module.exports = connect()(Network);
+
+inherits(Network, Component);
+
+function Network() {
+  Component.call(this);
 }
 
-module.exports = connect()(Network)
-
-
-inherits(Network, Component)
-
-function Network () {
-  Component.call(this)
-}
-
-Network.prototype.render = function () {
-  const props = this.props
-  const context = this.context
-  const networkNumber = props.network
-  let providerName
+Network.prototype.render = function() {
+  const props = this.props;
+  const context = this.context;
+  const networkNumber = props.network;
+  let providerName;
   try {
-    providerName = props.provider.type
+    providerName = props.provider.type;
   } catch (e) {
-    providerName = null
+    providerName = null;
   }
-  let iconName, hoverText
+  let iconName, hoverText;
 
   if (networkNumber === 'loading') {
     return h('span.pointer.network-indicator', {
@@ -47,25 +46,25 @@ Network.prototype.render = function () {
         },
         src: 'images/loading.svg',
       }),
-    ])
+    ]);
   } else if (providerName === 'mainnet') {
-    hoverText = context.t('mainnet')
-    iconName = 'ethereum-network'
+    hoverText = context.t('mainnet');
+    iconName = 'ethereum-network';
   } else if (providerName === 'ropsten') {
-    hoverText = context.t('ropsten')
-    iconName = 'ropsten-test-network'
+    hoverText = context.t('ropsten');
+    iconName = 'ropsten-test-network';
   } else if (parseInt(networkNumber) === 3) {
-    hoverText = context.t('ropsten')
-    iconName = 'ropsten-test-network'
+    hoverText = context.t('ropsten');
+    iconName = 'ropsten-test-network';
   } else if (providerName === 'kovan') {
-    hoverText = context.t('kovan')
-    iconName = 'kovan-test-network'
+    hoverText = context.t('kovan');
+    iconName = 'kovan-test-network';
   } else if (providerName === 'rinkeby') {
-    hoverText = context.t('rinkeby')
-    iconName = 'rinkeby-test-network'
+    hoverText = context.t('rinkeby');
+    iconName = 'rinkeby-test-network';
   } else {
-    hoverText = context.t('unknownNetwork')
-    iconName = 'unknown-private-network'
+    hoverText = context.t('unknownNetwork');
+    iconName = 'unknown-private-network';
   }
 
   return (
@@ -80,11 +79,11 @@ Network.prototype.render = function () {
       title: hoverText,
       onClick: (event) => {
         if (!this.props.disabled) {
-          this.props.onClick(event)
+          this.props.onClick(event);
         }
       },
     }, [
-      (function () {
+      (function() {
         switch (iconName) {
           case 'ethereum-network':
             return h('.network-indicator', [
@@ -94,7 +93,7 @@ Network.prototype.render = function () {
               }),
               h('.network-name', context.t('mainnet')),
               h('i.fa.fa-chevron-down.fa-lg.network-caret'),
-            ])
+            ]);
           case 'ropsten-test-network':
             return h('.network-indicator', [
               h(NetworkDropdownIcon, {
@@ -103,7 +102,7 @@ Network.prototype.render = function () {
               }),
               h('.network-name', context.t('ropsten')),
               h('i.fa.fa-chevron-down.fa-lg.network-caret'),
-            ])
+            ]);
           case 'kovan-test-network':
             return h('.network-indicator', [
               h(NetworkDropdownIcon, {
@@ -112,7 +111,7 @@ Network.prototype.render = function () {
               }),
               h('.network-name', context.t('kovan')),
               h('i.fa.fa-chevron-down.fa-lg.network-caret'),
-            ])
+            ]);
           case 'rinkeby-test-network':
             return h('.network-indicator', [
               h(NetworkDropdownIcon, {
@@ -121,7 +120,7 @@ Network.prototype.render = function () {
               }),
               h('.network-name', context.t('rinkeby')),
               h('i.fa.fa-chevron-down.fa-lg.network-caret'),
-            ])
+            ]);
           default:
             return h('.network-indicator', [
               h('i.fa.fa-question-circle.fa-lg', {
@@ -133,9 +132,9 @@ Network.prototype.render = function () {
 
               h('.network-name', context.t('privateNetwork')),
               h('i.fa.fa-chevron-down.fa-lg.network-caret'),
-            ])
+            ]);
         }
       })(),
     ])
-  )
-}
+  );
+};

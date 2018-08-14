@@ -1,68 +1,68 @@
-const Component = require('react').Component
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const InputNumber = require('../input-number.js')
-const connect = require('react-redux').connect
+const Component = require('react').Component;
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const InputNumber = require('../input-number.js');
+const connect = require('react-redux').connect;
 
 GasTooltip.contextTypes = {
   t: PropTypes.func,
-}
+};
 
-module.exports = connect()(GasTooltip)
+module.exports = connect()(GasTooltip);
 
+inherits(GasTooltip, Component);
 
-inherits(GasTooltip, Component)
-function GasTooltip () {
-  Component.call(this)
+function GasTooltip() {
+  Component.call(this);
   this.state = {
     gasLimit: 0,
     gasPrice: 0,
-  }
+  };
 
-  this.updateGasPrice = this.updateGasPrice.bind(this)
-  this.updateGasLimit = this.updateGasLimit.bind(this)
-  this.onClose = this.onClose.bind(this)
+  this.updateGasPrice = this.updateGasPrice.bind(this);
+  this.updateGasLimit = this.updateGasLimit.bind(this);
+  this.onClose = this.onClose.bind(this);
 }
 
-GasTooltip.prototype.componentWillMount = function () {
-  const { gasPrice = 0, gasLimit = 0} = this.props
+GasTooltip.prototype.componentWillMount = function() {
+  const {gasPrice = 0, gasLimit = 0} = this.props;
 
   this.setState({
     gasPrice: parseInt(gasPrice, 16) / 1000000000,
     gasLimit: parseInt(gasLimit, 16),
-  })
-}
+  });
+};
 
-GasTooltip.prototype.updateGasPrice = function (newPrice) {
-  const { onFeeChange } = this.props
-  const { gasLimit } = this.state
+GasTooltip.prototype.updateGasPrice = function(newPrice) {
+  const {onFeeChange} = this.props;
+  const {gasLimit} = this.state;
 
-  this.setState({ gasPrice: newPrice })
+  this.setState({gasPrice: newPrice});
   onFeeChange({
     gasLimit: gasLimit.toString(16),
     gasPrice: (newPrice * 1000000000).toString(16),
-  })
-}
+  });
+};
 
-GasTooltip.prototype.updateGasLimit = function (newLimit) {
-  const { onFeeChange } = this.props
-  const { gasPrice } = this.state
+GasTooltip.prototype.updateGasLimit = function(newLimit) {
+  const {onFeeChange} = this.props;
+  const {gasPrice} = this.state;
 
-  this.setState({ gasLimit: newLimit })
+  this.setState({gasLimit: newLimit});
   onFeeChange({
     gasLimit: newLimit.toString(16),
     gasPrice: (gasPrice * 1000000000).toString(16),
-  })
-}
+  });
+};
 
-GasTooltip.prototype.onClose = function (e) {
-  e.stopPropagation()
-  this.props.onClose()
-}
+GasTooltip.prototype.onClose = function(e) {
+  e.stopPropagation();
+  this.props.onClose();
+};
 
-GasTooltip.prototype.render = function () {
-  const { gasPrice, gasLimit } = this.state
+GasTooltip.prototype.render = function() {
+  const {gasPrice, gasLimit} = this.state;
 
   return h('div.gas-tooltip', {}, [
     h('div.gas-tooltip-close-area', {
@@ -102,5 +102,5 @@ GasTooltip.prototype.render = function () {
       ]),
       h('div.gas-tooltip-arrow', {}),
     ]),
-  ])
-}
+  ]);
+};

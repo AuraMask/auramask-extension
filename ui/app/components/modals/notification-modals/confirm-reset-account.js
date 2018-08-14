@@ -1,13 +1,13 @@
-const { Component } = require('react')
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const connect = require('react-redux').connect
-const actions = require('../../../actions')
-const NotifcationModal = require('../notification-modal')
+const {Component} = require('react');
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const connect = require('react-redux').connect;
+const actions = require('../../../actions');
+const NotifcationModal = require('../notification-modal');
 
 class ConfirmResetAccount extends Component {
-  render () {
-    const { resetAccount } = this.props
+  render() {
+    const {resetAccount} = this.props;
 
     return h(NotifcationModal, {
       header: 'Are you sure you want to reset account?',
@@ -19,28 +19,28 @@ class ConfirmResetAccount extends Component {
         h('a.notification-modal__link', {
           href: 'http://metamask.helpscoutdocs.com/article/36-resetting-an-account',
           target: '_blank',
-          onClick (event) { global.platform.openWindow({ url: event.target.href }) },
+          onClick(event) { global.platform.openWindow({url: event.target.href}); },
         }, 'Read more.'),
 
       ]),
       showCancelButton: true,
       showConfirmButton: true,
       onConfirm: resetAccount,
-      
-    })
+
+    });
   }
 }
 
 ConfirmResetAccount.propTypes = {
   resetAccount: PropTypes.func,
-}
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     resetAccount: () => {
-      dispatch(actions.resetAccount())
+      dispatch(actions.resetAccount());
     },
-  }
-}
+  };
+};
 
-module.exports = connect(null, mapDispatchToProps)(ConfirmResetAccount)
+module.exports = connect(null, mapDispatchToProps)(ConfirmResetAccount);

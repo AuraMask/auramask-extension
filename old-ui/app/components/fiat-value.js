@@ -1,38 +1,39 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const formatBalance = require('../util').formatBalance
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const formatBalance = require('../util').formatBalance;
 
-module.exports = FiatValue
+module.exports = FiatValue;
 
-inherits(FiatValue, Component)
-function FiatValue () {
-  Component.call(this)
+inherits(FiatValue, Component);
+
+function FiatValue() {
+  Component.call(this);
 }
 
-FiatValue.prototype.render = function () {
-  const props = this.props
-  const { conversionRate, currentCurrency } = props
-  const renderedCurrency = currentCurrency || ''
+FiatValue.prototype.render = function() {
+  const props = this.props;
+  const {conversionRate, currentCurrency} = props;
+  const renderedCurrency = currentCurrency || '';
 
-  const value = formatBalance(props.value, 6)
+  const value = formatBalance(props.value, 6);
 
-  if (value === 'None') return value
-  var fiatDisplayNumber, fiatTooltipNumber
-  var splitBalance = value.split(' ')
+  if (value === 'None') return value;
+  var fiatDisplayNumber, fiatTooltipNumber;
+  var splitBalance = value.split(' ');
 
   if (conversionRate !== 0) {
-    fiatTooltipNumber = Number(splitBalance[0]) * conversionRate
-    fiatDisplayNumber = fiatTooltipNumber.toFixed(2)
+    fiatTooltipNumber = Number(splitBalance[0]) * conversionRate;
+    fiatDisplayNumber = fiatTooltipNumber.toFixed(2);
   } else {
-    fiatDisplayNumber = 'N/A'
-    fiatTooltipNumber = 'Unknown'
+    fiatDisplayNumber = 'N/A';
+    fiatTooltipNumber = 'Unknown';
   }
 
-  return fiatDisplay(fiatDisplayNumber, renderedCurrency.toUpperCase())
-}
+  return fiatDisplay(fiatDisplayNumber, renderedCurrency.toUpperCase());
+};
 
-function fiatDisplay (fiatDisplayNumber, fiatSuffix) {
+function fiatDisplay(fiatDisplayNumber, fiatSuffix) {
   if (fiatDisplayNumber !== 'N/A') {
     return h('.flex-row', {
       style: {
@@ -57,8 +58,8 @@ function fiatDisplay (fiatDisplayNumber, fiatSuffix) {
           fontSize: '12px',
         },
       }, fiatSuffix),
-    ])
+    ]);
   } else {
-    return h('div')
+    return h('div');
   }
 }

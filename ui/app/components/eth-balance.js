@@ -1,25 +1,26 @@
-const { Component } = require('react')
-const h = require('react-hyperscript')
-const { inherits } = require('util')
+const {Component} = require('react');
+const h = require('react-hyperscript');
+const {inherits} = require('util');
 const {
   formatBalance,
   generateBalanceObject,
-} = require('../util')
-const Tooltip = require('./tooltip.js')
-const FiatValue = require('./fiat-value.js')
+} = require('../util');
+const Tooltip = require('./tooltip.js');
+const FiatValue = require('./fiat-value.js');
 
-module.exports = EthBalanceComponent
+module.exports = EthBalanceComponent;
 
-inherits(EthBalanceComponent, Component)
-function EthBalanceComponent () {
-  Component.call(this)
+inherits(EthBalanceComponent, Component);
+
+function EthBalanceComponent() {
+  Component.call(this);
 }
 
-EthBalanceComponent.prototype.render = function () {
-  const props = this.props
-  const { value, style, width, needsParse = true } = props
+EthBalanceComponent.prototype.render = function() {
+  const props = this.props;
+  const {value, style, width, needsParse = true} = props;
 
-  const formattedValue = value ? formatBalance(value, 6, needsParse) : '...'
+  const formattedValue = value ? formatBalance(value, 6, needsParse) : '...';
 
   return (
 
@@ -34,11 +35,11 @@ EthBalanceComponent.prototype.render = function () {
       }, this.renderBalance(formattedValue)),
     ])
 
-  )
-}
-EthBalanceComponent.prototype.renderBalance = function (value) {
-  if (value === 'None') return value
-  if (value === '...') return value
+  );
+};
+EthBalanceComponent.prototype.renderBalance = function(value) {
+  if (value === 'None') return value;
+  if (value === '...') return value;
 
   const {
     conversionRate,
@@ -48,20 +49,21 @@ EthBalanceComponent.prototype.renderBalance = function (value) {
     hideTooltip,
     styleOveride = {},
     showFiat = true,
-  } = this.props
-  const { fontSize, color, fontFamily, lineHeight } = styleOveride
+  } = this.props;
+  const {fontSize, color, fontFamily, lineHeight} = styleOveride;
 
-  const { shortBalance, balance, label } = generateBalanceObject(value, shorten ? 1 : 3)
-  const balanceToRender = shorten ? shortBalance : balance
+  const {shortBalance, balance, label} = generateBalanceObject(value, shorten ? 1 : 3);
+  const balanceToRender = shorten ? shortBalance : balance;
 
-  const [ethNumber, ethSuffix] = value.split(' ')
+  const [ethNumber, ethSuffix] = value.split(' ');
   const containerProps = hideTooltip ? {} : {
     position: 'bottom',
     title: `${ethNumber} ${ethSuffix}`,
-  }
+  };
 
   return (
-    h(hideTooltip ? 'div' : Tooltip,
+    h(
+      hideTooltip ? 'div' : Tooltip,
       containerProps,
       h('div.flex-column', [
         h('.flex-row', {
@@ -89,8 +91,8 @@ EthBalanceComponent.prototype.renderBalance = function (value) {
           }, label),
         ]),
 
-        showFiat ? h(FiatValue, { value: this.props.value, conversionRate, currentCurrency }) : null,
-      ])
+        showFiat ? h(FiatValue, {value: this.props.value, conversionRate, currentCurrency}) : null,
+      ]),
     )
-  )
-}
+  );
+};

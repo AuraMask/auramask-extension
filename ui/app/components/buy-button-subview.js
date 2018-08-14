@@ -1,24 +1,23 @@
-const Component = require('react').Component
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const connect = require('react-redux').connect
-const actions = require('../actions')
-const CoinbaseForm = require('./coinbase-form')
-const ShapeshiftForm = require('./shapeshift-form')
-const Loading = require('./loading')
-const AccountPanel = require('./account-panel')
-const RadioList = require('./custom-radio-list')
-const { getNetworkDisplayName } = require('../../../app/scripts/controllers/network/util')
+const Component = require('react').Component;
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const connect = require('react-redux').connect;
+const actions = require('../actions');
+const CoinbaseForm = require('./coinbase-form');
+const ShapeshiftForm = require('./shapeshift-form');
+const Loading = require('./loading');
+const AccountPanel = require('./account-panel');
+const RadioList = require('./custom-radio-list');
+const {getNetworkDisplayName} = require('../../../app/scripts/controllers/network/util');
 
 BuyButtonSubview.contextTypes = {
   t: PropTypes.func,
-}
+};
 
-module.exports = connect(mapStateToProps)(BuyButtonSubview)
+module.exports = connect(mapStateToProps)(BuyButtonSubview);
 
-
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     identity: state.appState.identity,
     account: state.metamask.accounts[state.appState.buyView.buyAddress],
@@ -28,15 +27,16 @@ function mapStateToProps (state) {
     provider: state.metamask.provider,
     context: state.appState.currentView.context,
     isSubLoading: state.appState.isSubLoading,
-  }
+  };
 }
 
-inherits(BuyButtonSubview, Component)
-function BuyButtonSubview () {
-  Component.call(this)
+inherits(BuyButtonSubview, Component);
+
+function BuyButtonSubview() {
+  Component.call(this);
 }
 
-BuyButtonSubview.prototype.render = function () {
+BuyButtonSubview.prototype.render = function() {
   return (
     h('div', {
       style: {
@@ -46,12 +46,12 @@ BuyButtonSubview.prototype.render = function () {
       this.headerSubview(),
       this.primarySubview(),
     ])
-  )
-}
+  );
+};
 
-BuyButtonSubview.prototype.headerSubview = function () {
-  const props = this.props
-  const isLoading = props.isSubLoading
+BuyButtonSubview.prototype.headerSubview = function() {
+  const props = this.props;
+  const isLoading = props.isSubLoading;
   return (
 
     h('.flex-column', {
@@ -129,27 +129,26 @@ BuyButtonSubview.prototype.headerSubview = function () {
 
     ])
 
-  )
-}
+  );
+};
 
-
-BuyButtonSubview.prototype.primarySubview = function () {
-  const props = this.props
-  const network = props.network
+BuyButtonSubview.prototype.primarySubview = function() {
+  const props = this.props;
+  const network = props.network;
 
   switch (network) {
     case 'loading':
-      return
+      return;
 
     case '1':
-      return this.mainnetSubview()
+      return this.mainnetSubview();
 
     // Ropsten, Rinkeby, Kovan
     case '3':
     case '4':
     case '42':
-      const networkName = getNetworkDisplayName(network)
-      const label = `${networkName} ${this.context.t('testFaucet')}`
+      const networkName = getNetworkDisplayName(network);
+      const label = `${networkName} ${this.context.t('testFaucet')}`;
       return (
         h('div.flex-column', {
           style: {
@@ -158,7 +157,7 @@ BuyButtonSubview.prototype.primarySubview = function () {
           },
         }, [
           h('button.text-transform-uppercase', {
-            onClick: () => this.props.dispatch(actions.buyEth({ network })),
+            onClick: () => this.props.dispatch(actions.buyEth({network})),
             style: {
               marginTop: '15px',
             },
@@ -172,19 +171,19 @@ BuyButtonSubview.prototype.primarySubview = function () {
               },
             }, this.context.t('borrowDharma'))
           ) : null,
-      ])
-    )
+        ])
+      );
 
     default:
       return (
         h('h2.error', this.context.t('unknownNetworkId'))
-      )
+      );
 
   }
-}
+};
 
-BuyButtonSubview.prototype.mainnetSubview = function () {
-  const props = this.props
+BuyButtonSubview.prototype.mainnetSubview = function() {
+  const props = this.props;
 
   return (
 
@@ -231,37 +230,37 @@ BuyButtonSubview.prototype.mainnetSubview = function () {
       this.formVersionSubview(),
     ])
 
-  )
-}
+  );
+};
 
-BuyButtonSubview.prototype.formVersionSubview = function () {
-  const network = this.props.network
+BuyButtonSubview.prototype.formVersionSubview = function() {
+  const network = this.props.network;
   if (network === '1') {
     if (this.props.buyView.formView.coinbase) {
-      return h(CoinbaseForm, this.props)
+      return h(CoinbaseForm, this.props);
     } else if (this.props.buyView.formView.shapeshift) {
-      return h(ShapeshiftForm, this.props)
+      return h(ShapeshiftForm, this.props);
     }
   }
-}
+};
 
-BuyButtonSubview.prototype.navigateTo = function (url) {
-  global.platform.openWindow({ url })
-}
+BuyButtonSubview.prototype.navigateTo = function(url) {
+  global.platform.openWindow({url});
+};
 
-BuyButtonSubview.prototype.backButtonContext = function () {
+BuyButtonSubview.prototype.backButtonContext = function() {
   if (this.props.context === 'confTx') {
-    this.props.dispatch(actions.showConfTxPage({transForward: false}))
+    this.props.dispatch(actions.showConfTxPage({transForward: false}));
   } else {
-    this.props.dispatch(actions.goHome())
+    this.props.dispatch(actions.goHome());
   }
-}
+};
 
-BuyButtonSubview.prototype.radioHandler = function (event) {
+BuyButtonSubview.prototype.radioHandler = function(event) {
   switch (event.target.title) {
     case 'Coinbase':
-      return this.props.dispatch(actions.coinBaseSubview())
+      return this.props.dispatch(actions.coinBaseSubview());
     case 'ShapeShift':
-      return this.props.dispatch(actions.shapeShiftSubview(this.props.provider.type))
+      return this.props.dispatch(actions.shapeShiftSubview(this.props.provider.type));
   }
-}
+};

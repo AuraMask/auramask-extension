@@ -1,25 +1,26 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const formatBalance = require('../util').formatBalance
-const generateBalanceObject = require('../util').generateBalanceObject
-const Tooltip = require('./tooltip.js')
-const FiatValue = require('./fiat-value.js')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const formatBalance = require('../util').formatBalance;
+const generateBalanceObject = require('../util').generateBalanceObject;
+const Tooltip = require('./tooltip.js');
+const FiatValue = require('./fiat-value.js');
 
-module.exports = EthBalanceComponent
+module.exports = EthBalanceComponent;
 
-inherits(EthBalanceComponent, Component)
-function EthBalanceComponent () {
-  Component.call(this)
+inherits(EthBalanceComponent, Component);
+
+function EthBalanceComponent() {
+  Component.call(this);
 }
 
-EthBalanceComponent.prototype.render = function () {
-  var props = this.props
-  let { value } = props
-  var style = props.style
-  var needsParse = this.props.needsParse !== undefined ? this.props.needsParse : true
-  value = value ? formatBalance(value, 6, needsParse) : '...'
-  var width = props.width
+EthBalanceComponent.prototype.render = function() {
+  var props = this.props;
+  let {value} = props;
+  var style = props.style;
+  var needsParse = this.props.needsParse !== undefined ? this.props.needsParse : true;
+  value = value ? formatBalance(value, 6, needsParse) : '...';
+  var width = props.width;
 
   return (
 
@@ -34,26 +35,26 @@ EthBalanceComponent.prototype.render = function () {
       }, this.renderBalance(value)),
     ])
 
-  )
-}
-EthBalanceComponent.prototype.renderBalance = function (value) {
-  var props = this.props
-  if (value === 'None') return value
-  if (value === '...') return value
-  var balanceObj = generateBalanceObject(value, props.shorten ? 1 : 3)
-  var balance
-  var splitBalance = value.split(' ')
-  var ethNumber = splitBalance[0]
-  var ethSuffix = splitBalance[1]
-  const showFiat = 'showFiat' in props ? props.showFiat : true
+  );
+};
+EthBalanceComponent.prototype.renderBalance = function(value) {
+  var props = this.props;
+  if (value === 'None') return value;
+  if (value === '...') return value;
+  var balanceObj = generateBalanceObject(value, props.shorten ? 1 : 3);
+  var balance;
+  var splitBalance = value.split(' ');
+  var ethNumber = splitBalance[0];
+  var ethSuffix = splitBalance[1];
+  const showFiat = 'showFiat' in props ? props.showFiat : true;
 
   if (props.shorten) {
-    balance = balanceObj.shortBalance
+    balance = balanceObj.shortBalance;
   } else {
-    balance = balanceObj.balance
+    balance = balanceObj.balance;
   }
 
-  var label = balanceObj.label
+  var label = balanceObj.label;
 
   return (
     h(Tooltip, {
@@ -83,7 +84,7 @@ EthBalanceComponent.prototype.renderBalance = function (value) {
         }, label),
       ]),
 
-      showFiat ? h(FiatValue, { value: props.value }) : null,
+      showFiat ? h(FiatValue, {value: props.value}) : null,
     ]))
-  )
-}
+  );
+};

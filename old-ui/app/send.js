@@ -1,19 +1,19 @@
-const inherits = require('util').inherits
-const PersistentForm = require('../lib/persistent-form')
-const h = require('react-hyperscript')
-const connect = require('react-redux').connect
-const Identicon = require('./components/identicon')
-const actions = require('../../ui/app/actions')
-const util = require('./util')
-const numericBalance = require('./util').numericBalance
-const addressSummary = require('./util').addressSummary
-const isHex = require('./util').isHex
-const EthBalance = require('./components/eth-balance')
-const EnsInput = require('./components/ens-input')
-const ethUtil = require('ethereumjs-util')
-module.exports = connect(mapStateToProps)(SendTransactionScreen)
+const inherits = require('util').inherits;
+const PersistentForm = require('../lib/persistent-form');
+const h = require('react-hyperscript');
+const connect = require('react-redux').connect;
+const Identicon = require('./components/identicon');
+const actions = require('../../ui/app/actions');
+const util = require('./util');
+const numericBalance = require('./util').numericBalance;
+const addressSummary = require('./util').addressSummary;
+const isHex = require('./util').isHex;
+const EthBalance = require('./components/eth-balance');
+const EnsInput = require('./components/ens-input');
+const ethUtil = require('ethereumjs-util');
+module.exports = connect(mapStateToProps)(SendTransactionScreen);
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   var result = {
     address: state.metamask.selectedAddress,
     accounts: state.metamask.accounts,
@@ -23,26 +23,27 @@ function mapStateToProps (state) {
     addressBook: state.metamask.addressBook,
     conversionRate: state.metamask.conversionRate,
     currentCurrency: state.metamask.currentCurrency,
-  }
+  };
 
-  result.error = result.warning && result.warning.split('.')[0]
+  result.error = result.warning && result.warning.split('.')[0];
 
-  result.account = result.accounts[result.address]
-  result.identity = result.identities[result.address]
-  result.balance = result.account ? numericBalance(result.account.balance) : null
+  result.account = result.accounts[result.address];
+  result.identity = result.identities[result.address];
+  result.balance = result.account ? numericBalance(result.account.balance) : null;
 
-  return result
+  return result;
 }
 
-inherits(SendTransactionScreen, PersistentForm)
-function SendTransactionScreen () {
-  PersistentForm.call(this)
+inherits(SendTransactionScreen, PersistentForm);
+
+function SendTransactionScreen() {
+  PersistentForm.call(this);
 }
 
-SendTransactionScreen.prototype.render = function () {
-  this.persistentFormParentId = 'send-tx-form'
+SendTransactionScreen.prototype.render = function() {
+  this.persistentFormParentId = 'send-tx-form';
 
-  const props = this.props
+  const props = this.props;
   const {
     address,
     account,
@@ -52,7 +53,7 @@ SendTransactionScreen.prototype.render = function () {
     addressBook,
     conversionRate,
     currentCurrency,
-  } = props
+  } = props;
 
   return (
 
@@ -222,88 +223,88 @@ SendTransactionScreen.prototype.render = function () {
         }),
       ]),
     ])
-  )
-}
+  );
+};
 
-SendTransactionScreen.prototype.navigateToAccounts = function (event) {
-  event.stopPropagation()
-  this.props.dispatch(actions.showAccountsPage())
-}
+SendTransactionScreen.prototype.navigateToAccounts = function(event) {
+  event.stopPropagation();
+  this.props.dispatch(actions.showAccountsPage());
+};
 
-SendTransactionScreen.prototype.back = function () {
-  var address = this.props.address
-  this.props.dispatch(actions.backToAccountDetail(address))
-}
+SendTransactionScreen.prototype.back = function() {
+  var address = this.props.address;
+  this.props.dispatch(actions.backToAccountDetail(address));
+};
 
-SendTransactionScreen.prototype.recipientDidChange = function (recipient, nickname) {
+SendTransactionScreen.prototype.recipientDidChange = function(recipient, nickname) {
   this.setState({
     recipient: recipient,
     nickname: nickname,
-  })
-}
+  });
+};
 
-SendTransactionScreen.prototype.onSubmit = function () {
-  const state = this.state || {}
-  const recipient = state.recipient || document.querySelector('input[name="address"]').value.replace(/^[.\s]+|[.\s]+$/g, '')
-  const nickname = state.nickname || ' '
-  const input = document.querySelector('input[name="amount"]').value
-  const parts = input.split('')
+SendTransactionScreen.prototype.onSubmit = function() {
+  const state = this.state || {};
+  const recipient = state.recipient || document.querySelector('input[name="address"]').value.replace(/^[.\s]+|[.\s]+$/g, '');
+  const nickname = state.nickname || ' ';
+  const input = document.querySelector('input[name="amount"]').value;
+  const parts = input.split('');
 
-  let message
+  let message;
 
   if (isNaN(input) || input === '') {
-    message = 'Invalid ether value.'
-    return this.props.dispatch(actions.displayWarning(message))
+    message = 'Invalid ether value.';
+    return this.props.dispatch(actions.displayWarning(message));
   }
 
   if (parts[1]) {
-    var decimal = parts[1]
+    var decimal = parts[1];
     if (decimal.length > 18) {
-      message = 'Ether amount is too precise.'
-      return this.props.dispatch(actions.displayWarning(message))
+      message = 'Ether amount is too precise.';
+      return this.props.dispatch(actions.displayWarning(message));
     }
   }
 
-  const value = util.normalizeEthStringToWei(input)
-  const txData = document.querySelector('input[name="txData"]').value
-  const balance = this.props.balance
+  const value = util.normalizeEthStringToWei(input);
+  const txData = document.querySelector('input[name="txData"]').value;
+  const balance = this.props.balance;
 
   if (value.gt(balance)) {
-    message = 'Insufficient funds.'
-    return this.props.dispatch(actions.displayWarning(message))
+    message = 'Insufficient funds.';
+    return this.props.dispatch(actions.displayWarning(message));
   }
 
   if (input < 0) {
-    message = 'Can not send negative amounts of ETH.'
-    return this.props.dispatch(actions.displayWarning(message))
+    message = 'Can not send negative amounts of ETH.';
+    return this.props.dispatch(actions.displayWarning(message));
   }
 
   if ((util.isInvalidChecksumAddress(recipient))) {
-    message = 'Recipient address checksum is invalid.'
-    return this.props.dispatch(actions.displayWarning(message))
+    message = 'Recipient address checksum is invalid.';
+    return this.props.dispatch(actions.displayWarning(message));
   }
 
   if ((!util.isValidAddress(recipient) && !txData) || (!recipient && !txData)) {
-    message = 'Recipient address is invalid.'
-    return this.props.dispatch(actions.displayWarning(message))
+    message = 'Recipient address is invalid.';
+    return this.props.dispatch(actions.displayWarning(message));
   }
 
   if (!isHex(ethUtil.stripHexPrefix(txData)) && txData) {
-    message = 'Transaction data must be hex string.'
-    return this.props.dispatch(actions.displayWarning(message))
+    message = 'Transaction data must be hex string.';
+    return this.props.dispatch(actions.displayWarning(message));
   }
 
-  this.props.dispatch(actions.hideWarning())
+  this.props.dispatch(actions.hideWarning());
 
-  this.props.dispatch(actions.addToAddressBook(recipient, nickname))
+  this.props.dispatch(actions.addToAddressBook(recipient, nickname));
 
   var txParams = {
     from: this.props.address,
     value: '0x' + value.toString(16),
-  }
+  };
 
-  if (recipient) txParams.to = ethUtil.addHexPrefix(recipient)
-  if (txData) txParams.data = txData
+  if (recipient) txParams.to = ethUtil.addHexPrefix(recipient);
+  if (txData) txParams.data = txData;
 
-  this.props.dispatch(actions.signTx(txParams))
-}
+  this.props.dispatch(actions.signTx(txParams));
+};

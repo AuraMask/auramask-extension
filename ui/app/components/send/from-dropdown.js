@@ -1,30 +1,31 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const AccountListItem = require('./account-list-item')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const AccountListItem = require('./account-list-item');
 
-module.exports = FromDropdown
+module.exports = FromDropdown;
 
-inherits(FromDropdown, Component)
-function FromDropdown () {
-  Component.call(this)
+inherits(FromDropdown, Component);
+
+function FromDropdown() {
+  Component.call(this);
 }
 
-FromDropdown.prototype.getListItemIcon = function (currentAccount, selectedAccount) {
-  const listItemIcon = h(`i.fa.fa-check.fa-lg`, { style: { color: '#02c9b1' } })
+FromDropdown.prototype.getListItemIcon = function(currentAccount, selectedAccount) {
+  const listItemIcon = h(`i.fa.fa-check.fa-lg`, {style: {color: '#02c9b1'}});
 
   return currentAccount.address === selectedAccount.address
     ? listItemIcon
-    : null
-}
+    : null;
+};
 
-FromDropdown.prototype.renderDropdown = function () {
+FromDropdown.prototype.renderDropdown = function() {
   const {
     accounts,
     selectedAccount,
     closeDropdown,
     onSelect,
-  } = this.props
+  } = this.props;
 
   return h('div', {}, [
 
@@ -38,35 +39,35 @@ FromDropdown.prototype.renderDropdown = function () {
         className: 'account-list-item__dropdown',
         account,
         handleClick: () => {
-          onSelect(account)
-          closeDropdown()
+          onSelect(account);
+          closeDropdown();
         },
         icon: this.getListItemIcon(account, selectedAccount),
       })),
 
     ]),
 
-  ])
-}
+  ]);
+};
 
-FromDropdown.prototype.render = function () {
+FromDropdown.prototype.render = function() {
   const {
     selectedAccount,
     openDropdown,
     dropdownOpen,
-  } = this.props
+  } = this.props;
 
   return h('div.send-v2__from-dropdown', {}, [
 
     h(AccountListItem, {
       account: selectedAccount,
       handleClick: openDropdown,
-      icon: h(`i.fa.fa-caret-down.fa-lg`, { style: { color: '#dedede' } }),
+      icon: h(`i.fa.fa-caret-down.fa-lg`, {style: {color: '#dedede'}}),
     }),
 
     dropdownOpen && this.renderDropdown(),
 
-  ])
+  ]);
 
-}
+};
 

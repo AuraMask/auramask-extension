@@ -1,33 +1,32 @@
-const inherits = require('util').inherits
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const connect = require('react-redux').connect
-const vreme = new (require('vreme'))()
-const explorerLink = require('etherscan-link').createExplorerLink
-const actions = require('../../../ui/app/actions')
-const addressSummary = require('../util').addressSummary
+const inherits = require('util').inherits;
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const connect = require('react-redux').connect;
+const vreme = new (require('vreme'))();
+const explorerLink = require('etherscan-link').createExplorerLink;
+const actions = require('../../../ui/app/actions');
+const addressSummary = require('../util').addressSummary;
 
-const CopyButton = require('./copyButton')
-const EthBalance = require('./eth-balance')
-const Tooltip = require('./tooltip')
+const CopyButton = require('./copyButton');
+const EthBalance = require('./eth-balance');
+const Tooltip = require('./tooltip');
 
+module.exports = connect(mapStateToProps)(ShiftListItem);
 
-module.exports = connect(mapStateToProps)(ShiftListItem)
-
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     conversionRate: state.metamask.conversionRate,
     currentCurrency: state.metamask.currentCurrency,
-  }
+  };
 }
 
-inherits(ShiftListItem, Component)
+inherits(ShiftListItem, Component);
 
-function ShiftListItem () {
-  Component.call(this)
+function ShiftListItem() {
+  Component.call(this);
 }
 
-ShiftListItem.prototype.render = function () {
+ShiftListItem.prototype.render = function() {
   return (
     h('.transaction-list-item.flex-row', {
       style: {
@@ -58,16 +57,16 @@ ShiftListItem.prototype.render = function () {
       this.renderInfo(),
       this.renderUtilComponents(),
     ])
-  )
+  );
+};
+
+function formatDate(date) {
+  return vreme.format(new Date(date), 'March 16 2014 14:30');
 }
 
-function formatDate (date) {
-  return vreme.format(new Date(date), 'March 16 2014 14:30')
-}
-
-ShiftListItem.prototype.renderUtilComponents = function () {
-  var props = this.props
-  const { conversionRate, currentCurrency } = props
+ShiftListItem.prototype.renderUtilComponents = function() {
+  var props = this.props;
+  const {conversionRate, currentCurrency} = props;
 
   switch (props.response.status) {
     case 'no_deposits':
@@ -89,9 +88,9 @@ ShiftListItem.prototype.renderUtilComponents = function () {
             },
           }),
         ]),
-      ])
+      ]);
     case 'received':
-      return h('.flex-row')
+      return h('.flex-row');
 
     case 'complete':
       return h('.flex-row', [
@@ -111,17 +110,17 @@ ShiftListItem.prototype.renderUtilComponents = function () {
             color: '#01888C',
           },
         }),
-      ])
+      ]);
 
     case 'failed':
-      return ''
+      return '';
     default:
-      return ''
+      return '';
   }
-}
+};
 
-ShiftListItem.prototype.renderInfo = function () {
-  var props = this.props
+ShiftListItem.prototype.renderInfo = function() {
+  var props = this.props;
   switch (props.response.status) {
     case 'no_deposits':
       return h('.flex-column', {
@@ -145,7 +144,7 @@ ShiftListItem.prototype.renderInfo = function () {
             width: '100%',
           },
         }, formatDate(props.time)),
-      ])
+      ]);
     case 'received':
       return h('.flex-column', {
         style: {
@@ -168,16 +167,16 @@ ShiftListItem.prototype.renderInfo = function () {
             width: '100%',
           },
         }, formatDate(props.time)),
-      ])
+      ]);
     case 'complete':
-      var url = explorerLink(props.response.transaction, parseInt('1'))
+      var url = explorerLink(props.response.transaction, parseInt('1'));
 
       return h('.flex-column.pointer', {
         style: {
           width: '200px',
           overflow: 'hidden',
         },
-        onClick: () => global.platform.openWindow({ url }),
+        onClick: () => global.platform.openWindow({url}),
       }, [
         h('div', {
           style: {
@@ -194,11 +193,11 @@ ShiftListItem.prototype.renderInfo = function () {
             width: '100%',
           },
         }, addressSummary(props.response.transaction)),
-      ])
+      ]);
 
     case 'failed':
-      return h('span.error', '(Failed)')
+      return h('span.error', '(Failed)');
     default:
-      return ''
+      return '';
   }
-}
+};

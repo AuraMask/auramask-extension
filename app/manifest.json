@@ -68,6 +68,8 @@
     "matches": [
       "https://metamask.io/*"
     ],
-    "ids": ["*"]
+    "ids": [
+      "*"
+    ]
   }
 }

@@ -1,16 +1,16 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const connect = require('react-redux').connect
-const Identicon = require('./identicon')
-const prefixForNetwork = require('../../lib/etherscan-prefix-for-network')
-const selectors = require('../selectors')
-const actions = require('../actions')
-const { conversionUtil, multiplyCurrencies } = require('../conversion-util')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const connect = require('react-redux').connect;
+const Identicon = require('./identicon');
+const prefixForNetwork = require('../../lib/etherscan-prefix-for-network');
+const selectors = require('../selectors');
+const actions = require('../actions');
+const {conversionUtil, multiplyCurrencies} = require('../conversion-util');
 
-const TokenMenuDropdown = require('./dropdowns/token-menu-dropdown.js')
+const TokenMenuDropdown = require('./dropdowns/token-menu-dropdown.js');
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     network: state.metamask.network,
     currentCurrency: state.metamask.currentCurrency,
@@ -19,30 +19,31 @@ function mapStateToProps (state) {
     contractExchangeRates: state.metamask.contractExchangeRates,
     conversionRate: state.metamask.conversionRate,
     sidebarOpen: state.appState.sidebarOpen,
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     setSelectedToken: address => dispatch(actions.setSelectedToken(address)),
     hideSidebar: () => dispatch(actions.hideSidebar()),
-  }
+  };
 }
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(TokenCell)
+module.exports = connect(mapStateToProps, mapDispatchToProps)(TokenCell);
 
-inherits(TokenCell, Component)
-function TokenCell () {
-  Component.call(this)
+inherits(TokenCell, Component);
+
+function TokenCell() {
+  Component.call(this);
 
   this.state = {
     tokenMenuOpen: false,
-  }
+  };
 }
 
-TokenCell.prototype.render = function () {
-  const { tokenMenuOpen } = this.state
-  const props = this.props
+TokenCell.prototype.render = function() {
+  const {tokenMenuOpen} = this.state;
+  const props = this.props;
   const {
     address,
     symbol,
@@ -56,30 +57,30 @@ TokenCell.prototype.render = function () {
     sidebarOpen,
     currentCurrency,
     // userAddress,
-  } = props
+  } = props;
 
-  let currentTokenToFiatRate
-  let currentTokenInFiat
-  let formattedFiat = ''
+  let currentTokenToFiatRate;
+  let currentTokenInFiat;
+  let formattedFiat = '';
 
   if (contractExchangeRates[address]) {
     currentTokenToFiatRate = multiplyCurrencies(
       contractExchangeRates[address],
-      conversionRate
-    )
+      conversionRate,
+    );
     currentTokenInFiat = conversionUtil(string, {
       fromNumericBase: 'dec',
       fromCurrency: symbol,
       toCurrency: currentCurrency.toUpperCase(),
       numberOfDecimals: 2,
       conversionRate: currentTokenToFiatRate,
-    })
+    });
     formattedFiat = currentTokenInFiat.toString() === '0'
       ? ''
-      : `${currentTokenInFiat} ${currentCurrency.toUpperCase()}`
+      : `${currentTokenInFiat} ${currentCurrency.toUpperCase()}`;
   }
 
-  const showFiat = Boolean(currentTokenInFiat) && currentCurrency.toUpperCase() !== symbol
+  const showFiat = Boolean(currentTokenInFiat) && currentCurrency.toUpperCase() !== symbol;
 
   return (
     h('div.token-list-item', {
@@ -87,8 +88,8 @@ TokenCell.prototype.render = function () {
       // style: { cursor: network === '1' ? 'pointer' : 'default' },
       // onClick: this.view.bind(this, address, userAddress, network),
       onClick: () => {
-        setSelectedToken(address)
-        selectedTokenAddress !== address && sidebarOpen && hideSidebar()
+        setSelectedToken(address);
+        selectedTokenAddress !== address && sidebarOpen && hideSidebar();
       },
     }, [
 
@@ -110,17 +111,16 @@ TokenCell.prototype.render = function () {
 
         h('i.fa.fa-ellipsis-h.fa-lg.token-list-item__ellipsis.cursor-pointer', {
           onClick: (e) => {
-            e.stopPropagation()
-            this.setState({ tokenMenuOpen: true })
+            e.stopPropagation();
+            this.setState({tokenMenuOpen: true});
           },
         }),
 
       ]),
 
-
       tokenMenuOpen && h(TokenMenuDropdown, {
-        onClose: () => this.setState({ tokenMenuOpen: false }),
-        token: { symbol, address },
+        onClose: () => this.setState({tokenMenuOpen: false}),
+        token: {symbol, address},
       }),
 
       /*
@@ -130,35 +130,35 @@ TokenCell.prototype.render = function () {
       */
 
     ])
-  )
-}
+  );
+};
 
-TokenCell.prototype.send = function (address, event) {
-  event.preventDefault()
-  event.stopPropagation()
-  const url = tokenFactoryFor(address)
+TokenCell.prototype.send = function(address, event) {
+  event.preventDefault();
+  event.stopPropagation();
+  const url = tokenFactoryFor(address);
   if (url) {
-    navigateTo(url)
+    navigateTo(url);
   }
-}
+};
 
-TokenCell.prototype.view = function (address, userAddress, network, event) {
-  const url = etherscanLinkFor(address, userAddress, network)
+TokenCell.prototype.view = function(address, userAddress, network, event) {
+  const url = etherscanLinkFor(address, userAddress, network);
   if (url) {
-    navigateTo(url)
+    navigateTo(url);
   }
+};
+
+function navigateTo(url) {
+  global.platform.openWindow({url});
 }
 
-function navigateTo (url) {
-  global.platform.openWindow({ url })
+function etherscanLinkFor(tokenAddress, address, network) {
+  const prefix = prefixForNetwork(network);
+  return `https://${prefix}etherscan.io/token/${tokenAddress}?a=${address}`;
 }
 
-function etherscanLinkFor (tokenAddress, address, network) {
-  const prefix = prefixForNetwork(network)
-  return `https://${prefix}etherscan.io/token/${tokenAddress}?a=${address}`
-}
-
-function tokenFactoryFor (tokenAddress) {
-  return `https://tokenfactory.surge.sh/#/token/${tokenAddress}`
+function tokenFactoryFor(tokenAddress) {
+  return `https://tokenfactory.surge.sh/#/token/${tokenAddress}`;
 }
 

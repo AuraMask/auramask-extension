@@ -1,26 +1,26 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
 
-const TransactionListItem = require('./transaction-list-item')
+const TransactionListItem = require('./transaction-list-item');
 
-module.exports = TransactionList
+module.exports = TransactionList;
 
+inherits(TransactionList, Component);
 
-inherits(TransactionList, Component)
-function TransactionList () {
-  Component.call(this)
+function TransactionList() {
+  Component.call(this);
 }
 
-TransactionList.prototype.render = function () {
-  const { transactions, network, unapprovedMsgs, conversionRate } = this.props
+TransactionList.prototype.render = function() {
+  const {transactions, network, unapprovedMsgs, conversionRate} = this.props;
 
-  var shapeShiftTxList
+  var shapeShiftTxList;
   if (network === '1') {
-    shapeShiftTxList = this.props.shapeShiftTxList
+    shapeShiftTxList = this.props.shapeShiftTxList;
   }
   const txsToRender = !shapeShiftTxList ? transactions.concat(unapprovedMsgs) : transactions.concat(unapprovedMsgs, shapeShiftTxList)
-  .sort((a, b) => b.time - a.time)
+                                                                                            .sort((a, b) => b.time - a.time);
 
   return (
 
@@ -51,37 +51,37 @@ TransactionList.prototype.render = function () {
 
         txsToRender.length
           ? txsToRender.map((transaction, i) => {
-            let key
+            let key;
             switch (transaction.key) {
               case 'shapeshift':
-                const { depositAddress, time } = transaction
-                key = `shift-tx-${depositAddress}-${time}-${i}`
-                break
+                const {depositAddress, time} = transaction;
+                key = `shift-tx-${depositAddress}-${time}-${i}`;
+                break;
               default:
-                key = `tx-${transaction.id}-${i}`
+                key = `tx-${transaction.id}-${i}`;
             }
             return h(TransactionListItem, {
               transaction, i, network, key,
               conversionRate, transactions,
               showTx: (txId) => {
-                this.props.viewPendingTx(txId)
+                this.props.viewPendingTx(txId);
               },
-            })
+            });
           })
-        : h('.flex-center.full-flex-height', {
-          style: {
-            flexDirection: 'column',
-            justifyContent: 'center',
-          },
-        }, [
-          h('p', {
+          : h('.flex-center.full-flex-height', {
             style: {
-              marginTop: '50px',
+              flexDirection: 'column',
+              justifyContent: 'center',
             },
-          }, 'No transaction history.'),
-        ]),
+          }, [
+            h('p', {
+              style: {
+                marginTop: '50px',
+              },
+            }, 'No transaction history.'),
+          ]),
       ]),
     ])
-  )
-}
+  );
+};
 

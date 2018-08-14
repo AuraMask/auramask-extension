@@ -1,20 +1,21 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const ethUtil = require('ethereumjs-util')
-const extend = require('xtend')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const ethUtil = require('ethereumjs-util');
+const extend = require('xtend');
 
-module.exports = BinaryRenderer
+module.exports = BinaryRenderer;
 
-inherits(BinaryRenderer, Component)
-function BinaryRenderer () {
-  Component.call(this)
+inherits(BinaryRenderer, Component);
+
+function BinaryRenderer() {
+  Component.call(this);
 }
 
-BinaryRenderer.prototype.render = function () {
-  const props = this.props
-  const { value, style } = props
-  const text = this.hexToText(value)
+BinaryRenderer.prototype.render = function() {
+  const props = this.props;
+  const {value, style} = props;
+  const text = this.hexToText(value);
 
   const defaultStyle = extend({
     width: '315px',
@@ -23,7 +24,7 @@ BinaryRenderer.prototype.render = function () {
     border: 'none',
     background: 'white',
     padding: '3px',
-  }, style)
+  }, style);
 
   return (
     h('textarea.font-small', {
@@ -31,16 +32,16 @@ BinaryRenderer.prototype.render = function () {
       style: defaultStyle,
       defaultValue: text,
     })
-  )
-}
+  );
+};
 
-BinaryRenderer.prototype.hexToText = function (hex) {
+BinaryRenderer.prototype.hexToText = function(hex) {
   try {
-    const stripped = ethUtil.stripHexPrefix(hex)
-    const buff = Buffer.from(stripped, 'hex')
-    return buff.toString('utf8')
+    const stripped = ethUtil.stripHexPrefix(hex);
+    const buff = Buffer.from(stripped, 'hex');
+    return buff.toString('utf8');
   } catch (e) {
-    return hex
+    return hex;
   }
-}
+};
 

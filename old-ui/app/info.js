@@ -1,23 +1,24 @@
-const inherits = require('util').inherits
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const connect = require('react-redux').connect
-const actions = require('../../ui/app/actions')
+const inherits = require('util').inherits;
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const connect = require('react-redux').connect;
+const actions = require('../../ui/app/actions');
 
-module.exports = connect(mapStateToProps)(InfoScreen)
+module.exports = connect(mapStateToProps)(InfoScreen);
 
-function mapStateToProps (state) {
-  return {}
+function mapStateToProps(state) {
+  return {};
 }
 
-inherits(InfoScreen, Component)
-function InfoScreen () {
-  Component.call(this)
+inherits(InfoScreen, Component);
+
+function InfoScreen() {
+  Component.call(this);
 }
 
-InfoScreen.prototype.render = function () {
-  const state = this.props
-  const version = global.platform.getVersion()
+InfoScreen.prototype.render = function() {
+  const state = this.props;
+  const version = global.platform.getVersion();
 
   return (
     h('.flex-column.flex-grow', {
@@ -30,7 +31,7 @@ InfoScreen.prototype.render = function () {
       h('.section-title.flex-row.flex-center', [
         h('i.fa.fa-arrow-left.fa-lg.cursor-pointer', {
           onClick: (event) => {
-            state.dispatch(actions.goHome())
+            state.dispatch(actions.goHome());
           },
         }),
         h('h2.page-subtitle', 'Info'),
@@ -55,15 +56,16 @@ InfoScreen.prototype.render = function () {
           ]),
 
           h('div', {
-            style: {
-              marginBottom: '5px',
-            }},
+              style: {
+                marginBottom: '5px',
+              },
+            },
             [
               h('div', [
                 h('a', {
                   href: 'https://metamask.io/privacy.html',
                   target: '_blank',
-                  onClick: (event) => { this.navigateTo(event.target.href) },
+                  onClick: (event) => { this.navigateTo(event.target.href); },
                 }, [
                   h('div.info', 'Privacy Policy'),
                 ]),
@@ -72,7 +74,7 @@ InfoScreen.prototype.render = function () {
                 h('a', {
                   href: 'https://metamask.io/terms.html',
                   target: '_blank',
-                  onClick: (event) => { this.navigateTo(event.target.href) },
+                  onClick: (event) => { this.navigateTo(event.target.href); },
                 }, [
                   h('div.info', 'Terms of Use'),
                 ]),
@@ -81,12 +83,12 @@ InfoScreen.prototype.render = function () {
                 h('a', {
                   href: 'https://metamask.io/attributions.html',
                   target: '_blank',
-                  onClick: (event) => { this.navigateTo(event.target.href) },
+                  onClick: (event) => { this.navigateTo(event.target.href); },
                 }, [
                   h('div.info', 'Attributions'),
                 ]),
               ]),
-            ]
+            ],
           ),
 
           h('hr', {
@@ -97,9 +99,10 @@ InfoScreen.prototype.render = function () {
           }),
 
           h('div', {
-            style: {
-              paddingLeft: '30px',
-            }},
+              style: {
+                paddingLeft: '30px',
+              },
+            },
             [
               h('div.fa.fa-support', [
                 h('a.info', {
@@ -138,7 +141,7 @@ InfoScreen.prototype.render = function () {
               h('div.fa.fa-envelope', [
                 h('a.info', {
                   target: '_blank',
-                  style: { width: '85vw' },
+                  style: {width: '85vw'},
                   href: 'mailto:help@metamask.io?subject=Feedback',
                 }, 'Email us!'),
               ]),
@@ -146,10 +149,10 @@ InfoScreen.prototype.render = function () {
         ]),
       ]),
     ])
-  )
-}
+  );
+};
 
-InfoScreen.prototype.navigateTo = function (url) {
-  global.platform.openWindow({ url })
-}
+InfoScreen.prototype.navigateTo = function(url) {
+  global.platform.openWindow({url});
+};
 

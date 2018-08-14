@@ -1,54 +1,53 @@
-const Component = require('react').Component
-const { withRouter } = require('react-router-dom')
-const { compose } = require('recompose')
-const PropTypes = require('prop-types')
-const connect = require('react-redux').connect
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const actions = require('../../actions')
-const clone = require('clone')
-const ethUtil = require('ethereumjs-util')
-const BN = ethUtil.BN
-const hexToBn = require('../../../../app/scripts/lib/hex-to-bn')
-const classnames = require('classnames')
+const Component = require('react').Component;
+const {withRouter} = require('react-router-dom');
+const {compose} = require('recompose');
+const PropTypes = require('prop-types');
+const connect = require('react-redux').connect;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const actions = require('../../actions');
+const clone = require('clone');
+const ethUtil = require('ethereumjs-util');
+const BN = ethUtil.BN;
+const hexToBn = require('../../../../app/scripts/lib/hex-to-bn');
+const classnames = require('classnames');
 const {
   conversionUtil,
   addCurrencies,
   multiplyCurrencies,
-} = require('../../conversion-util')
+} = require('../../conversion-util');
 const {
   getGasTotal,
   isBalanceSufficient,
-} = require('../send/send-utils')
-const GasFeeDisplay = require('../send/gas-fee-display-v2')
-const SenderToRecipient = require('../sender-to-recipient')
-const NetworkDisplay = require('../network-display')
-const currencyFormatter = require('currency-formatter')
-const currencies = require('currency-formatter/currencies')
+} = require('../send/send-utils');
+const GasFeeDisplay = require('../send/gas-fee-display-v2');
+const SenderToRecipient = require('../sender-to-recipient');
+const NetworkDisplay = require('../network-display');
+const currencyFormatter = require('currency-formatter');
+const currencies = require('currency-formatter/currencies');
 
-const { MIN_GAS_PRICE_HEX } = require('../send/send-constants')
-const { SEND_ROUTE, DEFAULT_ROUTE } = require('../../routes')
+const {MIN_GAS_PRICE_HEX} = require('../send/send-constants');
+const {SEND_ROUTE, DEFAULT_ROUTE} = require('../../routes');
 
 ConfirmSendEther.contextTypes = {
   t: PropTypes.func,
-}
+};
 
 module.exports = compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
-)(ConfirmSendEther)
+  connect(mapStateToProps, mapDispatchToProps),
+)(ConfirmSendEther);
 
-
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const {
     conversionRate,
     identities,
     currentCurrency,
     send,
-  } = state.metamask
-  const accounts = state.metamask.accounts
-  const selectedAddress = state.metamask.selectedAddress || Object.keys(accounts)[0]
-  const { balance } = accounts[selectedAddress]
+  } = state.metamask;
+  const accounts = state.metamask.accounts;
+  const selectedAddress = state.metamask.selectedAddress || Object.keys(accounts)[0];
+  const {balance} = accounts[selectedAddress];
   return {
     conversionRate,
     identities,
@@ -56,20 +55,20 @@ function mapStateToProps (state) {
     currentCurrency,
     send,
     balance,
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     clearSend: () => dispatch(actions.clearSend()),
     editTransaction: txMeta => {
-      const { id, txParams } = txMeta
+      const {id, txParams} = txMeta;
       const {
         gas: gasLimit,
         gasPrice,
         to,
         value: amount,
-      } = txParams
+      } = txParams;
 
       dispatch(actions.updateSend({
         gasLimit,
@@ -77,23 +76,23 @@ function mapDispatchToProps (dispatch) {
         gasTotal: null,
         to,
         amount,
-        errors: { to: null, amount: null },
+        errors: {to: null, amount: null},
         editingTransactionId: id,
-      }))
+      }));
     },
-    cancelTransaction: ({ id }) => dispatch(actions.cancelTx({ id })),
+    cancelTransaction: ({id}) => dispatch(actions.cancelTx({id})),
     showCustomizeGasModal: (txMeta, sendGasLimit, sendGasPrice, sendGasTotal) => {
-      const { id, txParams, lastGasPrice } = txMeta
-      const { gas: txGasLimit, gasPrice: txGasPrice } = txParams
+      const {id, txParams, lastGasPrice} = txMeta;
+      const {gas: txGasLimit, gasPrice: txGasPrice} = txParams;
 
-      let forceGasMin
+      let forceGasMin;
       if (lastGasPrice) {
         forceGasMin = ethUtil.addHexPrefix(multiplyCurrencies(lastGasPrice, 1.1, {
           multiplicandBase: 16,
           multiplierBase: 10,
           toNumericBase: 'hex',
           fromDenomination: 'WEI',
-        }))
+        }));
       }
 
       dispatch(actions.updateSend({
@@ -102,25 +101,26 @@ function mapDispatchToProps (dispatch) {
         editingTransactionId: id,
         gasTotal: sendGasTotal,
         forceGasMin,
-      }))
-      dispatch(actions.showModal({ name: 'CUSTOMIZE_GAS' }))
+      }));
+      dispatch(actions.showModal({name: 'CUSTOMIZE_GAS'}));
     },
     updateSendErrors: error => dispatch(actions.updateSendErrors(error)),
-  }
+  };
 }
 
-inherits(ConfirmSendEther, Component)
-function ConfirmSendEther () {
-  Component.call(this)
-  this.state = {}
-  this.onSubmit = this.onSubmit.bind(this)
+inherits(ConfirmSendEther, Component);
+
+function ConfirmSendEther() {
+  Component.call(this);
+  this.state = {};
+  this.onSubmit = this.onSubmit.bind(this);
 }
 
-ConfirmSendEther.prototype.updateComponentSendErrors = function (prevProps) {
+ConfirmSendEther.prototype.updateComponentSendErrors = function(prevProps) {
   const {
     balance: oldBalance,
     conversionRate: oldConversionRate,
-  } = prevProps
+  } = prevProps;
   const {
     updateSendErrors,
     balance,
@@ -130,42 +130,42 @@ ConfirmSendEther.prototype.updateComponentSendErrors = function (prevProps) {
         simulationFails,
       },
     },
-  } = this.props
-  const txMeta = this.gatherTxMeta()
+  } = this.props;
+  const txMeta = this.gatherTxMeta();
 
   const shouldUpdateBalanceSendErrors = balance && [
     balance !== oldBalance,
     conversionRate !== oldConversionRate,
-  ].some(x => Boolean(x))
+  ].some(x => Boolean(x));
 
   if (shouldUpdateBalanceSendErrors) {
-    const balanceIsSufficient = this.isBalanceSufficient(txMeta)
+    const balanceIsSufficient = this.isBalanceSufficient(txMeta);
     updateSendErrors({
       insufficientFunds: balanceIsSufficient ? false : this.context.t('insufficientFunds'),
-    })
+    });
   }
 
-  const shouldUpdateSimulationSendError = Boolean(txMeta.simulationFails) !== Boolean(simulationFails)
+  const shouldUpdateSimulationSendError = Boolean(txMeta.simulationFails) !== Boolean(simulationFails);
 
   if (shouldUpdateSimulationSendError) {
     updateSendErrors({
       simulationFails: !txMeta.simulationFails ? false : this.context.t('transactionError'),
-    })
+    });
   }
-}
+};
 
-ConfirmSendEther.prototype.componentWillMount = function () {
-  this.updateComponentSendErrors({})
-}
+ConfirmSendEther.prototype.componentWillMount = function() {
+  this.updateComponentSendErrors({});
+};
 
-ConfirmSendEther.prototype.componentDidUpdate = function (prevProps) {
-  this.updateComponentSendErrors(prevProps)
-}
+ConfirmSendEther.prototype.componentDidUpdate = function(prevProps) {
+  this.updateComponentSendErrors(prevProps);
+};
 
-ConfirmSendEther.prototype.getAmount = function () {
-  const { conversionRate, currentCurrency } = this.props
-  const txMeta = this.gatherTxMeta()
-  const txParams = txMeta.txParams || {}
+ConfirmSendEther.prototype.getAmount = function() {
+  const {conversionRate, currentCurrency} = this.props;
+  const txMeta = this.gatherTxMeta();
+  const txParams = txMeta.txParams || {};
 
   const FIAT = conversionUtil(txParams.value, {
     fromNumericBase: 'hex',
@@ -175,7 +175,7 @@ ConfirmSendEther.prototype.getAmount = function () {
     numberOfDecimals: 2,
     fromDenomination: 'WEI',
     conversionRate,
-  })
+  });
   const ETH = conversionUtil(txParams.value, {
     fromNumericBase: 'hex',
     toNumericBase: 'dec',
@@ -184,23 +184,23 @@ ConfirmSendEther.prototype.getAmount = function () {
     fromDenomination: 'WEI',
     conversionRate,
     numberOfDecimals: 6,
-  })
+  });
 
   return {
     FIAT,
     ETH,
-  }
+  };
 
-}
+};
 
-ConfirmSendEther.prototype.getGasFee = function () {
-  const { conversionRate, currentCurrency } = this.props
-  const txMeta = this.gatherTxMeta()
-  const txParams = txMeta.txParams || {}
+ConfirmSendEther.prototype.getGasFee = function() {
+  const {conversionRate, currentCurrency} = this.props;
+  const txMeta = this.gatherTxMeta();
+  const txParams = txMeta.txParams || {};
 
   // Gas
-  const gas = txParams.gas
-  const gasBn = hexToBn(gas)
+  const gas = txParams.gas;
+  const gasBn = hexToBn(gas);
 
   // From latest master
 //   const gasLimit = new BN(parseInt(blockGasLimit))
@@ -209,10 +209,10 @@ ConfirmSendEther.prototype.getGasFee = function () {
 //   const safeGasLimit = safeGasLimitBN.toString(10)
 
   // Gas Price
-  const gasPrice = txParams.gasPrice || MIN_GAS_PRICE_HEX
-  const gasPriceBn = hexToBn(gasPrice)
+  const gasPrice = txParams.gasPrice || MIN_GAS_PRICE_HEX;
+  const gasPriceBn = hexToBn(gasPrice);
 
-  const txFeeBn = gasBn.mul(gasPriceBn)
+  const txFeeBn = gasBn.mul(gasPriceBn);
 
   const FIAT = conversionUtil(txFeeBn, {
     fromNumericBase: 'BN',
@@ -222,7 +222,7 @@ ConfirmSendEther.prototype.getGasFee = function () {
     toCurrency: currentCurrency,
     numberOfDecimals: 2,
     conversionRate,
-  })
+  });
   const ETH = conversionUtil(txFeeBn, {
     fromNumericBase: 'BN',
     toNumericBase: 'dec',
@@ -231,31 +231,31 @@ ConfirmSendEther.prototype.getGasFee = function () {
     toCurrency: 'ETH',
     numberOfDecimals: 6,
     conversionRate,
-  })
+  });
 
   return {
     FIAT,
     ETH,
     gasFeeInHex: txFeeBn.toString(16),
-  }
-}
+  };
+};
 
-ConfirmSendEther.prototype.getData = function () {
-  const { identities } = this.props
-  const txMeta = this.gatherTxMeta()
-  const txParams = txMeta.txParams || {}
-  const account = identities ? identities[txParams.from] || {} : {}
-  const { FIAT: gasFeeInFIAT, ETH: gasFeeInETH, gasFeeInHex } = this.getGasFee()
-  const { FIAT: amountInFIAT, ETH: amountInETH } = this.getAmount()
+ConfirmSendEther.prototype.getData = function() {
+  const {identities} = this.props;
+  const txMeta = this.gatherTxMeta();
+  const txParams = txMeta.txParams || {};
+  const account = identities ? identities[txParams.from] || {} : {};
+  const {FIAT: gasFeeInFIAT, ETH: gasFeeInETH, gasFeeInHex} = this.getGasFee();
+  const {FIAT: amountInFIAT, ETH: amountInETH} = this.getAmount();
 
   const totalInFIAT = addCurrencies(gasFeeInFIAT, amountInFIAT, {
     toNumericBase: 'dec',
     numberOfDecimals: 2,
-  })
+  });
   const totalInETH = addCurrencies(gasFeeInETH, amountInETH, {
     toNumericBase: 'dec',
     numberOfDecimals: 6,
-  })
+  });
 
   return {
     from: {
@@ -274,26 +274,26 @@ ConfirmSendEther.prototype.getData = function () {
     totalInFIAT,
     totalInETH,
     gasFeeInHex,
-  }
-}
+  };
+};
 
-ConfirmSendEther.prototype.convertToRenderableCurrency = function (value, currencyCode) {
-  const upperCaseCurrencyCode = currencyCode.toUpperCase()
+ConfirmSendEther.prototype.convertToRenderableCurrency = function(value, currencyCode) {
+  const upperCaseCurrencyCode = currencyCode.toUpperCase();
 
   return currencies.find(currency => currency.code === upperCaseCurrencyCode)
     ? currencyFormatter.format(Number(value), {
       code: upperCaseCurrencyCode,
     })
-    : value
-}
+    : value;
+};
 
-ConfirmSendEther.prototype.editTransaction = function (txMeta) {
-  const { editTransaction, history } = this.props
-  editTransaction(txMeta)
-  history.push(SEND_ROUTE)
-}
+ConfirmSendEther.prototype.editTransaction = function(txMeta) {
+  const {editTransaction, history} = this.props;
+  editTransaction(txMeta);
+  history.push(SEND_ROUTE);
+};
 
-ConfirmSendEther.prototype.render = function () {
+ConfirmSendEther.prototype.render = function() {
   const {
     currentCurrency,
     clearSend,
@@ -306,9 +306,9 @@ ConfirmSendEther.prototype.render = function () {
       gasPrice: sendGasPrice,
       errors,
     },
-  } = this.props
-  const txMeta = this.gatherTxMeta()
-  const txParams = txMeta.txParams || {}
+  } = this.props;
+  const txMeta = this.gatherTxMeta();
+  const txParams = txMeta.txParams || {};
 
   const {
     from: {
@@ -324,15 +324,15 @@ ConfirmSendEther.prototype.render = function () {
     amountInFIAT,
     totalInFIAT,
     totalInETH,
-  } = this.getData()
+  } = this.getData();
 
-  const title = txMeta.lastGasPrice ? 'Reprice Transaction' : 'Confirm'
+  const title = txMeta.lastGasPrice ? 'Reprice Transaction' : 'Confirm';
   const subtitle = txMeta.lastGasPrice
     ? 'Increase your gas fee to attempt to overwrite and speed up your transaction'
-    : 'Please review your transaction.'
+    : 'Please review your transaction.';
 
-  const convertedAmountInFiat = this.convertToRenderableCurrency(amountInFIAT, currentCurrency)
-  const convertedTotalInFiat = this.convertToRenderableCurrency(totalInFIAT, currentCurrency)
+  const convertedAmountInFiat = this.convertToRenderableCurrency(amountInFIAT, currentCurrency);
+  const convertedTotalInFiat = this.convertToRenderableCurrency(totalInFIAT, currentCurrency);
 
   // This is from the latest master
   // It handles some of the errors that we are not currently handling
@@ -345,7 +345,7 @@ ConfirmSendEther.prototype.render = function () {
 //   const dangerousGasLimit = gasBn.gte(saferGasLimitBN)
 //   const gasLimitSpecified = txMeta.gasLimitSpecified
 
-  this.inputs = []
+  this.inputs = [];
 
   return (
     // Main Send token Card
@@ -381,14 +381,14 @@ ConfirmSendEther.prototype.render = function () {
         // ]),
 
         h('h3.flex-center.confirm-screen-send-amount', [`${convertedAmountInFiat}`]),
-        h('h3.flex-center.confirm-screen-send-amount-currency', [ currentCurrency.toUpperCase() ]),
+        h('h3.flex-center.confirm-screen-send-amount-currency', [currentCurrency.toUpperCase()]),
         h('div.flex-center.confirm-memo-wrapper', [
-          h('h3.confirm-screen-send-memo', [ memo ? `"${memo}"` : '' ]),
+          h('h3.confirm-screen-send-memo', [memo ? `"${memo}"` : '']),
         ]),
 
         h('div.confirm-screen-rows', [
           h('section.flex-row.flex-center.confirm-screen-row', [
-            h('span.confirm-screen-label.confirm-screen-section-column', [ this.context.t('from') ]),
+            h('span.confirm-screen-label.confirm-screen-section-column', [this.context.t('from')]),
             h('div.confirm-screen-section-column', [
               h('div.confirm-screen-row-info', fromName),
               h('div.confirm-screen-row-detail', `...${fromAddress.slice(fromAddress.length - 4)}`),
@@ -396,7 +396,7 @@ ConfirmSendEther.prototype.render = function () {
           ]),
 
           h('section.flex-row.flex-center.confirm-screen-row', [
-            h('span.confirm-screen-label.confirm-screen-section-column', [ this.context.t('to') ]),
+            h('span.confirm-screen-label.confirm-screen-section-column', [this.context.t('to')]),
             h('div.confirm-screen-section-column', [
               h('div.confirm-screen-row-info', toName),
               h('div.confirm-screen-row-detail', `...${toAddress.slice(toAddress.length - 4)}`),
@@ -404,7 +404,7 @@ ConfirmSendEther.prototype.render = function () {
           ]),
 
           h('section.flex-row.flex-center.confirm-screen-row', [
-            h('span.confirm-screen-label.confirm-screen-section-column', [ this.context.t('gasFee') ]),
+            h('span.confirm-screen-label.confirm-screen-section-column', [this.context.t('gasFee')]),
             h('div.confirm-screen-section-column', [
               h(GasFeeDisplay, {
                 gasTotal: gasTotal || gasFeeInHex,
@@ -422,8 +422,8 @@ ConfirmSendEther.prototype.render = function () {
                 'confirm-screen-section-column': !errors['insufficientFunds'],
               }),
             }, [
-              h('span.confirm-screen-label', [ this.context.t('total') + ' ' ]),
-              h('div.confirm-screen-total-box__subtitle', [ this.context.t('amountPlusGas') ]),
+              h('span.confirm-screen-label', [this.context.t('total') + ' ']),
+              h('div.confirm-screen-total-box__subtitle', [this.context.t('amountPlusGas')]),
             ]),
 
             h('div.confirm-screen-section-column', [
@@ -525,8 +525,8 @@ ConfirmSendEther.prototype.render = function () {
           // Cancel Button
           h('button.btn-cancel.page-container__footer-button.allcaps', {
             onClick: (event) => {
-              clearSend()
-              this.cancel(event, txMeta)
+              clearSend();
+              this.cancel(event, txMeta);
             },
           }, this.context.t('cancel')),
 
@@ -537,126 +537,126 @@ ConfirmSendEther.prototype.render = function () {
         ]),
       ]),
     ])
-  )
-}
+  );
+};
 
-ConfirmSendEther.prototype.renderErrorMessage = function (message) {
-  const { send: { errors } } = this.props
+ConfirmSendEther.prototype.renderErrorMessage = function(message) {
+  const {send: {errors}} = this.props;
 
   return errors[message]
-    ? h('div.confirm-screen-error', [ errors[message] ])
-    : null
-}
+    ? h('div.confirm-screen-error', [errors[message]])
+    : null;
+};
 
-ConfirmSendEther.prototype.onSubmit = function (event) {
-  event.preventDefault()
-  const { updateSendErrors } = this.props
-  const txMeta = this.gatherTxMeta()
-  const valid = this.checkValidity()
-  const balanceIsSufficient = this.isBalanceSufficient(txMeta)
-  this.setState({ valid, submitting: true })
+ConfirmSendEther.prototype.onSubmit = function(event) {
+  event.preventDefault();
+  const {updateSendErrors} = this.props;
+  const txMeta = this.gatherTxMeta();
+  const valid = this.checkValidity();
+  const balanceIsSufficient = this.isBalanceSufficient(txMeta);
+  this.setState({valid, submitting: true});
 
   if (valid && this.verifyGasParams() && balanceIsSufficient) {
-    this.props.sendTransaction(txMeta, event)
+    this.props.sendTransaction(txMeta, event);
   } else if (!balanceIsSufficient) {
-    updateSendErrors({ insufficientFunds: this.context.t('insufficientFunds') })
+    updateSendErrors({insufficientFunds: this.context.t('insufficientFunds')});
   } else {
-    updateSendErrors({ invalidGasParams: this.context.t('invalidGasParams') })
-    this.setState({ submitting: false })
+    updateSendErrors({invalidGasParams: this.context.t('invalidGasParams')});
+    this.setState({submitting: false});
   }
-}
+};
 
-ConfirmSendEther.prototype.cancel = function (event, txMeta) {
-  event.preventDefault()
-  const { cancelTransaction } = this.props
+ConfirmSendEther.prototype.cancel = function(event, txMeta) {
+  event.preventDefault();
+  const {cancelTransaction} = this.props;
 
   cancelTransaction(txMeta)
-    .then(() => this.props.history.push(DEFAULT_ROUTE))
-}
+    .then(() => this.props.history.push(DEFAULT_ROUTE));
+};
 
-ConfirmSendEther.prototype.isBalanceSufficient = function (txMeta) {
+ConfirmSendEther.prototype.isBalanceSufficient = function(txMeta) {
   const {
     balance,
     conversionRate,
-  } = this.props
+  } = this.props;
   const {
     txParams: {
       gas,
       gasPrice,
       value: amount,
     },
-  } = txMeta
-  const gasTotal = getGasTotal(gas, gasPrice)
+  } = txMeta;
+  const gasTotal = getGasTotal(gas, gasPrice);
 
   return isBalanceSufficient({
     amount,
     gasTotal,
     balance,
     conversionRate,
-  })
-}
+  });
+};
 
-ConfirmSendEther.prototype.checkValidity = function () {
-  const form = this.getFormEl()
-  const valid = form.checkValidity()
-  return valid
-}
+ConfirmSendEther.prototype.checkValidity = function() {
+  const form = this.getFormEl();
+  const valid = form.checkValidity();
+  return valid;
+};
 
-ConfirmSendEther.prototype.getFormEl = function () {
-  const form = document.querySelector('form#pending-tx-form')
+ConfirmSendEther.prototype.getFormEl = function() {
+  const form = document.querySelector('form#pending-tx-form');
   // Stub out form for unit tests:
   if (!form) {
-    return { checkValidity () { return true } }
+    return {checkValidity() { return true; }};
   }
-  return form
-}
+  return form;
+};
 
 // After a customizable state value has been updated,
-ConfirmSendEther.prototype.gatherTxMeta = function () {
-  const props = this.props
-  const state = this.state
-  const txData = clone(state.txData) || clone(props.txData)
+ConfirmSendEther.prototype.gatherTxMeta = function() {
+  const props = this.props;
+  const state = this.state;
+  const txData = clone(state.txData) || clone(props.txData);
 
-  const { gasPrice: sendGasPrice, gas: sendGasLimit } = props.send
+  const {gasPrice: sendGasPrice, gas: sendGasLimit} = props.send;
   const {
     lastGasPrice,
     txParams: {
       gasPrice: txGasPrice,
       gas: txGasLimit,
     },
-  } = txData
+  } = txData;
 
-  let forceGasMin
+  let forceGasMin;
   if (lastGasPrice) {
     forceGasMin = ethUtil.addHexPrefix(multiplyCurrencies(lastGasPrice, 1.1, {
       multiplicandBase: 16,
       multiplierBase: 10,
       toNumericBase: 'hex',
-    }))
+    }));
   }
 
-  txData.txParams.gasPrice = sendGasPrice || forceGasMin || txGasPrice
-  txData.txParams.gas = sendGasLimit || txGasLimit
+  txData.txParams.gasPrice = sendGasPrice || forceGasMin || txGasPrice;
+  txData.txParams.gas = sendGasLimit || txGasLimit;
 
   // log.debug(`UI has defaulted to tx meta ${JSON.stringify(txData)}`)
-  return txData
-}
+  return txData;
+};
 
-ConfirmSendEther.prototype.verifyGasParams = function () {
+ConfirmSendEther.prototype.verifyGasParams = function() {
   // We call this in case the gas has not been modified at all
-  if (!this.state) { return true }
+  if (!this.state) { return true; }
   return (
     this._notZeroOrEmptyString(this.state.gas) &&
     this._notZeroOrEmptyString(this.state.gasPrice)
-  )
-}
+  );
+};
 
-ConfirmSendEther.prototype._notZeroOrEmptyString = function (obj) {
-  return obj !== '' && obj !== '0x0'
-}
+ConfirmSendEther.prototype._notZeroOrEmptyString = function(obj) {
+  return obj !== '' && obj !== '0x0';
+};
 
-ConfirmSendEther.prototype.bnMultiplyByFraction = function (targetBN, numerator, denominator) {
-  const numBN = new BN(numerator)
-  const denomBN = new BN(denominator)
-  return targetBN.mul(numBN).div(denomBN)
-}
+ConfirmSendEther.prototype.bnMultiplyByFraction = function(targetBN, numerator, denominator) {
+  const numBN = new BN(numerator);
+  const denomBN = new BN(denominator);
+  return targetBN.mul(numBN).div(denomBN);
+};

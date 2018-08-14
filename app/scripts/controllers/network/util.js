@@ -22,7 +22,7 @@ const {
   RINKEBY_RPC_URL_BETA,
   OLD_UI_NETWORK_TYPE,
   BETA_UI_NETWORK_TYPE,
-} = require('./enums')
+} = require('./enums');
 
 const networkToNameMap = {
   [ROPSTEN]: ROPSTEN_DISPLAY_NAME,
@@ -32,7 +32,7 @@ const networkToNameMap = {
   [ROPSTEN_CODE]: ROPSTEN_DISPLAY_NAME,
   [RINKEYBY_CODE]: RINKEBY_DISPLAY_NAME,
   [KOVAN_CODE]: KOVAN_DISPLAY_NAME,
-}
+};
 
 const networkEndpointsMap = {
   [OLD_UI_NETWORK_TYPE]: {
@@ -49,17 +49,17 @@ const networkEndpointsMap = {
     [KOVAN]: KOVAN_RPC_URL_BETA,
     [RINKEBY]: RINKEBY_RPC_URL_BETA,
   },
-}
+};
 
-const getNetworkDisplayName = key => networkToNameMap[key]
+const getNetworkDisplayName = key => networkToNameMap[key];
 
 const getNetworkEndpoints = (networkType = OLD_UI_NETWORK_TYPE) => {
   return {
     ...networkEndpointsMap[networkType],
-  }
-}
+  };
+};
 
 module.exports = {
   getNetworkDisplayName,
   getNetworkEndpoints,
-}
+};

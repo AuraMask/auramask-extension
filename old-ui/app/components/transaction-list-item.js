@@ -1,86 +1,87 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const connect = require('react-redux').connect
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const connect = require('react-redux').connect;
 
-const EthBalance = require('./eth-balance')
-const addressSummary = require('../util').addressSummary
-const explorerLink = require('etherscan-link').createExplorerLink
-const CopyButton = require('./copyButton')
-const vreme = new (require('vreme'))()
-const Tooltip = require('./tooltip')
-const numberToBN = require('number-to-bn')
-const actions = require('../../../ui/app/actions')
+const EthBalance = require('./eth-balance');
+const addressSummary = require('../util').addressSummary;
+const explorerLink = require('etherscan-link').createExplorerLink;
+const CopyButton = require('./copyButton');
+const vreme = new (require('vreme'))();
+const Tooltip = require('./tooltip');
+const numberToBN = require('number-to-bn');
+const actions = require('../../../ui/app/actions');
 
-const TransactionIcon = require('./transaction-list-item-icon')
-const ShiftListItem = require('./shift-list-item')
+const TransactionIcon = require('./transaction-list-item-icon');
+const ShiftListItem = require('./shift-list-item');
 
 const mapDispatchToProps = dispatch => {
   return {
     retryTransaction: transactionId => dispatch(actions.retryTransaction(transactionId)),
-  }
+  };
+};
+
+module.exports = connect(null, mapDispatchToProps)(TransactionListItem);
+
+inherits(TransactionListItem, Component);
+
+function TransactionListItem() {
+  Component.call(this);
 }
 
-module.exports = connect(null, mapDispatchToProps)(TransactionListItem)
-
-inherits(TransactionListItem, Component)
-function TransactionListItem () {
-  Component.call(this)
-}
-
-TransactionListItem.prototype.showRetryButton = function () {
-  const { transaction = {}, transactions } = this.props
-  const { submittedTime, txParams } = transaction
+TransactionListItem.prototype.showRetryButton = function() {
+  const {transaction = {}, transactions} = this.props;
+  const {submittedTime, txParams} = transaction;
 
   if (!txParams) {
-    return false
+    return false;
   }
 
-  const currentNonce = txParams.nonce
-  const currentNonceTxs = transactions.filter(tx => tx.txParams.nonce === currentNonce)
-  const currentNonceSubmittedTxs = currentNonceTxs.filter(tx => tx.status === 'submitted')
-  const lastSubmittedTxWithCurrentNonce = currentNonceSubmittedTxs[0]
+  const currentNonce = txParams.nonce;
+  const currentNonceTxs = transactions.filter(tx => tx.txParams.nonce === currentNonce);
+  const currentNonceSubmittedTxs = currentNonceTxs.filter(tx => tx.status === 'submitted');
+  const lastSubmittedTxWithCurrentNonce = currentNonceSubmittedTxs[0];
   const currentTxIsLatestWithNonce = lastSubmittedTxWithCurrentNonce
-    && lastSubmittedTxWithCurrentNonce.id === transaction.id
+    && lastSubmittedTxWithCurrentNonce.id === transaction.id;
 
-  return currentTxIsLatestWithNonce && Date.now() - submittedTime > 30000
-}
+  return currentTxIsLatestWithNonce && Date.now() - submittedTime > 30000;
+};
 
-TransactionListItem.prototype.render = function () {
-  const { transaction, network, conversionRate, currentCurrency } = this.props
-  const { status } = transaction
+TransactionListItem.prototype.render = function() {
+  const {transaction, network, conversionRate, currentCurrency} = this.props;
+  const {status} = transaction;
   if (transaction.key === 'shapeshift') {
-    if (network === '1') return h(ShiftListItem, transaction)
+    if (network === '1') return h(ShiftListItem, transaction);
   }
-  var date = formatDate(transaction.time)
+  var date = formatDate(transaction.time);
 
-  let isLinkable = false
-  const numericNet = parseInt(network)
-  isLinkable = numericNet === 1 || numericNet === 3 || numericNet === 4 || numericNet === 42
+  let isLinkable = false;
+  const numericNet = parseInt(network);
+  isLinkable = numericNet === 1 || numericNet === 3 || numericNet === 4 || numericNet === 42;
 
-  var isMsg = ('msgParams' in transaction)
-  var isTx = ('txParams' in transaction)
-  var isPending = status === 'unapproved'
-  let txParams
+  var isMsg = ('msgParams' in transaction);
+  var isTx = ('txParams' in transaction);
+  var isPending = status === 'unapproved';
+  let txParams;
   if (isTx) {
-    txParams = transaction.txParams
+    txParams = transaction.txParams;
   } else if (isMsg) {
-    txParams = transaction.msgParams
+    txParams = transaction.msgParams;
   }
 
-  const nonce = txParams.nonce ? numberToBN(txParams.nonce).toString(10) : ''
+  const nonce = txParams.nonce ? numberToBN(txParams.nonce).toString(10) : '';
 
-  const isClickable = ('hash' in transaction && isLinkable) || isPending
+  const isClickable = ('hash' in transaction && isLinkable) || isPending;
   return (
     h('.transaction-list-item.flex-column', {
       onClick: (event) => {
         if (isPending) {
-          this.props.showTx(transaction.id)
+          this.props.showTx(transaction.id);
         }
-        event.stopPropagation()
-        if (!transaction.hash || !isLinkable) return
-        var url = explorerLink(transaction.hash, parseInt(network))
-        global.platform.openWindow({ url })
+        event.stopPropagation();
+        if (!transaction.hash || !isLinkable) return;
+        var url = explorerLink(transaction.hash, parseInt(network));
+        global.platform.openWindow({url});
       },
       style: {
         padding: '20px 0',
@@ -93,7 +94,7 @@ TransactionListItem.prototype.render = function () {
         },
       }, [
         h('.identicon-wrapper.flex-column.flex-center.select-none', [
-          h(TransactionIcon, { txParams, transaction, isTx, isMsg }),
+          h(TransactionIcon, {txParams, transaction, isTx, isMsg}),
         ]),
 
         h(Tooltip, {
@@ -119,7 +120,9 @@ TransactionListItem.prototype.render = function () {
         ]),
 
         // Places a copy button if tx is successful, else places a placeholder empty div.
-        transaction.hash ? h(CopyButton, { value: transaction.hash }) : h('div', {style: { display: 'flex', alignItems: 'center', width: '26px' }}),
+        transaction.hash ? h(CopyButton, {value: transaction.hash}) : h(
+          'div',
+          {style: {display: 'flex', alignItems: 'center', width: '26px'}}),
 
         isTx ? h(EthBalance, {
           value: txParams.value,
@@ -134,8 +137,8 @@ TransactionListItem.prototype.render = function () {
 
       this.showRetryButton() && h('.transition-list-item__retry.grow-on-hover', {
         onClick: event => {
-          event.stopPropagation()
-          this.resubmit()
+          event.stopPropagation();
+          this.resubmit();
         },
         style: {
           height: '22px',
@@ -162,15 +165,15 @@ TransactionListItem.prototype.render = function () {
         }, 'Retry with a higher gas price here'),
       ]),
     ])
-  )
-}
+  );
+};
 
-TransactionListItem.prototype.resubmit = function () {
-  const { transaction } = this.props
-  this.props.retryTransaction(transaction.id)
-}
+TransactionListItem.prototype.resubmit = function() {
+  const {transaction} = this.props;
+  this.props.retryTransaction(transaction.id);
+};
 
-function domainField (txParams) {
+function domainField(txParams) {
   return h('div', {
     style: {
       fontSize: 'x-small',
@@ -181,18 +184,18 @@ function domainField (txParams) {
     },
   }, [
     txParams.origin,
-  ])
+  ]);
 }
 
-function recipientField (txParams, transaction, isTx, isMsg) {
-  let message
+function recipientField(txParams, transaction, isTx, isMsg) {
+  let message;
 
   if (isMsg) {
-    message = 'Signature Requested'
+    message = 'Signature Requested';
   } else if (txParams.to) {
-    message = addressSummary(txParams.to)
+    message = addressSummary(txParams.to);
   } else {
-    message = 'Contract Deployment'
+    message = 'Contract Deployment';
   }
 
   return h('div', {
@@ -203,47 +206,47 @@ function recipientField (txParams, transaction, isTx, isMsg) {
   }, [
     message,
     renderErrorOrWarning(transaction),
-  ])
+  ]);
 }
 
-function formatDate (date) {
-  return vreme.format(new Date(date), 'March 16 2014 14:30')
+function formatDate(date) {
+  return vreme.format(new Date(date), 'March 16 2014 14:30');
 }
 
-function renderErrorOrWarning (transaction) {
-  const { status, err, warning } = transaction
+function renderErrorOrWarning(transaction) {
+  const {status, err, warning} = transaction;
 
   // show dropped
   if (status === 'dropped') {
-    return h('span.dropped', ' (Dropped)')
+    return h('span.dropped', ' (Dropped)');
   }
 
   // show rejected
   if (status === 'rejected') {
-    return h('span.error', ' (Rejected)')
+    return h('span.error', ' (Rejected)');
   }
 
   // show error
   if (err) {
-    const message = err.message || ''
+    const message = err.message || '';
     return (
-        h(Tooltip, {
-          title: message,
-          position: 'bottom',
-        }, [
-          h(`span.error`, ` (Failed)`),
-        ])
-    )
+      h(Tooltip, {
+        title: message,
+        position: 'bottom',
+      }, [
+        h(`span.error`, ` (Failed)`),
+      ])
+    );
   }
 
   // show warning
   if (warning) {
-    const message = warning.message
+    const message = warning.message;
     return h(Tooltip, {
       title: message,
       position: 'bottom',
     }, [
       h(`span.warning`, ` (Warning)`),
-    ])
+    ]);
   }
 }

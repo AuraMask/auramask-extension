@@ -17,9 +17,9 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test/integration/jquery-3.1.0.min.js',
-      { pattern: 'dist/chrome/images/**/*.*', watched: false, included: false, served: true },
-      { pattern: 'dist/chrome/fonts/**/*.*', watched: false, included: false, served: true },
-      { pattern: 'dist/chrome/_locales/**/*.*', watched: false, included: false, served: true },
+      {pattern: 'dist/chrome/images/**/*.*', watched: false, included: false, served: true},
+      {pattern: 'dist/chrome/fonts/**/*.*', watched: false, included: false, served: true},
+      {pattern: 'dist/chrome/_locales/**/*.*', watched: false, included: false, served: true},
     ],
 
     proxies: {
@@ -61,5 +61,5 @@ module.exports = function(config) {
     concurrency: 1,
 
     nocache: true,
-  }
-}
+  };
+};

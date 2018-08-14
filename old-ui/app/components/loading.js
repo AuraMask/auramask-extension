@@ -1,17 +1,16 @@
-const inherits = require('util').inherits
-const Component = require('react').Component
-const h = require('react-hyperscript')
+const inherits = require('util').inherits;
+const Component = require('react').Component;
+const h = require('react-hyperscript');
 
+inherits(LoadingIndicator, Component);
+module.exports = LoadingIndicator;
 
-inherits(LoadingIndicator, Component)
-module.exports = LoadingIndicator
-
-function LoadingIndicator () {
-  Component.call(this)
+function LoadingIndicator() {
+  Component.call(this);
 }
 
-LoadingIndicator.prototype.render = function () {
-  const { isLoading, loadingMessage, canBypass, bypass } = this.props
+LoadingIndicator.prototype.render = function() {
+  const {isLoading, loadingMessage, canBypass, bypass} = this.props;
 
   return (
     isLoading ? h('.full-flex-height', {
@@ -28,7 +27,7 @@ LoadingIndicator.prototype.render = function () {
         background: 'rgba(255, 255, 255, 0.8)',
       },
     }, [
-      canBypass ? h( 'i.fa.fa-close.cursor-pointer.close-loading', {
+      canBypass ? h('i.fa.fa-close.cursor-pointer.close-loading', {
         style: {
           position: 'absolute',
           top: '1px',
@@ -46,10 +45,10 @@ LoadingIndicator.prototype.render = function () {
 
       showMessageIfAny(loadingMessage),
     ]) : null
-  )
-}
+  );
+};
 
-function showMessageIfAny (loadingMessage) {
-  if (!loadingMessage) return null
-  return h('span', loadingMessage)
+function showMessageIfAny(loadingMessage) {
+  if (!loadingMessage) return null;
+  return h('span', loadingMessage);
 }

@@ -1,18 +1,19 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const PendingTxDetails = require('./pending-msg-details')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const PendingTxDetails = require('./pending-msg-details');
 
-module.exports = PendingMsg
+module.exports = PendingMsg;
 
-inherits(PendingMsg, Component)
-function PendingMsg () {
-  Component.call(this)
+inherits(PendingMsg, Component);
+
+function PendingMsg() {
+  Component.call(this);
 }
 
-PendingMsg.prototype.render = function () {
-  var state = this.props
-  var msgData = state.txData
+PendingMsg.prototype.render = function() {
+  var state = this.props;
+  var msgData = state.txData;
 
   return (
 
@@ -42,11 +43,11 @@ PendingMsg.prototype.render = function () {
         This dangerous method will be removed in a future version. `,
         h('a', {
           href: 'https://medium.com/metamask/the-new-secure-way-to-sign-data-in-your-browser-6af9dd2a1527',
-          style: { color: 'rgb(247, 134, 28)' },
+          style: {color: 'rgb(247, 134, 28)'},
           onClick: (event) => {
-            event.preventDefault()
-            const url = 'https://medium.com/metamask/the-new-secure-way-to-sign-data-in-your-browser-6af9dd2a1527'
-            global.platform.openWindow({ url })
+            event.preventDefault();
+            const url = 'https://medium.com/metamask/the-new-secure-way-to-sign-data-in-your-browser-6af9dd2a1527';
+            global.platform.openWindow({url});
           },
         }, 'Read more here.'),
       ]),
@@ -65,6 +66,6 @@ PendingMsg.prototype.render = function () {
       ]),
     ])
 
-  )
-}
+  );
+};
 

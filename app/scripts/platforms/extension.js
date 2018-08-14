@@ -1,36 +1,36 @@
-const extension = require('extensionizer')
+const extension = require('extensionizer');
 
 class ExtensionPlatform {
 
   //
   // Public
   //
-  reload () {
-    extension.runtime.reload()
+  reload() {
+    extension.runtime.reload();
   }
 
-  openWindow ({ url }) {
-    extension.tabs.create({ url })
+  openWindow({url}) {
+    extension.tabs.create({url});
   }
 
-  getVersion () {
-    return extension.runtime.getManifest().version
+  getVersion() {
+    return extension.runtime.getManifest().version;
   }
 
-  openExtensionInBrowser () {
-    const extensionURL = extension.runtime.getURL('home.html')
-    this.openWindow({ url: extensionURL })
+  openExtensionInBrowser() {
+    const extensionURL = extension.runtime.getURL('home.html');
+    this.openWindow({url: extensionURL});
   }
 
-  getPlatformInfo (cb) {
+  getPlatformInfo(cb) {
     try {
       extension.runtime.getPlatformInfo((platform) => {
-        cb(null, platform)
-      })
+        cb(null, platform);
+      });
     } catch (e) {
-      cb(e)
+      cb(e);
     }
   }
 }
 
-module.exports = ExtensionPlatform
+module.exports = ExtensionPlatform;

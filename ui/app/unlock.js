@@ -1,39 +1,39 @@
-const inherits = require('util').inherits
-const Component = require('react').Component
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const connect = require('react-redux').connect
-const actions = require('./actions')
-const getCaretCoordinates = require('textarea-caret')
-const EventEmitter = require('events').EventEmitter
-const { OLD_UI_NETWORK_TYPE } = require('../../app/scripts/controllers/network/enums')
-const { getEnvironmentType } = require('../../app/scripts/lib/util')
-const { ENVIRONMENT_TYPE_POPUP } = require('../../app/scripts/lib/enums')
+const inherits = require('util').inherits;
+const Component = require('react').Component;
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const connect = require('react-redux').connect;
+const actions = require('./actions');
+const getCaretCoordinates = require('textarea-caret');
+const EventEmitter = require('events').EventEmitter;
+const {OLD_UI_NETWORK_TYPE} = require('../../app/scripts/controllers/network/enums');
+const {getEnvironmentType} = require('../../app/scripts/lib/util');
+const {ENVIRONMENT_TYPE_POPUP} = require('../../app/scripts/lib/enums');
 
-const Mascot = require('./components/mascot')
+const Mascot = require('./components/mascot');
 
 UnlockScreen.contextTypes = {
   t: PropTypes.func,
+};
+
+module.exports = connect(mapStateToProps)(UnlockScreen);
+
+inherits(UnlockScreen, Component);
+
+function UnlockScreen() {
+  Component.call(this);
+  this.animationEventEmitter = new EventEmitter();
 }
 
-module.exports = connect(mapStateToProps)(UnlockScreen)
-
-
-inherits(UnlockScreen, Component)
-function UnlockScreen () {
-  Component.call(this)
-  this.animationEventEmitter = new EventEmitter()
-}
-
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     warning: state.appState.warning,
-  }
+  };
 }
 
-UnlockScreen.prototype.render = function () {
-  const state = this.props
-  const warning = state.warning
+UnlockScreen.prototype.render = function() {
+  const state = this.props;
+  const warning = state.warning;
   return (
     h('.unlock-screen', [
 
@@ -77,9 +77,9 @@ UnlockScreen.prototype.render = function () {
 
       h('p.pointer', {
         onClick: () => {
-          this.props.dispatch(actions.markPasswordForgotten())
+          this.props.dispatch(actions.markPasswordForgotten());
           if (getEnvironmentType(window.location.href) === ENVIRONMENT_TYPE_POPUP) {
-            global.platform.openExtensionInBrowser()
+            global.platform.openExtensionInBrowser();
           }
         },
         style: {
@@ -92,7 +92,7 @@ UnlockScreen.prototype.render = function () {
       h('p.pointer', {
         onClick: () => {
           this.props.dispatch(actions.setFeatureFlag('betaUI', false, 'OLD_UI_NOTIFICATION_MODAL'))
-            .then(() => this.props.dispatch(actions.setNetworkEndpoints(OLD_UI_NETWORK_TYPE)))
+              .then(() => this.props.dispatch(actions.setNetworkEndpoints(OLD_UI_NETWORK_TYPE)));
         },
         style: {
           fontSize: '0.8em',
@@ -102,40 +102,40 @@ UnlockScreen.prototype.render = function () {
         },
       }, this.context.t('classicInterface')),
     ])
-  )
-}
+  );
+};
 
-UnlockScreen.prototype.componentDidMount = function () {
-  document.getElementById('password-box').focus()
-}
+UnlockScreen.prototype.componentDidMount = function() {
+  document.getElementById('password-box').focus();
+};
 
-UnlockScreen.prototype.onSubmit = function (event) {
-  const input = document.getElementById('password-box')
-  const password = input.value
-  this.props.dispatch(actions.tryUnlockMetamask(password))
-}
+UnlockScreen.prototype.onSubmit = function(event) {
+  const input = document.getElementById('password-box');
+  const password = input.value;
+  this.props.dispatch(actions.tryUnlockMetamask(password));
+};
 
-UnlockScreen.prototype.onKeyPress = function (event) {
+UnlockScreen.prototype.onKeyPress = function(event) {
   if (event.key === 'Enter') {
-    this.submitPassword(event)
+    this.submitPassword(event);
   }
-}
+};
 
-UnlockScreen.prototype.submitPassword = function (event) {
-  var element = event.target
-  var password = element.value
+UnlockScreen.prototype.submitPassword = function(event) {
+  var element = event.target;
+  var password = element.value;
   // reset input
-  element.value = ''
-  this.props.dispatch(actions.tryUnlockMetamask(password))
-}
+  element.value = '';
+  this.props.dispatch(actions.tryUnlockMetamask(password));
+};
 
-UnlockScreen.prototype.inputChanged = function (event) {
+UnlockScreen.prototype.inputChanged = function(event) {
   // tell mascot to look at page action
-  var element = event.target
-  var boundingRect = element.getBoundingClientRect()
-  var coordinates = getCaretCoordinates(element, element.selectionEnd)
+  var element = event.target;
+  var boundingRect = element.getBoundingClientRect();
+  var coordinates = getCaretCoordinates(element, element.selectionEnd);
   this.animationEventEmitter.emit('point', {
     x: boundingRect.left + coordinates.left - element.scrollLeft,
     y: boundingRect.top + coordinates.top - element.scrollTop,
-  })
-}
+  });
+};

@@ -1,24 +1,25 @@
-const inherits = require('util').inherits
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const connect = require('react-redux').connect
-const actions = require('../../../../ui/app/actions')
+const inherits = require('util').inherits;
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const connect = require('react-redux').connect;
+const actions = require('../../../../ui/app/actions');
 
-module.exports = connect(mapStateToProps)(PrivateKeyImportView)
+module.exports = connect(mapStateToProps)(PrivateKeyImportView);
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     error: state.appState.warning,
-  }
+  };
 }
 
-inherits(PrivateKeyImportView, Component)
-function PrivateKeyImportView () {
-  Component.call(this)
+inherits(PrivateKeyImportView, Component);
+
+function PrivateKeyImportView() {
+  Component.call(this);
 }
 
-PrivateKeyImportView.prototype.render = function () {
-  const { error } = this.props
+PrivateKeyImportView.prototype.render = function() {
+  const {error} = this.props;
 
   return (
     h('div', {
@@ -50,18 +51,18 @@ PrivateKeyImportView.prototype.render = function () {
 
       error ? h('span.error', error) : null,
     ])
-  )
-}
+  );
+};
 
-PrivateKeyImportView.prototype.createKeyringOnEnter = function (event) {
+PrivateKeyImportView.prototype.createKeyringOnEnter = function(event) {
   if (event.key === 'Enter') {
-    event.preventDefault()
-    this.createNewKeychain()
+    event.preventDefault();
+    this.createNewKeychain();
   }
-}
+};
 
-PrivateKeyImportView.prototype.createNewKeychain = function () {
-  const input = document.getElementById('private-key-box')
-  const privateKey = input.value
-  this.props.dispatch(actions.importNewAccount('Private Key', [ privateKey ]))
-}
+PrivateKeyImportView.prototype.createNewKeychain = function() {
+  const input = document.getElementById('private-key-box');
+  const privateKey = input.value;
+  this.props.dispatch(actions.importNewAccount('Private Key', [privateKey]));
+};

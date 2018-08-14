@@ -1,34 +1,34 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const qrCode = require('qrcode-npm').qrcode
-const inherits = require('util').inherits
-const connect = require('react-redux').connect
-const isHexPrefixed = require('ethereumjs-util').isHexPrefixed
-const CopyButton = require('./copyButton')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const qrCode = require('qrcode-npm').qrcode;
+const inherits = require('util').inherits;
+const connect = require('react-redux').connect;
+const isHexPrefixed = require('ethereumjs-util').isHexPrefixed;
+const CopyButton = require('./copyButton');
 
-module.exports = connect(mapStateToProps)(QrCodeView)
+module.exports = connect(mapStateToProps)(QrCodeView);
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     Qr: state.appState.Qr,
     buyView: state.appState.buyView,
     warning: state.appState.warning,
-  }
+  };
 }
 
-inherits(QrCodeView, Component)
+inherits(QrCodeView, Component);
 
-function QrCodeView () {
-  Component.call(this)
+function QrCodeView() {
+  Component.call(this);
 }
 
-QrCodeView.prototype.render = function () {
-  const props = this.props
-  const Qr = props.Qr
-  const address = `${isHexPrefixed(Qr.data) ? 'ethereum:' : ''}${Qr.data}`
-  const qrImage = qrCode(4, 'M')
-  qrImage.addData(address)
-  qrImage.make()
+QrCodeView.prototype.render = function() {
+  const props = this.props;
+  const Qr = props.Qr;
+  const address = `${isHexPrefixed(Qr.data) ? 'ethereum:' : ''}${Qr.data}`;
+  const qrImage = qrCode(4, 'M');
+  qrImage.addData(address);
+  qrImage.make();
   return h('.main-container.flex-column', {
     key: 'qr',
     style: {
@@ -42,13 +42,13 @@ QrCodeView.prototype.render = function () {
     Array.isArray(Qr.message) ? h('.message-container', this.renderMultiMessage()) : h('.qr-header', Qr.message),
 
     this.props.warning ? this.props.warning && h('span.error.flex-center', {
-      style: {
-        textAlign: 'center',
-        width: '229px',
-        height: '82px',
+        style: {
+          textAlign: 'center',
+          width: '229px',
+          height: '82px',
+        },
       },
-    },
-    this.props.warning) : null,
+      this.props.warning) : null,
 
     h('#qr-container.flex-column', {
       style: {
@@ -69,11 +69,11 @@ QrCodeView.prototype.render = function () {
         value: Qr.data,
       }),
     ]),
-  ])
-}
+  ]);
+};
 
-QrCodeView.prototype.renderMultiMessage = function () {
-  var Qr = this.props.Qr
-  var multiMessage = Qr.message.map((message) => h('.qr-message', message))
-  return multiMessage
-}
+QrCodeView.prototype.renderMultiMessage = function() {
+  var Qr = this.props.Qr;
+  var multiMessage = Qr.message.map((message) => h('.qr-message', message));
+  return multiMessage;
+};

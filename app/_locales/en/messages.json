@@ -381,7 +381,7 @@
     "message": "Import Account"
   },
   "importAccountMsg": {
-    "message":" Imported accounts will not be associated with your originally created MetaMask account seedphrase. Learn more about imported accounts "
+    "message": " Imported accounts will not be associated with your originally created MetaMask account seedphrase. Learn more about imported accounts "
   },
   "importAnAccount": {
     "message": "Import an account"
@@ -757,7 +757,7 @@
     "message": "Settings"
   },
   "info": {
-  "message": "Info"
+    "message": "Info"
   },
   "shapeshiftBuy": {
     "message": "Buy with Shapeshift"

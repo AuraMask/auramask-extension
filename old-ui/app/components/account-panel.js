@@ -1,23 +1,23 @@
-const inherits = require('util').inherits
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const Identicon = require('./identicon')
-const formatBalance = require('../util').formatBalance
-const addressSummary = require('../util').addressSummary
+const inherits = require('util').inherits;
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const Identicon = require('./identicon');
+const formatBalance = require('../util').formatBalance;
+const addressSummary = require('../util').addressSummary;
 
-module.exports = AccountPanel
+module.exports = AccountPanel;
 
+inherits(AccountPanel, Component);
 
-inherits(AccountPanel, Component)
-function AccountPanel () {
-  Component.call(this)
+function AccountPanel() {
+  Component.call(this);
 }
 
-AccountPanel.prototype.render = function () {
-  var state = this.props
-  var identity = state.identity || {}
-  var account = state.account || {}
-  var isFauceting = state.isFauceting
+AccountPanel.prototype.render = function() {
+  var state = this.props;
+  var identity = state.identity || {};
+  var account = state.account || {};
+  var isFauceting = state.isFauceting;
 
   var panelState = {
     key: `accountPanel${identity.address}`,
@@ -30,7 +30,7 @@ AccountPanel.prototype.render = function () {
       },
       balanceOrFaucetingIndication(account, isFauceting),
     ],
-  }
+  };
 
   return (
 
@@ -60,27 +60,27 @@ AccountPanel.prototype.render = function () {
           }, [
             h('label.font-small.no-select', attr.key),
             h('span.font-small', attr.value),
-          ])
+          ]);
         }),
       ]),
 
     ])
 
-  )
-}
+  );
+};
 
-function balanceOrFaucetingIndication (account, isFauceting) {
+function balanceOrFaucetingIndication(account, isFauceting) {
   // Temporarily deactivating isFauceting indication
   // because it shows fauceting for empty restored accounts.
   if (/* isFauceting*/ false) {
     return {
       key: 'Account is auto-funding.',
       value: 'Please wait.',
-    }
+    };
   } else {
     return {
       key: 'BALANCE',
       value: formatBalance(account.balance),
-    }
+    };
   }
 }

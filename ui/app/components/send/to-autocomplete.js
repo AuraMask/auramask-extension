@@ -1,39 +1,39 @@
-const Component = require('react').Component
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const AccountListItem = require('./account-list-item')
-const connect = require('react-redux').connect
+const Component = require('react').Component;
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const AccountListItem = require('./account-list-item');
+const connect = require('react-redux').connect;
 
 ToAutoComplete.contextTypes = {
   t: PropTypes.func,
+};
+
+module.exports = connect()(ToAutoComplete);
+
+inherits(ToAutoComplete, Component);
+
+function ToAutoComplete() {
+  Component.call(this);
+
+  this.state = {accountsToRender: []};
 }
 
-module.exports = connect()(ToAutoComplete)
-
-
-inherits(ToAutoComplete, Component)
-function ToAutoComplete () {
-  Component.call(this)
-
-  this.state = { accountsToRender: [] }
-}
-
-ToAutoComplete.prototype.getListItemIcon = function (listItemAddress, toAddress) {
-  const listItemIcon = h(`i.fa.fa-check.fa-lg`, { style: { color: '#02c9b1' } })
+ToAutoComplete.prototype.getListItemIcon = function(listItemAddress, toAddress) {
+  const listItemIcon = h(`i.fa.fa-check.fa-lg`, {style: {color: '#02c9b1'}});
 
   return toAddress && listItemAddress === toAddress
     ? listItemIcon
-    : null
-}
+    : null;
+};
 
-ToAutoComplete.prototype.renderDropdown = function () {
+ToAutoComplete.prototype.renderDropdown = function() {
   const {
     closeDropdown,
     onChange,
     to,
-  } = this.props
-  const { accountsToRender } = this.state
+  } = this.props;
+  const {accountsToRender} = this.state;
 
   return accountsToRender.length && h('div', {}, [
 
@@ -47,8 +47,8 @@ ToAutoComplete.prototype.renderDropdown = function () {
         account,
         className: 'account-list-item__dropdown',
         handleClick: () => {
-          onChange(account.address)
-          closeDropdown()
+          onChange(account.address);
+          closeDropdown();
         },
         icon: this.getListItemIcon(account.address, to),
         displayBalance: false,
@@ -57,44 +57,44 @@ ToAutoComplete.prototype.renderDropdown = function () {
 
     ]),
 
-  ])
-}
+  ]);
+};
 
-ToAutoComplete.prototype.handleInputEvent = function (event = {}, cb) {
+ToAutoComplete.prototype.handleInputEvent = function(event = {}, cb) {
   const {
     to,
     accounts,
     closeDropdown,
     openDropdown,
-  } = this.props
+  } = this.props;
 
-  const matchingAccounts = accounts.filter(({ address }) => address.match(to || ''))
-  const matches = matchingAccounts.length
+  const matchingAccounts = accounts.filter(({address}) => address.match(to || ''));
+  const matches = matchingAccounts.length;
 
   if (!matches || matchingAccounts[0].address === to) {
-    this.setState({ accountsToRender: [] })
-    event.target && event.target.select()
-    closeDropdown()
+    this.setState({accountsToRender: []});
+    event.target && event.target.select();
+    closeDropdown();
   } else {
-    this.setState({ accountsToRender: matchingAccounts })
-    openDropdown()
+    this.setState({accountsToRender: matchingAccounts});
+    openDropdown();
   }
-  cb && cb(event.target.value)
-}
+  cb && cb(event.target.value);
+};
 
-ToAutoComplete.prototype.componentDidUpdate = function (nextProps, nextState) {
+ToAutoComplete.prototype.componentDidUpdate = function(nextProps, nextState) {
   if (this.props.to !== nextProps.to) {
-    this.handleInputEvent()
+    this.handleInputEvent();
   }
-}
+};
 
-ToAutoComplete.prototype.render = function () {
+ToAutoComplete.prototype.render = function() {
   const {
     to,
     dropdownOpen,
     onChange,
     inError,
-  } = this.props
+  } = this.props;
 
   return h('div.send-v2__to-autocomplete', {}, [
 
@@ -110,11 +110,11 @@ ToAutoComplete.prototype.render = function () {
     }),
 
     !to && h(`i.fa.fa-caret-down.fa-lg.send-v2__to-autocomplete__down-caret`, {
-      style: { color: '#dedede' },
+      style: {color: '#dedede'},
       onClick: () => this.handleInputEvent(),
     }),
 
     dropdownOpen && this.renderDropdown(),
 
-  ])
-}
+  ]);
+};

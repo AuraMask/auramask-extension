@@ -1,30 +1,31 @@
-const inherits = require('util').inherits
+const inherits = require('util').inherits;
 
-const Component = require('react').Component
-const connect = require('react-redux').connect
-const h = require('react-hyperscript')
-const actions = require('../../../../../ui/app/actions')
+const Component = require('react').Component;
+const connect = require('react-redux').connect;
+const h = require('react-hyperscript');
+const actions = require('../../../../../ui/app/actions');
 
-module.exports = connect(mapStateToProps)(RevealSeedConfirmation)
+module.exports = connect(mapStateToProps)(RevealSeedConfirmation);
 
-inherits(RevealSeedConfirmation, Component)
-function RevealSeedConfirmation () {
-  Component.call(this)
+inherits(RevealSeedConfirmation, Component);
+
+function RevealSeedConfirmation() {
+  Component.call(this);
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     warning: state.appState.warning,
-  }
+  };
 }
 
-RevealSeedConfirmation.prototype.render = function () {
-  const props = this.props
+RevealSeedConfirmation.prototype.render = function() {
+  const props = this.props;
 
   return (
 
     h('.initialize-screen.flex-column.flex-center.flex-grow', {
-      style: { maxWidth: '420px' },
+      style: {maxWidth: '420px'},
     }, [
 
       h('h3.flex-center.text-transform-uppercase', {
@@ -76,7 +77,7 @@ RevealSeedConfirmation.prototype.render = function () {
 
           // submit
           h('button.primary', {
-            style: { marginLeft: '10px' },
+            style: {marginLeft: '10px'},
             onClick: this.revealSeedWords.bind(this),
           }, 'OK'),
 
@@ -95,27 +96,27 @@ RevealSeedConfirmation.prototype.render = function () {
         ),
       ]),
     ])
-  )
-}
+  );
+};
 
-RevealSeedConfirmation.prototype.componentDidMount = function () {
-  document.getElementById('password-box').focus()
-}
+RevealSeedConfirmation.prototype.componentDidMount = function() {
+  document.getElementById('password-box').focus();
+};
 
-RevealSeedConfirmation.prototype.goHome = function () {
-  this.props.dispatch(actions.showConfigPage(false))
-}
+RevealSeedConfirmation.prototype.goHome = function() {
+  this.props.dispatch(actions.showConfigPage(false));
+};
 
 // create vault
 
-RevealSeedConfirmation.prototype.checkConfirmation = function (event) {
+RevealSeedConfirmation.prototype.checkConfirmation = function(event) {
   if (event.key === 'Enter') {
-    event.preventDefault()
-    this.revealSeedWords()
+    event.preventDefault();
+    this.revealSeedWords();
   }
-}
+};
 
-RevealSeedConfirmation.prototype.revealSeedWords = function () {
-  var password = document.getElementById('password-box').value
-  this.props.dispatch(actions.requestRevealSeed(password))
-}
+RevealSeedConfirmation.prototype.revealSeedWords = function() {
+  var password = document.getElementById('password-box').value;
+  this.props.dispatch(actions.requestRevealSeed(password));
+};

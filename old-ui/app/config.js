@@ -1,37 +1,38 @@
-const inherits = require('util').inherits
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const connect = require('react-redux').connect
-const actions = require('../../ui/app/actions')
+const inherits = require('util').inherits;
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const connect = require('react-redux').connect;
+const actions = require('../../ui/app/actions');
 const infuraCurrencies = require('./infura-conversion.json').objects.sort((a, b) => {
-      return a.quote.name.toLocaleLowerCase().localeCompare(b.quote.name.toLocaleLowerCase())
-    })
-const validUrl = require('valid-url')
-const exportAsFile = require('./util').exportAsFile
-const Modal = require('../../ui/app/components/modals/index').Modal
+  return a.quote.name.toLocaleLowerCase().localeCompare(b.quote.name.toLocaleLowerCase());
+});
+const validUrl = require('valid-url');
+const exportAsFile = require('./util').exportAsFile;
+const Modal = require('../../ui/app/components/modals/index').Modal;
 
-module.exports = connect(mapStateToProps)(ConfigScreen)
+module.exports = connect(mapStateToProps)(ConfigScreen);
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     metamask: state.metamask,
     warning: state.appState.warning,
-  }
+  };
 }
 
-inherits(ConfigScreen, Component)
-function ConfigScreen () {
-  Component.call(this)
+inherits(ConfigScreen, Component);
+
+function ConfigScreen() {
+  Component.call(this);
 }
 
-ConfigScreen.prototype.render = function () {
-  var state = this.props
-  var metamaskState = state.metamask
-  var warning = state.warning
+ConfigScreen.prototype.render = function() {
+  var state = this.props;
+  var metamaskState = state.metamask;
+  var warning = state.warning;
 
   return (
     h('.flex-column.flex-grow', {
-      style:{
+      style: {
         maxHeight: '585px',
         overflowY: 'auto',
       },
@@ -43,7 +44,7 @@ ConfigScreen.prototype.render = function () {
       h('.section-title.flex-row.flex-center', [
         h('i.fa.fa-arrow-left.fa-lg.cursor-pointer', {
           onClick: () => {
-            state.dispatch(actions.goHome())
+            state.dispatch(actions.goHome());
           },
         }),
         h('h2.page-subtitle', 'Settings'),
@@ -68,7 +69,7 @@ ConfigScreen.prototype.render = function () {
 
           currentProviderDisplay(metamaskState),
 
-          h('div', { style: {display: 'flex'} }, [
+          h('div', {style: {display: 'flex'}}, [
             h('input#new_rpc', {
               placeholder: 'New RPC URL',
               style: {
@@ -77,11 +78,11 @@ ConfigScreen.prototype.render = function () {
                 height: '30px',
                 margin: '8px',
               },
-              onKeyPress (event) {
+              onKeyPress(event) {
                 if (event.key === 'Enter') {
-                  var element = event.target
-                  var newRpc = element.value
-                  rpcValidation(newRpc, state)
+                  var element = event.target;
+                  var newRpc = element.value;
+                  rpcValidation(newRpc, state);
                 }
               },
             }),
@@ -89,11 +90,11 @@ ConfigScreen.prototype.render = function () {
               style: {
                 alignSelf: 'center',
               },
-              onClick (event) {
-                event.preventDefault()
-                var element = document.querySelector('input#new_rpc')
-                var newRpc = element.value
-                rpcValidation(newRpc, state)
+              onClick(event) {
+                event.preventDefault();
+                var element = document.querySelector('input#new_rpc');
+                var newRpc = element.value;
+                rpcValidation(newRpc, state);
               },
             }, 'Save'),
           ]),
@@ -120,14 +121,14 @@ ConfigScreen.prototype.render = function () {
               style: {
                 alignSelf: 'center',
               },
-              onClick (event) {
+              onClick(event) {
                 window.logStateString((err, result) => {
                   if (err) {
-                    state.dispatch(actions.displayWarning('Error in retrieving state logs.'))
+                    state.dispatch(actions.displayWarning('Error in retrieving state logs.'));
                   } else {
-                    exportAsFile('MetaMask State Logs.json', result)
+                    exportAsFile('MetaMask State Logs.json', result);
                   }
-                })
+                });
               },
             }, 'Download State Logs'),
           ]),
@@ -143,9 +144,9 @@ ConfigScreen.prototype.render = function () {
               style: {
                 alignSelf: 'center',
               },
-              onClick (event) {
-                event.preventDefault()
-                state.dispatch(actions.revealSeedConfirmation())
+              onClick(event) {
+                event.preventDefault();
+                state.dispatch(actions.revealSeedConfirmation());
               },
             }, 'Reveal Seed Words'),
           ]),
@@ -176,9 +177,9 @@ ConfigScreen.prototype.render = function () {
               style: {
                 alignSelf: 'center',
               },
-              onClick (event) {
-                event.preventDefault()
-                state.dispatch(actions.resetAccount())
+              onClick(event) {
+                event.preventDefault();
+                state.dispatch(actions.resetAccount());
               },
             }, 'Reset Account'),
           ]),
@@ -186,76 +187,79 @@ ConfigScreen.prototype.render = function () {
         ]),
       ]),
     ])
-  )
-}
+  );
+};
 
-function rpcValidation (newRpc, state) {
+function rpcValidation(newRpc, state) {
   if (validUrl.isWebUri(newRpc)) {
-    state.dispatch(actions.setRpcTarget(newRpc))
+    state.dispatch(actions.setRpcTarget(newRpc));
   } else {
-    var appendedRpc = `http://${newRpc}`
+    var appendedRpc = `http://${newRpc}`;
     if (validUrl.isWebUri(appendedRpc)) {
-      state.dispatch(actions.displayWarning('URIs require the appropriate HTTP/HTTPS prefix.'))
+      state.dispatch(actions.displayWarning('URIs require the appropriate HTTP/HTTPS prefix.'));
     } else {
-      state.dispatch(actions.displayWarning('Invalid RPC URI'))
+      state.dispatch(actions.displayWarning('Invalid RPC URI'));
     }
   }
 }
 
-function currentConversionInformation (metamaskState, state) {
-  var currentCurrency = metamaskState.currentCurrency
-  var conversionDate = metamaskState.conversionDate
+function currentConversionInformation(metamaskState, state) {
+  var currentCurrency = metamaskState.currentCurrency;
+  var conversionDate = metamaskState.conversionDate;
   return h('div', [
-    h('span', {style: { fontWeight: 'bold', paddingRight: '10px'}}, 'Current Conversion'),
-    h('span', {style: { fontWeight: 'bold', paddingRight: '10px', fontSize: '13px'}}, `Updated ${Date(conversionDate)}`),
+    h('span', {style: {fontWeight: 'bold', paddingRight: '10px'}}, 'Current Conversion'),
+    h('span', {style: {fontWeight: 'bold', paddingRight: '10px', fontSize: '13px'}}, `Updated ${Date(conversionDate)}`),
     h('select#currentCurrency', {
-      onChange (event) {
-        event.preventDefault()
-        var element = document.getElementById('currentCurrency')
-        var newCurrency = element.value
-        state.dispatch(actions.setCurrentCurrency(newCurrency))
-      },
-      defaultValue: currentCurrency,
-    }, infuraCurrencies.map((currency) => {
-      return h('option', {key: currency.quote.code, value: currency.quote.code}, `${currency.quote.code.toUpperCase()} - ${currency.quote.name}`)
-    })
-  ),
-  ])
+        onChange(event) {
+          event.preventDefault();
+          var element = document.getElementById('currentCurrency');
+          var newCurrency = element.value;
+          state.dispatch(actions.setCurrentCurrency(newCurrency));
+        },
+        defaultValue: currentCurrency,
+      }, infuraCurrencies.map((currency) => {
+        return h(
+          'option',
+          {key: currency.quote.code, value: currency.quote.code},
+          `${currency.quote.code.toUpperCase()} - ${currency.quote.name}`);
+      }),
+    ),
+  ]);
 }
 
-function currentProviderDisplay (metamaskState) {
-  var provider = metamaskState.provider
-  var title, value
+function currentProviderDisplay(metamaskState) {
+  var provider = metamaskState.provider;
+  var title, value;
 
   switch (provider.type) {
 
     case 'mainnet':
-      title = 'Current Network'
-      value = 'Main Ethereum Network'
-      break
+      title = 'Current Network';
+      value = 'Main Ethereum Network';
+      break;
 
     case 'ropsten':
-      title = 'Current Network'
-      value = 'Ropsten Test Network'
-      break
+      title = 'Current Network';
+      value = 'Ropsten Test Network';
+      break;
 
     case 'kovan':
-      title = 'Current Network'
-      value = 'Kovan Test Network'
-      break
+      title = 'Current Network';
+      value = 'Kovan Test Network';
+      break;
 
     case 'rinkeby':
-      title = 'Current Network'
-      value = 'Rinkeby Test Network'
-      break
+      title = 'Current Network';
+      value = 'Rinkeby Test Network';
+      break;
 
     default:
-      title = 'Current RPC'
-      value = metamaskState.provider.rpcTarget
+      title = 'Current RPC';
+      value = metamaskState.provider.rpcTarget;
   }
 
   return h('div', [
-    h('span', {style: { fontWeight: 'bold', paddingRight: '10px'}}, title),
+    h('span', {style: {fontWeight: 'bold', paddingRight: '10px'}}, title),
     h('span', value),
-  ])
+  ]);
 }

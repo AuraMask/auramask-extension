@@ -1,6 +1,6 @@
-const summary = require('../app/util').addressSummary
+const summary = require('../app/util').addressSummary;
 
-module.exports = function (lostAccounts) {
+module.exports = function(lostAccounts) {
   return {
     date: new Date().toDateString(),
     title: 'Account Problem Caught',
@@ -19,5 +19,5 @@ For more information, please read [our blog post.][1]
 
 [1]: https://medium.com/metamask/metamask-3-migration-guide-914b79533cdd#.7d8ktj4h3
     `,
-  }
-}
+  };
+};

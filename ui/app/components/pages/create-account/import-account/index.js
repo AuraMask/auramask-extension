@@ -1,38 +1,37 @@
-const inherits = require('util').inherits
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const PropTypes = require('prop-types')
-const connect = require('react-redux').connect
-import Select from 'react-select'
+const inherits = require('util').inherits;
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const PropTypes = require('prop-types');
+const connect = require('react-redux').connect;
+import Select from 'react-select';
 
 // Subviews
-const JsonImportView = require('./json.js')
-const PrivateKeyImportView = require('./private-key.js')
-
+const JsonImportView = require('./json.js');
+const PrivateKeyImportView = require('./private-key.js');
 
 AccountImportSubview.contextTypes = {
   t: PropTypes.func,
+};
+
+module.exports = connect()(AccountImportSubview);
+
+inherits(AccountImportSubview, Component);
+
+function AccountImportSubview() {
+  Component.call(this);
 }
 
-module.exports = connect()(AccountImportSubview)
-
-
-inherits(AccountImportSubview, Component)
-function AccountImportSubview () {
-  Component.call(this)
-}
-
-AccountImportSubview.prototype.getMenuItemTexts = function () {
+AccountImportSubview.prototype.getMenuItemTexts = function() {
   return [
     this.context.t('privateKey'),
     this.context.t('jsonFile'),
-  ]
-}
+  ];
+};
 
-AccountImportSubview.prototype.render = function () {
-  const state = this.state || {}
-  const menuItems = this.getMenuItemTexts()
-  const { type } = state
+AccountImportSubview.prototype.render = function() {
+  const state = this.state || {};
+  const menuItems = this.getMenuItemTexts();
+  const {type} = state;
 
   return (
     h('div.new-account-import-form', [
@@ -47,7 +46,7 @@ AccountImportSubview.prototype.render = function () {
           onClick: () => {
             global.platform.openWindow({
               url: 'https://metamask.helpscoutdocs.com/article/17-what-are-loose-accounts',
-            })
+            });
           },
         }, this.context.t('here')),
       ]),
@@ -65,10 +64,10 @@ AccountImportSubview.prototype.render = function () {
             return {
               value: type,
               label: type,
-            }
+            };
           }),
           onChange: (opt) => {
-            this.setState({ type: opt.value })
+            this.setState({type: opt.value});
           },
         }),
 
@@ -76,21 +75,21 @@ AccountImportSubview.prototype.render = function () {
 
       this.renderImportView(),
     ])
-  )
-}
+  );
+};
 
-AccountImportSubview.prototype.renderImportView = function () {
-  const state = this.state || {}
-  const { type } = state
-  const menuItems = this.getMenuItemTexts()
-  const current = type || menuItems[0]
+AccountImportSubview.prototype.renderImportView = function() {
+  const state = this.state || {};
+  const {type} = state;
+  const menuItems = this.getMenuItemTexts();
+  const current = type || menuItems[0];
 
   switch (current) {
     case this.context.t('privateKey'):
-      return h(PrivateKeyImportView)
+      return h(PrivateKeyImportView);
     case this.context.t('jsonFile'):
-      return h(JsonImportView)
+      return h(JsonImportView);
     default:
-      return h(JsonImportView)
+      return h(JsonImportView);
   }
-}
+};

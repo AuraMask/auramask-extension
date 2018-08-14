@@ -1,27 +1,28 @@
-const inherits = require('util').inherits
-const Component = require('react').Component
-const connect = require('react-redux').connect
-const h = require('react-hyperscript')
-const actions = require('../../actions')
-const exportAsFile = require('../../util').exportAsFile
+const inherits = require('util').inherits;
+const Component = require('react').Component;
+const connect = require('react-redux').connect;
+const h = require('react-hyperscript');
+const actions = require('../../actions');
+const exportAsFile = require('../../util').exportAsFile;
 
-module.exports = connect(mapStateToProps)(CreateVaultCompleteScreen)
+module.exports = connect(mapStateToProps)(CreateVaultCompleteScreen);
 
-inherits(CreateVaultCompleteScreen, Component)
-function CreateVaultCompleteScreen () {
-  Component.call(this)
+inherits(CreateVaultCompleteScreen, Component);
+
+function CreateVaultCompleteScreen() {
+  Component.call(this);
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     seed: state.appState.currentView.seedWords,
     cachedSeed: state.metamask.seedWords,
-  }
+  };
 }
 
-CreateVaultCompleteScreen.prototype.render = function () {
-  var state = this.props
-  var seed = state.seed || state.cachedSeed || ''
+CreateVaultCompleteScreen.prototype.render = function() {
+  var state = this.props;
+  var seed = state.seed || state.cachedSeed || '';
 
   return (
 
@@ -63,7 +64,7 @@ CreateVaultCompleteScreen.prototype.render = function () {
 
       h('button.primary', {
         onClick: () => this.confirmSeedWords()
-          .then(account => this.showAccountDetail(account)),
+                           .then(account => this.showAccountDetail(account)),
         style: {
           margin: '24px',
           fontSize: '0.9em',
@@ -79,13 +80,13 @@ CreateVaultCompleteScreen.prototype.render = function () {
         },
       }, 'Save Seed Words As File'),
     ])
-  )
-}
+  );
+};
 
-CreateVaultCompleteScreen.prototype.confirmSeedWords = function () {
-  return this.props.dispatch(actions.confirmSeedWords())
-}
+CreateVaultCompleteScreen.prototype.confirmSeedWords = function() {
+  return this.props.dispatch(actions.confirmSeedWords());
+};
 
-CreateVaultCompleteScreen.prototype.showAccountDetail = function (account) {
-  return this.props.dispatch(actions.showAccountDetail(account))
-}
+CreateVaultCompleteScreen.prototype.showAccountDetail = function(account) {
+  return this.props.dispatch(actions.showAccountDetail(account));
+};

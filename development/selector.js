@@ -1,16 +1,17 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
 
-module.exports = NewComponent
+module.exports = NewComponent;
 
-inherits(NewComponent, Component)
-function NewComponent () {
-  Component.call(this)
+inherits(NewComponent, Component);
+
+function NewComponent() {
+  Component.call(this);
 }
 
-NewComponent.prototype.render = function () {
-  const props = this.props
+NewComponent.prototype.render = function() {
+  const props = this.props;
   let {
     states,
     selectedKey,
@@ -18,25 +19,25 @@ NewComponent.prototype.render = function () {
     store,
     modifyBackgroundConnection,
     backGroundConnectionModifiers,
-  } = props
+  } = props;
 
-  const state = this.state || {}
-  const selected = state.selected || selectedKey
+  const state = this.state || {};
+  const selected = state.selected || selectedKey;
 
   return h('select', {
     style: {
       margin: '20px 20px 0px',
     },
     value: selected,
-    onChange:(event) => {
-      const selectedKey = event.target.value
-      const backgroundConnectionModifier = backGroundConnectionModifiers[selectedKey]
-      modifyBackgroundConnection(backgroundConnectionModifier || {})
-      store.dispatch(actions.update(selectedKey))
-      this.setState({ selected: selectedKey })
+    onChange: (event) => {
+      const selectedKey = event.target.value;
+      const backgroundConnectionModifier = backGroundConnectionModifiers[selectedKey];
+      modifyBackgroundConnection(backgroundConnectionModifier || {});
+      store.dispatch(actions.update(selectedKey));
+      this.setState({selected: selectedKey});
     },
   }, Object.keys(states).map((stateName) => {
-    return h('option', { value: stateName }, stateName)
-  }))
+    return h('option', {value: stateName}, stateName);
+  }));
 
-}
+};

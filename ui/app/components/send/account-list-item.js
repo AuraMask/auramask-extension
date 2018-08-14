@@ -1,27 +1,28 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const connect = require('react-redux').connect
-const { checksumAddress } = require('../../util')
-const Identicon = require('../identicon')
-const CurrencyDisplay = require('./currency-display')
-const { conversionRateSelector, getCurrentCurrency } = require('../../selectors')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const connect = require('react-redux').connect;
+const {checksumAddress} = require('../../util');
+const Identicon = require('../identicon');
+const CurrencyDisplay = require('./currency-display');
+const {conversionRateSelector, getCurrentCurrency} = require('../../selectors');
 
-inherits(AccountListItem, Component)
-function AccountListItem () {
-  Component.call(this)
+inherits(AccountListItem, Component);
+
+function AccountListItem() {
+  Component.call(this);
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     conversionRate: conversionRateSelector(state),
     currentCurrency: getCurrentCurrency(state),
-  }
+  };
 }
 
-module.exports = connect(mapStateToProps)(AccountListItem)
+module.exports = connect(mapStateToProps)(AccountListItem);
 
-AccountListItem.prototype.render = function () {
+AccountListItem.prototype.render = function() {
   const {
     className,
     account,
@@ -31,13 +32,13 @@ AccountListItem.prototype.render = function () {
     currentCurrency,
     displayBalance = true,
     displayAddress = false,
-  } = this.props
+  } = this.props;
 
-  const { name, address, balance } = account || {}
+  const {name, address, balance} = account || {};
 
   return h('div.account-list-item', {
     className,
-    onClick: () => handleClick({ name, address, balance }),
+    onClick: () => handleClick({name, address, balance}),
   }, [
 
     h('div.account-list-item__top-row', {}, [
@@ -70,5 +71,5 @@ AccountListItem.prototype.render = function () {
       convertedBalanceClassName: 'account-list-item__account-secondary-balance',
     }, name),
 
-  ])
-}
+  ]);
+};

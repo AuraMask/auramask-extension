@@ -1,6 +1,6 @@
-const clone = require('clone')
+const clone = require('clone');
 
-module.exports = getObjStructure
+module.exports = getObjStructure;
 
 // This will create an object that represents the structure of the given object
 // it replaces all values with the result of their type
@@ -18,16 +18,16 @@ module.exports = getObjStructure
  * Creates an object that represents the structure of the given object. It replaces all values with the result of their
  * type.
  *
- * @param {object} obj The object for which a 'structure' will be returned. Usually a plain object and not a class. 
+ * @param {object} obj The object for which a 'structure' will be returned. Usually a plain object and not a class.
  * @returns {object} The "mapped" version of a deep clone of the passed object, with each non-object property value
  * replaced with the javascript type of that value.
  *
  */
 function getObjStructure(obj) {
-  const structure = clone(obj)
+  const structure = clone(obj);
   return deepMap(structure, (value) => {
-    return value === null ? 'null' : typeof value
-  })
+    return value === null ? 'null' : typeof value;
+  });
 }
 
 /**
@@ -41,10 +41,10 @@ function getObjStructure(obj) {
 function deepMap(target = {}, visit) {
   Object.entries(target).forEach(([key, value]) => {
     if (typeof value === 'object' && value !== null) {
-      target[key] = deepMap(value, visit)
+      target[key] = deepMap(value, visit);
     } else {
-      target[key] = visit(value)
+      target[key] = visit(value);
     }
-  })
-  return target
+  });
+  return target;
 }

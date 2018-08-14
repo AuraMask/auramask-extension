@@ -1,7 +1,7 @@
 // test and development environment variables
-const env = process.env.METAMASK_ENV
-const METAMASK_DEBUG = process.env.METAMASK_DEBUG
-const { DEFAULT_NETWORK, MAINNET } = require('./controllers/network/enums')
+const env = process.env.METAMASK_ENV;
+const METAMASK_DEBUG = process.env.METAMASK_DEBUG;
+const {DEFAULT_NETWORK, MAINNET} = require('./controllers/network/enums');
 
 /**
  * @typedef {Object} FirstTimeState
@@ -19,6 +19,6 @@ const initialState = {
       type: (METAMASK_DEBUG || env === 'test') ? DEFAULT_NETWORK : MAINNET,
     },
   },
-}
+};
 
-module.exports = initialState
+module.exports = initialState;

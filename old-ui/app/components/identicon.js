@@ -1,24 +1,25 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const isNode = require('detect-node')
-const findDOMNode = require('react-dom').findDOMNode
-const jazzicon = require('jazzicon')
-const iconFactoryGen = require('../../lib/icon-factory')
-const iconFactory = iconFactoryGen(jazzicon)
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const isNode = require('detect-node');
+const findDOMNode = require('react-dom').findDOMNode;
+const jazzicon = require('jazzicon');
+const iconFactoryGen = require('../../lib/icon-factory');
+const iconFactory = iconFactoryGen(jazzicon);
 
-module.exports = IdenticonComponent
+module.exports = IdenticonComponent;
 
-inherits(IdenticonComponent, Component)
-function IdenticonComponent () {
-  Component.call(this)
+inherits(IdenticonComponent, Component);
 
-  this.defaultDiameter = 46
+function IdenticonComponent() {
+  Component.call(this);
+
+  this.defaultDiameter = 46;
 }
 
-IdenticonComponent.prototype.render = function () {
-  var props = this.props
-  var diameter = props.diameter || this.defaultDiameter
+IdenticonComponent.prototype.render = function() {
+  var props = this.props;
+  var diameter = props.diameter || this.defaultDiameter;
   return (
     h('div', {
       key: 'identicon-' + this.props.address,
@@ -32,43 +33,43 @@ IdenticonComponent.prototype.render = function () {
         overflow: 'hidden',
       },
     })
-  )
-}
+  );
+};
 
-IdenticonComponent.prototype.componentDidMount = function () {
-  var props = this.props
-  const { address } = props
+IdenticonComponent.prototype.componentDidMount = function() {
+  var props = this.props;
+  const {address} = props;
 
-  if (!address) return
+  if (!address) return;
 
   // eslint-disable-next-line react/no-find-dom-node
-  var container = findDOMNode(this)
+  var container = findDOMNode(this);
 
-  var diameter = props.diameter || this.defaultDiameter
+  var diameter = props.diameter || this.defaultDiameter;
   if (!isNode) {
-    var img = iconFactory.iconForAddress(address, diameter)
-    container.appendChild(img)
+    var img = iconFactory.iconForAddress(address, diameter);
+    container.appendChild(img);
   }
-}
+};
 
-IdenticonComponent.prototype.componentDidUpdate = function () {
-  var props = this.props
-  const { address } = props
+IdenticonComponent.prototype.componentDidUpdate = function() {
+  var props = this.props;
+  const {address} = props;
 
-  if (!address) return
+  if (!address) return;
 
   // eslint-disable-next-line react/no-find-dom-node
-  var container = findDOMNode(this)
+  var container = findDOMNode(this);
 
-  var children = container.children
+  var children = container.children;
   for (var i = 0; i < children.length; i++) {
-    container.removeChild(children[i])
+    container.removeChild(children[i]);
   }
 
-  var diameter = props.diameter || this.defaultDiameter
+  var diameter = props.diameter || this.defaultDiameter;
   if (!isNode) {
-    var img = iconFactory.iconForAddress(address, diameter)
-    container.appendChild(img)
+    var img = iconFactory.iconForAddress(address, diameter);
+    container.appendChild(img);
   }
-}
+};
 

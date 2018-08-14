@@ -1,17 +1,18 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const InputNumber = require('../input-number.js')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const InputNumber = require('../input-number.js');
 // const GasSlider = require('./gas-slider.js')
 
-module.exports = GasModalCard
+module.exports = GasModalCard;
 
-inherits(GasModalCard, Component)
-function GasModalCard () {
-  Component.call(this)
+inherits(GasModalCard, Component);
+
+function GasModalCard() {
+  Component.call(this);
 }
 
-GasModalCard.prototype.render = function () {
+GasModalCard.prototype.render = function() {
   const {
     // memo,
     onChange,
@@ -22,7 +23,7 @@ GasModalCard.prototype.render = function () {
     step,
     title,
     copy,
-  } = this.props
+  } = this.props;
 
   return h('div.send-v2__gas-modal-card', [
 
@@ -48,7 +49,7 @@ GasModalCard.prototype.render = function () {
     //   onChange,
     // }),
 
-  ])
+  ]);
 
-}
+};
 

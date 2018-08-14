@@ -1,43 +1,43 @@
-const { Component } = require('react')
-const PropTypes = require('prop-types')
-const connect = require('react-redux').connect
-const { Route, Switch, withRouter } = require('react-router-dom')
-const { compose } = require('recompose')
-const h = require('react-hyperscript')
-const actions = require('./actions')
-const classnames = require('classnames')
-const log = require('loglevel')
+const {Component} = require('react');
+const PropTypes = require('prop-types');
+const connect = require('react-redux').connect;
+const {Route, Switch, withRouter} = require('react-router-dom');
+const {compose} = require('recompose');
+const h = require('react-hyperscript');
+const actions = require('./actions');
+const classnames = require('classnames');
+const log = require('loglevel');
 
 // init
-const InitializeScreen = require('../../mascara/src/app/first-time').default
+const InitializeScreen = require('../../mascara/src/app/first-time').default;
 // accounts
-const SendTransactionScreen2 = require('./components/send/send-v2-container')
-const ConfirmTxScreen = require('./conf-tx')
+const SendTransactionScreen2 = require('./components/send/send-v2-container');
+const ConfirmTxScreen = require('./conf-tx');
 
 // slideout menu
-const WalletView = require('./components/wallet-view')
+const WalletView = require('./components/wallet-view');
 
 // other views
-const Home = require('./components/pages/home')
-const Authenticated = require('./components/pages/authenticated')
-const Initialized = require('./components/pages/initialized')
-const Settings = require('./components/pages/settings')
-const UnlockPage = require('./components/pages/unlock')
-const RestoreVaultPage = require('./components/pages/keychains/restore-vault')
-const RevealSeedConfirmation = require('./components/pages/keychains/reveal-seed')
-const AddTokenPage = require('./components/pages/add-token')
-const CreateAccountPage = require('./components/pages/create-account')
-const NoticeScreen = require('./components/pages/notice')
+const Home = require('./components/pages/home');
+const Authenticated = require('./components/pages/authenticated');
+const Initialized = require('./components/pages/initialized');
+const Settings = require('./components/pages/settings');
+const UnlockPage = require('./components/pages/unlock');
+const RestoreVaultPage = require('./components/pages/keychains/restore-vault');
+const RevealSeedConfirmation = require('./components/pages/keychains/reveal-seed');
+const AddTokenPage = require('./components/pages/add-token');
+const CreateAccountPage = require('./components/pages/create-account');
+const NoticeScreen = require('./components/pages/notice');
 
-const Loading = require('./components/loading')
-const NetworkIndicator = require('./components/network')
-const Identicon = require('./components/identicon')
-const ReactCSSTransitionGroup = require('react-addons-css-transition-group')
-const NetworkDropdown = require('./components/dropdowns/network-dropdown')
-const AccountMenu = require('./components/account-menu')
+const Loading = require('./components/loading');
+const NetworkIndicator = require('./components/network');
+const Identicon = require('./components/identicon');
+const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+const NetworkDropdown = require('./components/dropdowns/network-dropdown');
+const AccountMenu = require('./components/account-menu');
 
 // Global Modals
-const Modal = require('./components/modals/index').Modal
+const Modal = require('./components/modals/index').Modal;
 
 // Routes
 const {
@@ -52,38 +52,38 @@ const {
   CONFIRM_TRANSACTION_ROUTE,
   INITIALIZE_ROUTE,
   NOTICE_ROUTE,
-} = require('./routes')
+} = require('./routes');
 
 class App extends Component {
-  componentWillMount () {
-    const { currentCurrency, setCurrentCurrencyToUSD } = this.props
+  componentWillMount() {
+    const {currentCurrency, setCurrentCurrencyToUSD} = this.props;
 
     if (!currentCurrency) {
-      setCurrentCurrencyToUSD()
+      setCurrentCurrencyToUSD();
     }
   }
 
-  renderRoutes () {
-    const exact = true
+  renderRoutes() {
+    const exact = true;
 
     return (
       h(Switch, [
-        h(Route, { path: INITIALIZE_ROUTE, component: InitializeScreen }),
-        h(Initialized, { path: REVEAL_SEED_ROUTE, exact, component: RevealSeedConfirmation }),
-        h(Initialized, { path: UNLOCK_ROUTE, exact, component: UnlockPage }),
-        h(Initialized, { path: SETTINGS_ROUTE, component: Settings }),
-        h(Initialized, { path: RESTORE_VAULT_ROUTE, exact, component: RestoreVaultPage }),
-        h(Initialized, { path: NOTICE_ROUTE, exact, component: NoticeScreen }),
-        h(Authenticated, { path: CONFIRM_TRANSACTION_ROUTE, component: ConfirmTxScreen }),
-        h(Authenticated, { path: SEND_ROUTE, exact, component: SendTransactionScreen2 }),
-        h(Authenticated, { path: ADD_TOKEN_ROUTE, exact, component: AddTokenPage }),
-        h(Authenticated, { path: NEW_ACCOUNT_ROUTE, component: CreateAccountPage }),
-        h(Authenticated, { path: DEFAULT_ROUTE, exact, component: Home }),
+        h(Route, {path: INITIALIZE_ROUTE, component: InitializeScreen}),
+        h(Initialized, {path: REVEAL_SEED_ROUTE, exact, component: RevealSeedConfirmation}),
+        h(Initialized, {path: UNLOCK_ROUTE, exact, component: UnlockPage}),
+        h(Initialized, {path: SETTINGS_ROUTE, component: Settings}),
+        h(Initialized, {path: RESTORE_VAULT_ROUTE, exact, component: RestoreVaultPage}),
+        h(Initialized, {path: NOTICE_ROUTE, exact, component: NoticeScreen}),
+        h(Authenticated, {path: CONFIRM_TRANSACTION_ROUTE, component: ConfirmTxScreen}),
+        h(Authenticated, {path: SEND_ROUTE, exact, component: SendTransactionScreen2}),
+        h(Authenticated, {path: ADD_TOKEN_ROUTE, exact, component: AddTokenPage}),
+        h(Authenticated, {path: NEW_ACCOUNT_ROUTE, component: CreateAccountPage}),
+        h(Authenticated, {path: DEFAULT_ROUTE, exact, component: Home}),
       ])
-    )
+    );
   }
 
-  render () {
+  render() {
     const {
       isLoading,
       loadingMessage,
@@ -93,15 +93,15 @@ class App extends Component {
       frequentRpcList,
       currentView,
       setMouseUserState,
-    } = this.props
-    const isLoadingNetwork = network === 'loading' && currentView.name !== 'config'
+    } = this.props;
+    const isLoadingNetwork = network === 'loading' && currentView.name !== 'config';
     const loadMessage = loadingMessage || isLoadingNetwork ?
-      this.getConnectingLabel() : null
-    log.debug('Main ui render function')
+      this.getConnectingLabel() : null;
+    log.debug('Main ui render function');
 
     return (
       h('.flex-column.full-height', {
-        className: classnames({ 'mouse-user-styles': isMouseUser }),
+        className: classnames({'mouse-user-styles': isMouseUser}),
         style: {
           overflowX: 'hidden',
           position: 'relative',
@@ -111,7 +111,7 @@ class App extends Component {
         onClick: () => setMouseUserState(true),
         onKeyDown: (e) => {
           if (e.keyCode === 9) {
-            setMouseUserState(false)
+            setMouseUserState(false);
           }
         },
       }, [
@@ -140,18 +140,18 @@ class App extends Component {
         // content
         this.renderRoutes(),
       ])
-    )
+    );
   }
 
-  renderGlobalModal () {
+  renderGlobalModal() {
     return h(Modal, {
       ref: 'modalRef',
     }, [
       // h(BuyOptions, {}, []),
-    ])
+    ]);
   }
 
-  renderSidebar () {
+  renderSidebar() {
     return h('div', [
       h('style', `
         .sidebar-enter {
@@ -190,13 +190,13 @@ class App extends Component {
       this.props.sidebarOpen ? h('div.sidebar-overlay', {
         style: {},
         onClick: () => {
-          this.props.hideSidebar()
+          this.props.hideSidebar();
         },
       }, []) : undefined,
-    ])
+    ]);
   }
 
-  renderAppBar () {
+  renderAppBar() {
     const {
       isUnlocked,
       network,
@@ -208,23 +208,23 @@ class App extends Component {
       welcomeScreenSeen,
       isPopup,
       betaUI,
-    } = this.props
+    } = this.props;
 
     if (window.METAMASK_UI_TYPE === 'notification') {
-      return null
+      return null;
     }
 
-    const props = this.props
-    const {isMascara, isOnboarding} = props
+    const props = this.props;
+    const {isMascara, isOnboarding} = props;
 
     // Do not render header if user is in mascara onboarding
     if (isMascara && isOnboarding) {
-      return null
+      return null;
     }
 
     // Do not render header if user is in mascara buy ether
     if (isMascara && props.currentView.name === 'buyEth') {
-      return null
+      return null;
     }
 
     return (
@@ -267,17 +267,17 @@ class App extends Component {
                   provider,
                   disabled: this.props.location.pathname === CONFIRM_TRANSACTION_ROUTE,
                   onClick: (event) => {
-                    event.preventDefault()
-                    event.stopPropagation()
+                    event.preventDefault();
+                    event.stopPropagation();
                     return networkDropdownOpen === false
                       ? showNetworkDropdown()
-                      : hideNetworkDropdown()
+                      : hideNetworkDropdown();
                   },
                 }),
 
               ]),
 
-              isUnlocked && h('div.account-menu__icon', { onClick: this.props.toggleAccountMenu }, [
+              isUnlocked && h('div.account-menu__icon', {onClick: this.props.toggleAccountMenu}, [
                 h(Identicon, {
                   address: this.props.selectedAddress,
                   diameter: 32,
@@ -297,61 +297,61 @@ class App extends Component {
         ]),
 
       ])
-    )
+    );
   }
 
-  toggleMetamaskActive () {
+  toggleMetamaskActive() {
     if (!this.props.isUnlocked) {
       // currently inactive: redirect to password box
-      var passwordBox = document.querySelector('input[type=password]')
-      if (!passwordBox) return
-      passwordBox.focus()
+      var passwordBox = document.querySelector('input[type=password]');
+      if (!passwordBox) return;
+      passwordBox.focus();
     } else {
       // currently active: deactivate
-      this.props.dispatch(actions.lockMetamask(false))
+      this.props.dispatch(actions.lockMetamask(false));
     }
   }
 
-  getConnectingLabel = function () {
-    const { provider } = this.props
-    const providerName = provider.type
+  getConnectingLabel = function() {
+    const {provider} = this.props;
+    const providerName = provider.type;
 
-    let name
-
-    if (providerName === 'mainnet') {
-      name = this.context.t('connectingToMainnet')
-    } else if (providerName === 'ropsten') {
-      name = this.context.t('connectingToRopsten')
-    } else if (providerName === 'kovan') {
-      name = this.context.t('connectingToRopsten')
-    } else if (providerName === 'rinkeby') {
-      name = this.context.t('connectingToRinkeby')
-    } else {
-      name = this.context.t('connectingToUnknown')
-    }
-
-    return name
-  }
-
-  getNetworkName () {
-    const { provider } = this.props
-    const providerName = provider.type
-
-    let name
+    let name;
 
     if (providerName === 'mainnet') {
-      name = this.context.t('mainnet')
+      name = this.context.t('connectingToMainnet');
     } else if (providerName === 'ropsten') {
-      name = this.context.t('ropsten')
+      name = this.context.t('connectingToRopsten');
     } else if (providerName === 'kovan') {
-      name = this.context.t('kovan')
+      name = this.context.t('connectingToRopsten');
     } else if (providerName === 'rinkeby') {
-      name = this.context.t('rinkeby')
+      name = this.context.t('connectingToRinkeby');
     } else {
-      name = this.context.t('unknownNetwork')
+      name = this.context.t('connectingToUnknown');
     }
 
-    return name
+    return name;
+  };
+
+  getNetworkName() {
+    const {provider} = this.props;
+    const providerName = provider.type;
+
+    let name;
+
+    if (providerName === 'mainnet') {
+      name = this.context.t('mainnet');
+    } else if (providerName === 'ropsten') {
+      name = this.context.t('ropsten');
+    } else if (providerName === 'kovan') {
+      name = this.context.t('kovan');
+    } else if (providerName === 'rinkeby') {
+      name = this.context.t('rinkeby');
+    } else {
+      name = this.context.t('unknownNetwork');
+    }
+
+    return name;
   }
 }
 
@@ -393,16 +393,16 @@ App.propTypes = {
   isMouseUser: PropTypes.bool,
   setMouseUserState: PropTypes.func,
   t: PropTypes.func,
-}
+};
 
-function mapStateToProps (state) {
-  const { appState, metamask } = state
+function mapStateToProps(state) {
+  const {appState, metamask} = state;
   const {
     networkDropdownOpen,
     sidebarOpen,
     isLoading,
     loadingMessage,
-  } = appState
+  } = appState;
 
   const {
     identities,
@@ -418,8 +418,8 @@ function mapStateToProps (state) {
     unapprovedMsgCount,
     unapprovedPersonalMsgCount,
     unapprovedTypedMessagesCount,
-  } = metamask
-  const selected = address || Object.keys(accounts)[0]
+  } = metamask;
+  const selected = address || Object.keys(accounts)[0];
 
   return {
     // state from plugin
@@ -461,10 +461,10 @@ function mapStateToProps (state) {
     identities,
     selected,
     keyrings,
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch, ownProps) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
     dispatch,
     hideSidebar: () => dispatch(actions.hideSidebar()),
@@ -473,14 +473,14 @@ function mapDispatchToProps (dispatch, ownProps) {
     setCurrentCurrencyToUSD: () => dispatch(actions.setCurrentCurrency('usd')),
     toggleAccountMenu: () => dispatch(actions.toggleAccountMenu()),
     setMouseUserState: (isMouseUser) => dispatch(actions.setMouseUserState(isMouseUser)),
-  }
+  };
 }
 
 App.contextTypes = {
   t: PropTypes.func,
-}
+};
 
 module.exports = compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
-)(App)
+  connect(mapStateToProps, mapDispatchToProps),
+)(App);

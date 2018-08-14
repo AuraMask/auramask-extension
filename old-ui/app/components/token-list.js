@@ -1,33 +1,34 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const TokenTracker = require('eth-token-tracker')
-const TokenCell = require('./token-cell.js')
-const log = require('loglevel')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const TokenTracker = require('eth-token-tracker');
+const TokenCell = require('./token-cell.js');
+const log = require('loglevel');
 
-module.exports = TokenList
+module.exports = TokenList;
 
-inherits(TokenList, Component)
-function TokenList () {
+inherits(TokenList, Component);
+
+function TokenList() {
   this.state = {
     tokens: [],
     isLoading: true,
     network: null,
-  }
-  Component.call(this)
+  };
+  Component.call(this);
 }
 
-TokenList.prototype.render = function () {
-  const state = this.state
-  const { tokens, isLoading, error } = state
-  const { userAddress, network } = this.props
+TokenList.prototype.render = function() {
+  const state = this.state;
+  const {tokens, isLoading, error} = state;
+  const {userAddress, network} = this.props;
 
   if (isLoading) {
-    return this.message('Loading')
+    return this.message('Loading');
   }
 
   if (error) {
-    log.error(error)
+    log.error(error);
     return h('.hotFix', {
       style: {
         padding: '80px',
@@ -41,18 +42,18 @@ TokenList.prototype.render = function () {
         },
         onClick: () => {
           global.platform.openWindow({
-          url: `https://ethplorer.io/address/${userAddress}`,
-        })
+            url: `https://ethplorer.io/address/${userAddress}`,
+          });
         },
       }, 'here'),
-    ])
+    ]);
   }
 
   const tokenViews = tokens.map((tokenData) => {
-    tokenData.network = network
-    tokenData.userAddress = userAddress
-    return h(TokenCell, tokenData)
-  })
+    tokenData.network = network;
+    tokenData.userAddress = userAddress;
+    return h(TokenCell, tokenData);
+  });
 
   return h('.full-flex-height', [
     this.renderTokenStatusBar(),
@@ -87,19 +88,19 @@ TokenList.prototype.render = function () {
       ...tokenViews,
       h('.flex-grow'),
     ]),
-  ])
-}
+  ]);
+};
 
-TokenList.prototype.renderTokenStatusBar = function () {
-  const { tokens } = this.state
+TokenList.prototype.renderTokenStatusBar = function() {
+  const {tokens} = this.state;
 
-  let msg
+  let msg;
   if (tokens.length === 1) {
-    msg = `You own 1 token`
+    msg = `You own 1 token`;
   } else if (tokens.length > 1) {
-    msg = `You own ${tokens.length} tokens`
+    msg = `You own ${tokens.length} tokens`;
   } else {
-    msg = `No tokens found`
+    msg = `No tokens found`;
   }
 
   return h('div', {
@@ -115,8 +116,8 @@ TokenList.prototype.renderTokenStatusBar = function () {
     h('button', {
       key: 'reveal-account-bar',
       onClick: (event) => {
-        event.preventDefault()
-        this.props.addToken()
+        event.preventDefault();
+        this.props.addToken();
       },
       style: {
         display: 'flex',
@@ -128,10 +129,10 @@ TokenList.prototype.renderTokenStatusBar = function () {
     }, [
       'ADD TOKEN',
     ]),
-  ])
-}
+  ]);
+};
 
-TokenList.prototype.message = function (body) {
+TokenList.prototype.message = function(body) {
   return h('div', {
     style: {
       display: 'flex',
@@ -140,66 +141,65 @@ TokenList.prototype.message = function (body) {
       justifyContent: 'center',
       padding: '30px',
     },
-  }, body)
-}
+  }, body);
+};
 
-TokenList.prototype.componentDidMount = function () {
-  this.createFreshTokenTracker()
-}
+TokenList.prototype.componentDidMount = function() {
+  this.createFreshTokenTracker();
+};
 
-TokenList.prototype.createFreshTokenTracker = function () {
+TokenList.prototype.createFreshTokenTracker = function() {
   if (this.tracker) {
     // Clean up old trackers when refreshing:
-    this.tracker.stop()
-    this.tracker.removeListener('update', this.balanceUpdater)
-    this.tracker.removeListener('error', this.showError)
+    this.tracker.stop();
+    this.tracker.removeListener('update', this.balanceUpdater);
+    this.tracker.removeListener('error', this.showError);
   }
 
-  if (!global.ethereumProvider) return
-  const { userAddress } = this.props
+  if (!global.ethereumProvider) return;
+  const {userAddress} = this.props;
   this.tracker = new TokenTracker({
     userAddress,
     provider: global.ethereumProvider,
     tokens: this.props.tokens,
     pollingInterval: 8000,
-  })
-
+  });
 
   // Set up listener instances for cleaning up
-  this.balanceUpdater = this.updateBalances.bind(this)
+  this.balanceUpdater = this.updateBalances.bind(this);
   this.showError = (error) => {
-    this.setState({ error, isLoading: false })
-  }
-  this.tracker.on('update', this.balanceUpdater)
-  this.tracker.on('error', this.showError)
+    this.setState({error, isLoading: false});
+  };
+  this.tracker.on('update', this.balanceUpdater);
+  this.tracker.on('error', this.showError);
 
   this.tracker.updateBalances()
-  .then(() => {
-    this.updateBalances(this.tracker.serialize())
-  })
-  .catch((reason) => {
-    log.error(`Problem updating balances`, reason)
-    this.setState({ isLoading: false })
-  })
-}
+      .then(() => {
+        this.updateBalances(this.tracker.serialize());
+      })
+      .catch((reason) => {
+        log.error(`Problem updating balances`, reason);
+        this.setState({isLoading: false});
+      });
+};
 
-TokenList.prototype.componentWillUpdate = function (nextProps) {
-  if (nextProps.network === 'loading') return
-  const oldNet = this.props.network
-  const newNet = nextProps.network
+TokenList.prototype.componentWillUpdate = function(nextProps) {
+  if (nextProps.network === 'loading') return;
+  const oldNet = this.props.network;
+  const newNet = nextProps.network;
 
   if (oldNet && newNet && newNet !== oldNet) {
-    this.setState({ isLoading: true })
-    this.createFreshTokenTracker()
+    this.setState({isLoading: true});
+    this.createFreshTokenTracker();
   }
-}
+};
 
-TokenList.prototype.updateBalances = function (tokens) {
-  this.setState({ tokens, isLoading: false })
-}
+TokenList.prototype.updateBalances = function(tokens) {
+  this.setState({tokens, isLoading: false});
+};
 
-TokenList.prototype.componentWillUnmount = function () {
-  if (!this.tracker) return
-  this.tracker.stop()
-}
+TokenList.prototype.componentWillUnmount = function() {
+  if (!this.tracker) return;
+  this.tracker.stop();
+};
 

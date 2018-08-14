@@ -1,39 +1,39 @@
-const Component = require('react').Component
-const PropTypes = require('prop-types')
-const connect = require('react-redux').connect
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const { withRouter } = require('react-router-dom')
-const { compose } = require('recompose')
-const actions = require('../actions')
-const selectors = require('../selectors')
-const { SEND_ROUTE } = require('../routes')
-const { checksumAddress: toChecksumAddress } = require('../util')
+const Component = require('react').Component;
+const PropTypes = require('prop-types');
+const connect = require('react-redux').connect;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const {withRouter} = require('react-router-dom');
+const {compose} = require('recompose');
+const actions = require('../actions');
+const selectors = require('../selectors');
+const {SEND_ROUTE} = require('../routes');
+const {checksumAddress: toChecksumAddress} = require('../util');
 
-const BalanceComponent = require('./balance-component')
-const TxList = require('./tx-list')
-const Identicon = require('./identicon')
+const BalanceComponent = require('./balance-component');
+const TxList = require('./tx-list');
+const Identicon = require('./identicon');
 
 module.exports = compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
-)(TxView)
+  connect(mapStateToProps, mapDispatchToProps),
+)(TxView);
 
 TxView.contextTypes = {
   t: PropTypes.func,
-}
+};
 
-function mapStateToProps (state) {
-  const sidebarOpen = state.appState.sidebarOpen
-  const isMascara = state.appState.isMascara
+function mapStateToProps(state) {
+  const sidebarOpen = state.appState.sidebarOpen;
+  const isMascara = state.appState.isMascara;
 
-  const identities = state.metamask.identities
-  const accounts = state.metamask.accounts
-  const network = state.metamask.network
-  const selectedTokenAddress = state.metamask.selectedTokenAddress
-  const selectedAddress = state.metamask.selectedAddress || Object.keys(accounts)[0]
-  const checksumAddress = toChecksumAddress(selectedAddress)
-  const identity = identities[selectedAddress]
+  const identities = state.metamask.identities;
+  const accounts = state.metamask.accounts;
+  const network = state.metamask.network;
+  const selectedTokenAddress = state.metamask.selectedTokenAddress;
+  const selectedAddress = state.metamask.selectedAddress || Object.keys(accounts)[0];
+  const checksumAddress = toChecksumAddress(selectedAddress);
+  const identity = identities[selectedAddress];
 
   return {
     sidebarOpen,
@@ -44,37 +44,38 @@ function mapStateToProps (state) {
     identity,
     network,
     isMascara,
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    showSidebar: () => { dispatch(actions.showSidebar()) },
-    hideSidebar: () => { dispatch(actions.hideSidebar()) },
-    showModal: (payload) => { dispatch(actions.showModal(payload)) },
-    showSendPage: () => { dispatch(actions.showSendPage()) },
-    showSendTokenPage: () => { dispatch(actions.showSendTokenPage()) },
-  }
+    showSidebar: () => { dispatch(actions.showSidebar()); },
+    hideSidebar: () => { dispatch(actions.hideSidebar()); },
+    showModal: (payload) => { dispatch(actions.showModal(payload)); },
+    showSendPage: () => { dispatch(actions.showSendPage()); },
+    showSendTokenPage: () => { dispatch(actions.showSendTokenPage()); },
+  };
 }
 
-inherits(TxView, Component)
-function TxView () {
-  Component.call(this)
+inherits(TxView, Component);
+
+function TxView() {
+  Component.call(this);
 }
 
-TxView.prototype.renderHeroBalance = function () {
-  const { selectedToken } = this.props
+TxView.prototype.renderHeroBalance = function() {
+  const {selectedToken} = this.props;
 
   return h('div.hero-balance', {}, [
 
-    h(BalanceComponent, { token: selectedToken }),
+    h(BalanceComponent, {token: selectedToken}),
 
     this.renderButtons(),
-  ])
-}
+  ]);
+};
 
-TxView.prototype.renderButtons = function () {
-  const {selectedToken, showModal, history } = this.props
+TxView.prototype.renderButtons = function() {
+  const {selectedToken, showModal, history} = this.props;
 
   return !selectedToken
     ? (
@@ -99,11 +100,11 @@ TxView.prototype.renderButtons = function () {
           onClick: () => history.push(SEND_ROUTE),
         }, this.context.t('send')),
       ])
-    )
-}
+    );
+};
 
-TxView.prototype.render = function () {
-  const { selectedAddress, identity, network, isMascara } = this.props
+TxView.prototype.render = function() {
+  const {selectedAddress, identity, network, isMascara} = this.props;
 
   return h('div.tx-view.flex-column', {
     style: {},
@@ -147,7 +148,7 @@ TxView.prototype.render = function () {
 
       !isMascara && h('div.open-in-browser', {
         onClick: () => global.platform.openExtensionInBrowser(),
-      }, [h('img', { src: 'images/popout.svg' })]),
+      }, [h('img', {src: 'images/popout.svg'})]),
 
     ]),
 
@@ -155,5 +156,5 @@ TxView.prototype.render = function () {
 
     h(TxList),
 
-  ])
-}
+  ]);
+};

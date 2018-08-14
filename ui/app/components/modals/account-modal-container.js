@@ -1,51 +1,51 @@
-const Component = require('react').Component
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const connect = require('react-redux').connect
-const actions = require('../../actions')
-const { getSelectedIdentity } = require('../../selectors')
-const Identicon = require('../identicon')
+const Component = require('react').Component;
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const connect = require('react-redux').connect;
+const actions = require('../../actions');
+const {getSelectedIdentity} = require('../../selectors');
+const Identicon = require('../identicon');
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     selectedIdentity: getSelectedIdentity(state),
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     hideModal: () => {
-      dispatch(actions.hideModal())
+      dispatch(actions.hideModal());
     },
-  }
+  };
 }
 
-inherits(AccountModalContainer, Component)
-function AccountModalContainer () {
-  Component.call(this)
+inherits(AccountModalContainer, Component);
+
+function AccountModalContainer() {
+  Component.call(this);
 }
 
 AccountModalContainer.contextTypes = {
   t: PropTypes.func,
-}
+};
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(AccountModalContainer)
+module.exports = connect(mapStateToProps, mapDispatchToProps)(AccountModalContainer);
 
-
-AccountModalContainer.prototype.render = function () {
+AccountModalContainer.prototype.render = function() {
   const {
     selectedIdentity,
     showBackButton = false,
     backButtonAction,
-  } = this.props
-  let { children } = this.props
+  } = this.props;
+  let {children} = this.props;
 
   if (children.constructor !== Array) {
-    children = [children]
+    children = [children];
   }
 
-  return h('div', { style: { borderRadius: '4px' }}, [
+  return h('div', {style: {borderRadius: '4px'}}, [
     h('div.account-modal-container', [
 
       h('div', [
@@ -76,5 +76,5 @@ AccountModalContainer.prototype.render = function () {
       ...children,
 
     ]),
-  ])
-}
+  ]);
+};

@@ -1,6 +1,6 @@
-const ObservableStore = require('obs-store')
-const PendingBalanceCalculator = require('../lib/pending-balance-calculator')
-const BN = require('ethereumjs-util').BN
+const ObservableStore = require('obs-store');
+const PendingBalanceCalculator = require('../lib/pending-balance-calculator');
+const BN = require('ethereumjs-util').BN;
 
 class BalanceController {
 
@@ -22,26 +22,26 @@ class BalanceController {
    * transaction costs taken into account.
    *
    */
-  constructor (opts = {}) {
-    this._validateParams(opts)
-    const { address, accountTracker, txController, blockTracker } = opts
+  constructor(opts = {}) {
+    this._validateParams(opts);
+    const {address, accountTracker, txController, blockTracker} = opts;
 
-    this.address = address
-    this.accountTracker = accountTracker
-    this.txController = txController
-    this.blockTracker = blockTracker
+    this.address = address;
+    this.accountTracker = accountTracker;
+    this.txController = txController;
+    this.blockTracker = blockTracker;
 
     const initState = {
       ethBalance: undefined,
-    }
-    this.store = new ObservableStore(initState)
+    };
+    this.store = new ObservableStore(initState);
 
     this.balanceCalc = new PendingBalanceCalculator({
       getBalance: () => this._getBalance(),
       getPendingTransactions: this._getPendingTransactions.bind(this),
-    })
+    });
 
-    this._registerUpdates()
+    this._registerUpdates();
   }
 
   /**
@@ -49,38 +49,38 @@ class BalanceController {
    *
    * @returns {Promise<void>} Promises undefined
    */
-  async updateBalance () {
-    const balance = await this.balanceCalc.getBalance()
+  async updateBalance() {
+    const balance = await this.balanceCalc.getBalance();
     this.store.updateState({
       ethBalance: balance,
-    })
+    });
   }
 
   /**
    * Sets up listeners and subscriptions which should trigger an update of ethBalance. These updates include:
    * - when a transaction changes state to 'submitted', 'confirmed' or 'failed'
    * - when the current account changes (i.e. a new account is selected)
-   * - when there is a block update 
+   * - when there is a block update
    *
    * @private
    *
    */
-  _registerUpdates () {
-    const update = this.updateBalance.bind(this)
+  _registerUpdates() {
+    const update = this.updateBalance.bind(this);
 
     this.txController.on('tx:status-update', (txId, status) => {
       switch (status) {
         case 'submitted':
         case 'confirmed':
         case 'failed':
-          update()
-          return
+          update();
+          return;
         default:
-          return
+          return;
       }
-    })
-    this.accountTracker.store.subscribe(update)
-    this.blockTracker.on('block', update)
+    });
+    this.accountTracker.store.subscribe(update);
+    this.blockTracker.on('block', update);
   }
 
   /**
@@ -91,28 +91,28 @@ class BalanceController {
    * if the current account has no balance
    *
    */
-  async _getBalance () {
-    const { accounts } = this.accountTracker.store.getState()
-    const entry = accounts[this.address]
-    const balance = entry.balance
-    return balance ? new BN(balance.substring(2), 16) : undefined
+  async _getBalance() {
+    const {accounts} = this.accountTracker.store.getState();
+    const entry = accounts[this.address];
+    const balance = entry.balance;
+    return balance ? new BN(balance.substring(2), 16) : undefined;
   }
 
   /**
    * Gets the pending transactions (i.e. those with a 'submitted' status). These are accessed from the
-   * TransactionController passed to this BalanceController during construction. 
+   * TransactionController passed to this BalanceController during construction.
    *
    * @private
    * @returns {Promise<array>} Promises an array of transaction objects.
    *
    */
-  async _getPendingTransactions () {
+  async _getPendingTransactions() {
     const pending = this.txController.getFilteredTxList({
       from: this.address,
       status: 'submitted',
       err: undefined,
-    })
-    return pending
+    });
+    return pending;
   }
 
   /**
@@ -123,14 +123,14 @@ class BalanceController {
    * missing and at least one is required
    *
    */
-  _validateParams (opts) {
-    const { address, accountTracker, txController, blockTracker } = opts
+  _validateParams(opts) {
+    const {address, accountTracker, txController, blockTracker} = opts;
     if (!address || !accountTracker || !txController || !blockTracker) {
-      const error = 'Cannot construct a balance checker without address, accountTracker, txController, and blockTracker.'
-      throw new Error(error)
+      const error = 'Cannot construct a balance checker without address, accountTracker, txController, and blockTracker.';
+      throw new Error(error);
     }
   }
 
 }
 
-module.exports = BalanceController
+module.exports = BalanceController;

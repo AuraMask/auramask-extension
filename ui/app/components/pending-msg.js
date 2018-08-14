@@ -1,25 +1,25 @@
-const Component = require('react').Component
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const PendingTxDetails = require('./pending-msg-details')
-const connect = require('react-redux').connect
+const Component = require('react').Component;
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const PendingTxDetails = require('./pending-msg-details');
+const connect = require('react-redux').connect;
 
 PendingMsg.contextTypes = {
   t: PropTypes.func,
+};
+
+module.exports = connect()(PendingMsg);
+
+inherits(PendingMsg, Component);
+
+function PendingMsg() {
+  Component.call(this);
 }
 
-module.exports = connect()(PendingMsg)
-
-
-inherits(PendingMsg, Component)
-function PendingMsg () {
-  Component.call(this)
-}
-
-PendingMsg.prototype.render = function () {
-  var state = this.props
-  var msgData = state.txData
+PendingMsg.prototype.render = function() {
+  var state = this.props;
+  var msgData = state.txData;
 
   return (
 
@@ -46,11 +46,11 @@ PendingMsg.prototype.render = function () {
         this.context.t('signNotice'),
         h('a', {
           href: 'https://medium.com/metamask/the-new-secure-way-to-sign-data-in-your-browser-6af9dd2a1527',
-          style: { color: 'rgb(247, 134, 28)' },
+          style: {color: 'rgb(247, 134, 28)'},
           onClick: (event) => {
-            event.preventDefault()
-            const url = 'https://medium.com/metamask/the-new-secure-way-to-sign-data-in-your-browser-6af9dd2a1527'
-            global.platform.openWindow({ url })
+            event.preventDefault();
+            const url = 'https://medium.com/metamask/the-new-secure-way-to-sign-data-in-your-browser-6af9dd2a1527';
+            global.platform.openWindow({url});
           },
         }, this.context.t('readMore')),
       ]),
@@ -69,5 +69,5 @@ PendingMsg.prototype.render = function () {
       ]),
     ])
 
-  )
-}
+  );
+};

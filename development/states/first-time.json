@@ -8,7 +8,9 @@
     "frequentRpcList": [],
     "unapprovedTxs": {},
     "currentCurrency": "USD",
-    "featureFlags": {"betaUI": false},
+    "featureFlags": {
+      "betaUI": false
+    },
     "conversionRate": 12.7527416,
     "conversionDate": 1487624341,
     "noActiveNotices": false,
@@ -52,9 +54,13 @@
     "isLoading": false,
     "warning": null,
     "modal": {
-      "modalState": {"name": null},
+      "modalState": {
+        "name": null
+      },
       "open": false,
-      "previousModalState": {"name": null}
+      "previousModalState": {
+        "name": null
+      }
     }
   },
   "identities": {},

@@ -1,72 +1,72 @@
-const { withRouter } = require('react-router-dom')
-const PropTypes = require('prop-types')
-const { compose } = require('recompose')
-const PersistentForm = require('../../../../lib/persistent-form')
-const connect = require('../../../metamask-connect')
-const h = require('react-hyperscript')
-const { createNewVaultAndRestore, unMarkPasswordForgotten } = require('../../../actions')
-const { DEFAULT_ROUTE } = require('../../../routes')
-const log = require('loglevel')
+const {withRouter} = require('react-router-dom');
+const PropTypes = require('prop-types');
+const {compose} = require('recompose');
+const PersistentForm = require('../../../../lib/persistent-form');
+const connect = require('../../../metamask-connect');
+const h = require('react-hyperscript');
+const {createNewVaultAndRestore, unMarkPasswordForgotten} = require('../../../actions');
+const {DEFAULT_ROUTE} = require('../../../routes');
+const log = require('loglevel');
 
 class RestoreVaultPage extends PersistentForm {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
 
     this.state = {
       error: null,
-    }
+    };
   }
 
-  createOnEnter (event) {
+  createOnEnter(event) {
     if (event.key === 'Enter') {
-      this.createNewVaultAndRestore()
+      this.createNewVaultAndRestore();
     }
   }
 
-  cancel () {
+  cancel() {
     this.props.unMarkPasswordForgotten()
-      .then(this.props.history.push(DEFAULT_ROUTE))
+        .then(this.props.history.push(DEFAULT_ROUTE));
   }
 
-  createNewVaultAndRestore () {
-    this.setState({ error: null })
+  createNewVaultAndRestore() {
+    this.setState({error: null});
 
     // check password
-    var passwordBox = document.getElementById('password-box')
-    var password = passwordBox.value
-    var passwordConfirmBox = document.getElementById('password-box-confirm')
-    var passwordConfirm = passwordConfirmBox.value
+    var passwordBox = document.getElementById('password-box');
+    var password = passwordBox.value;
+    var passwordConfirmBox = document.getElementById('password-box-confirm');
+    var passwordConfirm = passwordConfirmBox.value;
 
     if (password.length < 8) {
-      this.setState({ error: 'Password not long enough' })
-      return
+      this.setState({error: 'Password not long enough'});
+      return;
     }
 
     if (password !== passwordConfirm) {
-      this.setState({ error: 'Passwords don\'t match' })
-      return
+      this.setState({error: 'Passwords don\'t match'});
+      return;
     }
 
     // check seed
-    var seedBox = document.querySelector('textarea.twelve-word-phrase')
-    var seed = seedBox.value.trim()
+    var seedBox = document.querySelector('textarea.twelve-word-phrase');
+    var seed = seedBox.value.trim();
     if (seed.split(' ').length !== 12) {
-      this.setState({ error: 'Seed phrases are 12 words long' })
-      return
+      this.setState({error: 'Seed phrases are 12 words long'});
+      return;
     }
 
     // submit
     this.props.createNewVaultAndRestore(password, seed)
-      .then(() => this.props.history.push(DEFAULT_ROUTE))
-      .catch(({ message }) => {
-        this.setState({ error: message })
-        log.error(message)
-      })
+        .then(() => this.props.history.push(DEFAULT_ROUTE))
+        .catch(({message}) => {
+          this.setState({error: message});
+          log.error(message);
+        });
   }
 
-  render () {
-    const { error } = this.state
-    this.persistentFormParentId = 'restore-vault-form'
+  render() {
+    const {error} = this.state;
+    this.persistentFormParentId = 'restore-vault-form';
 
     return (
       h('.initialize-screen.flex-column.flex-center.flex-grow', [
@@ -146,33 +146,33 @@ class RestoreVaultPage extends PersistentForm {
 
         ]),
       ])
-    )
+    );
   }
 }
 
 RestoreVaultPage.propTypes = {
   history: PropTypes.object,
-}
+};
 
 const mapStateToProps = state => {
-  const { appState: { warning, forgottenPassword } } = state
+  const {appState: {warning, forgottenPassword}} = state;
 
   return {
     warning,
     forgottenPassword,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     createNewVaultAndRestore: (password, seed) => {
-      return dispatch(createNewVaultAndRestore(password, seed))
+      return dispatch(createNewVaultAndRestore(password, seed));
     },
     unMarkPasswordForgotten: () => dispatch(unMarkPasswordForgotten()),
-  }
-}
+  };
+};
 
 module.exports = compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
-)(RestoreVaultPage)
+  connect(mapStateToProps, mapDispatchToProps),
+)(RestoreVaultPage);

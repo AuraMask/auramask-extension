@@ -1,18 +1,18 @@
-const Component = require('react').Component
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const Identicon = require('./identicon')
-const connect = require('react-redux').connect
-const ethUtil = require('ethereumjs-util')
-const classnames = require('classnames')
-const { compose } = require('recompose')
-const { withRouter } = require('react-router-dom')
+const Component = require('react').Component;
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const Identicon = require('./identicon');
+const connect = require('react-redux').connect;
+const ethUtil = require('ethereumjs-util');
+const classnames = require('classnames');
+const {compose} = require('recompose');
+const {withRouter} = require('react-router-dom');
 
-const AccountDropdownMini = require('./dropdowns/account-dropdown-mini')
+const AccountDropdownMini = require('./dropdowns/account-dropdown-mini');
 
-const actions = require('../actions')
-const { conversionUtil } = require('../conversion-util')
+const actions = require('../actions');
+const {conversionUtil} = require('../conversion-util');
 
 const {
   getSelectedAccount,
@@ -20,11 +20,11 @@ const {
   getSelectedAddress,
   accountsWithSendEtherInfoSelector,
   conversionRateSelector,
-} = require('../selectors.js')
+} = require('../selectors.js');
 
-const { DEFAULT_ROUTE } = require('../routes')
+const {DEFAULT_ROUTE} = require('../routes');
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     balance: getSelectedAccount(state).balance,
     selectedAccount: getCurrentAccountWithSendEtherInfo(state),
@@ -33,36 +33,36 @@ function mapStateToProps (state) {
     requesterAddress: null,
     accounts: accountsWithSendEtherInfoSelector(state),
     conversionRate: conversionRateSelector(state),
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     goHome: () => dispatch(actions.goHome()),
-  }
+  };
 }
 
 SignatureRequest.contextTypes = {
   t: PropTypes.func,
-}
+};
 
 module.exports = compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
-)(SignatureRequest)
+  connect(mapStateToProps, mapDispatchToProps),
+)(SignatureRequest);
 
+inherits(SignatureRequest, Component);
 
-inherits(SignatureRequest, Component)
-function SignatureRequest (props) {
-  Component.call(this)
+function SignatureRequest(props) {
+  Component.call(this);
 
   this.state = {
     selectedAccount: props.selectedAccount,
     accountDropdownOpen: false,
-  }
+  };
 }
 
-SignatureRequest.prototype.renderHeader = function () {
+SignatureRequest.prototype.renderHeader = function() {
   return h('div.request-signature__header', [
 
     h('div.request-signature__header-background'),
@@ -73,18 +73,18 @@ SignatureRequest.prototype.renderHeader = function () {
       h('div.request-signature__header__tip'),
     ]),
 
-  ])
-}
+  ]);
+};
 
-SignatureRequest.prototype.renderAccountDropdown = function () {
+SignatureRequest.prototype.renderAccountDropdown = function() {
   const {
     selectedAccount,
     accountDropdownOpen,
-  } = this.state
+  } = this.state;
 
   const {
     accounts,
-  } = this.props
+  } = this.props;
 
   return h('div.request-signature__account', [
 
@@ -93,17 +93,17 @@ SignatureRequest.prototype.renderAccountDropdown = function () {
     h(AccountDropdownMini, {
       selectedAccount,
       accounts,
-      onSelect: selectedAccount => this.setState({ selectedAccount }),
+      onSelect: selectedAccount => this.setState({selectedAccount}),
       dropdownOpen: accountDropdownOpen,
-      openDropdown: () => this.setState({ accountDropdownOpen: true }),
-      closeDropdown: () => this.setState({ accountDropdownOpen: false }),
+      openDropdown: () => this.setState({accountDropdownOpen: true}),
+      closeDropdown: () => this.setState({accountDropdownOpen: false}),
     }),
 
-  ])
-}
+  ]);
+};
 
-SignatureRequest.prototype.renderBalance = function () {
-  const { balance, conversionRate } = this.props
+SignatureRequest.prototype.renderBalance = function() {
+  const {balance, conversionRate} = this.props;
 
   const balanceInEther = conversionUtil(balance, {
     fromNumericBase: 'hex',
@@ -111,7 +111,7 @@ SignatureRequest.prototype.renderBalance = function () {
     fromDenomination: 'WEI',
     numberOfDecimals: 6,
     conversionRate,
-  })
+  });
 
   return h('div.request-signature__balance', [
 
@@ -119,10 +119,10 @@ SignatureRequest.prototype.renderBalance = function () {
 
     h('div.request-signature__balance-value', `${balanceInEther} ETH`),
 
-  ])
-}
+  ]);
+};
 
-SignatureRequest.prototype.renderAccountInfo = function () {
+SignatureRequest.prototype.renderAccountInfo = function() {
   return h('div.request-signature__account-info', [
 
     this.renderAccountDropdown(),
@@ -131,54 +131,54 @@ SignatureRequest.prototype.renderAccountInfo = function () {
 
     this.renderBalance(),
 
-  ])
-}
+  ]);
+};
 
-SignatureRequest.prototype.renderRequestIcon = function () {
-  const { requesterAddress } = this.props
+SignatureRequest.prototype.renderRequestIcon = function() {
+  const {requesterAddress} = this.props;
 
   return h('div.request-signature__request-icon', [
     h(Identicon, {
       diameter: 40,
       address: requesterAddress,
     }),
-  ])
-}
+  ]);
+};
 
-SignatureRequest.prototype.renderRequestInfo = function () {
+SignatureRequest.prototype.renderRequestInfo = function() {
   return h('div.request-signature__request-info', [
 
     h('div.request-signature__headline', [
       this.context.t('yourSigRequested'),
     ]),
 
-  ])
-}
+  ]);
+};
 
-SignatureRequest.prototype.msgHexToText = function (hex) {
+SignatureRequest.prototype.msgHexToText = function(hex) {
   try {
-    const stripped = ethUtil.stripHexPrefix(hex)
-    const buff = Buffer.from(stripped, 'hex')
-    return buff.toString('utf8')
+    const stripped = ethUtil.stripHexPrefix(hex);
+    const buff = Buffer.from(stripped, 'hex');
+    return buff.toString('utf8');
   } catch (e) {
-    return hex
+    return hex;
   }
-}
+};
 
-SignatureRequest.prototype.renderBody = function () {
-  let rows
-  let notice = this.context.t('youSign') + ':'
+SignatureRequest.prototype.renderBody = function() {
+  let rows;
+  let notice = this.context.t('youSign') + ':';
 
-  const { txData } = this.props
-  const { type, msgParams: { data } } = txData
+  const {txData} = this.props;
+  const {type, msgParams: {data}} = txData;
 
   if (type === 'personal_sign') {
-    rows = [{ name: this.context.t('message'), value: this.msgHexToText(data) }]
+    rows = [{name: this.context.t('message'), value: this.msgHexToText(data)}];
   } else if (type === 'eth_signTypedData') {
-    rows = data
+    rows = data;
   } else if (type === 'eth_sign') {
-    rows = [{ name: this.context.t('message'), value: data }]
-    notice = this.context.t('signNotice')
+    rows = [{name: this.context.t('message'), value: data}];
+    notice = this.context.t('signNotice');
   }
 
   return h('div.request-signature__body', {}, [
@@ -196,19 +196,19 @@ SignatureRequest.prototype.renderBody = function () {
 
     h('div.request-signature__rows', [
 
-      ...rows.map(({ name, value }) => {
+      ...rows.map(({name, value}) => {
         return h('div.request-signature__row', [
           h('div.request-signature__row-title', [`${name}:`]),
           h('div.request-signature__row-value', value),
-        ])
+        ]);
       }),
 
     ]),
 
-  ])
-}
+  ]);
+};
 
-SignatureRequest.prototype.renderFooter = function () {
+SignatureRequest.prototype.renderFooter = function() {
   const {
     signPersonalMessage,
     signTypedMessage,
@@ -216,39 +216,39 @@ SignatureRequest.prototype.renderFooter = function () {
     cancelTypedMessage,
     signMessage,
     cancelMessage,
-  } = this.props
+  } = this.props;
 
-  const { txData } = this.props
-  const { type } = txData
+  const {txData} = this.props;
+  const {type} = txData;
 
-  let cancel
-  let sign
+  let cancel;
+  let sign;
   if (type === 'personal_sign') {
-    cancel = cancelPersonalMessage
-    sign = signPersonalMessage
+    cancel = cancelPersonalMessage;
+    sign = signPersonalMessage;
   } else if (type === 'eth_signTypedData') {
-    cancel = cancelTypedMessage
-    sign = signTypedMessage
+    cancel = cancelTypedMessage;
+    sign = signTypedMessage;
   } else if (type === 'eth_sign') {
-    cancel = cancelMessage
-    sign = signMessage
+    cancel = cancelMessage;
+    sign = signMessage;
   }
 
   return h('div.request-signature__footer', [
     h('button.btn-secondary--lg.request-signature__footer__cancel-button', {
       onClick: event => {
-        cancel(event).then(() => this.props.history.push(DEFAULT_ROUTE))
+        cancel(event).then(() => this.props.history.push(DEFAULT_ROUTE));
       },
     }, this.context.t('cancel')),
     h('button.btn-primary--lg', {
       onClick: event => {
-        sign(event).then(() => this.props.history.push(DEFAULT_ROUTE))
+        sign(event).then(() => this.props.history.push(DEFAULT_ROUTE));
       },
     }, this.context.t('sign')),
-  ])
-}
+  ]);
+};
 
-SignatureRequest.prototype.render = function () {
+SignatureRequest.prototype.render = function() {
   return (
 
     h('div.request-signature__container', [
@@ -261,6 +261,6 @@ SignatureRequest.prototype.render = function () {
 
     ])
 
-  )
+  );
 
-}
+};

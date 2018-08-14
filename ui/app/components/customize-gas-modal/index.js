@@ -1,22 +1,22 @@
-const Component = require('react').Component
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const connect = require('react-redux').connect
-const actions = require('../../actions')
-const GasModalCard = require('./gas-modal-card')
+const Component = require('react').Component;
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const connect = require('react-redux').connect;
+const actions = require('../../actions');
+const GasModalCard = require('./gas-modal-card');
 
-const ethUtil = require('ethereumjs-util')
+const ethUtil = require('ethereumjs-util');
 
 const {
   MIN_GAS_PRICE_DEC,
   MIN_GAS_LIMIT_DEC,
   MIN_GAS_PRICE_GWEI,
-} = require('../send/send-constants')
+} = require('../send/send-constants');
 
 const {
   isBalanceSufficient,
-} = require('../send/send-utils')
+} = require('../send/send-utils');
 
 const {
   conversionUtil,
@@ -24,7 +24,7 @@ const {
   conversionGreaterThan,
   conversionMax,
   subtractCurrencies,
-} = require('../../conversion-util')
+} = require('../../conversion-util');
 
 const {
   getGasPrice,
@@ -37,12 +37,12 @@ const {
   getCurrentAccountWithSendEtherInfo,
   getSelectedTokenToFiatRate,
   getSendMaxModeState,
-} = require('../../selectors')
+} = require('../../selectors');
 
-function mapStateToProps (state) {
-  const selectedToken = getSelectedToken(state)
-  const currentAccount = getSendFrom(state) || getCurrentAccountWithSendEtherInfo(state)
-  const conversionRate = conversionRateSelector(state)
+function mapStateToProps(state) {
+  const selectedToken = getSelectedToken(state);
+  const currentAccount = getSendFrom(state) || getCurrentAccountWithSendEtherInfo(state);
+  const conversionRate = conversionRateSelector(state);
 
   return {
     gasPrice: getGasPrice(state),
@@ -55,10 +55,10 @@ function mapStateToProps (state) {
     primaryCurrency: selectedToken && selectedToken.symbol,
     selectedToken,
     amountConversionRate: selectedToken ? getSelectedTokenToFiatRate(state) : conversionRate,
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     hideModal: () => dispatch(actions.hideModal()),
     updateGasPrice: newGasPrice => dispatch(actions.updateGasPrice(newGasPrice)),
@@ -66,18 +66,18 @@ function mapDispatchToProps (dispatch) {
     updateGasTotal: newGasTotal => dispatch(actions.updateGasTotal(newGasTotal)),
     updateSendAmount: newAmount => dispatch(actions.updateSendAmount(newAmount)),
     updateSendErrors: error => dispatch(actions.updateSendErrors(error)),
-  }
+  };
 }
 
-function getOriginalState (props) {
-  const gasPrice = props.gasPrice || MIN_GAS_PRICE_DEC
-  const gasLimit = props.gasLimit || MIN_GAS_LIMIT_DEC
+function getOriginalState(props) {
+  const gasPrice = props.gasPrice || MIN_GAS_PRICE_DEC;
+  const gasLimit = props.gasLimit || MIN_GAS_LIMIT_DEC;
 
   const gasTotal = multiplyCurrencies(gasLimit, gasPrice, {
     toNumericBase: 'hex',
     multiplicandBase: 16,
     multiplierBase: 16,
-  })
+  });
 
   return {
     gasPrice,
@@ -86,24 +86,24 @@ function getOriginalState (props) {
     error: null,
     priceSigZeros: '',
     priceSigDec: '',
-  }
+  };
 }
 
-inherits(CustomizeGasModal, Component)
-function CustomizeGasModal (props) {
-  Component.call(this)
+inherits(CustomizeGasModal, Component);
 
-  this.state = getOriginalState(props)
+function CustomizeGasModal(props) {
+  Component.call(this);
+
+  this.state = getOriginalState(props);
 }
 
 CustomizeGasModal.contextTypes = {
   t: PropTypes.func,
-}
+};
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(CustomizeGasModal)
+module.exports = connect(mapStateToProps, mapDispatchToProps)(CustomizeGasModal);
 
-
-CustomizeGasModal.prototype.save = function (gasPrice, gasLimit, gasTotal) {
+CustomizeGasModal.prototype.save = function(gasPrice, gasLimit, gasTotal) {
   const {
     updateGasPrice,
     updateGasLimit,
@@ -114,29 +114,29 @@ CustomizeGasModal.prototype.save = function (gasPrice, gasLimit, gasTotal) {
     balance,
     updateSendAmount,
     updateSendErrors,
-  } = this.props
+  } = this.props;
 
   if (maxModeOn && !selectedToken) {
     const maxAmount = subtractCurrencies(
       ethUtil.addHexPrefix(balance),
       ethUtil.addHexPrefix(gasTotal),
-      { toNumericBase: 'hex' }
-    )
-    updateSendAmount(maxAmount)
+      {toNumericBase: 'hex'},
+    );
+    updateSendAmount(maxAmount);
   }
 
-  updateGasPrice(ethUtil.addHexPrefix(gasPrice))
-  updateGasLimit(ethUtil.addHexPrefix(gasLimit))
-  updateGasTotal(ethUtil.addHexPrefix(gasTotal))
-  updateSendErrors({ insufficientFunds: false })
-  hideModal()
-}
+  updateGasPrice(ethUtil.addHexPrefix(gasPrice));
+  updateGasLimit(ethUtil.addHexPrefix(gasLimit));
+  updateGasTotal(ethUtil.addHexPrefix(gasTotal));
+  updateSendErrors({insufficientFunds: false});
+  hideModal();
+};
 
-CustomizeGasModal.prototype.revert = function () {
-  this.setState(getOriginalState(this.props))
-}
+CustomizeGasModal.prototype.revert = function() {
+  this.setState(getOriginalState(this.props));
+};
 
-CustomizeGasModal.prototype.validate = function ({ gasTotal, gasLimit }) {
+CustomizeGasModal.prototype.validate = function({gasTotal, gasLimit}) {
   const {
     amount,
     balance,
@@ -144,9 +144,9 @@ CustomizeGasModal.prototype.validate = function ({ gasTotal, gasLimit }) {
     amountConversionRate,
     conversionRate,
     maxModeOn,
-  } = this.props
+  } = this.props;
 
-  let error = null
+  let error = null;
 
   const balanceIsSufficient = isBalanceSufficient({
     amount: selectedToken || maxModeOn ? '0' : amount,
@@ -155,10 +155,10 @@ CustomizeGasModal.prototype.validate = function ({ gasTotal, gasLimit }) {
     selectedToken,
     amountConversionRate,
     conversionRate,
-  })
+  });
 
   if (!balanceIsSufficient) {
-    error = this.context.t('balanceIsInsufficientGas')
+    error = this.context.t('balanceIsInsufficientGas');
   }
 
   const gasLimitTooLow = gasLimit && conversionGreaterThan(
@@ -171,100 +171,99 @@ CustomizeGasModal.prototype.validate = function ({ gasTotal, gasLimit }) {
       value: gasLimit,
       fromNumericBase: 'hex',
     },
-  )
+  );
 
   if (gasLimitTooLow) {
-    error = this.context.t('gasLimitTooLow')
+    error = this.context.t('gasLimitTooLow');
   }
 
-  this.setState({ error })
-  return error
-}
+  this.setState({error});
+  return error;
+};
 
-CustomizeGasModal.prototype.convertAndSetGasLimit = function (newGasLimit) {
-  const { gasPrice } = this.state
+CustomizeGasModal.prototype.convertAndSetGasLimit = function(newGasLimit) {
+  const {gasPrice} = this.state;
 
   const gasLimit = conversionUtil(newGasLimit, {
     fromNumericBase: 'dec',
     toNumericBase: 'hex',
-  })
+  });
 
   const gasTotal = multiplyCurrencies(gasLimit, gasPrice, {
     toNumericBase: 'hex',
     multiplicandBase: 16,
     multiplierBase: 16,
-  })
+  });
 
-  this.validate({ gasTotal, gasLimit })
+  this.validate({gasTotal, gasLimit});
 
-  this.setState({ gasTotal, gasLimit })
-}
+  this.setState({gasTotal, gasLimit});
+};
 
-CustomizeGasModal.prototype.convertAndSetGasPrice = function (newGasPrice) {
-  const { gasLimit } = this.state
-  const sigZeros = String(newGasPrice).match(/^\d+[.]\d*?(0+)$/)
-  const sigDec = String(newGasPrice).match(/^\d+([.])0*$/)
+CustomizeGasModal.prototype.convertAndSetGasPrice = function(newGasPrice) {
+  const {gasLimit} = this.state;
+  const sigZeros = String(newGasPrice).match(/^\d+[.]\d*?(0+)$/);
+  const sigDec = String(newGasPrice).match(/^\d+([.])0*$/);
 
   this.setState({
     priceSigZeros: sigZeros && sigZeros[1] || '',
     priceSigDec: sigDec && sigDec[1] || '',
-  })
+  });
 
   const gasPrice = conversionUtil(newGasPrice, {
     fromNumericBase: 'dec',
     toNumericBase: 'hex',
     fromDenomination: 'GWEI',
     toDenomination: 'WEI',
-  })
+  });
 
   const gasTotal = multiplyCurrencies(gasLimit, gasPrice, {
     toNumericBase: 'hex',
     multiplicandBase: 16,
     multiplierBase: 16,
-  })
+  });
 
-  this.validate({ gasTotal })
+  this.validate({gasTotal});
 
-  this.setState({ gasTotal, gasPrice })
-}
+  this.setState({gasTotal, gasPrice});
+};
 
-CustomizeGasModal.prototype.render = function () {
-  const { hideModal, forceGasMin } = this.props
-  const { gasPrice, gasLimit, gasTotal, error, priceSigZeros, priceSigDec } = this.state
+CustomizeGasModal.prototype.render = function() {
+  const {hideModal, forceGasMin} = this.props;
+  const {gasPrice, gasLimit, gasTotal, error, priceSigZeros, priceSigDec} = this.state;
 
   let convertedGasPrice = conversionUtil(gasPrice, {
     fromNumericBase: 'hex',
     toNumericBase: 'dec',
     fromDenomination: 'WEI',
     toDenomination: 'GWEI',
-  })
+  });
 
-  convertedGasPrice += convertedGasPrice.match(/[.]/) ? priceSigZeros : `${priceSigDec}${priceSigZeros}`
+  convertedGasPrice += convertedGasPrice.match(/[.]/) ? priceSigZeros : `${priceSigDec}${priceSigZeros}`;
 
-  let newGasPrice = gasPrice
+  let newGasPrice = gasPrice;
   if (forceGasMin) {
     const convertedMinPrice = conversionUtil(forceGasMin, {
       fromNumericBase: 'hex',
       toNumericBase: 'dec',
-    })
+    });
     convertedGasPrice = conversionMax(
-      { value: convertedMinPrice, fromNumericBase: 'dec' },
-      { value: convertedGasPrice, fromNumericBase: 'dec' }
-    )
+      {value: convertedMinPrice, fromNumericBase: 'dec'},
+      {value: convertedGasPrice, fromNumericBase: 'dec'},
+    );
     newGasPrice = conversionMax(
-      { value: gasPrice, fromNumericBase: 'hex' },
-      { value: forceGasMin, fromNumericBase: 'hex' }
-    )
+      {value: gasPrice, fromNumericBase: 'hex'},
+      {value: forceGasMin, fromNumericBase: 'hex'},
+    );
   }
 
   const convertedGasLimit = conversionUtil(gasLimit, {
     fromNumericBase: 'hex',
     toNumericBase: 'dec',
-  })
+  });
 
   return h('div.send-v2__customize-gas', {}, [
-    h('div.send-v2__customize-gas__content', {
-    }, [
+    h('div.send-v2__customize-gas__content', {}, [
       h('div.send-v2__customize-gas__header', {}, [
 
         h('div.send-v2__customize-gas__title', this.context.t('customGas')),
@@ -324,5 +323,5 @@ CustomizeGasModal.prototype.render = function () {
       ]),
 
     ]),
-  ])
-}
+  ]);
+};

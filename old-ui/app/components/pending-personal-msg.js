@@ -1,18 +1,19 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const PendingTxDetails = require('./pending-personal-msg-details')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const PendingTxDetails = require('./pending-personal-msg-details');
 
-module.exports = PendingMsg
+module.exports = PendingMsg;
 
-inherits(PendingMsg, Component)
-function PendingMsg () {
-  Component.call(this)
+inherits(PendingMsg, Component);
+
+function PendingMsg() {
+  Component.call(this);
 }
 
-PendingMsg.prototype.render = function () {
-  var state = this.props
-  var msgData = state.txData
+PendingMsg.prototype.render = function() {
+  var state = this.props;
+  var msgData = state.txData;
 
   return (
 
@@ -42,6 +43,6 @@ PendingMsg.prototype.render = function () {
       ]),
     ])
 
-  )
-}
+  );
+};
 

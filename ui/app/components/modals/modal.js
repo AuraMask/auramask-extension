@@ -1,25 +1,25 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const connect = require('react-redux').connect
-const FadeModal = require('boron').FadeModal
-const actions = require('../../actions')
-const isMobileView = require('../../../lib/is-mobile-view')
-const { getEnvironmentType } = require('../../../../app/scripts/lib/util')
-const { ENVIRONMENT_TYPE_POPUP } = require('../../../../app/scripts/lib/enums')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const connect = require('react-redux').connect;
+const FadeModal = require('boron').FadeModal;
+const actions = require('../../actions');
+const isMobileView = require('../../../lib/is-mobile-view');
+const {getEnvironmentType} = require('../../../../app/scripts/lib/util');
+const {ENVIRONMENT_TYPE_POPUP} = require('../../../../app/scripts/lib/enums');
 
 // Modal Components
-const BuyOptions = require('./buy-options-modal')
-const DepositEtherModal = require('./deposit-ether-modal')
-const AccountDetailsModal = require('./account-details-modal')
-const EditAccountNameModal = require('./edit-account-name-modal')
-const ExportPrivateKeyModal = require('./export-private-key-modal')
-const NewAccountModal = require('./new-account-modal')
-const ShapeshiftDepositTxModal = require('./shapeshift-deposit-tx-modal.js')
-const HideTokenConfirmationModal = require('./hide-token-confirmation-modal')
-const CustomizeGasModal = require('../customize-gas-modal')
-const NotifcationModal = require('./notification-modal')
-const ConfirmResetAccount = require('./notification-modals/confirm-reset-account')
+const BuyOptions = require('./buy-options-modal');
+const DepositEtherModal = require('./deposit-ether-modal');
+const AccountDetailsModal = require('./account-details-modal');
+const EditAccountNameModal = require('./edit-account-name-modal');
+const ExportPrivateKeyModal = require('./export-private-key-modal');
+const NewAccountModal = require('./new-account-modal');
+const ShapeshiftDepositTxModal = require('./shapeshift-deposit-tx-modal.js');
+const HideTokenConfirmationModal = require('./hide-token-confirmation-modal');
+const CustomizeGasModal = require('../customize-gas-modal');
+const NotifcationModal = require('./notification-modal');
+const ConfirmResetAccount = require('./notification-modals/confirm-reset-account');
 
 const accountModalStyle = {
   mobileModalStyle: {
@@ -47,7 +47,7 @@ const accountModalStyle = {
   contentStyle: {
     borderRadius: '4px',
   },
-}
+};
 
 const MODALS = {
   BUY: {
@@ -270,86 +270,88 @@ const MODALS = {
     mobileModalStyle: {},
     laptopModalStyle: {},
   },
-}
+};
 
 const BACKDROPSTYLE = {
   backgroundColor: 'rgba(0, 0, 0, 0.5)',
-}
+};
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     active: state.appState.modal.open,
     modalState: state.appState.modal.modalState,
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     hideModal: () => {
-      dispatch(actions.hideModal())
+      dispatch(actions.hideModal());
     },
     hideWarning: () => {
-      dispatch(actions.hideWarning())
+      dispatch(actions.hideWarning());
     },
 
-  }
+  };
 }
 
 // Global Modal Component
-inherits(Modal, Component)
-function Modal () {
-  Component.call(this)
+inherits(Modal, Component);
+
+function Modal() {
+  Component.call(this);
 }
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(Modal)
+module.exports = connect(mapStateToProps, mapDispatchToProps)(Modal);
 
-Modal.prototype.render = function () {
-  const modal = MODALS[this.props.modalState.name || 'DEFAULT']
+Modal.prototype.render = function() {
+  const modal = MODALS[this.props.modalState.name || 'DEFAULT'];
 
-  const children = modal.contents
-  const modalStyle = modal[isMobileView() ? 'mobileModalStyle' : 'laptopModalStyle']
-  const contentStyle = modal.contentStyle || {}
+  const children = modal.contents;
+  const modalStyle = modal[isMobileView() ? 'mobileModalStyle' : 'laptopModalStyle'];
+  const contentStyle = modal.contentStyle || {};
 
-  return h(FadeModal,
+  return h(
+    FadeModal,
     {
       className: 'modal',
       keyboard: false,
       onHide: () => {
         if (modal.onHide) {
-          modal.onHide(this.props)
+          modal.onHide(this.props);
         }
-        this.onHide()
+        this.onHide();
       },
       ref: (ref) => {
-        this.modalRef = ref
+        this.modalRef = ref;
       },
       modalStyle,
       contentStyle,
       backdropStyle: BACKDROPSTYLE,
     },
     children,
-  )
-}
+  );
+};
 
-Modal.prototype.componentWillReceiveProps = function (nextProps) {
+Modal.prototype.componentWillReceiveProps = function(nextProps) {
   if (nextProps.active) {
-    this.show()
+    this.show();
   } else if (this.props.active) {
-    this.hide()
+    this.hide();
   }
-}
+};
 
-Modal.prototype.onHide = function () {
+Modal.prototype.onHide = function() {
   if (this.props.onHideCallback) {
-    this.props.onHideCallback()
+    this.props.onHideCallback();
   }
-  this.props.hideModal()
-}
+  this.props.hideModal();
+};
 
-Modal.prototype.hide = function () {
-  this.modalRef.hide()
-}
+Modal.prototype.hide = function() {
+  this.modalRef.hide();
+};
 
-Modal.prototype.show = function () {
-  this.modalRef.show()
-}
+Modal.prototype.show = function() {
+  this.modalRef.show();
+};

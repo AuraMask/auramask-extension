@@ -1,43 +1,44 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const CurrencyInput = require('../currency-input')
-const { conversionUtil, multiplyCurrencies } = require('../../conversion-util')
-const currencyFormatter = require('currency-formatter')
-const currencies = require('currency-formatter/currencies')
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const CurrencyInput = require('../currency-input');
+const {conversionUtil, multiplyCurrencies} = require('../../conversion-util');
+const currencyFormatter = require('currency-formatter');
+const currencies = require('currency-formatter/currencies');
 
-module.exports = CurrencyDisplay
+module.exports = CurrencyDisplay;
 
-inherits(CurrencyDisplay, Component)
-function CurrencyDisplay () {
-  Component.call(this)
+inherits(CurrencyDisplay, Component);
+
+function CurrencyDisplay() {
+  Component.call(this);
 }
 
-function toHexWei (value) {
+function toHexWei(value) {
   return conversionUtil(value, {
     fromNumericBase: 'dec',
     toNumericBase: 'hex',
     toDenomination: 'WEI',
-  })
+  });
 }
 
-CurrencyDisplay.prototype.getAmount = function (value) {
-  const { selectedToken } = this.props
-  const { decimals } = selectedToken || {}
-  const multiplier = Math.pow(10, Number(decimals || 0))
+CurrencyDisplay.prototype.getAmount = function(value) {
+  const {selectedToken} = this.props;
+  const {decimals} = selectedToken || {};
+  const multiplier = Math.pow(10, Number(decimals || 0));
 
-  const sendAmount = multiplyCurrencies(value, multiplier, {toNumericBase: 'hex'})
+  const sendAmount = multiplyCurrencies(value, multiplier, {toNumericBase: 'hex'});
 
   return selectedToken
     ? sendAmount
-    : toHexWei(value)
-}
+    : toHexWei(value);
+};
 
-CurrencyDisplay.prototype.getValueToRender = function () {
-  const { selectedToken, conversionRate, value } = this.props
+CurrencyDisplay.prototype.getValueToRender = function() {
+  const {selectedToken, conversionRate, value} = this.props;
 
-  const { decimals, symbol } = selectedToken || {}
-  const multiplier = Math.pow(10, Number(decimals || 0))
+  const {decimals, symbol} = selectedToken || {};
+  const multiplier = Math.pow(10, Number(decimals || 0));
 
   return selectedToken
     ? conversionUtil(value, {
@@ -52,11 +53,11 @@ CurrencyDisplay.prototype.getValueToRender = function () {
       fromDenomination: 'WEI',
       numberOfDecimals: 6,
       conversionRate,
-    })
-}
+    });
+};
 
-CurrencyDisplay.prototype.getConvertedValueToRender = function (nonFormattedValue) {
-  const { primaryCurrency, convertedCurrency, conversionRate } = this.props
+CurrencyDisplay.prototype.getConvertedValueToRender = function(nonFormattedValue) {
+  const {primaryCurrency, convertedCurrency, conversionRate} = this.props;
 
   let convertedValue = conversionUtil(nonFormattedValue, {
     fromNumericBase: 'dec',
@@ -64,19 +65,19 @@ CurrencyDisplay.prototype.getConvertedValueToRender = function (nonFormattedValu
     toCurrency: convertedCurrency,
     numberOfDecimals: 2,
     conversionRate,
-  })
-  convertedValue = Number(convertedValue).toFixed(2)
+  });
+  convertedValue = Number(convertedValue).toFixed(2);
 
-  const upperCaseCurrencyCode = convertedCurrency.toUpperCase()
+  const upperCaseCurrencyCode = convertedCurrency.toUpperCase();
 
   return currencies.find(currency => currency.code === upperCaseCurrencyCode)
     ? currencyFormatter.format(Number(convertedValue), {
       code: upperCaseCurrencyCode,
     })
-    : convertedValue
-}
+    : convertedValue;
+};
 
-CurrencyDisplay.prototype.render = function () {
+CurrencyDisplay.prototype.render = function() {
   const {
     className = 'currency-display',
     primaryBalanceClassName = 'currency-display__input',
@@ -86,10 +87,10 @@ CurrencyDisplay.prototype.render = function () {
     readOnly = false,
     inError = false,
     handleChange,
-  } = this.props
+  } = this.props;
 
-  const valueToRender = this.getValueToRender()
-  const convertedValueToRender = this.getConvertedValueToRender(valueToRender)
+  const valueToRender = this.getValueToRender();
+  const convertedValueToRender = this.getConvertedValueToRender(valueToRender);
 
   return h('div', {
     className,
@@ -110,9 +111,9 @@ CurrencyDisplay.prototype.render = function () {
           readOnly,
           ...(!readOnly ? {
             onInputChange: newValue => {
-              handleChange(this.getAmount(newValue))
+              handleChange(this.getAmount(newValue));
             },
-            inputRef: input => { this.currencyInput = input },
+            inputRef: input => { this.currencyInput = input; },
           } : {}),
         }),
 
@@ -126,7 +127,7 @@ CurrencyDisplay.prototype.render = function () {
       className: convertedBalanceClassName,
     }, `${convertedValueToRender} ${convertedCurrency.toUpperCase()}`),
 
-  ])
+  ]);
 
-}
+};
 

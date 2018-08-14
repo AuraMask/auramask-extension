@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 export default class Breadcrumbs extends Component {
 
@@ -9,18 +9,24 @@ export default class Breadcrumbs extends Component {
   };
 
   render() {
-    const {total, currentIndex} = this.props
+    const {total, currentIndex} = this.props;
     return (
-      <div className="breadcrumbs">
-        {Array(total).fill().map((_, i) => (
-          <div
-            key={i}
-            className="breadcrumb"
-            style={{backgroundColor: i === currentIndex ? '#D8D8D8' : '#FFFFFF'}}
-          />
-        ))}
-      </div>
-    );
+      < div;
+    className = 'breadcrumbs' >
+      {Array(total).fill().map((_, i) => (
+        < div
+    key = {i};
+    className = 'breadcrumb';
+    style = {
+    {backgroundColor: i === currentIndex ? '#D8D8D8' : '#FFFFFF';}
+  }
+    />;
+  ))
+  }
+  <
+    /div>;
+  )
+    ;
   }
 
 }

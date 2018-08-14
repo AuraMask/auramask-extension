@@ -1,52 +1,51 @@
-const Component = require('react').Component
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const actions = require('../../../actions')
-const genAccountLink = require('../../../../lib/account-link.js')
-const connect = require('react-redux').connect
-const Dropdown = require('./dropdown').Dropdown
-const DropdownMenuItem = require('./dropdown').DropdownMenuItem
-const Identicon = require('../../identicon')
-const { checksumAddress } = require('../../../util')
-const copyToClipboard = require('copy-to-clipboard')
-const { formatBalance } = require('../../../util')
-
+const Component = require('react').Component;
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const actions = require('../../../actions');
+const genAccountLink = require('../../../../lib/account-link.js');
+const connect = require('react-redux').connect;
+const Dropdown = require('./dropdown').Dropdown;
+const DropdownMenuItem = require('./dropdown').DropdownMenuItem;
+const Identicon = require('../../identicon');
+const {checksumAddress} = require('../../../util');
+const copyToClipboard = require('copy-to-clipboard');
+const {formatBalance} = require('../../../util');
 
 class AccountDropdowns extends Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       accountSelectorActive: false,
       optionsMenuActive: false,
-    }
+    };
     // Used for orangeaccount selector icon
     // this.accountSelectorToggleClassName = 'accounts-selector'
-    this.accountSelectorToggleClassName = 'fa-angle-down'
-    this.optionsMenuToggleClassName = 'fa-ellipsis-h'
+    this.accountSelectorToggleClassName = 'fa-angle-down';
+    this.optionsMenuToggleClassName = 'fa-ellipsis-h';
   }
 
-  renderAccounts () {
-    const { identities, accounts, selected, menuItemStyles, actions, keyrings } = this.props
+  renderAccounts() {
+    const {identities, accounts, selected, menuItemStyles, actions, keyrings} = this.props;
 
     return Object.keys(identities).map((key, index) => {
-      const identity = identities[key]
-      const isSelected = identity.address === selected
+      const identity = identities[key];
+      const isSelected = identity.address === selected;
 
-      const balanceValue = accounts[key].balance
-      const formattedBalance = balanceValue ? formatBalance(balanceValue, 6) : '...'
-      const simpleAddress = identity.address.substring(2).toLowerCase()
+      const balanceValue = accounts[key].balance;
+      const formattedBalance = balanceValue ? formatBalance(balanceValue, 6) : '...';
+      const simpleAddress = identity.address.substring(2).toLowerCase();
 
       const keyring = keyrings.find((kr) => {
         return kr.accounts.includes(simpleAddress) ||
-          kr.accounts.includes(identity.address)
-      })
+          kr.accounts.includes(identity.address);
+      });
 
       return h(
         DropdownMenuItem,
         {
           closeMenu: () => {},
           onClick: () => {
-            this.props.actions.showAccountDetail(identity.address)
+            this.props.actions.showAccountDetail(identity.address);
           },
           style: Object.assign(
             {
@@ -127,7 +126,7 @@ class AccountDropdowns extends Component {
                   fontSize: '16px',
                 },
                 onClick: () => {
-                  actions.showEditAccountModal(identity)
+                  actions.showEditAccountModal(identity);
                 },
               }, [
                 this.context.t('edit'),
@@ -135,22 +134,22 @@ class AccountDropdowns extends Component {
             ]),
 
           ]),
-        ]
-      )
-    })
+        ],
+      );
+    });
   }
 
-  indicateIfLoose (keyring) {
+  indicateIfLoose(keyring) {
     try { // Sometimes keyrings aren't loaded yet:
-      const type = keyring.type
-      const isLoose = type !== 'HD Key Tree'
-      return isLoose ? h('.keyring-label.allcaps', this.context.t('loose')) : null
-    } catch (e) { return }
+      const type = keyring.type;
+      const isLoose = type !== 'HD Key Tree';
+      return isLoose ? h('.keyring-label.allcaps', this.context.t('loose')) : null;
+    } catch (e) { return; }
   }
 
-  renderAccountSelector () {
-    const { actions, useCssTransition, innerStyle, sidebarOpen } = this.props
-    const { accountSelectorActive, menuItemStyles } = this.state
+  renderAccountSelector() {
+    const {actions, useCssTransition, innerStyle, sidebarOpen} = this.props;
+    const {accountSelectorActive, menuItemStyles} = this.state;
 
     return h(
       Dropdown,
@@ -167,10 +166,10 @@ class AccountDropdowns extends Component {
         innerStyle,
         isOpen: accountSelectorActive,
         onClickOutside: (event) => {
-          const { classList } = event.target
-          const isNotToggleElement = !classList.contains(this.accountSelectorToggleClassName)
+          const {classList} = event.target;
+          const isNotToggleElement = !classList.contains(this.accountSelectorToggleClassName);
           if (accountSelectorActive && isNotToggleElement) {
-            this.setState({ accountSelectorActive: false })
+            this.setState({accountSelectorActive: false});
           }
         },
       },
@@ -193,7 +192,7 @@ class AccountDropdowns extends Component {
                 style: {
                   marginLeft: '8px',
                 },
-              }
+              },
             ),
             h('span', {
               style: {
@@ -210,7 +209,7 @@ class AccountDropdowns extends Component {
           {
             closeMenu: () => {
               if (sidebarOpen) {
-                actions.hideSidebar()
+                actions.hideSidebar();
               }
             },
             onClick: () => actions.showNewAccountPageImportForm(),
@@ -226,7 +225,7 @@ class AccountDropdowns extends Component {
                 style: {
                   marginLeft: '8px',
                 },
-              }
+              },
             ),
             h('span', {
               style: {
@@ -237,21 +236,21 @@ class AccountDropdowns extends Component {
                 lineHeight: '23px',
               },
             }, this.context.t('importAccount')),
-          ]
+          ],
         ),
-      ]
-    )
+      ],
+    );
   }
 
-  renderAccountOptions () {
-    const { actions, dropdownWrapperStyle, useCssTransition } = this.props
-    const { optionsMenuActive, menuItemStyles } = this.state
+  renderAccountOptions() {
+    const {actions, dropdownWrapperStyle, useCssTransition} = this.props;
+    const {optionsMenuActive, menuItemStyles} = this.state;
     const dropdownMenuItemStyle = {
       fontFamily: 'DIN OT',
       fontSize: 16,
       lineHeight: '24px',
       padding: '8px',
-    }
+    };
 
     return h(
       Dropdown,
@@ -267,10 +266,10 @@ class AccountDropdowns extends Component {
         ),
         isOpen: optionsMenuActive,
         onClickOutside: (event) => {
-          const { classList } = event.target
-          const isNotToggleElement = !classList.contains(this.optionsMenuToggleClassName)
+          const {classList} = event.target;
+          const isNotToggleElement = !classList.contains(this.optionsMenuToggleClassName);
           if (optionsMenuActive && isNotToggleElement) {
-            this.setState({ optionsMenuActive: false })
+            this.setState({optionsMenuActive: false});
           }
         },
       },
@@ -280,7 +279,7 @@ class AccountDropdowns extends Component {
           {
             closeMenu: () => {},
             onClick: () => {
-              this.props.actions.showAccountDetailModal()
+              this.props.actions.showAccountDetailModal();
             },
             style: Object.assign(
               dropdownMenuItemStyle,
@@ -294,9 +293,9 @@ class AccountDropdowns extends Component {
           {
             closeMenu: () => {},
             onClick: () => {
-              const { selected, network } = this.props
-              const url = genAccountLink(selected, network)
-              global.platform.openWindow({ url })
+              const {selected, network} = this.props;
+              const url = genAccountLink(selected, network);
+              global.platform.openWindow({url});
             },
             style: Object.assign(
               dropdownMenuItemStyle,
@@ -310,8 +309,8 @@ class AccountDropdowns extends Component {
           {
             closeMenu: () => {},
             onClick: () => {
-              const { selected } = this.props
-              copyToClipboard(checksumAddress(selected))
+              const {selected} = this.props;
+              copyToClipboard(checksumAddress(selected));
             },
             style: Object.assign(
               dropdownMenuItemStyle,
@@ -337,8 +336,8 @@ class AccountDropdowns extends Component {
           {
             closeMenu: () => {},
             onClick: () => {
-              actions.hideSidebar()
-              actions.showAddTokenPage()
+              actions.hideSidebar();
+              actions.showAddTokenPage();
             },
             style: Object.assign(
               dropdownMenuItemStyle,
@@ -348,13 +347,13 @@ class AccountDropdowns extends Component {
           this.context.t('addToken'),
         ),
 
-      ]
-    )
+      ],
+    );
   }
 
-  render () {
-    const { style, enableAccountsSelector, enableAccountOptions } = this.props
-    const { optionsMenuActive, accountSelectorActive } = this.state
+  render() {
+    const {style, enableAccountsSelector, enableAccountOptions} = this.props;
+    const {optionsMenuActive, accountSelectorActive} = this.state;
 
     return h(
       'span',
@@ -369,11 +368,11 @@ class AccountDropdowns extends Component {
               cursor: 'pointer',
             },
             onClick: (event) => {
-              event.stopPropagation()
+              event.stopPropagation();
               this.setState({
                 accountSelectorActive: !accountSelectorActive,
                 optionsMenuActive: false,
-              })
+              });
             },
           },
           this.renderAccountSelector(),
@@ -386,24 +385,24 @@ class AccountDropdowns extends Component {
               cursor: 'pointer',
             },
             onClick: (event) => {
-              event.stopPropagation()
+              event.stopPropagation();
               this.setState({
                 accountSelectorActive: false,
                 optionsMenuActive: !optionsMenuActive,
-              })
+              });
             },
           },
-          this.renderAccountOptions()
+          this.renderAccountOptions(),
         ),
-      ]
-    )
+      ],
+    );
   }
 }
 
 AccountDropdowns.defaultProps = {
   enableAccountsSelector: false,
   enableAccountOptions: false,
-}
+};
 
 AccountDropdowns.propTypes = {
   identities: PropTypes.objectOf(PropTypes.object),
@@ -424,8 +423,8 @@ AccountDropdowns.propTypes = {
   enableAccountsSelector: PropTypes.bool,
   enableAccountOption: PropTypes.bool,
   enableAccountOptions: PropTypes.bool,
-    t: PropTypes.func,
-}
+  t: PropTypes.func,
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -434,38 +433,38 @@ const mapDispatchToProps = (dispatch) => {
       showConfigPage: () => dispatch(actions.showConfigPage()),
       showAccountDetail: (address) => dispatch(actions.showAccountDetail(address)),
       showAccountDetailModal: () => {
-        dispatch(actions.showModal({ name: 'ACCOUNT_DETAILS' }))
+        dispatch(actions.showModal({name: 'ACCOUNT_DETAILS'}));
       },
       showEditAccountModal: (identity) => {
         dispatch(actions.showModal({
           name: 'EDIT_ACCOUNT_NAME',
           identity,
-        }))
+        }));
       },
-      showNewAccountPageCreateForm: () => dispatch(actions.showNewAccountPage({ form: 'CREATE' })),
+      showNewAccountPageCreateForm: () => dispatch(actions.showNewAccountPage({form: 'CREATE'})),
       showExportPrivateKeyModal: () => {
-        dispatch(actions.showModal({ name: 'EXPORT_PRIVATE_KEY' }))
+        dispatch(actions.showModal({name: 'EXPORT_PRIVATE_KEY'}));
       },
       showAddTokenPage: () => {
-        dispatch(actions.showAddTokenPage())
+        dispatch(actions.showAddTokenPage());
       },
       addNewAccount: () => dispatch(actions.addNewAccount()),
-      showNewAccountPageImportForm: () => dispatch(actions.showNewAccountPage({ form: 'IMPORT' })),
+      showNewAccountPageImportForm: () => dispatch(actions.showNewAccountPage({form: 'IMPORT'})),
       showQrView: (selected, identity) => dispatch(actions.showQrView(selected, identity)),
     },
-  }
-}
+  };
+};
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     keyrings: state.metamask.keyrings,
     sidebarOpen: state.appState.sidebarOpen,
-  }
+  };
 }
 
 AccountDropdowns.contextTypes = {
   t: PropTypes.func,
-}
+};
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(AccountDropdowns)
+module.exports = connect(mapStateToProps, mapDispatchToProps)(AccountDropdowns);
 

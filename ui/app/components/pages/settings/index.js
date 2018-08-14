@@ -1,30 +1,30 @@
-const { Component } = require('react')
-const { Switch, Route, matchPath } = require('react-router-dom')
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const TabBar = require('../../tab-bar')
-const Settings = require('./settings')
-const Info = require('./info')
-const { DEFAULT_ROUTE, SETTINGS_ROUTE, INFO_ROUTE } = require('../../../routes')
+const {Component} = require('react');
+const {Switch, Route, matchPath} = require('react-router-dom');
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const TabBar = require('../../tab-bar');
+const Settings = require('./settings');
+const Info = require('./info');
+const {DEFAULT_ROUTE, SETTINGS_ROUTE, INFO_ROUTE} = require('../../../routes');
 
 class Config extends Component {
-  renderTabs () {
-    const { history, location } = this.props
+  renderTabs() {
+    const {history, location} = this.props;
 
     return h('div.settings__tabs', [
       h(TabBar, {
         tabs: [
-          { content: 'Settings', key: SETTINGS_ROUTE },
-          { content: 'Info', key: INFO_ROUTE },
+          {content: 'Settings', key: SETTINGS_ROUTE},
+          {content: 'Info', key: INFO_ROUTE},
         ],
-        isActive: key => matchPath(location.pathname, { path: key, exact: true }),
+        isActive: key => matchPath(location.pathname, {path: key, exact: true}),
         onSelect: key => history.push(key),
       }),
-    ])
+    ]);
   }
 
-  render () {
-    const { history } = this.props
+  render() {
+    const {history} = this.props;
 
     return (
       h('.main-container.settings', {}, [
@@ -47,13 +47,13 @@ class Config extends Component {
           }),
         ]),
       ])
-    )
+    );
   }
 }
 
 Config.propTypes = {
   location: PropTypes.object,
   history: PropTypes.object,
-}
+};
 
-module.exports = Config
+module.exports = Config;

@@ -118,14 +118,17 @@
 .pointer {
   cursor: pointer;
 }
+
 .cursor-pointer {
   cursor: pointer;
   transform-origin: center center;
   transition: transform 50ms ease-in-out;
 }
+
 .cursor-pointer:hover {
   transform: scale(1.1);
 }
+
 .cursor-pointer:active {
   transform: scale(0.95);
 }
@@ -214,7 +217,7 @@ hr.horizontal-line {
 .keyring-label {
   z-index: 1;
   font-size: 11px;
-  background: rgba(255,0,0,0.8);
+  background: rgba(255, 0, 0, 0.8);
   color: white;
   bottom: 0px;
   left: -18px;
@@ -252,6 +255,7 @@ i.fa.fa-question-circle.fa-lg.menu-icon {
   background: rgb(0, 163, 68);
   border-radius: 20px;
 }
+
 .testnet-icon {
   background: #2465E1;
 }
@@ -286,9 +290,9 @@ i.fa.fa-question-circle.fa-lg.menu-icon {
 
 @media screen and (min-width: 575px) and (max-width: 800px) {
   .account-data-subsection {
-    flex: 0 0 auto !important; // reset flex
-    margin-left: 10px !important; // create additional horizontal space
-    margin-right: 10px !important;
+    flex: 0 0 auto !important;
+  / / reset flex margin-left: 10 px !important;
+  / / create additional horizontal space margin-right: 10 px !important;
     width: 40%;
   }
 

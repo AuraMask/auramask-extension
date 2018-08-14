@@ -17,6 +17,7 @@
   transform: translateX(360px);
   transition: transform 300ms ease-in;
 }
+
 .app-primary.from-right .main-leave-active {
   transform: translateX(-360px);
   transition: transform 300ms ease-in;
@@ -27,6 +28,7 @@
   opacity: 0.0;
   transition: opacity 150 ease-in;
 }
+
 .loader-enter-active, .loader-leave {
   opacity: 1.0;
   transition: opacity 150 ease-in;
@@ -36,6 +38,7 @@
 .app-primary.from-right .main-enter:not(.main-enter-active) {
   transform: translateX(360px);
 }
+
 .app-primary.from-left .main-enter:not(.main-enter-active) {
   transform: translateX(-360px);
 }

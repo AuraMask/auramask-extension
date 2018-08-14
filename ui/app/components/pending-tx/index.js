@@ -1,98 +1,99 @@
-const Component = require('react').Component
-const connect = require('react-redux').connect
-const h = require('react-hyperscript')
-const PropTypes = require('prop-types')
-const clone = require('clone')
-const abi = require('human-standard-token-abi')
-const abiDecoder = require('abi-decoder')
-abiDecoder.addABI(abi)
-const inherits = require('util').inherits
-const actions = require('../../actions')
-const { getSymbolAndDecimals } = require('../../token-util')
-const ConfirmSendEther = require('./confirm-send-ether')
-const ConfirmSendToken = require('./confirm-send-token')
-const ConfirmDeployContract = require('./confirm-deploy-contract')
-const Loading = require('../loading')
+const Component = require('react').Component;
+const connect = require('react-redux').connect;
+const h = require('react-hyperscript');
+const PropTypes = require('prop-types');
+const clone = require('clone');
+const abi = require('human-standard-token-abi');
+const abiDecoder = require('abi-decoder');
+abiDecoder.addABI(abi);
+const inherits = require('util').inherits;
+const actions = require('../../actions');
+const {getSymbolAndDecimals} = require('../../token-util');
+const ConfirmSendEther = require('./confirm-send-ether');
+const ConfirmSendToken = require('./confirm-send-token');
+const ConfirmDeployContract = require('./confirm-deploy-contract');
+const Loading = require('../loading');
 
 const TX_TYPES = {
   DEPLOY_CONTRACT: 'deploy_contract',
   SEND_ETHER: 'send_ether',
   SEND_TOKEN: 'send_token',
-}
+};
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(PendingTx)
+module.exports = connect(mapStateToProps, mapDispatchToProps)(PendingTx);
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const {
     conversionRate,
     identities,
     tokens: existingTokens,
-  } = state.metamask
-  const accounts = state.metamask.accounts
-  const selectedAddress = state.metamask.selectedAddress || Object.keys(accounts)[0]
+  } = state.metamask;
+  const accounts = state.metamask.accounts;
+  const selectedAddress = state.metamask.selectedAddress || Object.keys(accounts)[0];
   return {
     conversionRate,
     identities,
     selectedAddress,
     existingTokens,
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     backToAccountDetail: address => dispatch(actions.backToAccountDetail(address)),
-    cancelTransaction: ({ id }) => dispatch(actions.cancelTx({ id })),
-  }
+    cancelTransaction: ({id}) => dispatch(actions.cancelTx({id})),
+  };
 }
 
-inherits(PendingTx, Component)
-function PendingTx () {
-  Component.call(this)
+inherits(PendingTx, Component);
+
+function PendingTx() {
+  Component.call(this);
   this.state = {
     isFetching: true,
     transactionType: '',
     tokenAddress: '',
     tokenSymbol: '',
     tokenDecimals: '',
-  }
+  };
 }
 
-PendingTx.prototype.componentDidMount = function () {
-  this.setTokenData()
-}
+PendingTx.prototype.componentDidMount = function() {
+  this.setTokenData();
+};
 
-PendingTx.prototype.componentDidUpdate = function (prevProps, prevState) {
+PendingTx.prototype.componentDidUpdate = function(prevProps, prevState) {
   if (prevState.isFetching) {
-    this.setTokenData()
+    this.setTokenData();
   }
-}
+};
 
-PendingTx.prototype.setTokenData = async function () {
-  const { existingTokens } = this.props
-  const txMeta = this.gatherTxMeta()
-  const txParams = txMeta.txParams || {}
+PendingTx.prototype.setTokenData = async function() {
+  const {existingTokens} = this.props;
+  const txMeta = this.gatherTxMeta();
+  const txParams = txMeta.txParams || {};
 
   if (txMeta.loadingDefaults) {
-    return
+    return;
   }
 
   if (!txParams.to) {
     return this.setState({
       transactionType: TX_TYPES.DEPLOY_CONTRACT,
       isFetching: false,
-    })
+    });
   }
 
   // inspect tx data for supported special confirmation screens
-  let isTokenTransaction = false
+  let isTokenTransaction = false;
   if (txParams.data) {
-    const tokenData = abiDecoder.decodeMethod(txParams.data)
-    const { name: tokenMethodName } = tokenData || {}
-    isTokenTransaction = (tokenMethodName === 'transfer')
+    const tokenData = abiDecoder.decodeMethod(txParams.data);
+    const {name: tokenMethodName} = tokenData || {};
+    isTokenTransaction = (tokenMethodName === 'transfer');
   }
 
   if (isTokenTransaction) {
-    const { symbol, decimals } = await getSymbolAndDecimals(txParams.to, existingTokens)
+    const {symbol, decimals} = await getSymbolAndDecimals(txParams.to, existingTokens);
 
     this.setState({
       transactionType: TX_TYPES.SEND_TOKEN,
@@ -100,39 +101,39 @@ PendingTx.prototype.setTokenData = async function () {
       tokenSymbol: symbol,
       tokenDecimals: decimals,
       isFetching: false,
-    })
+    });
   } else {
     this.setState({
       transactionType: TX_TYPES.SEND_ETHER,
       isFetching: false,
-    })
+    });
   }
-}
+};
 
-PendingTx.prototype.gatherTxMeta = function () {
-  const props = this.props
-  const state = this.state
-  const txData = clone(state.txData) || clone(props.txData)
+PendingTx.prototype.gatherTxMeta = function() {
+  const props = this.props;
+  const state = this.state;
+  const txData = clone(state.txData) || clone(props.txData);
 
-  return txData
-}
+  return txData;
+};
 
-PendingTx.prototype.render = function () {
+PendingTx.prototype.render = function() {
   const {
     isFetching,
     transactionType,
     tokenAddress,
     tokenSymbol,
     tokenDecimals,
-  } = this.state
+  } = this.state;
 
-  const { sendTransaction } = this.props
+  const {sendTransaction} = this.props;
 
   if (isFetching) {
     return h(Loading, {
       fullScreen: true,
       loadingMessage: this.context.t('generatingTransaction'),
-    })
+    });
   }
 
   switch (transactionType) {
@@ -140,7 +141,7 @@ PendingTx.prototype.render = function () {
       return h(ConfirmSendEther, {
         txData: this.gatherTxMeta(),
         sendTransaction,
-      })
+      });
     case TX_TYPES.SEND_TOKEN:
       return h(ConfirmSendToken, {
         txData: this.gatherTxMeta(),
@@ -150,19 +151,19 @@ PendingTx.prototype.render = function () {
           symbol: tokenSymbol,
           decimals: tokenDecimals,
         },
-      })
+      });
     case TX_TYPES.DEPLOY_CONTRACT:
       return h(ConfirmDeployContract, {
         txData: this.gatherTxMeta(),
         sendTransaction,
-      })
+      });
     default:
       return h(Loading, {
         fullScreen: true,
-      })
+      });
   }
-}
+};
 
 PendingTx.contextTypes = {
   t: PropTypes.func,
-}
+};

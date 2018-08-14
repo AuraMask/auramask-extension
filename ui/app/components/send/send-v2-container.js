@@ -1,9 +1,9 @@
-const connect = require('react-redux').connect
-const actions = require('../../actions')
-const abi = require('ethereumjs-abi')
-const SendEther = require('../../send-v2')
-const { withRouter } = require('react-router-dom')
-const { compose } = require('recompose')
+const connect = require('react-redux').connect;
+const actions = require('../../actions');
+const abi = require('ethereumjs-abi');
+const SendEther = require('../../send-v2');
+const {withRouter} = require('react-router-dom');
+const {compose} = require('recompose');
 
 const {
   accountsWithSendEtherInfoSelector,
@@ -16,31 +16,31 @@ const {
   getCurrentCurrency,
   getSelectedTokenToFiatRate,
   getSelectedTokenContract,
-} = require('../../selectors')
+} = require('../../selectors');
 
 module.exports = compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
-)(SendEther)
+  connect(mapStateToProps, mapDispatchToProps),
+)(SendEther);
 
-function mapStateToProps (state) {
-  const fromAccounts = accountsWithSendEtherInfoSelector(state)
-  const selectedAddress = getSelectedAddress(state)
-  const selectedToken = getSelectedToken(state)
-  const conversionRate = conversionRateSelector(state)
+function mapStateToProps(state) {
+  const fromAccounts = accountsWithSendEtherInfoSelector(state);
+  const selectedAddress = getSelectedAddress(state);
+  const selectedToken = getSelectedToken(state);
+  const conversionRate = conversionRateSelector(state);
 
-  let data
-  let primaryCurrency
-  let tokenToFiatRate
+  let data;
+  let primaryCurrency;
+  let tokenToFiatRate;
   if (selectedToken) {
     data = Array.prototype.map.call(
       abi.rawEncode(['address', 'uint256'], [selectedAddress, '0x0']),
-      x => ('00' + x.toString(16)).slice(-2)
-    ).join('')
+      x => ('00' + x.toString(16)).slice(-2),
+    ).join('');
 
-    primaryCurrency = selectedToken.symbol
+    primaryCurrency = selectedToken.symbol;
 
-    tokenToFiatRate = getSelectedTokenToFiatRate(state)
+    tokenToFiatRate = getSelectedTokenToFiatRate(state);
   }
 
   return {
@@ -58,12 +58,12 @@ function mapStateToProps (state) {
     tokenContract: getSelectedTokenContract(state),
     unapprovedTxs: state.metamask.unapprovedTxs,
     network: state.metamask.network,
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    showCustomizeGasModal: () => dispatch(actions.showModal({ name: 'CUSTOMIZE_GAS' })),
+    showCustomizeGasModal: () => dispatch(actions.showModal({name: 'CUSTOMIZE_GAS'})),
     estimateGas: params => dispatch(actions.estimateGas(params)),
     getGasPrice: () => dispatch(actions.getGasPrice()),
     signTokenTx: (tokenAddress, toAddress, amount, txData) => (
@@ -85,5 +85,5 @@ function mapDispatchToProps (dispatch) {
     updateSendErrors: newError => dispatch(actions.updateSendErrors(newError)),
     clearSend: () => dispatch(actions.clearSend()),
     setMaxModeTo: bool => dispatch(actions.setMaxModeTo(bool)),
-  }
+  };
 }

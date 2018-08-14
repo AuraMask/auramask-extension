@@ -1,27 +1,27 @@
 // var jsdom = require('mocha-jsdom')
-var assert = require('assert')
-var freeze = require('deep-freeze-strict')
-var path = require('path')
-var sinon = require('sinon')
+var assert = require('assert');
+var freeze = require('deep-freeze-strict');
+var path = require('path');
+var sinon = require('sinon');
 
-var actions = require(path.join(__dirname, '..', '..', '..', 'ui', 'app', 'actions.js'))
-var reducers = require(path.join(__dirname, '..', '..', '..', 'ui', 'app', 'reducers.js'))
+var actions = require(path.join(__dirname, '..', '..', '..', 'ui', 'app', 'actions.js'));
+var reducers = require(path.join(__dirname, '..', '..', '..', 'ui', 'app', 'reducers.js'));
 
-describe('tx confirmation screen', function () {
-  beforeEach(function () {
-    this.sinon = sinon.sandbox.create()
-  })
+describe('tx confirmation screen', function() {
+  beforeEach(function() {
+    this.sinon = sinon.sandbox.create();
+  });
 
-  afterEach(function () {
-    this.sinon.restore()
-  })
+  afterEach(function() {
+    this.sinon.restore();
+  });
 
-  var initialState, result
+  var initialState, result;
 
-  describe('when there is only one tx', function () {
-    var firstTxId = 1457634084250832
+  describe('when there is only one tx', function() {
+    var firstTxId = 1457634084250832;
 
-    beforeEach(function () {
+    beforeEach(function() {
       initialState = {
         appState: {
           currentView: {
@@ -37,38 +37,38 @@ describe('tx confirmation screen', function () {
             },
           },
         },
-      }
-      freeze(initialState)
-    })
+      };
+      freeze(initialState);
+    });
 
-    describe('cancelTx', function () {
-      before(function (done) {
+    describe('cancelTx', function() {
+      before(function(done) {
         actions._setBackgroundConnection({
-          approveTransaction (txId, cb) { cb('An error!') },
-          cancelTransaction (txId, cb) { cb() },
-          clearSeedWordCache (cb) { cb() },
-        })
+          approveTransaction(txId, cb) { cb('An error!'); },
+          cancelTransaction(txId, cb) { cb(); },
+          clearSeedWordCache(cb) { cb(); },
+        });
 
         actions.cancelTx({value: firstTxId})((action) => {
-          result = reducers(initialState, action)
-        })
-        done()
-      })
+          result = reducers(initialState, action);
+        });
+        done();
+      });
 
-      it('should transition to the account detail view', function () {
-        assert.equal(result.appState.currentView.name, 'accountDetail')
-      })
+      it('should transition to the account detail view', function() {
+        assert.equal(result.appState.currentView.name, 'accountDetail');
+      });
 
-      it('should have no unconfirmed txs remaining', function () {
-        var count = getUnconfirmedTxCount(result)
-        assert.equal(count, 0)
-      })
-    })
-  })
-})
+      it('should have no unconfirmed txs remaining', function() {
+        var count = getUnconfirmedTxCount(result);
+        assert.equal(count, 0);
+      });
+    });
+  });
+});
 
-function getUnconfirmedTxCount (state) {
-  var txs = state.metamask.unapprovedTxs
-  var count = Object.keys(txs).length
-  return count
+function getUnconfirmedTxCount(state) {
+  var txs = state.metamask.unapprovedTxs;
+  var count = Object.keys(txs).length;
+  return count;
 }

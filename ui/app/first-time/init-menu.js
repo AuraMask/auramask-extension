@@ -1,40 +1,40 @@
-const { EventEmitter } = require('events')
-const { Component } = require('react')
-const PropTypes = require('prop-types')
-const connect = require('react-redux').connect
-const h = require('react-hyperscript')
-const Mascot = require('../components/mascot')
-const actions = require('../actions')
-const Tooltip = require('../components/tooltip')
-const getCaretCoordinates = require('textarea-caret')
-const { RESTORE_VAULT_ROUTE, DEFAULT_ROUTE } = require('../routes')
-const { getEnvironmentType } = require('../../../app/scripts/lib/util')
-const { ENVIRONMENT_TYPE_POPUP } = require('../../../app/scripts/lib/enums')
-const { OLD_UI_NETWORK_TYPE } = require('../../../app/scripts/controllers/network/enums')
+const {EventEmitter} = require('events');
+const {Component} = require('react');
+const PropTypes = require('prop-types');
+const connect = require('react-redux').connect;
+const h = require('react-hyperscript');
+const Mascot = require('../components/mascot');
+const actions = require('../actions');
+const Tooltip = require('../components/tooltip');
+const getCaretCoordinates = require('textarea-caret');
+const {RESTORE_VAULT_ROUTE, DEFAULT_ROUTE} = require('../routes');
+const {getEnvironmentType} = require('../../../app/scripts/lib/util');
+const {ENVIRONMENT_TYPE_POPUP} = require('../../../app/scripts/lib/enums');
+const {OLD_UI_NETWORK_TYPE} = require('../../../app/scripts/controllers/network/enums');
 
 class InitializeMenuScreen extends Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
 
-    this.animationEventEmitter = new EventEmitter()
+    this.animationEventEmitter = new EventEmitter();
     this.state = {
       warning: null,
-    }
+    };
   }
 
-  componentWillMount () {
-    const { isInitialized, isUnlocked, history } = this.props
+  componentWillMount() {
+    const {isInitialized, isUnlocked, history} = this.props;
     if (isInitialized || isUnlocked) {
-      history.push(DEFAULT_ROUTE)
+      history.push(DEFAULT_ROUTE);
     }
   }
 
-  componentDidMount () {
-    document.getElementById('password-box').focus()
+  componentDidMount() {
+    document.getElementById('password-box').focus();
   }
 
-  render () {
-    const { warning } = this.state
+  render() {
+    const {warning} = this.state;
 
     return (
       h('.initialize-screen.flex-column.flex-center', [
@@ -103,7 +103,6 @@ class InitializeMenuScreen extends Component {
           },
         }),
 
-
         h('button.primary', {
           onClick: this.createNewVaultAndKeychain.bind(this),
           style: {
@@ -135,62 +134,62 @@ class InitializeMenuScreen extends Component {
         ]),
 
       ])
-    )
+    );
   }
 
-  createVaultOnEnter (event) {
+  createVaultOnEnter(event) {
     if (event.key === 'Enter') {
-      event.preventDefault()
-      this.createNewVaultAndKeychain()
+      event.preventDefault();
+      this.createNewVaultAndKeychain();
     }
   }
 
-  createNewVaultAndKeychain () {
-    const { history } = this.props
-    var passwordBox = document.getElementById('password-box')
-    var password = passwordBox.value
-    var passwordConfirmBox = document.getElementById('password-box-confirm')
-    var passwordConfirm = passwordConfirmBox.value
+  createNewVaultAndKeychain() {
+    const {history} = this.props;
+    var passwordBox = document.getElementById('password-box');
+    var password = passwordBox.value;
+    var passwordConfirmBox = document.getElementById('password-box-confirm');
+    var passwordConfirm = passwordConfirmBox.value;
 
-    this.setState({ warning: null })
+    this.setState({warning: null});
 
     if (password.length < 8) {
-      this.setState({ warning: this.context.t('passwordShort') })
-      return
+      this.setState({warning: this.context.t('passwordShort')});
+      return;
     }
 
     if (password !== passwordConfirm) {
-      this.setState({ warning: this.context.t('passwordMismatch') })
-      return
+      this.setState({warning: this.context.t('passwordMismatch')});
+      return;
     }
 
     this.props.createNewVaultAndKeychain(password)
-      .then(() => history.push(DEFAULT_ROUTE))
+        .then(() => history.push(DEFAULT_ROUTE));
   }
 
-  inputChanged (event) {
+  inputChanged(event) {
     // tell mascot to look at page action
-    var element = event.target
-    var boundingRect = element.getBoundingClientRect()
-    var coordinates = getCaretCoordinates(element, element.selectionEnd)
+    var element = event.target;
+    var boundingRect = element.getBoundingClientRect();
+    var coordinates = getCaretCoordinates(element, element.selectionEnd);
     this.animationEventEmitter.emit('point', {
       x: boundingRect.left + coordinates.left - element.scrollLeft,
       y: boundingRect.top + coordinates.top - element.scrollTop,
-    })
+    });
   }
 
-  showRestoreVault () {
-    this.props.markPasswordForgotten()
+  showRestoreVault() {
+    this.props.markPasswordForgotten();
     if (getEnvironmentType(window.location.href) === ENVIRONMENT_TYPE_POPUP) {
-      global.platform.openExtensionInBrowser()
+      global.platform.openExtensionInBrowser();
     }
 
-    this.props.history.push(RESTORE_VAULT_ROUTE)
+    this.props.history.push(RESTORE_VAULT_ROUTE);
   }
 
-  showOldUI () {
+  showOldUI() {
     this.props.dispatch(actions.setFeatureFlag('betaUI', false, 'OLD_UI_NOTIFICATION_MODAL'))
-      .then(() => this.props.dispatch(actions.setNetworkEndpoints(OLD_UI_NETWORK_TYPE)))
+        .then(() => this.props.dispatch(actions.setNetworkEndpoints(OLD_UI_NETWORK_TYPE)));
   }
 }
 
@@ -201,26 +200,26 @@ InitializeMenuScreen.propTypes = {
   createNewVaultAndKeychain: PropTypes.func,
   markPasswordForgotten: PropTypes.func,
   dispatch: PropTypes.func,
-}
+};
 
 InitializeMenuScreen.contextTypes = {
   t: PropTypes.func,
-}
+};
 
 const mapStateToProps = state => {
-  const { metamask: { isInitialized, isUnlocked } } = state
+  const {metamask: {isInitialized, isUnlocked}} = state;
 
   return {
     isInitialized,
     isUnlocked,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     createNewVaultAndKeychain: password => dispatch(actions.createNewVaultAndKeychain(password)),
     markPasswordForgotten: () => dispatch(actions.markPasswordForgotten()),
-  }
-}
+  };
+};
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(InitializeMenuScreen)
+module.exports = connect(mapStateToProps, mapDispatchToProps)(InitializeMenuScreen);

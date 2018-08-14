@@ -1,15 +1,13 @@
-const extend = require('xtend')
+const extend = require('xtend');
 
-module.exports = reduceIdentities
+module.exports = reduceIdentities;
 
-function reduceIdentities (state, action) {
+function reduceIdentities(state, action) {
   // clone + defaults
-  var idState = extend({
-
-  }, state.identities)
+  var idState = extend({}, state.identities);
 
   switch (action.type) {
     default:
-      return idState
+      return idState;
   }
 }

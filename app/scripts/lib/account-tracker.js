@@ -7,12 +7,12 @@
  * on each new block.
  */
 
-const async = require('async')
-const EthQuery = require('eth-query')
-const ObservableStore = require('obs-store')
-const EventEmitter = require('events').EventEmitter
-function noop () {}
+const async = require('async');
+const EthQuery = require('eth-query');
+const ObservableStore = require('obs-store');
+const EventEmitter = require('events').EventEmitter;
 
+function noop() {}
 
 class AccountTracker extends EventEmitter {
 
@@ -34,22 +34,22 @@ class AccountTracker extends EventEmitter {
    * @property {Object} _currentBlockNumber Reference to a property on the _blockTracker: the number (i.e. an id) of the the current block
    *
    */
-  constructor (opts = {}) {
-    super()
+  constructor(opts = {}) {
+    super();
 
     const initState = {
       accounts: {},
       currentBlockGasLimit: '',
-    }
-    this.store = new ObservableStore(initState)
+    };
+    this.store = new ObservableStore(initState);
 
-    this._provider = opts.provider
-    this._query = new EthQuery(this._provider)
-    this._blockTracker = opts.blockTracker
+    this._provider = opts.provider;
+    this._query = new EthQuery(this._provider);
+    this._blockTracker = opts.blockTracker;
     // subscribe to latest block
-    this._blockTracker.on('block', this._updateForBlock.bind(this))
+    this._blockTracker.on('block', this._updateForBlock.bind(this));
     // blockTracker.currentBlock may be null
-    this._currentBlockNumber = this._blockTracker.currentBlock
+    this._currentBlockNumber = this._blockTracker.currentBlock;
   }
 
   /**
@@ -63,27 +63,27 @@ class AccountTracker extends EventEmitter {
    * in sync
    *
    */
-  syncWithAddresses (addresses) {
-    const accounts = this.store.getState().accounts
-    const locals = Object.keys(accounts)
+  syncWithAddresses(addresses) {
+    const accounts = this.store.getState().accounts;
+    const locals = Object.keys(accounts);
 
-    const toAdd = []
+    const toAdd = [];
     addresses.forEach((upstream) => {
       if (!locals.includes(upstream)) {
-        toAdd.push(upstream)
+        toAdd.push(upstream);
       }
-    })
+    });
 
-    const toRemove = []
+    const toRemove = [];
     locals.forEach((local) => {
       if (!addresses.includes(local)) {
-        toRemove.push(local)
+        toRemove.push(local);
       }
-    })
+    });
 
-    toAdd.forEach(upstream => this.addAccount(upstream))
-    toRemove.forEach(local => this.removeAccount(local))
-    this._updateAccounts()
+    toAdd.forEach(upstream => this.addAccount(upstream));
+    toRemove.forEach(local => this.removeAccount(local));
+    this._updateAccounts();
   }
 
   /**
@@ -93,12 +93,12 @@ class AccountTracker extends EventEmitter {
    * @param {string} address A hex address of a new account to store in this AccountTracker's accounts object
    *
    */
-  addAccount (address) {
-    const accounts = this.store.getState().accounts
-    accounts[address] = {}
-    this.store.updateState({ accounts })
-    if (!this._currentBlockNumber) return
-    this._updateAccount(address)
+  addAccount(address) {
+    const accounts = this.store.getState().accounts;
+    accounts[address] = {};
+    this.store.updateState({accounts});
+    if (!this._currentBlockNumber) return;
+    this._updateAccount(address);
   }
 
   /**
@@ -107,10 +107,10 @@ class AccountTracker extends EventEmitter {
    * @param {string} address A hex address of a the account to remove
    *
    */
-  removeAccount (address) {
-    const accounts = this.store.getState().accounts
-    delete accounts[address]
-    this.store.updateState({ accounts })
+  removeAccount(address) {
+    const accounts = this.store.getState().accounts;
+    delete accounts[address];
+    this.store.updateState({accounts});
   }
 
   /**
@@ -122,18 +122,18 @@ class AccountTracker extends EventEmitter {
    * @fires 'block' The updated state, if all account updates are successful
    *
    */
-  _updateForBlock (block) {
-    this._currentBlockNumber = block.number
-    const currentBlockGasLimit = block.gasLimit
+  _updateForBlock(block) {
+    this._currentBlockNumber = block.number;
+    const currentBlockGasLimit = block.gasLimit;
 
-    this.store.updateState({ currentBlockGasLimit })
+    this.store.updateState({currentBlockGasLimit});
 
     async.parallel([
       this._updateAccounts.bind(this),
     ], (err) => {
-      if (err) return console.error(err)
-      this.emit('block', this.store.getState())
-    })
+      if (err) return console.error(err);
+      this.emit('block', this.store.getState());
+    });
   }
 
   /**
@@ -142,10 +142,10 @@ class AccountTracker extends EventEmitter {
    * @param {Function} cb A callback to pass to this._updateAccount, called after each account is successfully updated
    *
    */
-  _updateAccounts (cb = noop) {
-    const accounts = this.store.getState().accounts
-    const addresses = Object.keys(accounts)
-    async.each(addresses, this._updateAccount.bind(this), cb)
+  _updateAccounts(cb = noop) {
+    const accounts = this.store.getState().accounts;
+    const addresses = Object.keys(accounts);
+    async.each(addresses, this._updateAccount.bind(this), cb);
   }
 
   /**
@@ -156,18 +156,18 @@ class AccountTracker extends EventEmitter {
    * @param {Function} cb A callback to call once the account at address is successfully update
    *
    */
-  _updateAccount (address, cb = noop) {
+  _updateAccount(address, cb = noop) {
     this._getAccount(address, (err, result) => {
-      if (err) return cb(err)
-      result.address = address
-      const accounts = this.store.getState().accounts
+      if (err) return cb(err);
+      result.address = address;
+      const accounts = this.store.getState().accounts;
       // only populate if the entry is still present
       if (accounts[address]) {
-        accounts[address] = result
-        this.store.updateState({ accounts })
+        accounts[address] = result;
+        this.store.updateState({accounts});
       }
-      cb(null, result)
-    })
+      cb(null, result);
+    });
   }
 
   /**
@@ -178,13 +178,13 @@ class AccountTracker extends EventEmitter {
    * @param {Function} cb A callback to call once the account at address is successfully update
    *
    */
-  _getAccount (address, cb = noop) {
-    const query = this._query
+  _getAccount(address, cb = noop) {
+    const query = this._query;
     async.parallel({
       balance: query.getBalance.bind(query, address),
-    }, cb)
+    }, cb);
   }
 
 }
 
-module.exports = AccountTracker
+module.exports = AccountTracker;

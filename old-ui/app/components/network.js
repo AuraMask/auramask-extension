@@ -1,25 +1,25 @@
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
 
-module.exports = Network
+module.exports = Network;
 
-inherits(Network, Component)
+inherits(Network, Component);
 
-function Network () {
-  Component.call(this)
+function Network() {
+  Component.call(this);
 }
 
-Network.prototype.render = function () {
-  const props = this.props
-  const networkNumber = props.network
-  let providerName
+Network.prototype.render = function() {
+  const props = this.props;
+  const networkNumber = props.network;
+  let providerName;
   try {
-    providerName = props.provider.type
+    providerName = props.provider.type;
   } catch (e) {
-    providerName = null
+    providerName = null;
   }
-  let iconName, hoverText
+  let iconName, hoverText;
 
   if (networkNumber === 'loading') {
     return h('span.pointer', {
@@ -39,25 +39,25 @@ Network.prototype.render = function () {
         src: 'images/loading.svg',
       }),
       h('i.fa.fa-caret-down'),
-    ])
+    ]);
   } else if (providerName === 'mainnet') {
-    hoverText = 'Main Ethereum Network'
-    iconName = 'ethereum-network'
+    hoverText = 'Main Ethereum Network';
+    iconName = 'ethereum-network';
   } else if (providerName === 'ropsten') {
-    hoverText = 'Ropsten Test Network'
-    iconName = 'ropsten-test-network'
+    hoverText = 'Ropsten Test Network';
+    iconName = 'ropsten-test-network';
   } else if (parseInt(networkNumber) === 3) {
-    hoverText = 'Ropsten Test Network'
-    iconName = 'ropsten-test-network'
+    hoverText = 'Ropsten Test Network';
+    iconName = 'ropsten-test-network';
   } else if (providerName === 'kovan') {
-    hoverText = 'Kovan Test Network'
-    iconName = 'kovan-test-network'
+    hoverText = 'Kovan Test Network';
+    iconName = 'kovan-test-network';
   } else if (providerName === 'rinkeby') {
-    hoverText = 'Rinkeby Test Network'
-    iconName = 'rinkeby-test-network'
+    hoverText = 'Rinkeby Test Network';
+    iconName = 'rinkeby-test-network';
   } else {
-    hoverText = 'Unknown Private Network'
-    iconName = 'unknown-private-network'
+    hoverText = 'Unknown Private Network';
+    iconName = 'unknown-private-network';
   }
 
   return (
@@ -66,48 +66,52 @@ Network.prototype.render = function () {
       title: hoverText,
       onClick: (event) => props.onClick && props.onClick(event),
     }, [
-      (function () {
+      (function() {
         switch (iconName) {
           case 'ethereum-network':
             return h('.network-indicator', [
               h('.menu-icon.diamond'),
               h('.network-name', {
-                style: {
-                  color: '#039396',
-                }},
-              'Main Network'),
+                  style: {
+                    color: '#039396',
+                  },
+                },
+                'Main Network'),
               props.onClick && h('i.fa.fa-caret-down.fa-lg'),
-            ])
+            ]);
           case 'ropsten-test-network':
             return h('.network-indicator', [
               h('.menu-icon.red-dot'),
               h('.network-name', {
-                style: {
-                  color: '#ff6666',
-                }},
-              'Ropsten Test Net'),
+                  style: {
+                    color: '#ff6666',
+                  },
+                },
+                'Ropsten Test Net'),
               props.onClick && h('i.fa.fa-caret-down.fa-lg'),
-            ])
+            ]);
           case 'kovan-test-network':
             return h('.network-indicator', [
               h('.menu-icon.hollow-diamond'),
               h('.network-name', {
-                style: {
-                  color: '#690496',
-                }},
-              'Kovan Test Net'),
+                  style: {
+                    color: '#690496',
+                  },
+                },
+                'Kovan Test Net'),
               props.onClick && h('i.fa.fa-caret-down.fa-lg'),
-            ])
+            ]);
           case 'rinkeby-test-network':
             return h('.network-indicator', [
               h('.menu-icon.golden-square'),
               h('.network-name', {
-                style: {
-                  color: '#e7a218',
-                }},
-              'Rinkeby Test Net'),
+                  style: {
+                    color: '#e7a218',
+                  },
+                },
+                'Rinkeby Test Net'),
               props.onClick && h('i.fa.fa-caret-down.fa-lg'),
-            ])
+            ]);
           default:
             return h('.network-indicator', [
               h('i.fa.fa-question-circle.fa-lg', {
@@ -118,14 +122,15 @@ Network.prototype.render = function () {
               }),
 
               h('.network-name', {
-                style: {
-                  color: '#AEAEAE',
-                }},
-              'Private Network'),
+                  style: {
+                    color: '#AEAEAE',
+                  },
+                },
+                'Private Network'),
               props.onClick && h('i.fa.fa-caret-down.fa-lg'),
-            ])
+            ]);
         }
       })(),
     ])
-  )
-}
+  );
+};

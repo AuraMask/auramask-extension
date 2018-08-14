@@ -1,23 +1,23 @@
-const { Component } = require('react')
-const PropTypes = require('prop-types')
-const connect = require('../../metamask-connect')
-const { Redirect, withRouter } = require('react-router-dom')
-const { compose } = require('recompose')
-const h = require('react-hyperscript')
-const actions = require('../../actions')
-const log = require('loglevel')
+const {Component} = require('react');
+const PropTypes = require('prop-types');
+const connect = require('../../metamask-connect');
+const {Redirect, withRouter} = require('react-router-dom');
+const {compose} = require('recompose');
+const h = require('react-hyperscript');
+const actions = require('../../actions');
+const log = require('loglevel');
 
 // init
-const NewKeyChainScreen = require('../../new-keychain')
+const NewKeyChainScreen = require('../../new-keychain');
 // mascara
-const MascaraBuyEtherScreen = require('../../../../mascara/src/app/first-time/buy-ether-screen').default
+const MascaraBuyEtherScreen = require('../../../../mascara/src/app/first-time/buy-ether-screen').default;
 
 // accounts
-const MainContainer = require('../../main-container')
+const MainContainer = require('../../main-container');
 
 // other views
-const BuyView = require('../../components/buy-button-subview')
-const QrView = require('../../components/qr-code')
+const BuyView = require('../../components/buy-button-subview');
+const QrView = require('../../components/qr-code');
 
 // Routes
 const {
@@ -25,27 +25,27 @@ const {
   RESTORE_VAULT_ROUTE,
   CONFIRM_TRANSACTION_ROUTE,
   NOTICE_ROUTE,
-} = require('../../routes')
+} = require('../../routes');
 
 class Home extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const {
       history,
       unapprovedTxs = {},
       unapprovedMsgCount = 0,
       unapprovedPersonalMsgCount = 0,
       unapprovedTypedMessagesCount = 0,
-    } = this.props
+    } = this.props;
 
     // unapprovedTxs and unapproved messages
     if (Object.keys(unapprovedTxs).length ||
       unapprovedTypedMessagesCount + unapprovedMsgCount + unapprovedPersonalMsgCount > 0) {
-      history.push(CONFIRM_TRANSACTION_ROUTE)
+      history.push(CONFIRM_TRANSACTION_ROUTE);
     }
   }
 
-  render () {
-    log.debug('rendering primary')
+  render() {
+    log.debug('rendering primary');
     const {
       noActiveNotices,
       lostAccounts,
@@ -53,7 +53,7 @@ class Home extends Component {
       currentView,
       activeAddress,
       seedWords,
-    } = this.props
+    } = this.props;
 
     // notices
     if (!noActiveNotices || (lostAccounts && lostAccounts.length > 0)) {
@@ -61,26 +61,26 @@ class Home extends Component {
         to: {
           pathname: NOTICE_ROUTE,
         },
-      })
+      });
     }
 
     // seed words
     if (seedWords) {
-      log.debug('rendering seed words')
+      log.debug('rendering seed words');
       return h(Redirect, {
         to: {
           pathname: INITIALIZE_BACKUP_PHRASE_ROUTE,
         },
-      })
+      });
     }
 
     if (forgottenPassword) {
-      log.debug('rendering restore vault screen')
+      log.debug('rendering restore vault screen');
       return h(Redirect, {
         to: {
           pathname: RESTORE_VAULT_ROUTE,
         },
-      })
+      });
     }
 
     // if (!props.noActiveNotices) {
@@ -132,8 +132,8 @@ class Home extends Component {
     switch (currentView.name) {
 
       case 'accountDetail':
-        log.debug('rendering main container')
-        return h(MainContainer, {key: 'account-detail'})
+        log.debug('rendering main container');
+        return h(MainContainer, {key: 'account-detail'});
 
       // case 'sendTransaction':
       //   log.debug('rendering send tx screen')
@@ -156,8 +156,8 @@ class Home extends Component {
       //   return h(SendTransactionScreen2, {key: 'sendToken'})
 
       case 'newKeychain':
-        log.debug('rendering new keychain screen')
-        return h(NewKeyChainScreen, {key: 'new-keychain'})
+        log.debug('rendering new keychain screen');
+        return h(NewKeyChainScreen, {key: 'new-keychain'});
 
       // case 'confTx':
       //   log.debug('rendering confirm tx screen')
@@ -166,7 +166,7 @@ class Home extends Component {
       //       pathname: CONFIRM_TRANSACTION_ROUTE,
       //     },
       //   })
-        // return h(ConfirmTxScreen, {key: 'confirm-tx'})
+      // return h(ConfirmTxScreen, {key: 'confirm-tx'})
 
       // case 'add-token':
       //   log.debug('rendering add-token screen from unlock screen.')
@@ -189,15 +189,15 @@ class Home extends Component {
       //   return h(Settings, {key: 'info', tab: 'info'})
 
       case 'buyEth':
-        log.debug('rendering buy ether screen')
-        return h(BuyView, {key: 'buyEthView'})
+        log.debug('rendering buy ether screen');
+        return h(BuyView, {key: 'buyEthView'});
 
       case 'onboardingBuyEth':
-        log.debug('rendering onboarding buy ether screen')
-        return h(MascaraBuyEtherScreen, {key: 'buyEthView'})
+        log.debug('rendering onboarding buy ether screen');
+        return h(MascaraBuyEtherScreen, {key: 'buyEthView'});
 
       case 'qr':
-        log.debug('rendering show qr screen')
+        log.debug('rendering show qr screen');
         return h('div', {
           style: {
             position: 'absolute',
@@ -222,11 +222,11 @@ class Home extends Component {
           }, [
             h(QrView, {key: 'qr'}),
           ]),
-        ])
+        ]);
 
       default:
-        log.debug('rendering default, account detail screen')
-        return h(MainContainer, {key: 'account-detail'})
+        log.debug('rendering default, account detail screen');
+        return h(MainContainer, {key: 'account-detail'});
     }
   }
 }
@@ -261,16 +261,16 @@ Home.propTypes = {
   isPopup: PropTypes.bool,
   isMouseUser: PropTypes.bool,
   t: PropTypes.func,
-}
+};
 
-function mapStateToProps (state) {
-  const { appState, metamask } = state
+function mapStateToProps(state) {
+  const {appState, metamask} = state;
   const {
     networkDropdownOpen,
     sidebarOpen,
     isLoading,
     loadingMessage,
-  } = appState
+  } = appState;
 
   const {
     accounts,
@@ -284,8 +284,8 @@ function mapStateToProps (state) {
     unapprovedMsgCount,
     unapprovedPersonalMsgCount,
     unapprovedTypedMessagesCount,
-  } = metamask
-  const selected = address || Object.keys(accounts)[0]
+  } = metamask;
+  const selected = address || Object.keys(accounts)[0];
 
   return {
     // state from plugin
@@ -324,10 +324,10 @@ function mapStateToProps (state) {
 
     // state needed to get account dropdown temporarily rendering from app bar
     selected,
-  }
+  };
 }
 
 module.exports = compose(
   withRouter,
-  connect(mapStateToProps)
-)(Home)
+  connect(mapStateToProps),
+)(Home);

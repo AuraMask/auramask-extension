@@ -1,5 +1,5 @@
-const extend = require('xtend')
-const BN = require('ethereumjs-util').BN
+const extend = require('xtend');
+const BN = require('ethereumjs-util').BN;
 const template = {
   'status': 'submitted',
   'txParams': {
@@ -8,33 +8,33 @@ const template = {
     'value': '0x0',
     'nonce': '0x3',
   },
-}
+};
 
 class TxGenerator {
 
-  constructor () {
-    this.txs = []
+  constructor() {
+    this.txs = [];
   }
 
-  generate (tx = {}, opts = {}) {
-    let { count, fromNonce } = opts
-    let nonce = fromNonce || this.txs.length
-    let txs = []
+  generate(tx = {}, opts = {}) {
+    let {count, fromNonce} = opts;
+    let nonce = fromNonce || this.txs.length;
+    let txs = [];
     for (let i = 0; i < count; i++) {
       txs.push(extend(template, {
         txParams: {
           nonce: hexify(nonce++),
-        }
-      }, tx))
+        },
+      }, tx));
     }
-    this.txs = this.txs.concat(txs)
-    return txs
+    this.txs = this.txs.concat(txs);
+    return txs;
   }
 
 }
 
-function hexify (number) {
-  return '0x' + (new BN(number)).toString(16)
+function hexify(number) {
+  return '0x' + (new BN(number)).toString(16);
 }
 
-module.exports = TxGenerator
+module.exports = TxGenerator;

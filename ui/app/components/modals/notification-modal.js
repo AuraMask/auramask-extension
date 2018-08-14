@@ -1,11 +1,11 @@
-const { Component } = require('react')
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const connect = require('react-redux').connect
-const actions = require('../../actions')
+const {Component} = require('react');
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const connect = require('react-redux').connect;
+const actions = require('../../actions');
 
 class NotificationModal extends Component {
-  render () {
+  render() {
     const {
       header,
       message,
@@ -13,13 +13,12 @@ class NotificationModal extends Component {
       showConfirmButton = false,
       hideModal,
       onConfirm,
-    } = this.props
+    } = this.props;
 
-    const showButtons = showCancelButton || showConfirmButton
+    const showButtons = showCancelButton || showConfirmButton;
 
     return h('div', [
-      h('div.notification-modal__wrapper', {
-      }, [
+      h('div.notification-modal__wrapper', {}, [
 
         h('div.notification-modal__header', {}, [
           this.context.t(header),
@@ -43,15 +42,15 @@ class NotificationModal extends Component {
 
           showConfirmButton && h('div.btn-clear.notification-modal__buttons__btn', {
             onClick: () => {
-              onConfirm()
-              hideModal()
+              onConfirm();
+              hideModal();
             },
           }, 'Confirm'),
 
         ]),
 
       ]),
-    ])
+    ]);
   }
 }
 
@@ -62,20 +61,20 @@ NotificationModal.propTypes = {
   showCancelButton: PropTypes.bool,
   showConfirmButton: PropTypes.bool,
   onConfirm: PropTypes.func,
-    t: PropTypes.func,
-}
+  t: PropTypes.func,
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     hideModal: () => {
-      dispatch(actions.hideModal())
+      dispatch(actions.hideModal());
     },
-  }
-}
+  };
+};
 
 NotificationModal.contextTypes = {
   t: PropTypes.func,
-}
+};
 
-module.exports = connect(null, mapDispatchToProps)(NotificationModal)
+module.exports = connect(null, mapDispatchToProps)(NotificationModal);
 

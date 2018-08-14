@@ -1,20 +1,20 @@
-const inherits = require('util').inherits
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const Identicon = require('./identicon')
+const inherits = require('util').inherits;
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const Identicon = require('./identicon');
 
-module.exports = AccountPanel
+module.exports = AccountPanel;
 
+inherits(AccountPanel, Component);
 
-inherits(AccountPanel, Component)
-function AccountPanel () {
-  Component.call(this)
+function AccountPanel() {
+  Component.call(this);
 }
 
-AccountPanel.prototype.render = function () {
-  var props = this.props
-  var picOrder = props.picOrder || 'left'
-  const { imageSeed } = props
+AccountPanel.prototype.render = function() {
+  var props = this.props;
+  var picOrder = props.picOrder || 'left';
+  const {imageSeed} = props;
 
   return (
 
@@ -36,11 +36,11 @@ AccountPanel.prototype.render = function () {
         },
       }, this.props.children),
     ])
-  )
-}
+  );
+};
 
-AccountPanel.prototype.genIcon = function (seed, picOrder) {
-  const props = this.props
+AccountPanel.prototype.genIcon = function(seed, picOrder) {
+  const props = this.props;
 
   // When there is no seed value, this is a contract creation.
   // We then show the contract icon.
@@ -56,7 +56,7 @@ AccountPanel.prototype.genIcon = function (seed, picOrder) {
           transform: 'translate(0px, -16px)',
         },
       }),
-    ])
+    ]);
   }
 
   // If there was a seed, we return an identicon for that address.
@@ -69,6 +69,6 @@ AccountPanel.prototype.genIcon = function (seed, picOrder) {
       address: seed,
       imageify: props.imageifyIdenticons,
     }),
-  ])
-}
+  ]);
+};
 

@@ -1,23 +1,23 @@
-const inherits = require('util').inherits
-const extend = require('xtend')
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const connect = require('react-redux').connect
-const actions = require('../../ui/app/actions')
-const valuesFor = require('./util').valuesFor
-const Identicon = require('./components/identicon')
-const EthBalance = require('./components/eth-balance')
-const TransactionList = require('./components/transaction-list')
-const ExportAccountView = require('./components/account-export')
-const ethUtil = require('ethereumjs-util')
-const EditableLabel = require('./components/editable-label')
-const TabBar = require('./components/tab-bar')
-const TokenList = require('./components/token-list')
-const AccountDropdowns = require('./components/account-dropdowns').AccountDropdowns
+const inherits = require('util').inherits;
+const extend = require('xtend');
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const connect = require('react-redux').connect;
+const actions = require('../../ui/app/actions');
+const valuesFor = require('./util').valuesFor;
+const Identicon = require('./components/identicon');
+const EthBalance = require('./components/eth-balance');
+const TransactionList = require('./components/transaction-list');
+const ExportAccountView = require('./components/account-export');
+const ethUtil = require('ethereumjs-util');
+const EditableLabel = require('./components/editable-label');
+const TabBar = require('./components/tab-bar');
+const TokenList = require('./components/token-list');
+const AccountDropdowns = require('./components/account-dropdowns').AccountDropdowns;
 
-module.exports = connect(mapStateToProps)(AccountDetailScreen)
+module.exports = connect(mapStateToProps)(AccountDetailScreen);
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     metamask: state.metamask,
     identities: state.metamask.identities,
@@ -33,27 +33,28 @@ function mapStateToProps (state) {
     currentAccountTab: state.metamask.currentAccountTab,
     tokens: state.metamask.tokens,
     computedBalances: state.metamask.computedBalances,
-  }
+  };
 }
 
-inherits(AccountDetailScreen, Component)
-function AccountDetailScreen () {
-  Component.call(this)
+inherits(AccountDetailScreen, Component);
+
+function AccountDetailScreen() {
+  Component.call(this);
 }
 
-AccountDetailScreen.prototype.render = function () {
-  var props = this.props
-  var selected = props.address || Object.keys(props.accounts)[0]
-  var checksumAddress = selected && ethUtil.toChecksumAddress(selected)
-  var identity = props.identities[selected]
-  var account = props.accounts[selected]
-  const { network, conversionRate, currentCurrency } = props
+AccountDetailScreen.prototype.render = function() {
+  var props = this.props;
+  var selected = props.address || Object.keys(props.accounts)[0];
+  var checksumAddress = selected && ethUtil.toChecksumAddress(selected);
+  var identity = props.identities[selected];
+  var account = props.accounts[selected];
+  const {network, conversionRate, currentCurrency} = props;
 
   return (
 
     h('.account-detail-section.full-flex-height', [
 
-    // identicon, label, balance, etc
+      // identicon, label, balance, etc
       h('.account-data-subsection', {
         style: {
           margin: '0 20px',
@@ -91,7 +92,7 @@ AccountDetailScreen.prototype.render = function () {
                 isEditingLabel: false,
               },
               saveText: (text) => {
-                props.dispatch(actions.saveAccountLabel(selected, text))
+                props.dispatch(actions.saveAccountLabel(selected, text));
               },
             }, [
 
@@ -111,8 +112,7 @@ AccountDetailScreen.prototype.render = function () {
                     'div.font-medium.color-forest',
                     {
                       name: 'edit',
-                      style: {
-                      },
+                      style: {},
                     },
                     [
                       h('h2', {
@@ -126,7 +126,7 @@ AccountDetailScreen.prototype.render = function () {
                       }, [
                         identity && identity.name,
                       ]),
-                    ]
+                    ],
                   ),
                   h(
                     AccountDropdowns,
@@ -142,7 +142,7 @@ AccountDetailScreen.prototype.render = function () {
                       enableAccountOptions: true,
                     },
                   ),
-                ]
+                ],
               ),
             ]),
             h('.flex-row', {
@@ -196,7 +196,7 @@ AccountDetailScreen.prototype.render = function () {
 
           h('button', {
             onClick: () => props.dispatch(actions.buyEthView(selected)),
-            style: { marginRight: '10px' },
+            style: {marginRight: '10px'},
           }, 'BUY'),
 
           h('button', {
@@ -214,52 +214,52 @@ AccountDetailScreen.prototype.render = function () {
       this.subview(),
 
     ])
-  )
-}
+  );
+};
 
-AccountDetailScreen.prototype.subview = function () {
-  var subview
+AccountDetailScreen.prototype.subview = function() {
+  var subview;
   try {
-    subview = this.props.accountDetail.subview
+    subview = this.props.accountDetail.subview;
   } catch (e) {
-    subview = null
+    subview = null;
   }
 
   switch (subview) {
     case 'transactions':
-      return this.tabSections()
+      return this.tabSections();
     case 'export':
-      var state = extend({key: 'export'}, this.props)
-      return h(ExportAccountView, state)
+      var state = extend({key: 'export'}, this.props);
+      return h(ExportAccountView, state);
     default:
-      return this.tabSections()
+      return this.tabSections();
   }
-}
+};
 
-AccountDetailScreen.prototype.tabSections = function () {
-  const { currentAccountTab } = this.props
+AccountDetailScreen.prototype.tabSections = function() {
+  const {currentAccountTab} = this.props;
 
   return h('section.tabSection.full-flex-height.grow-tenx', [
 
     h(TabBar, {
       tabs: [
-        { content: 'Sent', key: 'history' },
-        { content: 'Tokens', key: 'tokens' },
+        {content: 'Sent', key: 'history'},
+        {content: 'Tokens', key: 'tokens'},
       ],
       defaultTab: currentAccountTab || 'history',
       tabSelected: (key) => {
-        this.props.dispatch(actions.setCurrentAccountTab(key))
+        this.props.dispatch(actions.setCurrentAccountTab(key));
       },
     }),
 
     this.tabSwitchView(),
-  ])
-}
+  ]);
+};
 
-AccountDetailScreen.prototype.tabSwitchView = function () {
-  const props = this.props
-  const { address, network } = props
-  const { currentAccountTab, tokens } = this.props
+AccountDetailScreen.prototype.tabSwitchView = function() {
+  const props = this.props;
+  const {address, network} = props;
+  const {currentAccountTab, tokens} = this.props;
 
   switch (currentAccountTab) {
     case 'tokens':
@@ -268,15 +268,17 @@ AccountDetailScreen.prototype.tabSwitchView = function () {
         network,
         tokens,
         addToken: () => this.props.dispatch(actions.showAddTokenPage()),
-      })
+      });
     default:
-      return this.transactionList()
+      return this.transactionList();
   }
-}
+};
 
-AccountDetailScreen.prototype.transactionList = function () {
-  const {transactions, unapprovedMsgs, address,
-    network, shapeShiftTxList, conversionRate } = this.props
+AccountDetailScreen.prototype.transactionList = function() {
+  const {
+    transactions, unapprovedMsgs, address,
+    network, shapeShiftTxList, conversionRate,
+  } = this.props;
 
   return h(TransactionList, {
     transactions: transactions.sort((a, b) => b.time - a.time),
@@ -286,7 +288,7 @@ AccountDetailScreen.prototype.transactionList = function () {
     address,
     shapeShiftTxList,
     viewPendingTx: (txId) => {
-      this.props.dispatch(actions.viewPendingTx(txId))
+      this.props.dispatch(actions.viewPendingTx(txId));
     },
-  })
-}
+  });
+};

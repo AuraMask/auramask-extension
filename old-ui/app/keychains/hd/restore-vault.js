@@ -1,26 +1,27 @@
-const inherits = require('util').inherits
-const PersistentForm = require('../../../lib/persistent-form')
-const connect = require('react-redux').connect
-const h = require('react-hyperscript')
-const actions = require('../../../../ui/app/actions')
+const inherits = require('util').inherits;
+const PersistentForm = require('../../../lib/persistent-form');
+const connect = require('react-redux').connect;
+const h = require('react-hyperscript');
+const actions = require('../../../../ui/app/actions');
 
-module.exports = connect(mapStateToProps)(RestoreVaultScreen)
+module.exports = connect(mapStateToProps)(RestoreVaultScreen);
 
-inherits(RestoreVaultScreen, PersistentForm)
-function RestoreVaultScreen () {
-  PersistentForm.call(this)
+inherits(RestoreVaultScreen, PersistentForm);
+
+function RestoreVaultScreen() {
+  PersistentForm.call(this);
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     warning: state.appState.warning,
     forgottenPassword: state.appState.forgottenPassword,
-  }
+  };
 }
 
-RestoreVaultScreen.prototype.render = function () {
-  var state = this.props
-  this.persistentFormParentId = 'restore-vault-form'
+RestoreVaultScreen.prototype.render = function() {
+  var state = this.props;
+  this.persistentFormParentId = 'restore-vault-form';
 
   return (
 
@@ -103,63 +104,63 @@ RestoreVaultScreen.prototype.render = function () {
       ]),
     ])
 
-  )
-}
+  );
+};
 
-RestoreVaultScreen.prototype.showInitializeMenu = function () {
+RestoreVaultScreen.prototype.showInitializeMenu = function() {
   if (this.props.forgottenPassword) {
-    this.props.dispatch(actions.backToUnlockView())
+    this.props.dispatch(actions.backToUnlockView());
   } else {
-    this.props.dispatch(actions.showInitializeMenu())
+    this.props.dispatch(actions.showInitializeMenu());
   }
-}
+};
 
-RestoreVaultScreen.prototype.createOnEnter = function (event) {
+RestoreVaultScreen.prototype.createOnEnter = function(event) {
   if (event.key === 'Enter') {
-    this.createNewVaultAndRestore()
+    this.createNewVaultAndRestore();
   }
-}
+};
 
-RestoreVaultScreen.prototype.createNewVaultAndRestore = function () {
+RestoreVaultScreen.prototype.createNewVaultAndRestore = function() {
   // check password
-  var passwordBox = document.getElementById('password-box')
-  var password = passwordBox.value
-  var passwordConfirmBox = document.getElementById('password-box-confirm')
-  var passwordConfirm = passwordConfirmBox.value
+  var passwordBox = document.getElementById('password-box');
+  var password = passwordBox.value;
+  var passwordConfirmBox = document.getElementById('password-box-confirm');
+  var passwordConfirm = passwordConfirmBox.value;
   if (password.length < 8) {
-    this.warning = 'Password not long enough'
+    this.warning = 'Password not long enough';
 
-    this.props.dispatch(actions.displayWarning(this.warning))
-    return
+    this.props.dispatch(actions.displayWarning(this.warning));
+    return;
   }
   if (password !== passwordConfirm) {
-    this.warning = 'Passwords don\'t match'
-    this.props.dispatch(actions.displayWarning(this.warning))
-    return
+    this.warning = 'Passwords don\'t match';
+    this.props.dispatch(actions.displayWarning(this.warning));
+    return;
   }
   // check seed
-  var seedBox = document.querySelector('textarea.twelve-word-phrase')
-  var seed = seedBox.value.trim()
+  var seedBox = document.querySelector('textarea.twelve-word-phrase');
+  var seed = seedBox.value.trim();
 
   // true if the string has more than a space between words.
   if (seed.split('  ').length > 1) {
-    this.warning = 'there can only be a space between words'
-    this.props.dispatch(actions.displayWarning(this.warning))
-    return
+    this.warning = 'there can only be a space between words';
+    this.props.dispatch(actions.displayWarning(this.warning));
+    return;
   }
   // true if seed contains a character that is not between a-z or a space
   if (!seed.match(/^[a-z ]+$/)) {
-    this.warning = 'seed words only have lowercase characters'
-    this.props.dispatch(actions.displayWarning(this.warning))
-    return
+    this.warning = 'seed words only have lowercase characters';
+    this.props.dispatch(actions.displayWarning(this.warning));
+    return;
   }
   if (seed.split(' ').length !== 12) {
-    this.warning = 'seed phrases are 12 words long'
-    this.props.dispatch(actions.displayWarning(this.warning))
-    return
+    this.warning = 'seed phrases are 12 words long';
+    this.props.dispatch(actions.displayWarning(this.warning));
+    return;
   }
   // submit
-  this.warning = null
-  this.props.dispatch(actions.displayWarning(this.warning))
-  this.props.dispatch(actions.createNewVaultAndRestore(password, seed))
-}
+  this.warning = null;
+  this.props.dispatch(actions.displayWarning(this.warning));
+  this.props.dispatch(actions.createNewVaultAndRestore(password, seed));
+};

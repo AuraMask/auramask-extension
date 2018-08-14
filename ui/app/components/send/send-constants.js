@@ -1,10 +1,10 @@
-const ethUtil = require('ethereumjs-util')
-const { conversionUtil, multiplyCurrencies } = require('../../conversion-util')
+const ethUtil = require('ethereumjs-util');
+const {conversionUtil, multiplyCurrencies} = require('../../conversion-util');
 
-const MIN_GAS_PRICE_DEC = '0'
-const MIN_GAS_PRICE_HEX = (parseInt(MIN_GAS_PRICE_DEC)).toString(16)
-const MIN_GAS_LIMIT_DEC = '21000'
-const MIN_GAS_LIMIT_HEX = (parseInt(MIN_GAS_LIMIT_DEC)).toString(16)
+const MIN_GAS_PRICE_DEC = '0';
+const MIN_GAS_PRICE_HEX = (parseInt(MIN_GAS_PRICE_DEC)).toString(16);
+const MIN_GAS_LIMIT_DEC = '21000';
+const MIN_GAS_LIMIT_HEX = (parseInt(MIN_GAS_LIMIT_DEC)).toString(16);
 
 const MIN_GAS_PRICE_GWEI = ethUtil.addHexPrefix(conversionUtil(MIN_GAS_PRICE_HEX, {
   fromDenomination: 'WEI',
@@ -12,15 +12,15 @@ const MIN_GAS_PRICE_GWEI = ethUtil.addHexPrefix(conversionUtil(MIN_GAS_PRICE_HEX
   fromNumericBase: 'hex',
   toNumericBase: 'hex',
   numberOfDecimals: 1,
-}))
+}));
 
 const MIN_GAS_TOTAL = multiplyCurrencies(MIN_GAS_LIMIT_HEX, MIN_GAS_PRICE_HEX, {
   toNumericBase: 'hex',
   multiplicandBase: 16,
   multiplierBase: 16,
-})
+});
 
-const TOKEN_TRANSFER_FUNCTION_SIGNATURE = '0xa9059cbb'
+const TOKEN_TRANSFER_FUNCTION_SIGNATURE = '0xa9059cbb';
 
 module.exports = {
   MIN_GAS_PRICE_GWEI,
@@ -30,4 +30,4 @@ module.exports = {
   MIN_GAS_LIMIT_DEC,
   MIN_GAS_TOTAL,
   TOKEN_TRANSFER_FUNCTION_SIGNATURE,
-}
+};

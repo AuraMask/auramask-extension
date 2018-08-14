@@ -1,23 +1,23 @@
-const Component = require('react').Component
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const inherits = require('util').inherits
-const ethUtil = require('ethereumjs-util')
-const BN = ethUtil.BN
-const extend = require('xtend')
-const connect = require('react-redux').connect
+const Component = require('react').Component;
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const inherits = require('util').inherits;
+const ethUtil = require('ethereumjs-util');
+const BN = ethUtil.BN;
+const extend = require('xtend');
+const connect = require('react-redux').connect;
 
 HexAsDecimalInput.contextTypes = {
   t: PropTypes.func,
-}
+};
 
-module.exports = connect()(HexAsDecimalInput)
+module.exports = connect()(HexAsDecimalInput);
 
+inherits(HexAsDecimalInput, Component);
 
-inherits(HexAsDecimalInput, Component)
-function HexAsDecimalInput () {
-  this.state = { invalid: null }
-  Component.call(this)
+function HexAsDecimalInput() {
+  this.state = {invalid: null};
+  Component.call(this);
 }
 
 /* Hex as Decimal Input
@@ -29,16 +29,16 @@ function HexAsDecimalInput () {
  * and passes it an updated hex string.
  */
 
-HexAsDecimalInput.prototype.render = function () {
-  const props = this.props
-  const state = this.state
+HexAsDecimalInput.prototype.render = function() {
+  const props = this.props;
+  const state = this.state;
 
-  const { value, onChange, min, max } = props
+  const {value, onChange, min, max} = props;
 
-  const toEth = props.toEth
-  const suffix = props.suffix
-  const decimalValue = decimalize(value, toEth)
-  const style = props.style
+  const toEth = props.toEth;
+  const suffix = props.suffix;
+  const decimalValue = decimalize(value, toEth);
+  const style = props.style;
 
   return (
     h('.flex-column', [
@@ -64,21 +64,21 @@ HexAsDecimalInput.prototype.render = function () {
           }, style),
           value: parseInt(decimalValue),
           onBlur: (event) => {
-            this.updateValidity(event)
+            this.updateValidity(event);
           },
           onChange: (event) => {
-            this.updateValidity(event)
-            const hexString = (event.target.value === '') ? '' : hexify(event.target.value)
-            onChange(hexString)
+            this.updateValidity(event);
+            const hexString = (event.target.value === '') ? '' : hexify(event.target.value);
+            onChange(hexString);
           },
           onInvalid: (event) => {
-            const msg = this.constructWarning()
+            const msg = this.constructWarning();
             if (msg === state.invalid) {
-              return
+              return;
             }
-            this.setState({ invalid: msg })
-            event.preventDefault()
-            return false
+            this.setState({invalid: msg});
+            event.preventDefault();
+            return false;
           },
         }),
         h('div', {
@@ -106,56 +106,56 @@ HexAsDecimalInput.prototype.render = function () {
         },
       }, state.invalid) : null,
     ])
-  )
-}
+  );
+};
 
-HexAsDecimalInput.prototype.setValid = function (message) {
-  this.setState({ invalid: null })
-}
+HexAsDecimalInput.prototype.setValid = function(message) {
+  this.setState({invalid: null});
+};
 
-HexAsDecimalInput.prototype.updateValidity = function (event) {
-  const target = event.target
-  const value = this.props.value
-  const newValue = target.value
+HexAsDecimalInput.prototype.updateValidity = function(event) {
+  const target = event.target;
+  const value = this.props.value;
+  const newValue = target.value;
 
   if (value === newValue) {
-    return
+    return;
   }
 
-  const valid = target.checkValidity()
+  const valid = target.checkValidity();
   if (valid) {
-    this.setState({ invalid: null })
+    this.setState({invalid: null});
   }
-}
+};
 
-HexAsDecimalInput.prototype.constructWarning = function () {
-  const { name, min, max } = this.props
-  let message = name ? name + ' ' : ''
+HexAsDecimalInput.prototype.constructWarning = function() {
+  const {name, min, max} = this.props;
+  let message = name ? name + ' ' : '';
 
   if (min && max) {
-    message += this.context.t('betweenMinAndMax', [min, max])
+    message += this.context.t('betweenMinAndMax', [min, max]);
   } else if (min) {
-    message += this.context.t('greaterThanMin', [min])
+    message += this.context.t('greaterThanMin', [min]);
   } else if (max) {
-    message += this.context.t('lessThanMax', [max])
+    message += this.context.t('lessThanMax', [max]);
   } else {
-    message += this.context.t('invalidInput')
+    message += this.context.t('invalidInput');
   }
 
-  return message
+  return message;
+};
+
+function hexify(decimalString) {
+  const hexBN = new BN(parseInt(decimalString), 10);
+  return '0x' + hexBN.toString('hex');
 }
 
-function hexify (decimalString) {
-  const hexBN = new BN(parseInt(decimalString), 10)
-  return '0x' + hexBN.toString('hex')
-}
-
-function decimalize (input, toEth) {
+function decimalize(input, toEth) {
   if (input === '') {
-    return ''
+    return '';
   } else {
-    const strippedInput = ethUtil.stripHexPrefix(input)
-    const inputBN = new BN(strippedInput, 'hex')
-    return inputBN.toString(10)
+    const strippedInput = ethUtil.stripHexPrefix(input);
+    const inputBN = new BN(strippedInput, 'hex');
+    return inputBN.toString(10);
   }
 }

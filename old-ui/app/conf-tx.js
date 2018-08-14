@@ -1,24 +1,24 @@
-const inherits = require('util').inherits
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const connect = require('react-redux').connect
-const actions = require('../../ui/app/actions')
-const NetworkIndicator = require('./components/network')
-const LoadingIndicator = require('./components/loading')
-const txHelper = require('../lib/tx-helper')
-const log = require('loglevel')
-const { ENVIRONMENT_TYPE_NOTIFICATION } = require('../../app/scripts/lib/enums')
-const { getEnvironmentType } = require('../../app/scripts/lib/util')
+const inherits = require('util').inherits;
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const connect = require('react-redux').connect;
+const actions = require('../../ui/app/actions');
+const NetworkIndicator = require('./components/network');
+const LoadingIndicator = require('./components/loading');
+const txHelper = require('../lib/tx-helper');
+const log = require('loglevel');
+const {ENVIRONMENT_TYPE_NOTIFICATION} = require('../../app/scripts/lib/enums');
+const {getEnvironmentType} = require('../../app/scripts/lib/util');
 
-const PendingTx = require('./components/pending-tx')
-const PendingMsg = require('./components/pending-msg')
-const PendingPersonalMsg = require('./components/pending-personal-msg')
-const PendingTypedMsg = require('./components/pending-typed-msg')
-const Loading = require('./components/loading')
+const PendingTx = require('./components/pending-tx');
+const PendingMsg = require('./components/pending-msg');
+const PendingPersonalMsg = require('./components/pending-personal-msg');
+const PendingTypedMsg = require('./components/pending-typed-msg');
+const Loading = require('./components/loading');
 
-module.exports = connect(mapStateToProps)(ConfirmTxScreen)
+module.exports = connect(mapStateToProps)(ConfirmTxScreen);
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     identities: state.metamask.identities,
     accounts: state.metamask.accounts,
@@ -35,29 +35,32 @@ function mapStateToProps (state) {
     currentCurrency: state.metamask.currentCurrency,
     blockGasLimit: state.metamask.currentBlockGasLimit,
     computedBalances: state.metamask.computedBalances,
-  }
+  };
 }
 
-inherits(ConfirmTxScreen, Component)
-function ConfirmTxScreen () {
-  Component.call(this)
+inherits(ConfirmTxScreen, Component);
+
+function ConfirmTxScreen() {
+  Component.call(this);
 }
 
-ConfirmTxScreen.prototype.render = function () {
-  const props = this.props
-  const { network, provider, unapprovedTxs, currentCurrency, computedBalances,
-    unapprovedMsgs, unapprovedPersonalMsgs, unapprovedTypedMessages, conversionRate, blockGasLimit } = props
+ConfirmTxScreen.prototype.render = function() {
+  const props = this.props;
+  const {
+    network, provider, unapprovedTxs, currentCurrency, computedBalances,
+    unapprovedMsgs, unapprovedPersonalMsgs, unapprovedTypedMessages, conversionRate, blockGasLimit,
+  } = props;
 
-  var unconfTxList = txHelper(unapprovedTxs, unapprovedMsgs, unapprovedPersonalMsgs, unapprovedTypedMessages, network)
+  var unconfTxList = txHelper(unapprovedTxs, unapprovedMsgs, unapprovedPersonalMsgs, unapprovedTypedMessages, network);
 
-  var txData = unconfTxList[props.index] || {}
-  var txParams = txData.params || {}
-  var isNotification = getEnvironmentType(window.location.href) === ENVIRONMENT_TYPE_NOTIFICATION
+  var txData = unconfTxList[props.index] || {};
+  var txParams = txData.params || {};
+  var isNotification = getEnvironmentType(window.location.href) === ENVIRONMENT_TYPE_NOTIFICATION;
 
-  log.info(`rendering a combined ${unconfTxList.length} unconf msg & txs`)
-  if (unconfTxList.length === 0) return h(Loading, { isLoading: true })
+  log.info(`rendering a combined ${unconfTxList.length} unconf msg & txs`);
+  if (unconfTxList.length === 0) return h(Loading, {isLoading: true});
 
-  const unconfTxListLength = unconfTxList.length
+  const unconfTxListLength = unconfTxList.length;
 
   return (
 
@@ -68,7 +71,7 @@ ConfirmTxScreen.prototype.render = function () {
         loadingMessage: 'Estimating transaction cost…',
         canBypass: true,
         bypass: () => {
-          this.setState({bypassLoadingScreen: true})
+          this.setState({bypassLoadingScreen: true});
         },
       }),
 
@@ -132,116 +135,116 @@ ConfirmTxScreen.prototype.render = function () {
         cancelTypedMessage: this.cancelTypedMessage.bind(this, txData),
       }),
     ])
-  )
-}
+  );
+};
 
-function currentTxView (opts) {
-  log.info('rendering current tx view')
-  const { txData } = opts
-  const { txParams, msgParams, type } = txData
+function currentTxView(opts) {
+  log.info('rendering current tx view');
+  const {txData} = opts;
+  const {txParams, msgParams, type} = txData;
 
   if (txParams) {
-    log.debug('txParams detected, rendering pending tx')
-    return h(PendingTx, opts)
+    log.debug('txParams detected, rendering pending tx');
+    return h(PendingTx, opts);
   } else if (msgParams) {
-    log.debug('msgParams detected, rendering pending msg')
+    log.debug('msgParams detected, rendering pending msg');
 
     if (type === 'eth_sign') {
-      log.debug('rendering eth_sign message')
-      return h(PendingMsg, opts)
+      log.debug('rendering eth_sign message');
+      return h(PendingMsg, opts);
     } else if (type === 'personal_sign') {
-      log.debug('rendering personal_sign message')
-      return h(PendingPersonalMsg, opts)
+      log.debug('rendering personal_sign message');
+      return h(PendingPersonalMsg, opts);
     } else if (type === 'eth_signTypedData') {
-      log.debug('rendering eth_signTypedData message')
-      return h(PendingTypedMsg, opts)
+      log.debug('rendering eth_signTypedData message');
+      return h(PendingTypedMsg, opts);
     }
   }
 }
 
-ConfirmTxScreen.prototype.buyEth = function (address, event) {
-  event.preventDefault()
-  this.props.dispatch(actions.buyEthView(address))
-}
+ConfirmTxScreen.prototype.buyEth = function(address, event) {
+  event.preventDefault();
+  this.props.dispatch(actions.buyEthView(address));
+};
 
-ConfirmTxScreen.prototype.sendTransaction = function (txData, event) {
-  this.stopPropagation(event)
-  this.props.dispatch(actions.updateAndApproveTx(txData))
-}
+ConfirmTxScreen.prototype.sendTransaction = function(txData, event) {
+  this.stopPropagation(event);
+  this.props.dispatch(actions.updateAndApproveTx(txData));
+};
 
-ConfirmTxScreen.prototype.cancelTransaction = function (txData, event) {
-  this.stopPropagation(event)
-  event.preventDefault()
-  this.props.dispatch(actions.cancelTx(txData))
-}
+ConfirmTxScreen.prototype.cancelTransaction = function(txData, event) {
+  this.stopPropagation(event);
+  event.preventDefault();
+  this.props.dispatch(actions.cancelTx(txData));
+};
 
-ConfirmTxScreen.prototype.cancelAllTransactions = function (unconfTxList, event) {
-  this.stopPropagation(event)
-  event.preventDefault()
-  this.props.dispatch(actions.cancelAllTx(unconfTxList))
-}
+ConfirmTxScreen.prototype.cancelAllTransactions = function(unconfTxList, event) {
+  this.stopPropagation(event);
+  event.preventDefault();
+  this.props.dispatch(actions.cancelAllTx(unconfTxList));
+};
 
-ConfirmTxScreen.prototype.signMessage = function (msgData, event) {
-  log.info('conf-tx.js: signing message')
-  var params = msgData.msgParams
-  params.metamaskId = msgData.id
-  this.stopPropagation(event)
-  this.props.dispatch(actions.signMsg(params))
-}
+ConfirmTxScreen.prototype.signMessage = function(msgData, event) {
+  log.info('conf-tx.js: signing message');
+  var params = msgData.msgParams;
+  params.metamaskId = msgData.id;
+  this.stopPropagation(event);
+  this.props.dispatch(actions.signMsg(params));
+};
 
-ConfirmTxScreen.prototype.stopPropagation = function (event) {
+ConfirmTxScreen.prototype.stopPropagation = function(event) {
   if (event.stopPropagation) {
-    event.stopPropagation()
+    event.stopPropagation();
   }
-}
+};
 
-ConfirmTxScreen.prototype.signPersonalMessage = function (msgData, event) {
-  log.info('conf-tx.js: signing personal message')
-  var params = msgData.msgParams
-  params.metamaskId = msgData.id
-  this.stopPropagation(event)
-  this.props.dispatch(actions.signPersonalMsg(params))
-}
+ConfirmTxScreen.prototype.signPersonalMessage = function(msgData, event) {
+  log.info('conf-tx.js: signing personal message');
+  var params = msgData.msgParams;
+  params.metamaskId = msgData.id;
+  this.stopPropagation(event);
+  this.props.dispatch(actions.signPersonalMsg(params));
+};
 
-ConfirmTxScreen.prototype.signTypedMessage = function (msgData, event) {
-  log.info('conf-tx.js: signing typed message')
-  var params = msgData.msgParams
-  params.metamaskId = msgData.id
-  this.stopPropagation(event)
-  this.props.dispatch(actions.signTypedMsg(params))
-}
+ConfirmTxScreen.prototype.signTypedMessage = function(msgData, event) {
+  log.info('conf-tx.js: signing typed message');
+  var params = msgData.msgParams;
+  params.metamaskId = msgData.id;
+  this.stopPropagation(event);
+  this.props.dispatch(actions.signTypedMsg(params));
+};
 
-ConfirmTxScreen.prototype.cancelMessage = function (msgData, event) {
-  log.info('canceling message')
-  this.stopPropagation(event)
-  this.props.dispatch(actions.cancelMsg(msgData))
-}
+ConfirmTxScreen.prototype.cancelMessage = function(msgData, event) {
+  log.info('canceling message');
+  this.stopPropagation(event);
+  this.props.dispatch(actions.cancelMsg(msgData));
+};
 
-ConfirmTxScreen.prototype.cancelPersonalMessage = function (msgData, event) {
-  log.info('canceling personal message')
-  this.stopPropagation(event)
-  this.props.dispatch(actions.cancelPersonalMsg(msgData))
-}
+ConfirmTxScreen.prototype.cancelPersonalMessage = function(msgData, event) {
+  log.info('canceling personal message');
+  this.stopPropagation(event);
+  this.props.dispatch(actions.cancelPersonalMsg(msgData));
+};
 
-ConfirmTxScreen.prototype.cancelTypedMessage = function (msgData, event) {
-  log.info('canceling typed message')
-  this.stopPropagation(event)
-  this.props.dispatch(actions.cancelTypedMsg(msgData))
-}
+ConfirmTxScreen.prototype.cancelTypedMessage = function(msgData, event) {
+  log.info('canceling typed message');
+  this.stopPropagation(event);
+  this.props.dispatch(actions.cancelTypedMsg(msgData));
+};
 
-ConfirmTxScreen.prototype.goHome = function (event) {
-  this.stopPropagation(event)
-  this.props.dispatch(actions.goHome())
-}
+ConfirmTxScreen.prototype.goHome = function(event) {
+  this.stopPropagation(event);
+  this.props.dispatch(actions.goHome());
+};
 
-function warningIfExists (warning) {
+function warningIfExists(warning) {
   if (warning &&
-     // Do not display user rejections on this screen:
-     warning.indexOf('User denied transaction signature') === -1) {
+    // Do not display user rejections on this screen:
+    warning.indexOf('User denied transaction signature') === -1) {
     return h('.error', {
       style: {
         margin: 'auto',
       },
-    }, warning)
+    }, warning);
   }
 }

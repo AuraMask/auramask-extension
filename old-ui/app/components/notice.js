@@ -1,22 +1,23 @@
-const inherits = require('util').inherits
-const Component = require('react').Component
-const h = require('react-hyperscript')
-const ReactMarkdown = require('react-markdown')
-const linker = require('extension-link-enabler')
-const findDOMNode = require('react-dom').findDOMNode
+const inherits = require('util').inherits;
+const Component = require('react').Component;
+const h = require('react-hyperscript');
+const ReactMarkdown = require('react-markdown');
+const linker = require('extension-link-enabler');
+const findDOMNode = require('react-dom').findDOMNode;
 
-module.exports = Notice
+module.exports = Notice;
 
-inherits(Notice, Component)
-function Notice () {
-  Component.call(this)
+inherits(Notice, Component);
+
+function Notice() {
+  Component.call(this);
 }
 
-Notice.prototype.render = function () {
-  const { notice, onConfirm } = this.props
-  const { title, date, body } = notice
-  const state = this.state || { disclaimerDisabled: true }
-  const disabled = state.disclaimerDisabled
+Notice.prototype.render = function() {
+  const {notice, onConfirm} = this.props;
+  const {title, date, body} = notice;
+  const state = this.state || {disclaimerDisabled: true};
+  const disabled = state.disclaimerDisabled;
 
   return (
     h('.flex-column.flex-center.flex-grow', {
@@ -81,9 +82,9 @@ Notice.prototype.render = function () {
 
       h('div.markdown', {
         onScroll: (e) => {
-          var object = e.currentTarget
+          var object = e.currentTarget;
           if (object.offsetHeight + object.scrollTop + 100 >= object.scrollHeight) {
-            this.setState({disclaimerDisabled: false})
+            this.setState({disclaimerDisabled: false});
           }
         },
         style: {
@@ -105,28 +106,28 @@ Notice.prototype.render = function () {
       h('button', {
         disabled,
         onClick: () => {
-          this.setState({disclaimerDisabled: true})
-          onConfirm()
+          this.setState({disclaimerDisabled: true});
+          onConfirm();
         },
         style: {
           marginTop: '18px',
         },
       }, 'Accept'),
     ])
-  )
-}
+  );
+};
 
-Notice.prototype.componentDidMount = function () {
+Notice.prototype.componentDidMount = function() {
   // eslint-disable-next-line react/no-find-dom-node
-  var node = findDOMNode(this)
-  linker.setupListener(node)
+  var node = findDOMNode(this);
+  linker.setupListener(node);
   if (document.getElementsByClassName('notice-box')[0].clientHeight < 310) {
-    this.setState({disclaimerDisabled: false})
+    this.setState({disclaimerDisabled: false});
   }
-}
+};
 
-Notice.prototype.componentWillUnmount = function () {
+Notice.prototype.componentWillUnmount = function() {
   // eslint-disable-next-line react/no-find-dom-node
-  var node = findDOMNode(this)
-  linker.teardownListener(node)
-}
+  var node = findDOMNode(this);
+  linker.teardownListener(node);
+};
