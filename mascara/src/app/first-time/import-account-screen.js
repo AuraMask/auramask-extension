@@ -6,27 +6,19 @@ import LoadingScreen from './loading-screen';
 import {importNewAccount, hideWarning} from '../../../../ui/app/actions';
 
 const Input = ({label, placeholder, onChange, errorMessage, type = 'text'}) => (
-  < div;
-className = 'import-account__input-wrapper' >
-  < div;
-className = 'import-account__input-label' > {label} < /div>
-  < input;
-type = {type};
-placeholder = {placeholder};
-className = {classnames('first-time-flow__input import-account__input'
-{
-  'first-time-flow__input--error';
-:
-  errorMessage,
-}
-)
-}
-onChange = {onChange};
-/>
-< div;
-className = 'import-account__input-error-message' > {errorMessage} < /div>
-  < /div>;
-)
+  <div className="import-account__input-wrapper">
+    <div className="import-account__input-label">{label}</div>
+    <input
+      type={type}
+      placeholder={placeholder}
+      className={classnames('first-time-flow__input import-account__input', {
+        'first-time-flow__input--error': errorMessage,
+      })}
+      onChange={onChange}
+    />
+    <div className="import-account__input-error-message">{errorMessage}</div>
+  </div>
+);
 
 Input.prototype.propTypes = {
   label: PropTypes.string.isRequired,
@@ -100,60 +92,39 @@ class ImportAccountScreen extends Component {
     const {warning} = this.props;
 
     return (
-      < div;
-    className = '' >
-      < div;
-    className = 'import-account__input-wrapper' >
-      < div;
-    className = 'import-account__input-label' > Upload;
-    File < /div>
-    < div;
-    className = 'import-account__file-picker-wrapper' >
-      < input;
-    type = 'file';
-    id = 'file';
-    className = 'import-account__file-input';
-    onChange = {e
-  =>
-    this.setState({jsonFile: e.target.files[0]});
-  }
-    />
-    < label;
-    htmlFor = 'file';
-    className = {classnames('import-account__file-input-label'
-    {
-      'import-account__file-input-label--error';
-    :
-      warning,
-    }
-  )
-  }
-  >
-    Choose;
-    File
-    < /label>
-    < div;
-    className = 'import-account__file-name' > {name} < /div>
-      < /div>
-      < div;
-    className = 'import-account__input-error-message' >
-      {warning && 'Something went wrong. Please make sure your JSON file is properly formatted.';
-  }
-  <
-    /div>
-    < /div>;
-    {
-      Input({
-        label: 'Enter Password',
-        placeholder: 'Enter Password',
-        type: 'password',
-        onChange: e => this.setState({password: e.target.value}),
-        errorMessage: warning && 'Please make sure your password is correct.',
-      });
-    }
-  <
-    /div>;
-  )
+      <div className="">
+        <div className="import-account__input-wrapper">
+          <div className="import-account__input-label">Upload File</div>
+          <div className="import-account__file-picker-wrapper">
+            <input
+              type="file"
+              id="file"
+              className="import-account__file-input"
+              onChange={e => this.setState({jsonFile: e.target.files[0]})}
+            />
+            <label
+              htmlFor="file"
+              className={classnames('import-account__file-input-label', {
+                'import-account__file-input-label--error': warning,
+              })}
+            >
+              Choose File
+            </label>
+            <div className="import-account__file-name">{name}</div>
+          </div>
+          <div className="import-account__input-error-message">
+            {warning && 'Something went wrong. Please make sure your JSON file is properly formatted.'}
+          </div>
+        </div>
+        {Input({
+          label: 'Enter Password',
+          placeholder: 'Enter Password',
+          type: 'password',
+          onChange: e => this.setState({password: e.target.value}),
+          errorMessage: warning && 'Please make sure your password is correct.',
+        })}
+      </div>
+    );
   }
 
   renderContent() {
@@ -173,94 +144,54 @@ class ImportAccountScreen extends Component {
     const {selectedOption} = this.state;
 
     return this.props.isLoading
-      ?
-  <
-    LoadingScreen;
-    loadingMessage = 'Creating your new account' / >
-  :
-    (
-    < div;
-    className = 'import-account' >
-      < a;
-    className = 'import-account__back-button';
-    onClick = {e
-  =>
-    {
-      e.preventDefault();
-      this.props.back();
-    }
-  }
-    href = '#'
-      >
-      {`< Back`;
-  }
-  <
-    /a>
-    < div;
-    className = 'import-account__title' >
-      Import;
-    an;
-    Account
-    < /div>
-    < div;
-    className = 'import-account__selector-label' >
-      How;
-    would;
-    you;
-    like;
-    to;
-    import your
-    account ?
-  <
-    /div>
-    < select;
-    className = 'import-account__dropdown';
-    value = {selectedOption};
-    onChange = {e
-  =>
-    {
-      this.setState({selectedOption: e.target.value});
-      this.props.hideWarning();
-    }
-  }
-  >
-  <
-    option;
-    value = {OPTIONS.PRIVATE_KEY;
-  }>
-    Private;
-    Key < /option>
-    < option;
-    value = {OPTIONS.JSON_FILE;
-  }>
-    JSON;
-    File < /option>
-    < /select>;
-    {this.renderContent();}
-  <
-    button;
-    className = 'first-time-flow__button';
-    disabled = {
-    !this.isValid();
-  }
-    onClick = {this.onClick;
-  }
-  >
-    Import
-    < /button>
-    < a;
-    href = 'https://github.com/MetaMask/faq/blob/master/README.md#q-i-cant-use-the-import-feature-for-uploading-a-json-file-the-window-keeps-closing-when-i-try-to-select-a-file';
-    className = 'first-time-flow__link import-account__faq-link';
-    rel = 'noopener noreferrer';
-    target = '_blank'
-      >
-      File;
-    import not
-    working ?
-  <
-    /a>
-    < /div>;
-  )
+      ? <LoadingScreen loadingMessage="Creating your new account"/>
+      : (
+        <div className="import-account">
+          <a
+            className="import-account__back-button"
+            onClick={e => {
+              e.preventDefault();
+              this.props.back();
+            }}
+            href="#"
+          >
+            {`< Back`}
+          </a>
+          <div className="import-account__title">
+            Import an Account
+          </div>
+          <div className="import-account__selector-label">
+            How would you like to import your account?
+          </div>
+          <select
+            className="import-account__dropdown"
+            value={selectedOption}
+            onChange={e => {
+              this.setState({selectedOption: e.target.value});
+              this.props.hideWarning();
+            }}
+          >
+            <option value={OPTIONS.PRIVATE_KEY}>Private Key</option>
+            <option value={OPTIONS.JSON_FILE}>JSON File</option>
+          </select>
+          {this.renderContent()}
+          <button
+            className="first-time-flow__button"
+            disabled={!this.isValid()}
+            onClick={this.onClick}
+          >
+            Import
+          </button>
+          <a
+            href="https://github.com/MetaMask/faq/blob/master/README.md#q-i-cant-use-the-import-feature-for-uploading-a-json-file-the-window-keeps-closing-when-i-try-to-select-a-file"
+            className="first-time-flow__link import-account__faq-link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            File import not working?
+          </a>
+        </div>
+      );
   }
 }
 

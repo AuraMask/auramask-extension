@@ -16,9 +16,13 @@ module.exports = class Helper extends EventEmitter {
   unregister() {
     return global.navigator.serviceWorker.getRegistration()
                  .then((registration) => {
-                   if (registration) return registration.unregister()
-                                                        .then((b) => b ? Promise.resolve() : Promise.reject());
-                   else return Promise.resolve();
+                   if (registration)
+                     return registration
+                       .unregister()
+                       .then((b) => b ? Promise.resolve() : Promise.reject());
+                   else
+                     return Promise
+                       .resolve();
                  });
   }
 

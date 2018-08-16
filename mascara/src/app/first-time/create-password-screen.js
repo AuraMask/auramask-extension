@@ -73,102 +73,58 @@ class CreatePasswordScreen extends Component {
     const {isMascara, history} = this.props;
 
     return (
-      < div;
-    className = {classnames({'first-view-main-wrapper':
-    !isMascara;
-  })
-  }>
-  <
-    div;
-    className = {
-      classnames({
-        'first-view-main':
-    !isMascara,
-      'first-view-main__mascara';
-  :
-    isMascara,
-  })
-  }>
-    {
-      isMascara && < div;
-      className = 'mascara-info first-view-phone-invisible' >
-        < Mascot;
-      animationEventEmitter = {this.animationEventEmitter;
-    }
-      width = '225';
-      height = '225'
-        / >
-        < div;
-      className = 'info' >
-        MetaMask;
-      is;
-      a;
-      secure;
-      identity;
-      vault;
-      for Ethereum.
-          < /div>
-          < div className = "info" >
-        It
-      allows;
-      you;
-      to;
-      hold;
-      ether & tokens, and;
-      interact;
-      with decentralized applications.
-      < /div>
-      < /div>}
-      < div;
-      className = 'create-password' >
-        < div;
-      className = 'create-password__title' >
-        Create;
-      Password
-      < /div>
-      < input;
-      className = 'first-time-flow__input';
-      type = 'password';
-      placeholder = 'New Password (min 8 characters)';
-      onChange = {e
-    =>
-      this.setState({password: e.target.value});
-    }
-      />
-      < input;
-      className = 'first-time-flow__input create-password__confirm-input';
-      type = 'password';
-      placeholder = 'Confirm Password';
-      onChange = {e
-    =>
-      this.setState({confirmPassword: e.target.value});
-    }
-      />
-      < button;
-      className = 'first-time-flow__button';
-      disabled = {
-      !this.isValid();
-    }
-      onClick = {this.createAccount;
-    }
-    >
-      Create
-      < /button>
-      < a;
-      href = '';
-      className = 'first-time-flow__link create-password__import-link';
-      onClick = {e
-    =>
-      {
-        e.preventDefault();
-        history.push(INITIALIZE_IMPORT_WITH_SEED_PHRASE_ROUTE);
-      }
-    }
-    >
-      Import;
-      with seed phrase
-      < /a>;
-      { /* }
+      <div className={classnames({'first-view-main-wrapper': !isMascara})}>
+        <div className={classnames({
+          'first-view-main': !isMascara,
+          'first-view-main__mascara': isMascara,
+        })}>
+          {isMascara && <div className="mascara-info first-view-phone-invisible">
+            <Mascot
+              animationEventEmitter={this.animationEventEmitter}
+              width="225"
+              height="225"
+            />
+            <div className="info">
+              MetaMask is a secure identity vault for Ethereum.
+            </div>
+            <div className="info">
+              It allows you to hold ether & tokens, and interact with decentralized applications.
+            </div>
+          </div>}
+          <div className="create-password">
+            <div className="create-password__title">
+              Create Password
+            </div>
+            <input
+              className="first-time-flow__input"
+              type="password"
+              placeholder="New Password (min 8 characters)"
+              onChange={e => this.setState({password: e.target.value})}
+            />
+            <input
+              className="first-time-flow__input create-password__confirm-input"
+              type="password"
+              placeholder="Confirm Password"
+              onChange={e => this.setState({confirmPassword: e.target.value})}
+            />
+            <button
+              className="first-time-flow__button"
+              disabled={!this.isValid()}
+              onClick={this.createAccount}
+            >
+              Create
+            </button>
+            <a
+              href=""
+              className="first-time-flow__link create-password__import-link"
+              onClick={e => {
+                e.preventDefault();
+                history.push(INITIALIZE_IMPORT_WITH_SEED_PHRASE_ROUTE);
+              }}
+            >
+              Import with seed phrase
+            </a>
+            {/* }
             <a
               href=""
               className="first-time-flow__link create-password__import-link"
@@ -179,119 +135,70 @@ class CreatePasswordScreen extends Component {
             >
               Import an account
             </a>
-            { */
-      }
-    <
-      Breadcrumbs;
-      total = {3};
-      currentIndex = {0};
-      />
-      < /div>
-      < /div>
-      < /div>;
-    )
+            { */}
+            <Breadcrumbs total={3} currentIndex={0}/>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   render() {
     const {history, isMascara} = this.props;
 
     return (
-      < div;
-    className = {classnames({'first-view-main-wrapper':
-    !isMascara;
-  })
-  }>
-  <
-    div;
-    className = {
-      classnames({
-        'first-view-main':
-    !isMascara,
-      'first-view-main__mascara';
-  :
-    isMascara,
-  })
-  }>
-    {
-      isMascara && < div;
-      className = 'mascara-info first-view-phone-invisible' >
-        < Mascot;
-      animationEventEmitter = {this.animationEventEmitter;
-    }
-      width = '225';
-      height = '225'
-        / >
-        < div;
-      className = 'info' >
-        MetaMask;
-      is;
-      a;
-      secure;
-      identity;
-      vault;
-      for Ethereum.
-          < /div>
-          < div className = "info" >
-        It
-      allows;
-      you;
-      to;
-      hold;
-      ether & tokens, and;
-      interact;
-      with decentralized applications.
-      < /div>
-      < /div>}
-      < div;
-      className = 'create-password' >
-        < div;
-      className = 'create-password__title' >
-        Create;
-      Password
-      < /div>
-      < input;
-      className = 'first-time-flow__input';
-      type = 'password';
-      placeholder = 'New Password (min 8 characters)';
-      onChange = {e
-    =>
-      this.setState({password: e.target.value});
-    }
-      />
-      < input;
-      className = 'first-time-flow__input create-password__confirm-input';
-      type = 'password';
-      placeholder = 'Confirm Password';
-      onChange = {e
-    =>
-      this.setState({confirmPassword: e.target.value});
-    }
-      />
-      < button;
-      className = 'first-time-flow__button';
-      disabled = {
-      !this.isValid();
-    }
-      onClick = {this.createAccount;
-    }
-    >
-      Create
-      < /button>
-      < a;
-      href = '';
-      className = 'first-time-flow__link create-password__import-link';
-      onClick = {e
-    =>
-      {
-        e.preventDefault();
-        history.push(INITIALIZE_IMPORT_WITH_SEED_PHRASE_ROUTE);
-      }
-    }
-    >
-      Import;
-      with seed phrase
-      < /a>;
-      { /* }
+      <div className={classnames({'first-view-main-wrapper': !isMascara})}>
+        <div className={classnames({
+          'first-view-main': !isMascara,
+          'first-view-main__mascara': isMascara,
+        })}>
+          {isMascara && <div className="mascara-info first-view-phone-invisible">
+            <Mascot
+              animationEventEmitter={this.animationEventEmitter}
+              width="225"
+              height="225"
+            />
+            <div className="info">
+              MetaMask is a secure identity vault for Ethereum.
+            </div>
+            <div className="info">
+              It allows you to hold ether & tokens, and interact with decentralized applications.
+            </div>
+          </div>}
+          <div className="create-password">
+            <div className="create-password__title">
+              Create Password
+            </div>
+            <input
+              className="first-time-flow__input"
+              type="password"
+              placeholder="New Password (min 8 characters)"
+              onChange={e => this.setState({password: e.target.value})}
+            />
+            <input
+              className="first-time-flow__input create-password__confirm-input"
+              type="password"
+              placeholder="Confirm Password"
+              onChange={e => this.setState({confirmPassword: e.target.value})}
+            />
+            <button
+              className="first-time-flow__button"
+              disabled={!this.isValid()}
+              onClick={this.createAccount}
+            >
+              Create
+            </button>
+            <a
+              href=""
+              className="first-time-flow__link create-password__import-link"
+              onClick={e => {
+                e.preventDefault();
+                history.push(INITIALIZE_IMPORT_WITH_SEED_PHRASE_ROUTE);
+              }}
+            >
+              Import with seed phrase
+            </a>
+            {/* }
             <a
               href=""
               className="first-time-flow__link create-password__import-link"
@@ -302,17 +209,12 @@ class CreatePasswordScreen extends Component {
             >
               Import an account
             </a>
-            { */
-      }
-    <
-      Breadcrumbs;
-      total = {3};
-      currentIndex = {0};
-      />
-      < /div>
-      < /div>
-      < /div>;
-    )
+            { */}
+            <Breadcrumbs total={3} currentIndex={0}/>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 

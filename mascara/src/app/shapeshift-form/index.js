@@ -79,20 +79,15 @@ export class ShapeShiftForm extends Component {
 
   renderMetadata(label, value) {
     return (
-      < div;
-    className = 'shapeshift-form__metadata-wrapper' >
-      < div;
-    className = 'shapeshift-form__metadata-label' >
-      {label};
-  :
-  <
-    /div>
-    < div;
-    className = 'shapeshift-form__metadata-value' >
-      {value}
-      < /div>
-      < /div>;
-  )
+      <div className='shapeshift-form__metadata-wrapper'>
+        <div className='shapeshift-form__metadata-label'>
+          {label}:
+        </div>
+        <div className='shapeshift-form__metadata-value'>
+          {value}
+        </div>
+      </div>
+    );
   }
 
   renderMarketInfo() {
@@ -106,16 +101,13 @@ export class ShapeShiftForm extends Component {
     } = tokenExchangeRates[coinPair] || {};
 
     return (
-      < div;
-    className = 'shapeshift-form__metadata' >
-      {this.renderMetadata('Status', limit ? 'Available' : 'Unavailable');
-  }
-    {this.renderMetadata('Limit', limit);}
-    {this.renderMetadata('Exchange Rate', rate);}
-    {this.renderMetadata('Minimum', minimum);}
-  <
-    /div>;
-  )
+      <div className='shapeshift-form__metadata'>
+        {this.renderMetadata('Status', limit ? 'Available' : 'Unavailable')}
+        {this.renderMetadata('Limit', limit)}
+        {this.renderMetadata('Exchange Rate', rate)}
+        {this.renderMetadata('Minimum', minimum)}
+      </div>
+    );
   }
 
   renderQrCode() {
@@ -125,42 +117,19 @@ export class ShapeShiftForm extends Component {
     qrImage.make();
 
     return (
-      < div;
-    className = 'shapeshift-form' >
-      < div;
-    className = 'shapeshift-form__deposit-instruction' >
-      Deposit;
-    your;
-    BTC;
-    to;
-    the;
-    address;
-    bellow:
-      <
-    /div>
-    < div;
-    className = 'shapeshift-form__qr-code' >
-      {
-        isLoading
-            ? < img;
-    src = 'images/loading.svg';
-    style = {
-    { width: '60px'; }
-  }
-    />;
-  : <
-    div;
-    dangerouslySetInnerHTML = {
-    { __html: qrImage.createTableTag(4); }
-  }
-    />;
-  }
-  <
-    /div>;
-    {this.renderMarketInfo();}
-  <
-    /div>;
-  )
+      <div className='shapeshift-form'>
+        <div className='shapeshift-form__deposit-instruction'>
+          Deposit your BTC to the address bellow:
+        </div>
+        <div className='shapeshift-form__qr-code'>
+          {isLoading
+            ? <img src='images/loading.svg' style={{width: '60px'}}/>
+            : <div dangerouslySetInnerHTML={{__html: qrImage.createTableTag(4)}}/>
+          }
+        </div>
+        {this.renderMarketInfo()}
+      </div>
+    );
   }
 
   render() {
@@ -171,104 +140,69 @@ export class ShapeShiftForm extends Component {
     const token = tokenExchangeRates[coinPair];
 
     return showQrCode ? this.renderQrCode() : (
-      < div >
-      < div;
-    className = 'shapeshift-form' >
-      < div;
-    className = 'shapeshift-form__selectors' >
-      < div;
-    className = 'shapeshift-form__selector' >
-      < div;
-    className = 'shapeshift-form__selector-label' >
-      Deposit
-      < /div>
-      < select;
-    className = 'shapeshift-form__selector-input';
-    value = {this.state.depositCoin;
-  }
-    onChange = {this.onCoinChange;
-  }
-  >
-    {
-      Object.entries(coinOptions).map(([coin]) => (
-        < option
-      key = {coin};
-      value = {coin.toLowerCase();
-    }>
-      {coin;}
-    <
-      /option>;
-    ))
-    }
-  <
-    /select>
-    < /div>
-    < div;
-    className = 'icon shapeshift-form__caret';
-    style = {
-    { backgroundImage: 'url(images/caret-right.svg)';}
-  }
-    />
-    < div;
-    className = 'shapeshift-form__selector' >
-      < div;
-    className = 'shapeshift-form__selector-label' >
-      Receive
-      < /div>
-      < div;
-    className = 'shapeshift-form__selector-input' >
-      ETH
-      < /div>
-      < /div>
-      < /div>
-      < div;
-    className = {classnames('shapeshift-form__address-input-wrapper'
-    {
-      'shapeshift-form__address-input-wrapper--error';
-    :
-      errorMessage,
-    }
-  )
-  }
-  >
-  <
-    div;
-    className = 'shapeshift-form__address-input-label' >
-      Your;
-    Refund;
-    Address
-    < /div>
-    < input;
-    type = 'text';
-    className = 'shapeshift-form__address-input';
-    onChange = {e
-  =>
-    this.setState({
-      refundAddress: e.target.value,
-      errorMessage: '',
-    });
-  }
-    />
-    < div;
-    className = 'shapeshift-form__address-input-error-message' >
-      {errorMessage}
-      < /div>
-      < /div>;
-    {this.renderMarketInfo();}
-  <
-    /div>
-    < button;
-    className = {btnClass};
-    disabled = {
-    !token;
-  }
-    onClick = {this.onBuyWithShapeShift;
-  }
-  >
-    Buy
-    < /button>
-    < /div>;
-  )
+      <div>
+        <div className='shapeshift-form'>
+          <div className='shapeshift-form__selectors'>
+            <div className='shapeshift-form__selector'>
+              <div className='shapeshift-form__selector-label'>
+                Deposit
+              </div>
+              <select
+                className='shapeshift-form__selector-input'
+                value={this.state.depositCoin}
+                onChange={this.onCoinChange}
+              >
+                {Object.entries(coinOptions).map(([coin]) => (
+                  <option key={coin} value={coin.toLowerCase()}>
+                    {coin}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div
+              className='icon shapeshift-form__caret'
+              style={{backgroundImage: 'url(images/caret-right.svg)'}}
+            />
+            <div className='shapeshift-form__selector'>
+              <div className='shapeshift-form__selector-label'>
+                Receive
+              </div>
+              <div className='shapeshift-form__selector-input'>
+                ETH
+              </div>
+            </div>
+          </div>
+          <div
+            className={classnames('shapeshift-form__address-input-wrapper', {
+              'shapeshift-form__address-input-wrapper--error': errorMessage,
+            })}
+          >
+            <div className='shapeshift-form__address-input-label'>
+              Your Refund Address
+            </div>
+            <input
+              type='text'
+              className='shapeshift-form__address-input'
+              onChange={e => this.setState({
+                refundAddress: e.target.value,
+                errorMessage: '',
+              })}
+            />
+            <div className='shapeshift-form__address-input-error-message'>
+              {errorMessage}
+            </div>
+          </div>
+          {this.renderMarketInfo()}
+        </div>
+        <button
+          className={btnClass}
+          disabled={!token}
+          onClick={this.onBuyWithShapeShift}
+        >
+          Buy
+        </button>
+      </div>
+    );
   }
 }
 

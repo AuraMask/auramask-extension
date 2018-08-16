@@ -43,52 +43,23 @@ class FirstTimeFlow extends Component {
 
   render() {
     return (
-      < div;
-    className = 'first-time-flow' >
-      < Switch >
-      < Route;
-    exact;
-    path = {INITIALIZE_IMPORT_ACCOUNT_ROUTE};
-    component = {ImportAccountScreen};
-    />
-    < Route;
-    exact;
-    path = {INITIALIZE_IMPORT_WITH_SEED_PHRASE_ROUTE};
-    component = {ImportSeedPhraseScreen};
-    />
-    < Route;
-    exact;
-    path = {INITIALIZE_UNIQUE_IMAGE_ROUTE};
-    component = {UniqueImageScreen};
-    />
-    < Route;
-    exact;
-    path = {INITIALIZE_NOTICE_ROUTE};
-    component = {NoticeScreen};
-    />
-    < Route;
-    exact;
-    path = {INITIALIZE_BACKUP_PHRASE_ROUTE};
-    component = {BackupPhraseScreen};
-    />
-    < Route;
-    exact;
-    path = {INITIALIZE_CONFIRM_SEED_ROUTE};
-    component = {ConfirmSeed};
-    />
-    < Route;
-    exact;
-    path = {INITIALIZE_CREATE_PASSWORD_ROUTE};
-    component = {CreatePasswordScreen};
-    />
-    < Route;
-    exact;
-    path = {INITIALIZE_ROUTE};
-    component = {WelcomeScreen};
-    />
-    < /Switch>
-    < /div>;
-  )
+      <div className="first-time-flow">
+        <Switch>
+          <Route exact path={INITIALIZE_IMPORT_ACCOUNT_ROUTE} component={ImportAccountScreen}/>
+          <Route
+            exact
+            path={INITIALIZE_IMPORT_WITH_SEED_PHRASE_ROUTE}
+            component={ImportSeedPhraseScreen}
+          />
+          <Route exact path={INITIALIZE_UNIQUE_IMAGE_ROUTE} component={UniqueImageScreen}/>
+          <Route exact path={INITIALIZE_NOTICE_ROUTE} component={NoticeScreen}/>
+          <Route exact path={INITIALIZE_BACKUP_PHRASE_ROUTE} component={BackupPhraseScreen}/>
+          <Route exact path={INITIALIZE_CONFIRM_SEED_ROUTE} component={ConfirmSeed}/>
+          <Route exact path={INITIALIZE_CREATE_PASSWORD_ROUTE} component={CreatePasswordScreen}/>
+          <Route exact path={INITIALIZE_ROUTE} component={WelcomeScreen}/>
+        </Switch>
+      </div>
+    );
   }
 }
 
