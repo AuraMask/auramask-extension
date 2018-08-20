@@ -1,5 +1,5 @@
 /**
- * @file The entry point for the web extension singleton process.
+* @file The entry point for the web extension singleton process.
  */
 
 const urlUtil = require('url');
@@ -36,7 +36,7 @@ const METAMASK_DEBUG = process.env.METAMASK_DEBUG;
 
 log.setDefaultLevel(process.env.METAMASK_DEBUG ? 'debug' : 'warn');
 
-const platform = new ExtensionPlatform();
+let platform = new ExtensionPlatform();
 const notificationManager = new NotificationManager();
 global.METAMASK_NOTIFIER = notificationManager;
 

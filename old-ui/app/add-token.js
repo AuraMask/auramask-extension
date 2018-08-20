@@ -7,8 +7,8 @@ const Tooltip = require('./components/tooltip.js');
 
 const ethUtil = require('ethereumjs-util');
 const abi = require('human-standard-token-abi');
-const Eth = require('ethjs-query');
-const EthContract = require('ethjs-contract');
+const EthQuery = require('irc.js').Query;
+const EthContract = require('irc.js').Contract;
 
 const emptyAddr = '0x0000000000000000000000000000000000000000';
 
@@ -170,7 +170,7 @@ AddTokenScreen.prototype.render = function() {
 AddTokenScreen.prototype.componentWillMount = function() {
   if (typeof global.ethereumProvider === 'undefined') return;
 
-  this.eth = new Eth(global.ethereumProvider);
+  this.eth = new EthQuery(global.ethereumProvider);
   this.contract = new EthContract(this.eth);
   this.TokenContract = this.contract(abi);
 };

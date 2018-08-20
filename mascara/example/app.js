@@ -1,4 +1,4 @@
-const EthQuery = require('ethjs-query');
+const EthQuery = require('irc.js').Query;
 
 window.addEventListener('load', loadProvider);
 window.addEventListener('message', console.warn);

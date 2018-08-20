@@ -17,7 +17,7 @@ var cssFiles = {
 };
 
 function bundleCss() {
-  var cssBundle = Object.keys(cssFiles).reduce(function(bundle, fileName) {
+  return Object.keys(cssFiles).reduce(function(bundle, fileName) {
     var fileContent = cssFiles[fileName];
     var output = String();
 
@@ -27,6 +27,4 @@ function bundleCss() {
 
     return bundle + output;
   }, String());
-
-  return cssBundle;
 }
