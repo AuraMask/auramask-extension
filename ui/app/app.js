@@ -41,18 +41,18 @@ const Modal = require('./components/modals/index').Modal;
 
 // Routes
 const {
-  DEFAULT_ROUTE,
-  UNLOCK_ROUTE,
-  SETTINGS_ROUTE,
-  REVEAL_SEED_ROUTE,
-  RESTORE_VAULT_ROUTE,
-  ADD_TOKEN_ROUTE,
-  NEW_ACCOUNT_ROUTE,
-  SEND_ROUTE,
-  CONFIRM_TRANSACTION_ROUTE,
-  INITIALIZE_ROUTE,
-  NOTICE_ROUTE,
-} = require('./routes');
+        DEFAULT_ROUTE,
+        UNLOCK_ROUTE,
+        SETTINGS_ROUTE,
+        REVEAL_SEED_ROUTE,
+        RESTORE_VAULT_ROUTE,
+        ADD_TOKEN_ROUTE,
+        NEW_ACCOUNT_ROUTE,
+        SEND_ROUTE,
+        CONFIRM_TRANSACTION_ROUTE,
+        INITIALIZE_ROUTE,
+        NOTICE_ROUTE,
+      } = require('./routes');
 
 class App extends Component {
   componentWillMount() {
@@ -85,15 +85,15 @@ class App extends Component {
 
   render() {
     const {
-      isLoading,
-      loadingMessage,
-      network,
-      isMouseUser,
-      provider,
-      frequentRpcList,
-      currentView,
-      setMouseUserState,
-    } = this.props;
+            isLoading,
+            loadingMessage,
+            network,
+            isMouseUser,
+            provider,
+            frequentRpcList,
+            currentView,
+            setMouseUserState,
+          } = this.props;
     const isLoadingNetwork = network === 'loading' && currentView.name !== 'config';
     const loadMessage = loadingMessage || isLoadingNetwork ?
       this.getConnectingLabel() : null;
@@ -133,9 +133,7 @@ class App extends Component {
 
         h(AccountMenu),
 
-        (isLoading || isLoadingNetwork) && h(Loading, {
-          loadingMessage: loadMessage,
-        }),
+        (isLoading || isLoadingNetwork) && h(Loading, {loadingMessage: loadMessage}),
 
         // content
         this.renderRoutes(),
@@ -198,17 +196,17 @@ class App extends Component {
 
   renderAppBar() {
     const {
-      isUnlocked,
-      network,
-      provider,
-      networkDropdownOpen,
-      showNetworkDropdown,
-      hideNetworkDropdown,
-      isInitialized,
-      welcomeScreenSeen,
-      isPopup,
-      betaUI,
-    } = this.props;
+            isUnlocked,
+            network,
+            provider,
+            networkDropdownOpen,
+            showNetworkDropdown,
+            hideNetworkDropdown,
+            isInitialized,
+            welcomeScreenSeen,
+            isPopup,
+            betaUI,
+          } = this.props;
 
     if (window.METAMASK_UI_TYPE === 'notification') {
       return null;
@@ -398,27 +396,27 @@ App.propTypes = {
 function mapStateToProps(state) {
   const {appState, metamask} = state;
   const {
-    networkDropdownOpen,
-    sidebarOpen,
-    isLoading,
-    loadingMessage,
-  } = appState;
+          networkDropdownOpen,
+          sidebarOpen,
+          isLoading,
+          loadingMessage,
+        } = appState;
 
   const {
-    identities,
-    accounts,
-    address,
-    keyrings,
-    isInitialized,
-    noActiveNotices,
-    seedWords,
-    unapprovedTxs,
-    lastUnreadNotice,
-    lostAccounts,
-    unapprovedMsgCount,
-    unapprovedPersonalMsgCount,
-    unapprovedTypedMessagesCount,
-  } = metamask;
+          identities,
+          accounts,
+          address,
+          keyrings,
+          isInitialized,
+          noActiveNotices,
+          seedWords,
+          unapprovedTxs,
+          lastUnreadNotice,
+          lostAccounts,
+          unapprovedMsgCount,
+          unapprovedPersonalMsgCount,
+          unapprovedTypedMessagesCount,
+        } = metamask;
   const selected = address || Object.keys(accounts)[0];
 
   return {

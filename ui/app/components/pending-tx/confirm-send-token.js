@@ -5,14 +5,14 @@ const PropTypes = require('prop-types');
 const connect = require('react-redux').connect;
 const h = require('react-hyperscript');
 const inherits = require('util').inherits;
-const tokenAbi = require('human-standard-token-abi');
-const abiDecoder = require('abi-decoder');
-abiDecoder.addABI(tokenAbi);
+const abi = require('human-standard-token-abi');
+const abiDecoder = require('irc.js').abi;
+// abiDecoder.addABI(abi);
 const actions = require('../../actions');
 const clone = require('clone');
 const Identicon = require('../identicon');
 const GasFeeDisplay = require('../send/gas-fee-display-v2.js');
-const ethUtil = require('ethereumjs-util');
+const ethUtil = require('icjs-util');
 const BN = ethUtil.BN;
 const {
   conversionUtil,
@@ -84,16 +84,14 @@ function mapDispatchToProps(dispatch, ownProps) {
       const {txParams = {}, id} = txMeta;
       const tokenData = txParams.data && abiDecoder.decodeMethod(txParams.data) || {};
       const {params = []} = tokenData;
+      // const params = tokenData.params || [];
       const {value: to} = params[0] || {};
       const {value: tokenAmountInDec} = params[1] || {};
       const tokenAmountInHex = conversionUtil(tokenAmountInDec, {
         fromNumericBase: 'dec',
         toNumericBase: 'hex',
       });
-      const {
-        gas: gasLimit,
-        gasPrice,
-      } = txParams;
+      const {gas: gasLimit, gasPrice} = txParams;
       dispatch(actions.setSelectedToken(address));
       dispatch(actions.updateSend({
         gasLimit,

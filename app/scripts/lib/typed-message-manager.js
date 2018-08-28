@@ -2,16 +2,16 @@ const EventEmitter = require('events');
 const ObservableStore = require('obs-store');
 const createId = require('./random-id');
 const assert = require('assert');
-const sigUtil = require('eth-sig-util');
+const sigUtil = require('irc-sig-util');
 const log = require('loglevel');
 
 /**
- * Represents, and contains data about, an 'eth_signTypedData' type signature request. These are created when a
- * signature for an eth_signTypedData call is requested.
+ * Represents, and contains data about, an 'irc_signTypedData' type signature request. These are created when a
+ * signature for an irc_signTypedData call is requested.
  *
  * @typedef {Object} TypedMessage
  * @property {number} id An id to track and identify the message object
- * @property {Object} msgParams The parameters to pass to the eth_signTypedData method once the signature request is
+ * @property {Object} msgParams The parameters to pass to the irc_signTypedData method once the signature request is
  * approved.
  * @property {Object} msgParams.metamaskId Added to msgParams for tracking and identification within MetaMask.
  * @property {Object} msgParams.from The address that is making the signature request.
@@ -19,7 +19,7 @@ const log = require('loglevel');
  * @property {number} time The epoch time at which the this message was created
  * @property {string} status Indicates whether the signature request is 'unapproved', 'approved', 'signed' or 'rejected'
  * @property {string} type The json-prc signing method for which a signature request has been made. A 'Message' will
- * always have a 'eth_signTypedData' type.
+ * always have a 'irc_signTypedData' type.
  *
  */
 
@@ -74,7 +74,7 @@ module.exports = class TypedMessageManager extends EventEmitter {
    * the new TypedMessage to this.messages, and to save the unapproved TypedMessages from that list to
    * this.memStore. Before any of this is done, msgParams are validated
    *
-   * @param {Object} msgParams The params for the eth_sign call to be made after the message is approved.
+   * @param {Object} msgParams The params for the irc_sign call to be made after the message is approved.
    * @returns {number} The id of the newly created TypedMessage.
    *
    */
@@ -90,7 +90,7 @@ module.exports = class TypedMessageManager extends EventEmitter {
       msgParams: msgParams,
       time: time,
       status: 'unapproved',
-      type: 'eth_signTypedData',
+      type: 'irc_signTypedData',
     };
     this.addMsg(msgData);
 
@@ -144,7 +144,7 @@ module.exports = class TypedMessageManager extends EventEmitter {
    * Approves a TypedMessage. Sets the message status via a call to this.setMsgStatusApproved, and returns a promise
    * with any the message params modified for proper signing.
    *
-   * @param {Object} msgParams The msgParams to be used when eth_sign is called, plus data added by MetaMask.
+   * @param {Object} msgParams The msgParams to be used when irc_sign is called, plus data added by MetaMask.
    * @param {Object} msgParams.metamaskId Added to msgParams for tracking and identification within MetaMask.
    * @returns {Promise<object>} Promises the msgParams object with metamaskId removed.
    *

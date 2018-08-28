@@ -11,7 +11,7 @@ const KOVAN_CODE = 42;
 const ROPSTEN_DISPLAY_NAME = 'Ropsten';
 const RINKEBY_DISPLAY_NAME = 'Rinkeby';
 const KOVAN_DISPLAY_NAME = 'Kovan';
-const MAINNET_DISPLAY_NAME = 'Main Ethereum Network';
+const MAINNET_DISPLAY_NAME = 'Main IrChain Network';
 
 const MAINNET_RPC_URL = 'https://mainnet.infura.io/metamask';
 const ROPSTEN_RPC_URL = 'https://ropsten.infura.io/metamask';
@@ -24,7 +24,7 @@ const ROPSTEN_RPC_URL_BETA = 'https://ropsten.infura.io/metamask2';
 const KOVAN_RPC_URL_BETA = 'https://kovan.infura.io/metamask2';
 const RINKEBY_RPC_URL_BETA = 'https://rinkeby.infura.io/metamask2';
 
-const DEFAULT_NETWORK = 'rinkeby';
+const DEFAULT_NETWORK = 'localhost';
 const OLD_UI_NETWORK_TYPE = 'network';
 const BETA_UI_NETWORK_TYPE = 'networkBeta';
 

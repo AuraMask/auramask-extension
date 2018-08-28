@@ -8,7 +8,7 @@
  */
 
 const async = require('async');
-const EthQuery = require('eth-query');
+const EthQuery = require('irc-query');
 const ObservableStore = require('obs-store');
 const EventEmitter = require('events').EventEmitter;
 
@@ -47,7 +47,7 @@ class AccountTracker extends EventEmitter {
     this._query = new EthQuery(this._provider);
     this._blockTracker = opts.blockTracker;
     // subscribe to latest block
-    this._blockTracker.on('block', this._updateForBlock.bind(this));
+    this._blockTracker.on('latest', this._updateForBlock.bind(this));
     // blockTracker.currentBlock may be null
     this._currentBlockNumber = this._blockTracker.currentBlock;
   }
@@ -132,7 +132,7 @@ class AccountTracker extends EventEmitter {
       this._updateAccounts.bind(this),
     ], (err) => {
       if (err) return console.error(err);
-      this.emit('block', this.store.getState());
+      this.emit('latest', this.store.getState());
     });
   }
 

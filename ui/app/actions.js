@@ -1,7 +1,7 @@
 const abi = require('human-standard-token-abi');
 const getBuyEthUrl = require('../../app/scripts/lib/buy-eth-url');
 const {getTokenAddressFromTokenObject} = require('./util');
-const ethUtil = require('ethereumjs-util');
+const ircUtil = require('icjs-util');
 const {fetchLocale} = require('../i18n-helper');
 const log = require('loglevel');
 
@@ -828,7 +828,7 @@ function signTokenTx(tokenAddress, toAddress, amount, txData) {
   return dispatch => {
     dispatch(actions.showLoadingIndication());
     const token = global.eth.contract(abi).at(tokenAddress);
-    token.transfer(toAddress, ethUtil.addHexPrefix(amount), txData)
+    token.transfer(toAddress, ircUtil.addHexPrefix(amount), txData)
          .catch(err => {
            dispatch(actions.hideLoadingIndication());
            dispatch(actions.displayWarning(err.message));
@@ -1928,7 +1928,7 @@ function setLocaleMessages(localeMessages) {
 
 function setNetworkEndpoints(networkEndpointType) {
   return dispatch => {
-    log.debug('background.setNetworkEndpoints');
+    log.debug(`background.setNetworkEndpoints: ${networkEndpointType}`);
     return new Promise((resolve, reject) => {
       background.setNetworkEndpoints(networkEndpointType, err => {
         if (err) {

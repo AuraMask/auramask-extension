@@ -1,4 +1,4 @@
-const ethUtil = require('ethereumjs-util');
+const ethUtil = require('icjs-util');
 
 var valueTable = {
   wei: '1000000000000000000',

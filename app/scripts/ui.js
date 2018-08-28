@@ -12,7 +12,9 @@ const notificationManager = new NotificationManager();
 const setupRaven = require('./lib/setupRaven');
 const log = require('loglevel');
 
-start().catch(log.error);
+window.onload = function() {
+  start().catch(log.error);
+};
 
 async function start() {
 

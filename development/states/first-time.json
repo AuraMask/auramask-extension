@@ -2,7 +2,7 @@
   "metamask": {
     "isInitialized": false,
     "isUnlocked": false,
-    "rpcTarget": "https://rawtestrpc.metamask.io/",
+    "rpcTarget": "http://localhost:8545/",
     "identities": {},
     "computedBalances": {},
     "frequentRpcList": [],
@@ -32,7 +32,6 @@
       "HD Key Tree"
     ],
     "keyrings": [],
-    "currentCurrency": "USD",
     "provider": {
       "type": "testnet"
     },

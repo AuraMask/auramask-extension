@@ -1,23 +1,23 @@
 const EventEmitter = require('events');
 const ObservableStore = require('obs-store');
-const ethUtil = require('ethereumjs-util');
+const ethUtil = require('icjs-util');
 const createId = require('./random-id');
 
 /**
- * Represents, and contains data about, an 'eth_sign' type signature request. These are created when a signature for
- * an eth_sign call is requested.
+ * Represents, and contains data about, an 'irc_sign' type signature request. These are created when a signature for
+ * an irc_sign call is requested.
  *
- * @see {@link https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_sign}
+ * @see {@link https://github.com/ethereum/wiki/wiki/JSON-RPC#irc_sign}
  *
  * @typedef {Object} Message
  * @property {number} id An id to track and identify the message object
- * @property {Object} msgParams The parameters to pass to the eth_sign method once the signature request is approved.
+ * @property {Object} msgParams The parameters to pass to the irc_sign method once the signature request is approved.
  * @property {Object} msgParams.metamaskId Added to msgParams for tracking and identification within MetaMask.
  * @property {string} msgParams.data A hex string conversion of the raw buffer data of the signature request
  * @property {number} time The epoch time at which the this message was created
  * @property {string} status Indicates whether the signature request is 'unapproved', 'approved', 'signed' or 'rejected'
  * @property {string} type The json-prc signing method for which a signature request has been made. A 'Message' with
- * always have a 'eth_sign' type.
+ * always have a 'irc_sign' type.
  *
  */
 
@@ -71,7 +71,7 @@ module.exports = class MessageManager extends EventEmitter {
    * Creates a new Message with an 'unapproved' status using the passed msgParams. this.addMsg is called to add the
    * new Message to this.messages, and to save the unapproved Messages from that list to this.memStore.
    *
-   * @param {Object} msgParams The params for the eth_sign call to be made after the message is approved.
+   * @param {Object} msgParams The params for the irc_sign call to be made after the message is approved.
    * @returns {number} The id of the newly created message.
    *
    */
@@ -85,7 +85,7 @@ module.exports = class MessageManager extends EventEmitter {
       msgParams: msgParams,
       time: time,
       status: 'unapproved',
-      type: 'eth_sign',
+      type: 'irc_sign',
     };
     this.addMsg(msgData);
 
@@ -121,7 +121,7 @@ module.exports = class MessageManager extends EventEmitter {
    * Approves a Message. Sets the message status via a call to this.setMsgStatusApproved, and returns a promise with
    * any the message params modified for proper signing.
    *
-   * @param {Object} msgParams The msgParams to be used when eth_sign is called, plus data added by MetaMask.
+   * @param {Object} msgParams The msgParams to be used when irc_sign is called, plus data added by MetaMask.
    * @param {Object} msgParams.metamaskId Added to msgParams for tracking and identification within MetaMask.
    * @returns {Promise<object>} Promises the msgParams object with metamaskId removed.
    *

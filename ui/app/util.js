@@ -1,5 +1,5 @@
 const abi = require('human-standard-token-abi');
-const ethUtil = require('ethereumjs-util');
+const ethUtil = require('icjs-util');
 const hexToBn = require('../../app/scripts/lib/hex-to-bn');
 const vreme = new (require('vreme'))();
 

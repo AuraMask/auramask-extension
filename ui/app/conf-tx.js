@@ -175,14 +175,14 @@ function currentTxView(opts) {
 
     return h(SignatureRequest, opts);
 
-    // if (type === 'eth_sign') {
-    //   log.debug('rendering eth_sign message')
+    // if (type === 'irc_sign') {
+    //   log.debug('rendering irc_sign message')
     //   return h(PendingMsg, opts)
     // } else if (type === 'personal_sign') {
     //   log.debug('rendering personal_sign message')
     // return h(PendingPersonalMsg, opts)
-    // } else if (type === 'eth_signTypedData') {
-    //   log.debug('rendering eth_signTypedData message')
+    // } else if (type === 'irc_signTypedData') {
+    //   log.debug('rendering irc_signTypedData message')
     //   return h(PendingTypedMsg, opts)
     // }
   }

@@ -1,6 +1,6 @@
 const JsonRpcEngine = require('json-rpc-engine');
-const scaffoldMiddleware = require('eth-json-rpc-middleware/scaffold');
-const providerAsMiddleware = require('eth-json-rpc-middleware/providerAsMiddleware');
+const scaffoldMiddleware = require('irc-json-rpc-middleware/scaffold');
+const providerAsMiddleware = require('irc-json-rpc-middleware/providerAsMiddleware');
 const GanacheCore = require('ganache-core');
 
 module.exports = {

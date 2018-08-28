@@ -5,7 +5,7 @@
     "featureFlags": {
       "betaUI": true
     },
-    "rpcTarget": "https://rawtestrpc.metamask.io/",
+    "rpcTarget": "http://localhost:8545/",
     "identities": {
       "0xfdea65c8e26263f6d9a1b5de9555d2931a33b825": {
         "address": "0xfdea65c8e26263f6d9a1b5de9555d2931a33b825",
@@ -76,7 +76,7 @@
         },
         "status": "unapproved",
         "time": 1537889069339,
-        "type": "eth_sign"
+        "type": "irc_sign"
       }
     },
     "unapprovedMsgCount": 1,
@@ -113,7 +113,7 @@
         },
         "status": "unapproved",
         "time": 1617889069339,
-        "type": "eth_signTypedData"
+        "type": "irc_signTypedData"
       }
     },
     "unapprovedTypedMessagesCount": 1,

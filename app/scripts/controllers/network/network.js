@@ -1,12 +1,12 @@
 const assert = require('assert');
 const EventEmitter = require('events');
-const createMetamaskProvider = require('web3-provider-engine/zero.js');
-const SubproviderFromProvider = require('web3-provider-engine/subproviders/provider.js');
-const createInfuraProvider = require('eth-json-rpc-infura/src/createProvider');
+const createMetamaskProvider = require('webu-provider-engine/zero.js');
+const SubproviderFromProvider = require('webu-provider-engine/subproviders/provider.js');
+const createInfuraProvider = require('irc-json-rpc-infura/src/createProvider');
 const ObservableStore = require('obs-store');
 const ComposedStore = require('obs-store/lib/composed');
 const extend = require('xtend');
-const EthQuery = require('eth-query');
+const IrcQuery = require('irc-query');
 const createEventEmitterProxy = require('../../lib/events-proxy.js');
 const log = require('loglevel');
 const {
@@ -60,9 +60,9 @@ module.exports = class NetworkController extends EventEmitter {
       rpcUrl: rpcTarget,
     };
     this._configureProvider(opts);
-    this._proxy.on('block', this._logBlock.bind(this));
+    this._proxy.on('latest', this._logBlock.bind(this));
     this._proxy.on('error', this.verifyNetwork.bind(this));
-    this.ethQuery = new EthQuery(this._proxy);
+    this.ircQuery = new IrcQuery(this._proxy);
     this.lookupNetwork();
     return this._proxy;
   }
@@ -86,12 +86,12 @@ module.exports = class NetworkController extends EventEmitter {
 
   lookupNetwork() {
     // Prevent firing when provider is not defined.
-    if (!this.ethQuery || !this.ethQuery.sendAsync) {
-      return log.warn('NetworkController - lookupNetwork aborted due to missing ethQuery');
+    if (!this.ircQuery || !this.ircQuery.sendAsync) {
+      return log.warn('NetworkController - lookupNetwork aborted due to missing ircQuery');
     }
-    this.ethQuery.sendAsync({method: 'net_version'}, (err, network) => {
+    this.ircQuery.sendAsync({method: 'net_version'}, (err, network) => {
       if (err) return this.setNetworkState('loading');
-      log.info('web3.getNetwork returned ' + network);
+      log.info('webu.getNetwork returned ' + network);
       this.setNetworkState(network);
     });
   }

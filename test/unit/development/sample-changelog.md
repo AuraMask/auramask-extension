@@ -101,14 +101,14 @@
 ## 3.12.1 2017-11-29
 
 - Fix bug where a user could be shown two different seed phrases.
-- Detect when multiple web3 extensions are active, and provide useful error.
+- Detect when multiple webu extensions are active, and provide useful error.
 - Adds notice about seed phrase backup.
 
 ## 3.12.0 2017-10-25
 
 - Add support for alternative ENS TLDs (Ethereum Name Service Top-Level Domains).
 - Lower minimum gas price to 0.1 GWEI.
-- Remove web3 injection message from production (thanks to @ChainsawBaby)
+- Remove webu injection message from production (thanks to @ChainsawBaby)
 - Add additional debugging info to our state logs, specifically OS version and browser version.
 
 ## 3.11.2 2017-10-21
@@ -119,7 +119,7 @@
 ## 3.11.1 2017-10-20
 
 - Fix bug where log filters were not populated correctly
-- Fix bug where web3 API was sometimes injected after the page loaded.
+- Fix bug where webu API was sometimes injected after the page loaded.
 - Fix bug where first account was sometimes not selected correctly after creating or restoring a vault.
 - Fix bug where imported accounts could not use new eth_signTypedData method.
 
@@ -196,7 +196,7 @@ rollback to 3.10.0 due to bug
 
 ## 3.9.12 2017-9-6
 
-- Fix bug that prevented Web3 1.0 compatibility
+- Fix bug that prevented webu 1.0 compatibility
 - Make eth_sign deprecation warning less noisy
 - Add useful link to eth_sign deprecation warning.
 - Fix bug with network version serialization over synchronous RPC
@@ -204,7 +204,7 @@ rollback to 3.10.0 due to bug
 - Add the total amount of tokens when multiple tokens are added under the token list
 - Use HTTPS links for Etherscan.
 - Update Support center link to new one with HTTPS.
-- Make web3 deprecation notice more useful by linking to a descriptive article.
+- Make webu deprecation notice more useful by linking to a descriptive article.
 
 ## 3.9.11 2017-8-24
 
@@ -231,7 +231,7 @@ rollback to 3.10.0 due to bug
 ## 3.9.7 2017-8-15
 
 - hotfix - disable token list
-- Added a deprecation warning for web3 https://github.com/ethereum/mist/releases/tag/v0.9.0
+- Added a deprecation warning for webu https://github.com/ethereum/mist/releases/tag/v0.9.0
 
 ## 3.9.6 2017-8-09
 
@@ -353,7 +353,7 @@ rollback to 3.10.0 due to bug
 
 ## 3.7.2 2017-5-31
 
-- Now when switching networks sites that use web3 will reload
+- Now when switching networks sites that use webu will reload
 - Now when switching networks the extension does not restart
 - Cleanup decimal bugs in our gas inputs.
 - Fix bug where submit button was enabled for invalid gas inputs.
@@ -394,7 +394,7 @@ rollback to 3.10.0 due to bug
 - Input gas price in Gwei.
 - Enforce Safe Gas Minimum recommended by EthGasStation.
 - Fix bug where block-tracker could stop polling for new blocks.
-- Reduce UI size by removing internal web3.
+- Reduce UI size by removing internal webu.
 - Fix bug where gas parameters would not properly update on adjustment.
 
 ## 3.6.1 2017-4-30
@@ -409,7 +409,7 @@ rollback to 3.10.0 due to bug
 ## 3.5.4 2017-4-25
 
 - Fix occasional nonce tracking issue.
-- Fix bug where some events would not be emitted by web3.
+- Fix bug where some events would not be emitted by webu.
 - Fix bug where an error would be thrown when composing signatures for networks with large ID values.
 
 ## 3.5.3 2017-4-24
@@ -423,7 +423,7 @@ rollback to 3.10.0 due to bug
 
 - Fix bug where gas estimate totals were sometimes wrong.
 - Add link to Kovan Test Faucet instructions on buy view.
-- Inject web3 into loaded iFrames.
+- Inject webu into loaded iFrames.
 
 ## 3.5.1 2017-3-27
 
@@ -504,7 +504,7 @@ rollback to 3.10.0 due to bug
 - Fix Bug where you see an empty transaction flash by on the confirm transaction view.
 - Create visible difference in transaction history between an approved but not yet included in a block transaction and a transaction who has been confirmed.
 - Fix memory leak in RPC Cache
-- Override RPC commands eth_syncing and web3_clientVersion
+- Override RPC commands eth_syncing and webu_clientVersion
 - Remove certain non-essential permissions from certain builds.
 - Add a check for when a tx is included in a block.
 - Fix bug where browser-solidity would sometimes warn of a contract creation error when there was none.
@@ -562,7 +562,7 @@ rollback to 3.10.0 due to bug
 ## 2.13.6 2016-10-26
 
 - Add a check for improper Transaction data.
-- Inject up to date version of web3.js
+- Inject up to date version of webu.js
 - Now nicknaming new accounts "Account #" instead of "Wallet #" for clarity.
 - Fix bug where custom provider selection could show duplicate items.
 - Fix bug where connecting to a local morden node would make two providers appear selected.
@@ -576,7 +576,7 @@ rollback to 3.10.0 due to bug
 ## 2.13.4 2016-10-17
 
 - Add custom transaction fee field to send form.
-- Fix bug where web3 was being injected into XML files.
+- Fix bug where webu was being injected into XML files.
 - Fix bug where changing network would not reload current Dapps.
 
 ## 2.13.3 2016-10-4
@@ -694,7 +694,7 @@ popup notification opens up.
 
 ## 2.7.1 2016-07-27
 
-- Fix bug where web3 would sometimes not be injected in time for the application.
+- Fix bug where webu would sometimes not be injected in time for the application.
 - Fixed bug where sometimes when opening the plugin, it would not fully open until closing and re-opening.
 - Got most functionality working within Firefox (still working on review process before it can be available).
 - Fixed menu dropdown bug introduced in Chrome 52.
@@ -703,7 +703,7 @@ popup notification opens up.
 
 - Added a Warning screen about storing ETH
 - Add buy Button!
-- MetaMask now throws descriptive errors when apps try to use synchronous web3 methods.
+- MetaMask now throws descriptive errors when apps try to use synchronous webu methods.
 - Removed firefox-specific line in manifest.
 
 ## 2.6.2 2016-07-20
@@ -716,7 +716,7 @@ popup notification opens up.
 - Fix tool tips on Eth balance to show the 6 decimals
 - Fix rendering of recipient SVG in tx approval notification.
 - New vaults now generate only one wallet instead of three.
-- Bumped version of web3 provider engine.
+- Bumped version of webu provider engine.
 - Fixed bug where some lowercase or uppercase addresses were not being recognized as valid.
 - Fixed bug where gas cost was misestimated on the tx confirmation view.
 
@@ -724,7 +724,7 @@ popup notification opens up.
 
 - Fix formatting of ETH balance
 - Fix formatting of account details.
-- Use web3 minified dist for faster inject times
+- Use webu minified dist for faster inject times
 - Fix issue where dropdowns were not in front of icons.
 - Update transaction approval styles.
 - Align failed and successful transaction history text.
@@ -755,7 +755,7 @@ popup notification opens up.
 
 ## 2.4.4 2016-06-23
 
-- Update web3-stream-provider for batch payload bug fix
+- Update webu-stream-provider for batch payload bug fix
 
 ## 2.4.3 2016-06-23
 
@@ -821,7 +821,7 @@ popup notification opens up.
 
 ## 1.8.3 2016-05-12
 
-- Bumped web3 to 0.6.0
+- Bumped webu to 0.6.0
 - Really fixed `eth_syncing` method response.
 
 ## 1.8.2 2016-05-11
@@ -892,7 +892,7 @@ popup notification opens up.
 - Now supports exporting an account's private key.
 - Unified button and input styles across the app.
 - Removed some non-working placeholder UI until it works.
-- Fix popup's web3 stream provider
+- Fix popup's webu stream provider
 - Temporarily deactivated fauceting indication because it would activate when restoring an empty account.
 
 ## 1.3.2 2016-04-04

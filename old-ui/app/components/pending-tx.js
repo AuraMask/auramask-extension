@@ -5,7 +5,7 @@ const actions = require('../../../ui/app/actions');
 const clone = require('clone');
 const log = require('loglevel');
 
-const ethUtil = require('ethereumjs-util');
+const ethUtil = require('icjs-util');
 const BN = ethUtil.BN;
 const hexToBn = require('../../../app/scripts/lib/hex-to-bn');
 const util = require('../util');

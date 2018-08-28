@@ -2,8 +2,8 @@ const valuesFor = require('./util').valuesFor;
 const abi = require('human-standard-token-abi');
 
 const {
-  multiplyCurrencies,
-} = require('./conversion-util');
+        multiplyCurrencies,
+      } = require('./conversion-util');
 
 const selectors = {
   getSelectedAddress,
@@ -83,9 +83,9 @@ function getAddressBook(state) {
 
 function accountsWithSendEtherInfoSelector(state) {
   const {
-    accounts,
-    identities,
-  } = state.metamask;
+          accounts,
+          identities,
+        } = state.metamask;
 
   const accountsWithSendEtherInfo = Object.entries(accounts).map(([key, account]) => {
     return Object.assign({}, account, identities[key]);
@@ -111,7 +111,7 @@ function transactionsSelector(state) {
   // console.log({txsToRender, selectedTokenAddress})
   return selectedTokenAddress
     ? txsToRender
-      .filter(({txParams}) => txParams && txParams.to === selectedTokenAddress)
+      .filter(({txParams}) => txParams !== undefined && txParams.to === selectedTokenAddress)
       .sort((a, b) => b.time - a.time)
     : txsToRender
       .sort((a, b) => b.time - a.time);
@@ -170,6 +170,7 @@ function autoAddToBetaUI(state) {
   const autoAddAccountsThreshold = 2;
   const autoAddTokensThreshold = 1;
 
+  // const
   const numberOfTransactions = state.metamask.selectedAddressTxList.length;
   const numberOfAccounts = Object.keys(state.metamask.accounts).length;
   const numberOfTokensAdded = state.metamask.tokens.length;

@@ -1,6 +1,6 @@
 const ObservableStore = require('obs-store');
 const PendingBalanceCalculator = require('../lib/pending-balance-calculator');
-const BN = require('ethereumjs-util').BN;
+const BN = require('icjs-util').BN;
 
 class BalanceController {
 
@@ -80,7 +80,7 @@ class BalanceController {
       }
     });
     this.accountTracker.store.subscribe(update);
-    this.blockTracker.on('block', update);
+    this.blockTracker.on('latest', update);
   }
 
   /**

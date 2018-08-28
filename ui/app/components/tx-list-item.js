@@ -5,10 +5,10 @@ const connect = require('react-redux').connect;
 const inherits = require('util').inherits;
 const classnames = require('classnames');
 const abi = require('human-standard-token-abi');
-const abiDecoder = require('abi-decoder');
-abiDecoder.addABI(abi);
+const abiDecoder = require('irc.js').abi;
+// abiDecoder.addABI(abi);
 const Identicon = require('./identicon');
-const contractMap = require('eth-contract-metadata');
+const contractMap = require('irc-contract-metadata');
 const {checksumAddress} = require('../util');
 
 const actions = require('../actions');

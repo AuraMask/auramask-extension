@@ -1,6 +1,6 @@
 const connect = require('react-redux').connect;
 const actions = require('../../actions');
-const abi = require('ethereumjs-abi');
+const abi = require('icjs-abi');
 const SendEther = require('../../send-v2');
 const {withRouter} = require('react-router-dom');
 const {compose} = require('recompose');

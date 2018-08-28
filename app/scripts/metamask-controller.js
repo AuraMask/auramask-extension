@@ -13,13 +13,13 @@ const asStream = require('obs-store/lib/asStream');
 const AccountTracker = require('./lib/account-tracker');
 const RpcEngine = require('json-rpc-engine');
 const debounce = require('debounce');
-const createEngineStream = require('json-rpc-middleware-stream/engineStream');
-const createFilterMiddleware = require('eth-json-rpc-filters');
+const createEngineStream = require('irc-json-rpc-middleware-stream/engineStream');
+const createFilterMiddleware = require('irc-json-rpc-filter');
 const createOriginMiddleware = require('./lib/createOriginMiddleware');
 const createLoggerMiddleware = require('./lib/createLoggerMiddleware');
 const createProviderMiddleware = require('./lib/createProviderMiddleware');
 const setupMultiplex = require('./lib/stream-utils.js').setupMultiplex;
-const KeyringController = require('eth-keyring-controller');
+const KeyringController = require('irc-keyring');
 const NetworkController = require('./controllers/network');
 const PreferencesController = require('./controllers/preferences');
 const CurrencyController = require('./controllers/currency');
@@ -230,9 +230,9 @@ module.exports = class MetamaskController extends EventEmitter {
   initializeProvider() {
     const providerOpts = {
       static: {
-        eth_syncing: false,
-        web3_clientVersion: `MetaMask/v${version}`,
-        eth_sendTransaction: (payload, next, end) => {
+        irc_syncing: false,
+        webu_clientVersion: `MetaMask/v${version}`,
+        irc_sendTransaction: (payload, next, end) => {
           const origin = payload.origin;
           const txParams = payload.params[0];
           nodeify(this.txController.newUnapprovedTransaction, this.txController)(txParams, {origin}, end);
@@ -257,8 +257,7 @@ module.exports = class MetamaskController extends EventEmitter {
       processPersonalMessage: this.newUnsignedPersonalMessage.bind(this),
       processTypedMessage: this.newUnsignedTypedMessage.bind(this),
     };
-    const providerProxy = this.networkController.initializeProvider(providerOpts);
-    return providerProxy;
+    return this.networkController.initializeProvider(providerOpts);
   }
 
   /**
@@ -615,15 +614,15 @@ module.exports = class MetamaskController extends EventEmitter {
   // ---------------------------------------------------------------------------
   // Identity Management (signature operations)
 
-  // eth_sign methods:
+  // irc_sign methods:
 
   /**
-   * Called when a Dapp uses the eth_sign method, to request user approval.
-   * eth_sign is a pure signature of arbitrary data. It is on a deprecation
+   * Called when a Dapp uses the irc_sign method, to request user approval.
+   * irc_sign is a pure signature of arbitrary data. It is on a deprecation
    * path, since this data can be a transaction, or can leak private key
    * information.
    *
-   * @param {Object} msgParams - The params passed to eth_sign.
+   * @param {Object} msgParams - The params passed to irc_sign.
    * @param {Function} cb = The callback function called with the signature.
    */
   newUnsignedMessage(msgParams, cb) {
@@ -643,9 +642,9 @@ module.exports = class MetamaskController extends EventEmitter {
   }
 
   /**
-   * Signifies user intent to complete an eth_sign method.
+   * Signifies user intent to complete an irc_sign method.
    *
-   * @param  {Object} msgParams The params passed to eth_call.
+   * @param  {Object} msgParams The params passed to irc_call.
    * @returns {Promise<Object>} Full state update.
    */
   signMessage(msgParams) {
@@ -668,7 +667,7 @@ module.exports = class MetamaskController extends EventEmitter {
   }
 
   /**
-   * Used to cancel a message submitted via eth_sign.
+   * Used to cancel a message submitted via irc_sign.
    *
    * @param {string} msgId - The id of the message to cancel.
    */
@@ -684,10 +683,10 @@ module.exports = class MetamaskController extends EventEmitter {
 
   /**
    * Called when a dapp uses the personal_sign method.
-   * This is identical to the Geth eth_sign method, and may eventually replace
-   * eth_sign.
+   * This is identical to the Geth irc_sign method, and may eventually replace
+   * irc_sign.
    *
-   * We currently define our eth_sign and personal_sign mostly for legacy Dapps.
+   * We currently define our irc_sign and personal_sign mostly for legacy Dapps.
    *
    * @param {Object} msgParams - The params of the message to sign & return to the Dapp.
    * @param {Function} cb - The callback function called with the signature.
@@ -751,12 +750,12 @@ module.exports = class MetamaskController extends EventEmitter {
     }
   }
 
-  // eth_signTypedData methods
+  // irc_signTypedData methods
 
   /**
-   * Called when a dapp uses the eth_signTypedData method, per EIP 712.
+   * Called when a dapp uses the irc_signTypedData method, per EIP 712.
    *
-   * @param {Object} msgParams - The params passed to eth_signTypedData.
+   * @param {Object} msgParams - The params passed to irc_signTypedData.
    * @param {Function} cb - The callback function, called with the signature.
    */
   newUnsignedTypedMessage(msgParams, cb) {
@@ -782,10 +781,10 @@ module.exports = class MetamaskController extends EventEmitter {
   }
 
   /**
-   * The method for a user approving a call to eth_signTypedData, per EIP 712.
+   * The method for a user approving a call to irc_signTypedData, per EIP 712.
    * Triggers the callback in newUnsignedTypedMessage.
    *
-   * @param  {Object} msgParams - The params passed to eth_signTypedData.
+   * @param  {Object} msgParams - The params passed to irc_signTypedData.
    * @returns {Object} Full state update.
    */
   signTypedMessage(msgParams) {
@@ -807,7 +806,7 @@ module.exports = class MetamaskController extends EventEmitter {
   }
 
   /**
-   * Used to cancel a eth_signTypedData type message.
+   * Used to cancel a irc_signTypedData type message.
    * @param {string} msgId - The ID of the message to cancel.
    * @param {Function} cb - The callback function called with a full state update.
    */
@@ -1058,7 +1057,7 @@ module.exports = class MetamaskController extends EventEmitter {
    * This includes info we like to be synchronous if possible, like
    * the current selected account, and network ID.
    *
-   * Since synchronous methods have been deprecated in web3,
+   * Since synchronous methods have been deprecated in webu,
    * this is a good candidate for deprecation.
    *
    * @param {*} outStream - The stream to provide public config over.

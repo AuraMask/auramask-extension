@@ -1,6 +1,6 @@
 var assert = require('assert');
 var sinon = require('sinon');
-const ethUtil = require('ethereumjs-util');
+const ethUtil = require('icjs-util');
 
 var path = require('path');
 var util = require(path.join(__dirname, '..', '..', 'ui', 'app', 'util.js'));

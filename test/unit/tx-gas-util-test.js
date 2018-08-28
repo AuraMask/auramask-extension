@@ -1,5 +1,5 @@
 const assert = require('assert');
-const Transaction = require('ethereumjs-tx');
+const Transaction = require('icjs-tx');
 const BN = require('bn.js');
 
 const {hexToBn, bnToHex} = require('../../app/scripts/lib/util');

@@ -1,5 +1,5 @@
-const ethUtil = require('ethereumjs-util');
-const normalize = require('eth-sig-util').normalize;
+const ethUtil = require('icjs-util');
+const normalize = require('irc-sig-util').normalize;
 const {
   MAINNET_RPC_URL,
   ROPSTEN_RPC_URL,

@@ -2,12 +2,12 @@ const Component = require('react').Component;
 const PropTypes = require('prop-types');
 const h = require('react-hyperscript');
 const actions = require('../../../ui/app/actions');
-const genAccountLink = require('etherscan-link').createAccountLink;
+const genAccountLink = require('irc.js').scanLink.createAccountLink;
 const connect = require('react-redux').connect;
 const Dropdown = require('./dropdown').Dropdown;
 const DropdownMenuItem = require('./dropdown').DropdownMenuItem;
 const Identicon = require('./identicon');
-const ethUtil = require('ethereumjs-util');
+const ethUtil = require('icjs-util');
 const copyToClipboard = require('copy-to-clipboard');
 
 class AccountDropdowns extends Component {
@@ -58,7 +58,7 @@ class AccountDropdowns extends Component {
               },
             },
           ),
-          this.indicateIfLoose(keyring),
+          AccountDropdowns.indicateIfLoose(keyring),
           h('span', {
             style: {
               marginLeft: '20px',
@@ -75,12 +75,12 @@ class AccountDropdowns extends Component {
     });
   }
 
-  indicateIfLoose(keyring) {
+  static indicateIfLoose(keyring) {
     try { // Sometimes keyrings aren't loaded yet:
       const type = keyring.type;
       const isLoose = type !== 'HD Key Tree';
       return isLoose ? h('.keyring-label', 'IMPORTED') : null;
-    } catch (e) { return; }
+    } catch (e) {}
   }
 
   renderAccountSelector() {

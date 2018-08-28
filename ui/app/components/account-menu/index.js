@@ -10,17 +10,14 @@ const {Menu, Item, Divider, CloseArea} = require('../dropdowns/components/menu')
 const Identicon = require('../identicon');
 const {formatBalance} = require('../../util');
 const {
-  SETTINGS_ROUTE,
-  INFO_ROUTE,
-  NEW_ACCOUNT_ROUTE,
-  IMPORT_ACCOUNT_ROUTE,
-  DEFAULT_ROUTE,
-} = require('../../routes');
+        SETTINGS_ROUTE,
+        INFO_ROUTE,
+        NEW_ACCOUNT_ROUTE,
+        IMPORT_ACCOUNT_ROUTE,
+        DEFAULT_ROUTE,
+      } = require('../../routes');
 
-module.exports = compose(
-  withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
-)(AccountMenu);
+module.exports = compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(AccountMenu);
 
 AccountMenu.contextTypes = {
   t: PropTypes.func,
@@ -28,7 +25,9 @@ AccountMenu.contextTypes = {
 
 inherits(AccountMenu, Component);
 
-function AccountMenu() { Component.call(this); }
+function AccountMenu() {
+  Component.call(this);
+}
 
 function mapStateToProps(state) {
   return {
@@ -69,58 +68,48 @@ function mapDispatchToProps(dispatch) {
 
 AccountMenu.prototype.render = function() {
   const {
-    isAccountMenuOpen,
-    toggleAccountMenu,
-    lockMetamask,
-    history,
-  } = this.props;
+          isAccountMenuOpen,
+          toggleAccountMenu,
+          lockMetamask,
+          history,
+        } = this.props;
+
+  const onClick = route => () => {
+    toggleAccountMenu();
+    history.push(route);
+  };
 
   return h(Menu, {className: 'account-menu', isShowing: isAccountMenuOpen}, [
     h(CloseArea, {onClick: toggleAccountMenu}),
-    h(Item, {
-      className: 'account-menu__header',
-    }, [
+    h(Item, {className: 'account-menu__header'}, [
       this.context.t('myAccounts'),
       h('button.account-menu__logout-button', {
         onClick: () => {
           lockMetamask();
           history.push(DEFAULT_ROUTE);
         },
-      }, this.context.t('logout')),
-    ]),
+      }, this.context.t('logout'))]),
     h(Divider),
     h('div.account-menu__accounts', this.renderAccounts()),
     h(Divider),
     h(Item, {
-      onClick: () => {
-        toggleAccountMenu();
-        history.push(NEW_ACCOUNT_ROUTE);
-      },
+      onClick: onClick(NEW_ACCOUNT_ROUTE),
       icon: h('img.account-menu__item-icon', {src: 'images/plus-btn-white.svg'}),
       text: this.context.t('createAccount'),
     }),
     h(Item, {
-      onClick: () => {
-        toggleAccountMenu();
-        history.push(IMPORT_ACCOUNT_ROUTE);
-      },
+      onClick: onClick(IMPORT_ACCOUNT_ROUTE),
       icon: h('img.account-menu__item-icon', {src: 'images/import-account.svg'}),
       text: this.context.t('importAccount'),
     }),
     h(Divider),
     h(Item, {
-      onClick: () => {
-        toggleAccountMenu();
-        history.push(INFO_ROUTE);
-      },
+      onClick: onClick(INFO_ROUTE),
       icon: h('img', {src: 'images/mm-info-icon.svg'}),
       text: this.context.t('infoHelp'),
     }),
     h(Item, {
-      onClick: () => {
-        toggleAccountMenu();
-        history.push(SETTINGS_ROUTE);
-      },
+      onClick: onClick(SETTINGS_ROUTE),
       icon: h('img.account-menu__item-icon', {src: 'images/settings.svg'}),
       text: this.context.t('settings'),
     }),
@@ -129,12 +118,12 @@ AccountMenu.prototype.render = function() {
 
 AccountMenu.prototype.renderAccounts = function() {
   const {
-    identities,
-    accounts,
-    selectedAddress,
-    keyrings,
-    showAccountDetail,
-  } = this.props;
+          identities,
+          accounts,
+          selectedAddress,
+          keyrings,
+          showAccountDetail,
+        } = this.props;
 
   return Object.keys(identities).map((key, index) => {
     const identity = identities[key];
@@ -181,5 +170,5 @@ AccountMenu.prototype.indicateIfLoose = function(keyring) {
     const type = keyring.type;
     const isLoose = type !== 'HD Key Tree';
     return isLoose ? h('.keyring-label.allcaps', this.context.t('imported')) : null;
-  } catch (e) { return; }
+  } catch (e) {}
 };

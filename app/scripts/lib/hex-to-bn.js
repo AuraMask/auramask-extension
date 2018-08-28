@@ -1,4 +1,4 @@
-const ethUtil = (/** @type {object} */ (require('ethereumjs-util')));
+const ethUtil = (/** @type {object} */ (require('icjs-util')));
 const BN = ethUtil.BN;
 
 /**

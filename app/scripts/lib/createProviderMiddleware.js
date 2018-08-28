@@ -1,9 +1,9 @@
 module.exports = createProviderMiddleware;
 
 /**
- * Forwards an HTTP request to the current Web3 provider
+ * Forwards an HTTP request to the current webu provider
  *
- * @param {{ provider: Object }} config Configuration containing current Web3 provider
+ * @param {{ provider: Object }} config Configuration containing current webu provider
  */
 function createProviderMiddleware({provider}) {
   return (req, res, next, end) => {

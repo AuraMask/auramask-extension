@@ -1,6 +1,6 @@
-/*global Web3*/
+/*global webu*/
 cleanContextForImports();
-require('web3/dist/web3.min.js');
+require('webu/dist/webu-light.min');
 const log = require('loglevel');
 const LocalMessageDuplexStream = require('post-message-stream');
 const setupDappAutoReload = require('./lib/auto-reload.js');
@@ -23,32 +23,32 @@ var metamaskStream = new LocalMessageDuplexStream({
 var inpageProvider = new MetamaskInpageProvider(metamaskStream);
 
 //
-// setup web3
+// setup webu
 //
 
-if (typeof window.web3 !== 'undefined') {
-  throw new Error(`MetaMask detected another web3.
-     MetaMask will not work reliably with another web3 extension.
+if (typeof window.webu !== 'undefined') {
+  throw new Error(`MetaMask detected another webu.
+     MetaMask will not work reliably with another webu extension.
      This usually happens if you have two MetaMasks installed,
-     or MetaMask and another web3 extension. Please remove one
+     or MetaMask and another webu extension. Please remove one
      and try again.`);
 }
-var web3 = new Web3(inpageProvider);
-web3.setProvider = function() {
-  log.debug('MetaMask - overrode web3.setProvider');
+var webu = new Webu(inpageProvider);
+webu.setProvider = function() {
+  log.debug('MetaMask - overrode webu.setProvider');
 };
-log.debug('MetaMask - injected web3');
-// export global web3, with usage-detection
-setupDappAutoReload(web3, inpageProvider.publicConfigStore);
+log.debug('MetaMask - injected webu');
+// export global webu, with usage-detection
+setupDappAutoReload(webu, inpageProvider.publicConfigStore);
 
-// set web3 defaultAccount
+// set webu defaultAccount
 inpageProvider.publicConfigStore.subscribe(function(state) {
-  web3.eth.defaultAccount = state.selectedAddress;
+  webu.irc.defaultAccount = state.selectedAddress;
 });
 
 // need to make sure we aren't affected by overlapping namespaces
 // and that we dont affect the app with our namespace
-// mostly a fix for web3's BigNumber if AMD's "define" is defined...
+// mostly a fix for webu's BigNumber if AMD's "define" is defined...
 var __define;
 
 /**

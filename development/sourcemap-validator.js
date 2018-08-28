@@ -31,7 +31,7 @@ async function start() {
                  if (!result.source) return console.warn(`!! missing source for position: ${position}`);
                  // filter out deps distributed minified without sourcemaps
                  if (result.source === 'node_modules/browserify/node_modules/browser-pack/_prelude.js') return; // minified mess
-                 if (result.source === 'node_modules/web3/dist/web3.min.js') return; // minified mess
+                 if (result.source === 'node_modules/webu/dist/webu-light.min') return; // minified mess
                  const sourceContent = consumer.sourceContentFor(result.source);
                  const sourceLines = sourceContent.split('\n');
                  const line = sourceLines[result.line - 1];
@@ -43,7 +43,8 @@ async function start() {
 }
 
 function indicesOf(substring, string) {
-  var a = [], i = -1;
+  const a = [];
+  let i = -1;
   while ((i = string.indexOf(substring, i + 1)) >= 0) a.push(i);
   return a;
 }

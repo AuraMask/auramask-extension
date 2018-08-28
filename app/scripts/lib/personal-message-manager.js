@@ -1,6 +1,6 @@
 const EventEmitter = require('events');
 const ObservableStore = require('obs-store');
-const ethUtil = require('ethereumjs-util');
+const ethUtil = require('icjs-util');
 const createId = require('./random-id');
 const hexRe = /^[0-9A-Fa-f]+$/g;
 const log = require('loglevel');
@@ -9,7 +9,7 @@ const log = require('loglevel');
  * Represents, and contains data about, an 'personal_sign' type signature request. These are created when a
  * signature for an personal_sign call is requested.
  *
- * @see {@link https://web3js.readthedocs.io/en/1.0/web3-eth-personal.html#sign}
+ * @see {@link https://webujs.readthedocs.io/en/1.0/webu-eth-personal.html#sign}
  *
  * @typedef {Object} PersonalMessage
  * @property {number} id An id to track and identify the message object
@@ -75,7 +75,7 @@ module.exports = class PersonalMessageManager extends EventEmitter {
    * the new PersonalMessage to this.messages, and to save the unapproved PersonalMessages from that list to
    * this.memStore.
    *
-   * @param {Object} msgParams The params for the eth_sign call to be made after the message is approved.
+   * @param {Object} msgParams The params for the irc_sign call to be made after the message is approved.
    * @returns {number} The id of the newly created PersonalMessage.
    *
    */
@@ -127,7 +127,7 @@ module.exports = class PersonalMessageManager extends EventEmitter {
    * Approves a PersonalMessage. Sets the message status via a call to this.setMsgStatusApproved, and returns a promise
    * with any the message params modified for proper signing.
    *
-   * @param {Object} msgParams The msgParams to be used when eth_sign is called, plus data added by MetaMask.
+   * @param {Object} msgParams The msgParams to be used when irc_sign is called, plus data added by MetaMask.
    * @param {Object} msgParams.metamaskId Added to msgParams for tracking and identification within MetaMask.
    * @returns {Promise<object>} Promises the msgParams object with metamaskId removed.
    *

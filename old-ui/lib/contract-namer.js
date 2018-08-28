@@ -5,8 +5,8 @@
  * otherwise returns null.
  */
 
-const contractMap = require('eth-contract-metadata');
-const ethUtil = require('ethereumjs-util');
+const contractMap = require('irc-contract-metadata');
+const ethUtil = require('icjs-util');
 
 module.exports = function(addr, identities = {}) {
   const checksummed = ethUtil.toChecksumAddress(addr);

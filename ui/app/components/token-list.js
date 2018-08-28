@@ -2,7 +2,7 @@ const Component = require('react').Component;
 const PropTypes = require('prop-types');
 const h = require('react-hyperscript');
 const inherits = require('util').inherits;
-const TokenTracker = require('eth-token-tracker');
+const TokenTracker = require('irc-token-tracker');
 const TokenCell = require('./token-cell.js');
 const connect = require('react-redux').connect;
 const selectors = require('../selectors');
@@ -17,7 +17,7 @@ function mapStateToProps(state) {
 }
 
 const defaultTokens = [];
-const contracts = require('eth-contract-metadata');
+const contracts = require('irc-contract-metadata');
 for (const address in contracts) {
   const contract = contracts[address];
   if (contract.erc20) {

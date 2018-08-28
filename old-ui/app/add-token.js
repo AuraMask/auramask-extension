@@ -5,7 +5,7 @@ const connect = require('react-redux').connect;
 const actions = require('../../ui/app/actions');
 const Tooltip = require('./components/tooltip.js');
 
-const ethUtil = require('ethereumjs-util');
+const ethUtil = require('icjs-util');
 const abi = require('human-standard-token-abi');
 const EthQuery = require('irc.js').Query;
 const EthContract = require('irc.js').Contract;

@@ -1,6 +1,6 @@
-const Wallet = require('ethereumjs-wallet');
-const importers = require('ethereumjs-wallet/thirdparty');
-const ethUtil = require('ethereumjs-util');
+const Wallet = require('icjs-wallet');
+const importers = require('icjs-wallet/thirdparty');
+const ircUtil = require('icjs-util');
 
 const accountImporter = {
 
@@ -15,10 +15,7 @@ const accountImporter = {
   },
 
   strategies: {
-    'Private Key': (privateKey) => {
-      const stripped = ethUtil.stripHexPrefix(privateKey);
-      return stripped;
-    },
+    'Private Key': (privateKey) => ircUtil.stripHexPrefix(privateKey),
     'JSON File': (input, password) => {
       let wallet;
       try {
@@ -39,7 +36,7 @@ const accountImporter = {
 
 function walletToPrivateKey(wallet) {
   const privateKeyBuffer = wallet.getPrivateKey();
-  return ethUtil.bufferToHex(privateKeyBuffer);
+  return ircUtil.bufferToHex(privateKeyBuffer);
 }
 
 module.exports = accountImporter;

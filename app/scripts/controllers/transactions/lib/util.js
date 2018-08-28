@@ -1,7 +1,7 @@
 const {
   addHexPrefix,
   isValidAddress,
-} = require('ethereumjs-util');
+} = require('icjs-util');
 
 /**
  @module

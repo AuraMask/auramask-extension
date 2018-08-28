@@ -1,7 +1,7 @@
 const assert = require('assert');
 const h = require('react-hyperscript');
 const PendingTx = require('../../../ui/app/components/pending-tx');
-const ethUtil = require('ethereumjs-util');
+const ethUtil = require('icjs-util');
 
 const {createMockStore} = require('redux-test-utils');
 const {shallowWithStore} = require('../../lib/shallow-with-store');

@@ -17,17 +17,12 @@ const eslint = require('gulp-eslint');
 const fs = require('fs');
 const path = require('path');
 const manifest = require('./app/manifest.json');
-const replace = require('gulp-replace');
 const mkdirp = require('mkdirp');
-const asyncEach = require('async/each');
-const exec = require('child_process').exec;
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const gulpStylelint = require('gulp-stylelint');
 const stylefmt = require('gulp-stylefmt');
 const uglify = require('gulp-uglify-es').default;
-const babel = require('gulp-babel');
-const debug = require('gulp-debug');
 const pify = require('pify');
 const gulpMultiProcess = require('gulp-multi-process');
 const endOfStream = pify(require('end-of-stream'));
@@ -73,7 +68,7 @@ createCopyTasks('images', {
   destinations: commonPlatforms.map(platform => `./dist/${platform}/images`),
 });
 createCopyTasks('contractImages', {
-  source: './node_modules/eth-contract-metadata/images/',
+  source: './node_modules/irc-contract-metadata/images/',
   destinations: commonPlatforms.map(platform => `./dist/${platform}/images/contract`),
 });
 createCopyTasks('fonts', {
@@ -267,7 +262,7 @@ gulp.task('dev:scss', createScssBuildTask({
 function createScssBuildTask({src, dest, devMode, pattern}) {
   return function() {
     if (devMode) {
-      watch(pattern, async (event) => {
+      watch(pattern, async(event) => {
         const stream = buildScss();
         await endOfStream(stream);
         livereload.changed(event.path);
@@ -508,7 +503,7 @@ function generateBundler(opts, performBundle) {
   if (opts.watch) {
     bundler = watchify(bundler);
     // on any file update, re-runs the bundler
-    bundler.on('update', async (ids) => {
+    bundler.on('update', async(ids) => {
       const stream = performBundle();
       await endOfStream(stream);
       livereload.changed(`${ids}`);

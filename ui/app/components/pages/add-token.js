@@ -6,7 +6,7 @@ const PropTypes = require('prop-types');
 const connect = require('react-redux').connect;
 const R = require('ramda');
 const Fuse = require('fuse.js');
-const contractMap = require('eth-contract-metadata');
+const contractMap = require('irc-contract-metadata');
 const TokenBalance = require('../../components/token-balance');
 const Identicon = require('../../components/identicon');
 const contractList = Object.entries(contractMap)
@@ -25,7 +25,7 @@ const fuse = new Fuse(contractList, {
   ],
 });
 const actions = require('../../actions');
-const ethUtil = require('ethereumjs-util');
+const ethUtil = require('icjs-util');
 const {tokenInfoGetter} = require('../../token-util');
 const {DEFAULT_ROUTE} = require('../../routes');
 

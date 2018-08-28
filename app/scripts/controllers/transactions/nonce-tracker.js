@@ -34,7 +34,7 @@ class NonceTracker {
   /**
    * @typedef NonceDetails
    * @property {number} highestLocallyConfirmed - A hex string of the highest nonce on a confirmed transaction.
-   * @property {number} nextNetworkNonce - The next nonce suggested by the eth_getTransactionCount method.
+   * @property {number} nextNetworkNonce - The next nonce suggested by the irc_getTransactionCount method.
    * @property {number} highetSuggested - The maximum between the other two, the number returned.
    */
 

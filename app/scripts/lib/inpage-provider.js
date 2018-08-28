@@ -1,7 +1,7 @@
 const pump = require('pump');
 const RpcEngine = require('json-rpc-engine');
 const createIdRemapMiddleware = require('json-rpc-engine/src/idRemapMiddleware');
-const createStreamMiddleware = require('json-rpc-middleware-stream');
+const createStreamMiddleware = require('irc-json-rpc-middleware-stream');
 const LocalStorageStore = require('obs-store');
 const asStream = require('obs-store/lib/asStream');
 const ObjectMultiplex = require('obj-multiplex');
@@ -62,19 +62,19 @@ MetamaskInpageProvider.prototype.send = function(payload) {
   let result = null;
   switch (payload.method) {
 
-    case 'eth_accounts':
+    case 'irc_accounts':
       // read from localStorage
       selectedAddress = self.publicConfigStore.getState().selectedAddress;
       result = selectedAddress ? [selectedAddress] : [];
       break;
 
-    case 'eth_coinbase':
+    case 'irc_coinbase':
       // read from localStorage
       selectedAddress = self.publicConfigStore.getState().selectedAddress;
       result = selectedAddress || null;
       break;
 
-    case 'eth_uninstallFilter':
+    case 'irc_uninstallFilter':
       self.sendAsync(payload, noop);
       result = true;
       break;
@@ -87,7 +87,7 @@ MetamaskInpageProvider.prototype.send = function(payload) {
     // throw not-supported Error
     default:
       var link = 'https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#dizzy-all-async---think-of-metamask-as-a-light-client';
-      var message = `The MetaMask Web3 object does not support synchronous methods like ${payload.method} without a callback parameter. See ${link} for details.`;
+      var message = `The MetaMask webu object does not support synchronous methods like ${payload.method} without a callback parameter. See ${link} for details.`;
       throw new Error(message);
 
   }

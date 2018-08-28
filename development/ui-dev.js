@@ -27,11 +27,22 @@ const log = require('loglevel');
 window.log = log;
 log.setDefaultLevel(1);
 
+// Compatible states
+for (const key in states) {
+  if (states.hasOwnProperty(key)) {
+    const metamask = states[key].metamask;
+    metamask.tokens = metamask.tokens || [];
+    metamask.featureFlags = metamask.featureFlags || {};
+    metamask.selectedAddressTxList = metamask.selectedAddressTxList || [];
+    metamask.keyrings = metamask.keyrings || [];
+    metamask.lastUnreadNotice = metamask.lastUnreadNotice || {};
+  }
+}
+
 // Query String
 const qs = require('qs');
-let queryString = qs.parse(window.location.href.split('#')[1]);
+const queryString = qs.parse(window.location.href.split('#')[1]);
 let selectedView = queryString.view || 'first time';
-const firstState = states[selectedView];
 updateQueryParams(selectedView);
 
 // CSS
@@ -61,7 +72,7 @@ var css = MetaMaskUiCss();
 injectCss(css);
 
 // parse opts
-var store = configureStore(states[selectedView]);
+const store = configureStore(states[selectedView]);
 
 // start app
 startApp();
@@ -74,9 +85,7 @@ function startApp() {
 
   render(
     h('.super-dev-container', [
-
         h(Selector, {actions, selectedKey: selectedView, states, store}),
-
         h('#app-content', {
           style: {
             height: '500px',
@@ -84,13 +93,8 @@ function startApp() {
             boxShadow: 'grey 0px 2px 9px',
             margin: '20px',
           },
-        }, [
-          h(Root, {
-            store: store,
-          }),
-        ]),
+        }, [h(Root, {store: store})]),
 
       ],
     ), container);
 }
-

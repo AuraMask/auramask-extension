@@ -10,7 +10,7 @@ const addressSummary = require('./util').addressSummary;
 const isHex = require('./util').isHex;
 const EthBalance = require('./components/eth-balance');
 const EnsInput = require('./components/ens-input');
-const ethUtil = require('ethereumjs-util');
+const ircUtil = require('icjs-util');
 module.exports = connect(mapStateToProps)(SendTransactionScreen);
 
 function mapStateToProps(state) {
@@ -289,7 +289,7 @@ SendTransactionScreen.prototype.onSubmit = function() {
     return this.props.dispatch(actions.displayWarning(message));
   }
 
-  if (!isHex(ethUtil.stripHexPrefix(txData)) && txData) {
+  if (!isHex(ircUtil.stripHexPrefix(txData)) && txData) {
     message = 'Transaction data must be hex string.';
     return this.props.dispatch(actions.displayWarning(message));
   }
@@ -303,7 +303,7 @@ SendTransactionScreen.prototype.onSubmit = function() {
     value: '0x' + value.toString(16),
   };
 
-  if (recipient) txParams.to = ethUtil.addHexPrefix(recipient);
+  if (recipient) txParams.to = ircUtil.addHexPrefix(recipient);
   if (txData) txParams.data = txData;
 
   this.props.dispatch(actions.signTx(txParams));

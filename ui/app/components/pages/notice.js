@@ -18,7 +18,7 @@ class Notice extends Component {
     };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (!this.props.notice) {
       this.props.history.push(DEFAULT_ROUTE);
     }
@@ -33,7 +33,7 @@ class Notice extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!nextProps.notice) {
       this.props.history.push(DEFAULT_ROUTE);
     }

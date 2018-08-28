@@ -1,4 +1,4 @@
-const KeyringController = require('eth-keyring-controller');
+const KeyringController = require('irc-keyring');
 const log = require('loglevel');
 
 const seedPhraseVerifier = {

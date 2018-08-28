@@ -12,7 +12,7 @@ function NewComponent() {
 
 NewComponent.prototype.render = function() {
   const props = this.props;
-  let {
+  const {
     states,
     selectedKey,
     actions,
@@ -31,8 +31,8 @@ NewComponent.prototype.render = function() {
     value: selected,
     onChange: (event) => {
       const selectedKey = event.target.value;
-      const backgroundConnectionModifier = backGroundConnectionModifiers[selectedKey];
-      modifyBackgroundConnection(backgroundConnectionModifier || {});
+      // const backgroundConnectionModifier = backGroundConnectionModifiers[selectedKey];
+      // modifyBackgroundConnection(backgroundConnectionModifier || {});
       store.dispatch(actions.update(selectedKey));
       this.setState({selected: selectedKey});
     },

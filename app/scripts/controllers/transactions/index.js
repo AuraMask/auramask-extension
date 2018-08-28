@@ -1,7 +1,7 @@
 const EventEmitter = require('events');
 const ObservableStore = require('obs-store');
-const ethUtil = require('ethereumjs-util');
-const Transaction = require('ethereumjs-tx');
+const ethUtil = require('icjs-util');
+const Transaction = require('icjs-tx');
 const EthQuery = require('irc.js').Query;
 const TransactionStateManager = require('./tx-state-manager');
 const TxGasUtil = require('./tx-gas-utils');
@@ -31,7 +31,7 @@ const log = require('loglevel');
  @param {Object}  opts.networkStore - an observable store for network number
  @param {Object}  opts.blockTracker - An instance of eth-blocktracker
  @param {Object}  opts.provider - A network provider.
- @param {Function}  opts.signTransaction - function the signs an ethereumjs-tx
+ @param {Function}  opts.signTransaction - function the signs an icjs-tx
  @param {Function}  [opts.getGasPrice] - optional gas price calculator
  @param {Function}  opts.signTransaction - ethTx signer that returns a rawTx
  @param {Number}  [opts.txHistoryLimit] - number *optional* for limiting how many transactions are in state
@@ -397,9 +397,6 @@ class TransactionController extends EventEmitter {
       txMeta.retryCount++;
       this.txStateManager.updateTx(txMeta, 'transactions/pending-tx-tracker#event: tx:retry');
     });
-
-    this.blockTracker.on('block', this.pendingTxTracker.checkForTxInBlock.bind(this.pendingTxTracker));
-    // this is a little messy but until ethstore has been either
     // removed or redone this is to guard against the race condition
     this.blockTracker.on('latest', this.pendingTxTracker.resubmitPendingTxs.bind(this.pendingTxTracker));
     this.blockTracker.on('sync', this.pendingTxTracker.queryPendingTxs.bind(this.pendingTxTracker));

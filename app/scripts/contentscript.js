@@ -18,7 +18,7 @@ const inpageBundle = inpageContent + inpageSuffix;
 // If we create a FireFox-only code path using that API,
 // MetaMask will be much faster loading and performant on Firefox.
 
-if (shouldInjectWeb3()) {
+if (shouldInjectWebu()) {
   setupInjection();
   setupStreams();
 }
@@ -109,11 +109,11 @@ function logStreamDisconnectWarning(remoteLabel, err) {
 }
 
 /**
- * Determines if Web3 should be injected
+ * Determines if webu should be injected
  *
- * @returns {boolean} {@code true} if Web3 should be injected
+ * @returns {boolean} {@code true} if webu should be injected
  */
-function shouldInjectWeb3() {
+function shouldInjectWebu() {
   return doctypeCheck() && suffixCheck()
     && documentElementCheck() && !blacklistedDomainCheck();
 }

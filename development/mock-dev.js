@@ -12,7 +12,6 @@
  * To use, run `npm run mock`.
  */
 
-const extend = require('xtend');
 const render = require('react-dom').render;
 const h = require('react-hyperscript');
 const Root = require('../ui/app/root');
@@ -24,17 +23,25 @@ const Selector = require('./selector');
 const MetamaskController = require('../app/scripts/metamask-controller');
 const firstTimeState = require('../app/scripts/first-time-state');
 const ExtensionPlatform = require('../app/scripts/platforms/extension');
-const extension = require('./mockExtension');
 const noop = function() {};
 
 const log = require('loglevel');
 window.log = log;
 log.setLevel('debug');
 
-//
-// Query String
-//
+// Compatible states
+for (const key in states) {
+  if (states.hasOwnProperty(key)) {
+    const metamask = states[key].metamask;
+    metamask.tokens = metamask.tokens || [];
+    metamask.featureFlags = metamask.featureFlags || {};
+    metamask.selectedAddressTxList = metamask.selectedAddressTxList || [];
+    metamask.keyrings = metamask.keyrings || [];
+    metamask.lastUnreadNotice = metamask.lastUnreadNotice || {};
+  }
+}
 
+// Query String
 const qs = require('qs');
 const routerPath = window.location.href.split('#')[1];
 let queryString = {};
@@ -60,17 +67,12 @@ function updateQueryParams(newView) {
   }
 }
 
-//
 // CSS
-//
 
 const MetaMaskUiCss = require('../ui/css');
 const injectCss = require('inject-css');
 
-//
 // MetaMask Controller
-//
-
 const controller = new MetamaskController({
   // User confirmation callbacks:
   showUnconfirmedMessage: noop,
@@ -81,12 +83,9 @@ const controller = new MetamaskController({
   initState: firstTimeState,
 });
 global.metamaskController = controller;
-global.platform = new ExtensionPlatform;
+global.platform = new ExtensionPlatform();
 
-//
 // User Interface
-//
-
 actions._setBackgroundConnection(controller.getApi());
 actions.update = function(stateName) {
   selectedView = stateName;
@@ -120,7 +119,6 @@ function startApp() {
 
   render(
     h('.super-dev-container', [
-
         h('button', {
           onClick: (ev) => {
             ev.preventDefault();
@@ -130,7 +128,6 @@ function startApp() {
             margin: '19px 19px 0px 19px',
           },
         }, 'Reset State'),
-
         h(Selector, {
           actions,
           selectedKey: selectedView,
@@ -139,7 +136,6 @@ function startApp() {
           modifyBackgroundConnection,
           backGroundConnectionModifiers,
         }),
-
         h('#app-content', {
           style: {
             height: '500px',
@@ -152,7 +148,6 @@ function startApp() {
             store: store,
           }),
         ]),
-
       ],
     ), container);
 }

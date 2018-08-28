@@ -3,8 +3,8 @@ const PropTypes = require('prop-types');
 const PersistentForm = require('../lib/persistent-form');
 const h = require('react-hyperscript');
 
-const ethAbi = require('ethereumjs-abi');
-const ethUtil = require('ethereumjs-util');
+const ethAbi = require('icjs-abi');
+const ethUtil = require('icjs-util');
 
 const FromDropdown = require('./components/send/from-dropdown');
 const EnsInput = require('./components/ens-input');

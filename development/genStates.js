@@ -9,7 +9,7 @@ async function start() {
   const statesPath = path.join(__dirname, 'states');
   const stateFilesNames = await promisify(fs.readdir)(statesPath);
   const states = {};
-  await Promise.all(stateFilesNames.map(async (stateFileName) => {
+  await Promise.all(stateFilesNames.map(async(stateFileName) => {
     const stateFilePath = path.join(__dirname, 'states', stateFileName);
     const stateFileContent = await promisify(fs.readFile)(stateFilePath, 'utf8');
     const state = JSON.parse(stateFileContent);

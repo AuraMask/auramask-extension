@@ -1,7 +1,7 @@
 var iconFactory;
-const isValidAddress = require('ethereumjs-util').isValidAddress;
+const isValidAddress = require('icjs-util').isValidAddress;
 const {checksumAddress} = require('../app/util');
-const contractMap = require('eth-contract-metadata');
+const contractMap = require('irc-contract-metadata');
 
 module.exports = function(jazzicon) {
   if (!iconFactory) {

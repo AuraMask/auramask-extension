@@ -1,5 +1,5 @@
 const extend = require('xtend');
-const BN = require('ethereumjs-util').BN;
+const BN = require('icjs-util').BN;
 const template = {
   'status': 'submitted',
   'txParams': {
