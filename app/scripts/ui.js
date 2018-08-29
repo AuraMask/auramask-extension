@@ -16,7 +16,7 @@ window.onload = function() {
   start().catch(log.error);
 };
 
-async function start() {
+async function start () {
 
   // create platform global
   global.platform = new ExtensionPlatform();
@@ -66,9 +66,9 @@ async function start() {
         css = betaUIState ? NewMetaMaskUiCss() : OldMetaMaskUiCss();
         deleteInjectedCss = injectCss(css);
       }
-      if (state.appState.shouldClose) notificationManager.closePopup();
-    });
-  });
+    })
+  })
+
 
   function closePopupIfOpen(windowType) {
     if (windowType !== ENVIRONMENT_TYPE_NOTIFICATION) {

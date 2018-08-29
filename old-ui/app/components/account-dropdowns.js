@@ -23,9 +23,10 @@ class AccountDropdowns extends Component {
 
   renderAccounts() {
     const {identities, selected, keyrings} = this.props;
+    const accountOrder = keyrings.reduce((list, keyring) => list.concat(keyring.accounts), []);
 
-    return Object.keys(identities).map((key, index) => {
-      const identity = identities[key];
+    return accountOrder.map((address, index) => {
+      const identity = identities[address];
       const isSelected = identity.address === selected;
 
       const simpleAddress = identity.address.substring(2).toLowerCase();
@@ -58,7 +59,7 @@ class AccountDropdowns extends Component {
               },
             },
           ),
-          AccountDropdowns.indicateIfLoose(keyring),
+          this.indicateIfLoose(keyring),
           h('span', {
             style: {
               marginLeft: '20px',
@@ -75,12 +76,12 @@ class AccountDropdowns extends Component {
     });
   }
 
-  static indicateIfLoose(keyring) {
+  indicateIfLoose(keyring) {
     try { // Sometimes keyrings aren't loaded yet:
       const type = keyring.type;
       const isLoose = type !== 'HD Key Tree';
       return isLoose ? h('.keyring-label', 'IMPORTED') : null;
-    } catch (e) {}
+    } catch (e) { return; }
   }
 
   renderAccountSelector() {

@@ -2,10 +2,8 @@
   "metamask": {
     "isInitialized": true,
     "isUnlocked": true,
-    "featureFlags": {
-      "betaUI": true
-    },
-    "rpcTarget": "http://localhost:8545/",
+    "featureFlags": {"betaUI": true},
+    "rpcTarget": "https://rawtestrpc.metamask.io/",
     "identities": {
       "0xfdea65c8e26263f6d9a1b5de9555d2931a33b825": {
         "address": "0xfdea65c8e26263f6d9a1b5de9555d2931a33b825",
@@ -66,7 +64,6 @@
     "tokens": [],
     "transactions": {},
     "selectedAddressTxList": [],
-    "unapprovedTxs": {},
     "unapprovedMsgs": {
       "8927167822566864": {
         "id": 8927167822566864,
@@ -75,7 +72,7 @@
           "from": "0x0d0c7188d9c72b019a5da9bca0d127680c22e658"
         },
         "status": "unapproved",
-        "time": 1537889069339,
+        "time": 1537889070000,
         "type": "irc_sign"
       }
     },
@@ -88,31 +85,23 @@
           "from": "0x0d0c7188d9c72b019a5da9bca0d127680c22e659"
         },
         "status": "unapproved",
-        "time": 1517889069339,
+        "time": 1537889065000,
         "type": "personal_sign"
       }
     },
-    "unapprovedPersonalMsgCount": 0,
+    "unapprovedPersonalMsgCount": 1 ,
     "unapprovedTypedMessages": {
       "8997167822566869": {
         "id": 8997167822566869,
         "msgParams": {
           "data": [
-            {
-              "type": "string",
-              "name": "Message",
-              "value": "Hi, Alice!"
-            },
-            {
-              "type": "uint32",
-              "name": "A number",
-              "value": "1337"
-            }
+            {"type": "string", "name": "Message", "value": "Hi, Alice!"},
+            {"type": "uint32", "name": "A number", "value": "1337"}
           ],
           "from": "0x0d0c7188d9c72b019a5da9bca0d127680c22e659"
         },
         "status": "unapproved",
-        "time": 1617889069339,
+        "time": 1537889060000,
         "type": "irc_signTypedData"
       }
     },
@@ -125,9 +114,9 @@
       {
         "type": "HD Key Tree",
         "accounts": [
-          "fdea65c8e26263f6d9a1b5de9555d2931a33b825",
-          "c5b8dbac4c1d3f152cdeb400e2313f309c410acb",
-          "2f8d4a878cfa04a6e60d46362f5644deab66572d"
+          "0xfdea65c8e26263f6d9a1b5de9555d2931a33b825",
+          "0xc5b8dbac4c1d3f152cdeb400e2313f309c410acb",
+          "0x2f8d4a878cfa04a6e60d46362f5644deab66572d"
         ]
       },
       {
@@ -138,7 +127,6 @@
       }
     ],
     "selectedAddress": "0xd85a4b6a394794842887b8284293d69163007bbb",
-    "currentCurrency": "USD",
     "provider": {
       "type": "testnet"
     },
@@ -182,5 +170,32 @@
     "scrollToBottom": false,
     "forgottenPassword": null
   },
-  "identities": {}
+  "identities": {},
+  "confirmTransaction": {
+    "txData": {
+      "id": 8927167822566864,
+      "msgParams": {
+        "data": "0x879a053d4800c6354e76c7985a865d2922c82fb5b3f4577b2fe08b998954f2e0",
+        "from": "0x0d0c7188d9c72b019a5da9bca0d127680c22e658"
+      },
+      "status": "unapproved",
+      "time": 1537889069339,
+      "type": "irc_sign"
+    },
+    "tokenData": {},
+    "methodData": {},
+    "tokenProps": {
+      "tokenDecimals": "",
+      "tokenSymbol": ""
+    },
+    "fiatTransactionAmount": "",
+    "fiatTransactionFee": "",
+    "fiatTransactionTotal": "",
+    "ethTransactionAmount": "",
+    "ethTransactionFee": "",
+    "ethTransactionTotal": "",
+    "hexGasTotal": "",
+    "nonce": "",
+    "fetchingMethodData": false
+  }
 }

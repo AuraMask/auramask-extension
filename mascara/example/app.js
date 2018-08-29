@@ -19,13 +19,13 @@ function logToDom(message, context) {
 
 function setupButtons(ethQuery) {
   const accountButton = document.getElementById('action-button-1');
-  accountButton.addEventListener('click', async () => {
+  accountButton.addEventListener('click', async() => {
     const accounts = await ethQuery.accounts();
     window.METAMASK_ACCOUNT = accounts[0] || 'locked';
     logToDom(accounts.length ? accounts[0] : 'LOCKED or undefined', 'account');
   });
   const txButton = document.getElementById('action-button-2');
-  txButton.addEventListener('click', async () => {
+  txButton.addEventListener('click', async() => {
     if (!window.METAMASK_ACCOUNT || window.METAMASK_ACCOUNT === 'locked') return;
     const txHash = await ethQuery.sendTransaction({
       from: window.METAMASK_ACCOUNT,

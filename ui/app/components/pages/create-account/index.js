@@ -8,7 +8,11 @@ const {getCurrentViewContext} = require('../../../selectors');
 const classnames = require('classnames');
 const NewAccountCreateForm = require('./new-account');
 const NewAccountImportForm = require('./import-account');
-const {NEW_ACCOUNT_ROUTE, IMPORT_ACCOUNT_ROUTE} = require('../../../routes');
+const ConnectHardwareForm = require('./connect-hardware');
+const {
+  NEW_ACCOUNT_ROUTE, IMPORT_ACCOUNT_ROUTE,
+  CONNECT_HARDWARE_ROUTE,
+} = require('../../../routes');
 
 class CreateAccountPage extends Component {
   renderTabs() {
@@ -22,7 +26,9 @@ class CreateAccountPage extends Component {
           }),
         }),
         onClick: () => history.push(NEW_ACCOUNT_ROUTE),
-      }, 'Create'),
+      }, [
+        this.context.t('create'),
+      ]),
 
       h('div.new-account__tabs__tab', {
         className: classnames('new-account__tabs__tab', {
@@ -31,14 +37,29 @@ class CreateAccountPage extends Component {
           }),
         }),
         onClick: () => history.push(IMPORT_ACCOUNT_ROUTE),
-      }, 'Import'),
+      }, [
+        this.context.t('import'),
+      ]),
+      h(
+        'div.new-account__tabs__tab',
+        {
+          className: classnames('new-account__tabs__tab', {
+            'new-account__tabs__selected': matchPath(location.pathname, {
+              path: CONNECT_HARDWARE_ROUTE,
+              exact: true,
+            }),
+          }),
+          onClick: () => history.push(CONNECT_HARDWARE_ROUTE),
+        },
+        this.context.t('connect'),
+      ),
     ]);
   }
 
   render() {
     return h('div.new-account', {}, [
       h('div.new-account__header', [
-        h('div.new-account__title', 'New Account'),
+        h('div.new-account__title', this.context.t('newAccount')),
         this.renderTabs(),
       ]),
       h('div.new-account__form', [
@@ -53,6 +74,11 @@ class CreateAccountPage extends Component {
             path: IMPORT_ACCOUNT_ROUTE,
             component: NewAccountImportForm,
           }),
+          h(Route, {
+            exact: true,
+            path: CONNECT_HARDWARE_ROUTE,
+            component: ConnectHardwareForm,
+          }),
         ]),
       ]),
     ]);
@@ -62,6 +88,11 @@ class CreateAccountPage extends Component {
 CreateAccountPage.propTypes = {
   location: PropTypes.object,
   history: PropTypes.object,
+  t: PropTypes.func,
+};
+
+CreateAccountPage.contextTypes = {
+  t: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -75,7 +106,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.showModal({name: 'EXPORT_PRIVATE_KEY'}));
   },
   hideModal: () => dispatch(actions.hideModal()),
-  saveAccountLabel: (address, label) => dispatch(actions.saveAccountLabel(address, label)),
+  setAccountLabel: (address, label) => dispatch(actions.setAccountLabel(address, label)),
 });
 
 module.exports = connect(mapStateToProps, mapDispatchToProps)(CreateAccountPage);

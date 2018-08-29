@@ -86,6 +86,8 @@ global.metamaskController = controller;
 global.platform = new ExtensionPlatform();
 
 // User Interface
+//
+
 actions._setBackgroundConnection(controller.getApi());
 actions.update = function(stateName) {
   selectedView = stateName;

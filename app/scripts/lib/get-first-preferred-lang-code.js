@@ -2,6 +2,11 @@ const extension = require('extensionizer');
 const promisify = require('pify');
 const allLocales = require('../../_locales/index.json');
 
+const getPreferredLocales = extension.i18n ? promisify(
+  extension.i18n.getAcceptLanguages,
+  {errorFirst: false},
+) : async() => [];
+
 const existingLocaleCodes = allLocales.map(locale => locale.code.toLowerCase().replace('_', '-'));
 
 /**
@@ -12,10 +17,21 @@ const existingLocaleCodes = allLocales.map(locale => locale.code.toLowerCase().r
  *
  */
 async function getFirstPreferredLangCode() {
-  const userPreferredLocaleCodes = await promisify(
-    extension.i18n.getAcceptLanguages,
-    {errorFirst: false},
-  )();
+  let userPreferredLocaleCodes;
+
+  try {
+    userPreferredLocaleCodes = await getPreferredLocales();
+  } catch (e) {
+    // Brave currently throws when calling getAcceptLanguages, so this handles that.
+    userPreferredLocaleCodes = [];
+  }
+
+  // safeguard for Brave Browser until they implement chrome.i18n.getAcceptLanguages
+  // https://github.com/MetaMask/metamask-extension/issues/4270
+  if (!userPreferredLocaleCodes) {
+    userPreferredLocaleCodes = [];
+  }
+
   const firstPreferredLangCode = userPreferredLocaleCodes
     .map(code => code.toLowerCase())
     .find(code => existingLocaleCodes.includes(code));

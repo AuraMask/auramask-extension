@@ -1,23 +1,24 @@
-const assert = require('assert');
+const assert = require('assert')
 
-const h = require('react-hyperscript');
-const sinon = require('sinon');
-const path = require('path');
-const Dropdown = require(path.join(__dirname, '..', '..', '..', '..', 'ui', 'app', 'components', 'dropdowns', 'index.js')).Dropdown;
+const h = require('react-hyperscript')
+const sinon = require('sinon')
+const path = require('path')
+const Dropdown = require(path.join(__dirname, '..', '..', '..', '..', 'ui', 'app', 'components', 'dropdowns', 'index.js')).Dropdown
 
-const {createMockStore} = require('redux-test-utils');
-const {mountWithStore} = require('../../../lib/shallow-with-store');
+const { createMockStore } = require('redux-test-utils')
+const { mountWithStore } = require('../../../lib/shallow-with-store')
 
 const mockState = {
-  metamask: {},
-};
+  metamask: {
+  },
+}
 
-describe('Dropdown components', function() {
-  let onClickOutside;
-  let closeMenu;
-  let onClick;
+describe('Dropdown components', function () {
+  let onClickOutside
+  let closeMenu
+  let onClick
 
-  let dropdownComponentProps = {
+  const dropdownComponentProps = {
     isOpen: true,
     zIndex: 11,
     onClickOutside,
@@ -27,17 +28,17 @@ describe('Dropdown components', function() {
       top: '36px',
     },
     innerStyle: {},
-  };
+  }
 
-  let dropdownComponent;
-  let store;
-  let component;
-  beforeEach(function() {
-    onClickOutside = sinon.spy();
-    closeMenu = sinon.spy();
-    onClick = sinon.spy();
+  let dropdownComponent
+  let store
+  let component
+  beforeEach(function () {
+    onClickOutside = sinon.spy()
+    closeMenu = sinon.spy()
+    onClick = sinon.spy()
 
-    store = createMockStore(mockState);
+    store = createMockStore(mockState)
     component = mountWithStore(h(
       Dropdown,
       dropdownComponentProps,
@@ -54,27 +55,27 @@ describe('Dropdown components', function() {
           closeMenu,
           onClick,
         }, 'Item 2'),
-      ],
-    ), store);
-    dropdownComponent = component;
-  });
+      ]
+    ), store)
+    dropdownComponent = component
+  })
 
-  it('can render two items', function() {
-    const items = dropdownComponent.find('li');
-    assert.equal(items.length, 2);
-  });
+  it('can render two items', function () {
+    const items = dropdownComponent.find('li')
+    assert.equal(items.length, 2)
+  })
 
-  it('closes when item clicked', function() {
-    const items = dropdownComponent.find('li');
-    const node = items.at(0);
-    node.simulate('click');
-    assert.equal(node.props().closeMenu, closeMenu);
-  });
+  it('closes when item clicked', function () {
+    const items = dropdownComponent.find('li')
+    const node = items.at(0)
+    node.simulate('click')
+    assert.equal(node.props().closeMenu, closeMenu)
+  })
 
-  it('invokes click handler when item clicked', function() {
-    const items = dropdownComponent.find('li');
-    const node = items.at(0);
-    node.simulate('click');
-    assert.equal(onClick.calledOnce, true);
-  });
-});
+  it('invokes click handler when item clicked', function () {
+    const items = dropdownComponent.find('li')
+    const node = items.at(0)
+    node.simulate('click')
+    assert.equal(onClick.calledOnce, true)
+  })
+})

@@ -180,7 +180,7 @@ ShapeshiftForm.prototype.render = function() {
   return h('div.shapeshift-form-wrapper', [
     showQrCode
       ? this.renderQrCode()
-      : h('div.shapeshift-form', [
+      : h('div.modal-shapeshift-form', [
         h('div.shapeshift-form__selectors', [
 
           h('div.shapeshift-form__selector', [
@@ -241,7 +241,7 @@ ShapeshiftForm.prototype.render = function() {
 
       ]),
 
-    !depositAddress && h('button.btn-primary--lg.shapeshift-form__shapeshift-buy-btn', {
+    !depositAddress && h('button.btn-primary.btn--large.shapeshift-form__shapeshift-buy-btn', {
       className: btnClass,
       disabled: !token,
       onClick: () => this.onBuyWithShapeShift(),

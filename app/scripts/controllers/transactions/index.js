@@ -9,6 +9,9 @@ const PendingTransactionTracker = require('./pending-tx-tracker');
 const NonceTracker = require('./nonce-tracker');
 const txUtils = require('./lib/util');
 const log = require('loglevel');
+const recipientBlacklistChecker = require('./lib/recipient-blacklist-checker');
+const cleanErrorStack = require('../../lib/cleanErrorStack');
+
 
 /**
  Transaction Controller is an aggregate of sub-controllers and trackers
@@ -131,11 +134,11 @@ class TransactionController extends EventEmitter {
           case 'submitted':
             return resolve(finishedTxMeta.hash);
           case 'rejected':
-            return reject(new Error('MetaMask Tx Signature: User denied transaction signature.'));
+            return reject(cleanErrorStack(new Error('MetaMask Tx Signature: User denied transaction signature.')));
           case 'failed':
-            return reject(new Error(finishedTxMeta.err.message));
+            return reject(cleanErrorStack(new Error(finishedTxMeta.err.message)));
           default:
-            return reject(new Error(`MetaMask Tx Signature: Unknown problem: ${JSON.stringify(finishedTxMeta.txParams)}`));
+            return reject(cleanErrorStack(new Error(`MetaMask Tx Signature: Unknown problem: ${JSON.stringify(finishedTxMeta.txParams)}`)));
         }
       });
     });
@@ -145,7 +148,7 @@ class TransactionController extends EventEmitter {
    Validates and generates a txMeta with defaults and puts it in txStateManager
    store
 
-   @returns {txMeta}
+   @returns txMeta
    */
 
   async addUnapprovedTransaction(txParams) {
@@ -156,11 +159,14 @@ class TransactionController extends EventEmitter {
     let txMeta = this.txStateManager.generateTxMeta({txParams: normalizedTxParams});
     this.addTx(txMeta);
     this.emit('newUnapprovedTx', txMeta);
-    // add default tx params
+
     try {
+      // check whether recipient account is blacklisted
+      recipientBlacklistChecker.checkAccount(txMeta.metamaskNetworkId, normalizedTxParams.to);
+      // add default tx params
       txMeta = await this.addTxGasDefaults(txMeta);
     } catch (error) {
-      console.log(error);
+      log.warn(error);
       this.txStateManager.setTxStatusFailed(txMeta.id, error);
       throw error;
     }
@@ -195,7 +201,7 @@ class TransactionController extends EventEmitter {
    to allow the user to resign the transaction with a higher gas values
    @param  originalTxId {number} - the id of the txMeta that
    you want to attempt to retry
-   @return {txMeta}
+   @return txMeta
    */
 
   async retryTransaction(originalTxId) {
@@ -260,7 +266,12 @@ class TransactionController extends EventEmitter {
       // must set transaction to submitted/failed before releasing lock
       nonceLock.releaseLock();
     } catch (err) {
-      this.txStateManager.setTxStatusFailed(txId, err);
+      // this is try-catch wrapped so that we can guarantee that the nonceLock is released
+      try {
+        this.txStateManager.setTxStatusFailed(txId, err);
+      } catch (err) {
+        log.error(err);
+      }
       // must set transaction to submitted/failed before releasing lock
       if (nonceLock) nonceLock.releaseLock();
       // continue with error chain

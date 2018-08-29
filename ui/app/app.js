@@ -11,8 +11,8 @@ const log = require('loglevel');
 // init
 const InitializeScreen = require('../../mascara/src/app/first-time').default;
 // accounts
-const SendTransactionScreen2 = require('./components/send/send-v2-container');
-const ConfirmTxScreen = require('./conf-tx');
+const SendTransactionScreen = require('./components/send/send.container');
+const ConfirmTransaction = require('./components/pages/confirm-transaction');
 
 // slideout menu
 const WalletView = require('./components/wallet-view');
@@ -22,37 +22,41 @@ const Home = require('./components/pages/home');
 const Authenticated = require('./components/pages/authenticated');
 const Initialized = require('./components/pages/initialized');
 const Settings = require('./components/pages/settings');
-const UnlockPage = require('./components/pages/unlock');
-const RestoreVaultPage = require('./components/pages/keychains/restore-vault');
+const RestoreVaultPage = require('./components/pages/keychains/restore-vault').default;
 const RevealSeedConfirmation = require('./components/pages/keychains/reveal-seed');
 const AddTokenPage = require('./components/pages/add-token');
+const ConfirmAddTokenPage = require('./components/pages/confirm-add-token');
 const CreateAccountPage = require('./components/pages/create-account');
 const NoticeScreen = require('./components/pages/notice');
 
-const Loading = require('./components/loading');
-const NetworkIndicator = require('./components/network');
-const Identicon = require('./components/identicon');
+const Loading = require('./components/loading-screen');
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const NetworkDropdown = require('./components/dropdowns/network-dropdown');
 const AccountMenu = require('./components/account-menu');
 
 // Global Modals
 const Modal = require('./components/modals/index').Modal;
+// Global Alert
+const Alert = require('./components/alert');
+
+const AppHeader = require('./components/app-header');
+
+import UnlockPage from './components/pages/unlock-page';
 
 // Routes
 const {
-        DEFAULT_ROUTE,
-        UNLOCK_ROUTE,
-        SETTINGS_ROUTE,
-        REVEAL_SEED_ROUTE,
-        RESTORE_VAULT_ROUTE,
-        ADD_TOKEN_ROUTE,
-        NEW_ACCOUNT_ROUTE,
-        SEND_ROUTE,
-        CONFIRM_TRANSACTION_ROUTE,
-        INITIALIZE_ROUTE,
-        NOTICE_ROUTE,
-      } = require('./routes');
+  DEFAULT_ROUTE,
+  UNLOCK_ROUTE,
+  SETTINGS_ROUTE,
+  REVEAL_SEED_ROUTE,
+  RESTORE_VAULT_ROUTE,
+  ADD_TOKEN_ROUTE,
+  CONFIRM_ADD_TOKEN_ROUTE, NEW_ACCOUNT_ROUTE,
+  SEND_ROUTE,
+  CONFIRM_TRANSACTION_ROUTE,
+  INITIALIZE_ROUTE,
+  NOTICE_ROUTE,
+} = require('./routes');
 
 class App extends Component {
   componentWillMount() {
@@ -69,14 +73,18 @@ class App extends Component {
     return (
       h(Switch, [
         h(Route, {path: INITIALIZE_ROUTE, component: InitializeScreen}),
-        h(Initialized, {path: REVEAL_SEED_ROUTE, exact, component: RevealSeedConfirmation}),
         h(Initialized, {path: UNLOCK_ROUTE, exact, component: UnlockPage}),
-        h(Initialized, {path: SETTINGS_ROUTE, component: Settings}),
         h(Initialized, {path: RESTORE_VAULT_ROUTE, exact, component: RestoreVaultPage}),
-        h(Initialized, {path: NOTICE_ROUTE, exact, component: NoticeScreen}),
-        h(Authenticated, {path: CONFIRM_TRANSACTION_ROUTE, component: ConfirmTxScreen}),
-        h(Authenticated, {path: SEND_ROUTE, exact, component: SendTransactionScreen2}),
+        h(Authenticated, {path: REVEAL_SEED_ROUTE, exact, component: RevealSeedConfirmation}),
+        h(Authenticated, {path: SETTINGS_ROUTE, component: Settings}),
+        h(Authenticated, {path: NOTICE_ROUTE, exact, component: NoticeScreen}),
+        h(Authenticated, {
+          path: `${CONFIRM_TRANSACTION_ROUTE}/:id?`,
+          component: ConfirmTransaction,
+        }),
+        h(Authenticated, {path: SEND_ROUTE, exact, component: SendTransactionScreen}),
         h(Authenticated, {path: ADD_TOKEN_ROUTE, exact, component: AddTokenPage}),
+        h(Authenticated, {path: CONFIRM_ADD_TOKEN_ROUTE, exact, component: ConfirmAddTokenPage}),
         h(Authenticated, {path: NEW_ACCOUNT_ROUTE, component: CreateAccountPage}),
         h(Authenticated, {path: DEFAULT_ROUTE, exact, component: Home}),
       ])
@@ -85,18 +93,18 @@ class App extends Component {
 
   render() {
     const {
-            isLoading,
-            loadingMessage,
-            network,
-            isMouseUser,
-            provider,
-            frequentRpcList,
-            currentView,
-            setMouseUserState,
-          } = this.props;
+      isLoading,
+      alertMessage, loadingMessage,
+      network,
+      isMouseUser,
+      provider,
+      frequentRpcList,
+      currentView,
+      setMouseUserState,
+    } = this.props;
     const isLoadingNetwork = network === 'loading' && currentView.name !== 'config';
     const loadMessage = loadingMessage || isLoadingNetwork ?
-      this.getConnectingLabel() : null;
+      this.getConnectingLabel(loadingMessage) : null;
     log.debug('Main ui render function');
 
     return (
@@ -119,8 +127,10 @@ class App extends Component {
         // global modal
         h(Modal, {}, []),
 
-        // app bar
-        this.renderAppBar(),
+        // global alert
+        h(Alert, {visible: this.props.alertOpen, msg: alertMessage}),
+
+        h(AppHeader),
 
         // sidebar
         this.renderSidebar(),
@@ -139,14 +149,6 @@ class App extends Component {
         this.renderRoutes(),
       ])
     );
-  }
-
-  renderGlobalModal() {
-    return h(Modal, {
-      ref: 'modalRef',
-    }, [
-      // h(BuyOptions, {}, []),
-    ]);
   }
 
   renderSidebar() {
@@ -194,110 +196,6 @@ class App extends Component {
     ]);
   }
 
-  renderAppBar() {
-    const {
-            isUnlocked,
-            network,
-            provider,
-            networkDropdownOpen,
-            showNetworkDropdown,
-            hideNetworkDropdown,
-            isInitialized,
-            welcomeScreenSeen,
-            isPopup,
-            betaUI,
-          } = this.props;
-
-    if (window.METAMASK_UI_TYPE === 'notification') {
-      return null;
-    }
-
-    const props = this.props;
-    const {isMascara, isOnboarding} = props;
-
-    // Do not render header if user is in mascara onboarding
-    if (isMascara && isOnboarding) {
-      return null;
-    }
-
-    // Do not render header if user is in mascara buy ether
-    if (isMascara && props.currentView.name === 'buyEth') {
-      return null;
-    }
-
-    return (
-
-      h('.full-width', {
-        style: {},
-      }, [
-
-        (isInitialized || welcomeScreenSeen || isPopup || !betaUI) && h('.app-header.flex-row.flex-space-between', {
-          className: classnames({
-            'app-header--initialized': !isOnboarding,
-          }),
-        }, [
-          h('div.app-header-contents', {}, [
-            h('div.left-menu-wrapper', {
-              onClick: () => props.history.push(DEFAULT_ROUTE),
-            }, [
-              // mini logo
-              h('img.metafox-icon', {
-                height: 42,
-                width: 42,
-                src: '/images/metamask-fox.svg',
-              }),
-
-              // metamask name
-              h('.flex-row', [
-                h('h1', this.context.t('appName')),
-                h('div.beta-label', this.context.t('beta')),
-              ]),
-
-            ]),
-
-            betaUI && isInitialized && h('div.header__right-actions', [
-              h('div.network-component-wrapper', {
-                style: {},
-              }, [
-                // Network Indicator
-                h(NetworkIndicator, {
-                  network,
-                  provider,
-                  disabled: this.props.location.pathname === CONFIRM_TRANSACTION_ROUTE,
-                  onClick: (event) => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    return networkDropdownOpen === false
-                      ? showNetworkDropdown()
-                      : hideNetworkDropdown();
-                  },
-                }),
-
-              ]),
-
-              isUnlocked && h('div.account-menu__icon', {onClick: this.props.toggleAccountMenu}, [
-                h(Identicon, {
-                  address: this.props.selectedAddress,
-                  diameter: 32,
-                }),
-              ]),
-            ]),
-          ]),
-        ]),
-
-        !isInitialized && !isPopup && betaUI && h('.alpha-warning__container', {}, [
-          h('h2', {
-            className: classnames({
-              'alpha-warning': welcomeScreenSeen,
-              'alpha-warning-welcome-screen': !welcomeScreenSeen,
-            }),
-          }, 'Please be aware that this version is still under development'),
-        ]),
-
-      ])
-    );
-  }
-
   toggleMetamaskActive() {
     if (!this.props.isUnlocked) {
       // currently inactive: redirect to password box
@@ -310,7 +208,10 @@ class App extends Component {
     }
   }
 
-  getConnectingLabel = function() {
+  getConnectingLabel = function(loadingMessage) {
+    if (loadingMessage) {
+      return loadingMessage;
+    }
     const {provider} = this.props;
     const providerName = provider.type;
 
@@ -358,11 +259,13 @@ App.propTypes = {
   setCurrentCurrencyToUSD: PropTypes.func,
   isLoading: PropTypes.bool,
   loadingMessage: PropTypes.string,
+  alertMessage: PropTypes.string,
   network: PropTypes.string,
   provider: PropTypes.object,
   frequentRpcList: PropTypes.array,
   currentView: PropTypes.object,
   sidebarOpen: PropTypes.bool,
+  alertOpen: PropTypes.bool,
   hideSidebar: PropTypes.func,
   isMascara: PropTypes.bool,
   isOnboarding: PropTypes.bool,
@@ -396,33 +299,36 @@ App.propTypes = {
 function mapStateToProps(state) {
   const {appState, metamask} = state;
   const {
-          networkDropdownOpen,
-          sidebarOpen,
-          isLoading,
-          loadingMessage,
-        } = appState;
+    networkDropdownOpen,
+    sidebarOpen,
+    alertOpen,
+    alertMessage, isLoading,
+    loadingMessage,
+  } = appState;
 
   const {
-          identities,
-          accounts,
-          address,
-          keyrings,
-          isInitialized,
-          noActiveNotices,
-          seedWords,
-          unapprovedTxs,
-          lastUnreadNotice,
-          lostAccounts,
-          unapprovedMsgCount,
-          unapprovedPersonalMsgCount,
-          unapprovedTypedMessagesCount,
-        } = metamask;
+    identities,
+    accounts,
+    address,
+    keyrings,
+    isInitialized,
+    noActiveNotices,
+    seedWords,
+    unapprovedTxs,
+    nextUnreadNotice,
+    lostAccounts,
+    unapprovedMsgCount,
+    unapprovedPersonalMsgCount,
+    unapprovedTypedMessagesCount,
+  } = metamask;
   const selected = address || Object.keys(accounts)[0];
 
   return {
     // state from plugin
     networkDropdownOpen,
     sidebarOpen,
+    alertOpen,
+    alertMessage,
     isLoading,
     loadingMessage,
     noActiveNotices,
@@ -445,7 +351,7 @@ function mapStateToProps(state) {
     network: state.metamask.network,
     provider: state.metamask.provider,
     forgottenPassword: state.appState.forgottenPassword,
-    lastUnreadNotice,
+    nextUnreadNotice,
     lostAccounts,
     frequentRpcList: state.metamask.frequentRpcList || [],
     currentCurrency: state.metamask.currentCurrency,

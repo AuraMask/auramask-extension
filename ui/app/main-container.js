@@ -3,8 +3,9 @@ const h = require('react-hyperscript');
 const inherits = require('util').inherits;
 const AccountAndTransactionDetails = require('./account-and-transaction-details');
 const Settings = require('./components/pages/settings');
-const UnlockScreen = require('./components/pages/unlock');
 const log = require('loglevel');
+
+import UnlockScreen from './components/pages/unlock-page';
 
 module.exports = MainContainer;
 
@@ -21,7 +22,7 @@ MainContainer.prototype.render = function() {
   //    - pass resulting h() to MainContainer
   //  - error checking in separate func
   //  - router in separate func
-  let contents = {
+  const contents = {
     component: AccountAndTransactionDetails,
     key: 'account-detail',
     style: {},

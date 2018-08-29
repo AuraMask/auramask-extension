@@ -12,7 +12,6 @@ const SimpleDropdown = require('../../dropdowns/simple-dropdown');
 const ToggleButton = require('react-toggle-button');
 const {REVEAL_SEED_ROUTE} = require('../../../routes');
 const locales = require('../../../../../app/_locales/index.json');
-const {OLD_UI_NETWORK_TYPE} = require('../../../../../app/scripts/controllers/network/enums');
 
 const getInfuraCurrencyOptions = () => {
   const sortedCurrencies = infuraCurrencies.objects.sort((a, b) => {
@@ -104,7 +103,7 @@ class Settings extends Component {
             placeholder: 'Select Locale',
             options: getLocaleOptions(),
             selectedOption: currentLocale,
-            onSelect: async (newLocale) => {
+            onSelect: async(newLocale) => {
               updateCurrentLocale(newLocale);
             },
           }),
@@ -218,7 +217,7 @@ class Settings extends Component {
         ]),
         h('div.settings__content-item', [
           h('div.settings__content-item-col', [
-            h('button.btn-primary--lg.settings__button', {
+            h('button.btn-primary.btn--large.settings__button', {
               onClick(event) {
                 window.logStateString((err, result) => {
                   if (err) {
@@ -243,7 +242,7 @@ class Settings extends Component {
         h('div.settings__content-item', this.context.t('revealSeedWords')),
         h('div.settings__content-item', [
           h('div.settings__content-item-col', [
-            h('button.btn-primary--lg.settings__button--red', {
+            h('button.btn-primary.btn--large.settings__button--red', {
               onClick: event => {
                 event.preventDefault();
                 history.push(REVEAL_SEED_ROUTE);
@@ -263,7 +262,7 @@ class Settings extends Component {
         h('div.settings__content-item', this.context.t('useOldUI')),
         h('div.settings__content-item', [
           h('div.settings__content-item-col', [
-            h('button.btn-primary--lg.settings__button--orange', {
+            h('button.btn-primary.btn--large.settings__button--orange', {
               onClick(event) {
                 event.preventDefault();
                 setFeatureFlagToBeta();
@@ -282,7 +281,7 @@ class Settings extends Component {
       h('div.settings__content-item', this.context.t('resetAccount')),
       h('div.settings__content-item', [
         h('div.settings__content-item-col', [
-          h('button.btn-primary--lg.settings__button--orange', {
+          h('button.btn-primary.btn--large.settings__button--orange', {
             onClick(event) {
               event.preventDefault();
               showResetAccountConfirmationModal();
@@ -348,8 +347,7 @@ const mapDispatchToProps = dispatch => {
     setUseBlockie: value => dispatch(actions.setUseBlockie(value)),
     updateCurrentLocale: key => dispatch(actions.updateCurrentLocale(key)),
     setFeatureFlagToBeta: () => {
-      return dispatch(actions.setFeatureFlag('betaUI', false, 'OLD_UI_NOTIFICATION_MODAL'))
-        .then(() => dispatch(actions.setNetworkEndpoints(OLD_UI_NETWORK_TYPE)));
+      return dispatch(actions.setFeatureFlag('betaUI', false, 'OLD_UI_NOTIFICATION_MODAL'));
     },
     showResetAccountConfirmationModal: () => {
       return dispatch(actions.showModal({name: 'CONFIRM_RESET_ACCOUNT'}));

@@ -6,8 +6,7 @@ const {HashRouter} = require('react-router-dom');
 const App = require('./app');
 const OldApp = require('../../old-ui/app/app');
 const {autoAddToBetaUI} = require('./selectors');
-const {setFeatureFlag, setNetworkEndpoints} = require('./actions');
-const {LOCALHOST} = require('../../app/scripts/controllers/network/enums');
+const {setFeatureFlag} = require('./actions');
 const I18nProvider = require('./i18n-provider');
 
 function mapStateToProps(state) {
@@ -23,12 +22,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setFeatureFlagWithModal: () => {
-      return dispatch(setFeatureFlag('betaUI', true, 'BETA_UI_NOTIFICATION_MODAL'))
-        .then(() => dispatch(setNetworkEndpoints(LOCALHOST)));
+      return dispatch(setFeatureFlag('betaUI', true, 'BETA_UI_NOTIFICATION_MODAL'));
     },
     setFeatureFlagWithoutModal: () => {
-      return dispatch(setFeatureFlag('betaUI', true))
-        .then(() => dispatch(setNetworkEndpoints(LOCALHOST)));
+      return dispatch(setFeatureFlag('betaUI', true));
     },
   };
 }

@@ -25,7 +25,7 @@ async function versionBump(bumpType, changelog, oldManifest) {
 
 function newVersionFrom(manifest, bumpType) {
   const string = manifest.version;
-  let segments = string.split('.').map((str) => parseInt(str));
+  const segments = string.split('.').map((str) => parseInt(str));
 
   switch (bumpType) {
     case 'major':
@@ -43,10 +43,6 @@ function newVersionFrom(manifest, bumpType) {
   }
 
   return segments.map(String).join('.');
-}
-
-function bumpManifest(manifest, bumpType) {
-
 }
 
 module.exports = versionBump;

@@ -1,9 +1,11 @@
+const log = require('loglevel');
 const util = require('./util');
+const BigNumber = require('bignumber.js');
 
 function tokenInfoGetter() {
   const tokens = {};
 
-  return async (address) => {
+  return async(address) => {
     if (tokens[address]) {
       return tokens[address];
     }
@@ -29,7 +31,7 @@ async function getSymbolAndDecimals(tokenAddress, existingTokens = []) {
       token.decimals(),
     ]);
   } catch (err) {
-    console.log(`symbol() and decimal() calls for token at address ${tokenAddress} resulted in error:`, err);
+    log.warn(`symbol() and decimal() calls for token at address ${tokenAddress} resulted in error:`, err);
   }
 
   const [symbol = [], decimals = []] = result;
@@ -42,9 +44,7 @@ async function getSymbolAndDecimals(tokenAddress, existingTokens = []) {
 
 function calcTokenAmount(value, decimals) {
   const multiplier = Math.pow(10, Number(decimals || 0));
-  const amount = Number(value / multiplier);
-
-  return amount;
+  return new BigNumber(String(value)).div(multiplier).toNumber();
 }
 
 module.exports = {

@@ -2,8 +2,8 @@ const valuesFor = require('./util').valuesFor;
 const abi = require('human-standard-token-abi');
 
 const {
-        multiplyCurrencies,
-      } = require('./conversion-util');
+  multiplyCurrencies,
+} = require('./conversion-util');
 
 const selectors = {
   getSelectedAddress,
@@ -16,8 +16,7 @@ const selectors = {
   transactionsSelector,
   accountsWithSendEtherInfoSelector,
   getCurrentAccountWithSendEtherInfo,
-  getGasPrice,
-  getGasLimit,
+  getGasIsLoading,
   getForceGasMin,
   getAddressBook,
   getSendFrom,
@@ -28,6 +27,7 @@ const selectors = {
   autoAddToBetaUI,
   getSendMaxModeState,
   getCurrentViewContext,
+  getTotalUnapprovedCount,
 };
 
 module.exports = selectors;
@@ -83,9 +83,9 @@ function getAddressBook(state) {
 
 function accountsWithSendEtherInfoSelector(state) {
   const {
-          accounts,
-          identities,
-        } = state.metamask;
+    accounts,
+    identities,
+  } = state.metamask;
 
   const accountsWithSendEtherInfo = Object.entries(accounts).map(([key, account]) => {
     return Object.assign({}, account, identities[key]);
@@ -117,12 +117,8 @@ function transactionsSelector(state) {
       .sort((a, b) => b.time - a.time);
 }
 
-function getGasPrice(state) {
-  return state.metamask.send.gasPrice;
-}
-
-function getGasLimit(state) {
-  return state.metamask.send.gasLimit;
+function getGasIsLoading(state) {
+  return state.appState.gasIsLoading;
 }
 
 function getForceGasMin(state) {
@@ -186,4 +182,16 @@ function autoAddToBetaUI(state) {
 function getCurrentViewContext(state) {
   const {currentView = {}} = state.appState;
   return currentView.context;
+}
+
+function getTotalUnapprovedCount({metamask}) {
+  const {
+    unapprovedTxs = {},
+    unapprovedMsgCount,
+    unapprovedPersonalMsgCount,
+    unapprovedTypedMessagesCount,
+  } = metamask;
+
+  return Object.keys(unapprovedTxs).length + unapprovedMsgCount + unapprovedPersonalMsgCount +
+    unapprovedTypedMessagesCount;
 }

@@ -173,6 +173,12 @@ function blacklistedDomainCheck() {
     'uscourts.gov',
     'dropbox.com',
     'webbyawards.com',
+    'cdn.shopify.com/s/javascripts/tricorder/xtld-read-only-frame.html',
+    'adyen.com',
+    'gravityforms.com',
+    'harbourair.com',
+    'ani.gamer.com.tw',
+    'blueskybooking.com',
   ];
   var currentUrl = window.location.href;
   var currentRegex;
@@ -190,6 +196,6 @@ function blacklistedDomainCheck() {
  * Redirects the current page to a phishing information page
  */
 function redirectToPhishingWarning() {
-  console.log('MetaMask - redirecting to phishing warning');
-  window.location.href = 'https://metamask.io/phishing.html';
+  console.log('MetaMask - routing to Phishing Warning component');
+  window.location.href = extension.runtime.getURL('phishing.html');
 }

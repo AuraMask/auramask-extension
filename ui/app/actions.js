@@ -1,9 +1,18 @@
 const abi = require('human-standard-token-abi');
+const pify = require('pify');
 const getBuyEthUrl = require('../../app/scripts/lib/buy-eth-url');
 const {getTokenAddressFromTokenObject} = require('./util');
+const {
+  calcGasTotal,
+  calcTokenBalance,
+  estimateGas,
+} = require('./components/send/send.utils');
 const ircUtil = require('icjs-util');
 const {fetchLocale} = require('../i18n-helper');
 const log = require('loglevel');
+const {ENVIRONMENT_TYPE_NOTIFICATION} = require('../../app/scripts/lib/enums');
+const {hasUnconfirmedTransactions} = require('./helpers/confirm-transaction/util');
+const WebcamUtils = require('../lib/webcam-utils');
 
 var actions = {
   _setBackgroundConnection: _setBackgroundConnection,
@@ -20,6 +29,13 @@ var actions = {
   SIDEBAR_CLOSE: 'UI_SIDEBAR_CLOSE',
   showSidebar: showSidebar,
   hideSidebar: hideSidebar,
+  // sidebar state
+  ALERT_OPEN: 'UI_ALERT_OPEN',
+  ALERT_CLOSE: 'UI_ALERT_CLOSE',
+  showAlert: showAlert,
+  hideAlert: hideAlert,
+  QR_CODE_DETECTED: 'UI_QR_CODE_DETECTED',
+  qrCodeDetected,
   // network dropdown open
   NETWORK_DROPDOWN_OPEN: 'UI_NETWORK_DROPDOWN_OPEN',
   NETWORK_DROPDOWN_CLOSE: 'UI_NETWORK_DROPDOWN_CLOSE',
@@ -72,9 +88,14 @@ var actions = {
   addNewKeyring,
   importNewAccount,
   addNewAccount,
+  connectHardware,
+  checkHardwareStatus,
+  forgetDevice,
+  unlockTrezorAccount,
   NEW_ACCOUNT_SCREEN: 'NEW_ACCOUNT_SCREEN',
   navigateToNewAccountScreen,
   resetAccount,
+  removeAccount,
   showNewVaultSeed: showNewVaultSeed,
   showInfoPage: showInfoPage,
   CLOSE_WELCOME_SCREEN: 'CLOSE_WELCOME_SCREEN',
@@ -107,7 +128,8 @@ var actions = {
   SHOW_CONF_TX_PAGE: 'SHOW_CONF_TX_PAGE',
   SHOW_CONF_MSG_PAGE: 'SHOW_CONF_MSG_PAGE',
   SET_CURRENT_FIAT: 'SET_CURRENT_FIAT',
-  setCurrentCurrency: setCurrentCurrency,
+  showQrScanner,
+  setCurrentCurrency,
   setCurrentAccountTab,
   // account detail screen
   SHOW_SEND_PAGE: 'SHOW_SEND_PAGE',
@@ -123,8 +145,10 @@ var actions = {
   SHOW_PRIVATE_KEY: 'SHOW_PRIVATE_KEY',
   showPrivateKey: showPrivateKey,
   exportAccountComplete,
-  SAVE_ACCOUNT_LABEL: 'SAVE_ACCOUNT_LABEL',
-  saveAccountLabel: saveAccountLabel,
+  SET_ACCOUNT_LABEL: 'SET_ACCOUNT_LABEL',
+  setAccountLabel,
+  updateNetworkNonce,
+  SET_NETWORK_NONCE: 'SET_NETWORK_NONCE',
   // tx conf screen
   COMPLETED_TX: 'COMPLETED_TX',
   TRANSACTION_ERROR: 'TRANSACTION_ERROR',
@@ -154,12 +178,11 @@ var actions = {
   updateTransactionParams,
   UPDATE_TRANSACTION_PARAMS: 'UPDATE_TRANSACTION_PARAMS',
   // send screen
-  estimateGas,
-  getGasPrice,
   UPDATE_GAS_LIMIT: 'UPDATE_GAS_LIMIT',
   UPDATE_GAS_PRICE: 'UPDATE_GAS_PRICE',
   UPDATE_GAS_TOTAL: 'UPDATE_GAS_TOTAL',
   UPDATE_SEND_FROM: 'UPDATE_SEND_FROM',
+  UPDATE_SEND_HEX_DATA: 'UPDATE_SEND_HEX_DATA',
   UPDATE_SEND_TOKEN_BALANCE: 'UPDATE_SEND_TOKEN_BALANCE',
   UPDATE_SEND_TO: 'UPDATE_SEND_TO',
   UPDATE_SEND_AMOUNT: 'UPDATE_SEND_AMOUNT',
@@ -168,19 +191,28 @@ var actions = {
   UPDATE_MAX_MODE: 'UPDATE_MAX_MODE',
   UPDATE_SEND: 'UPDATE_SEND',
   CLEAR_SEND: 'CLEAR_SEND',
-  updateGasLimit,
-  updateGasPrice,
-  updateGasTotal,
+  OPEN_FROM_DROPDOWN: 'OPEN_FROM_DROPDOWN',
+  CLOSE_FROM_DROPDOWN: 'CLOSE_FROM_DROPDOWN',
+  GAS_LOADING_STARTED: 'GAS_LOADING_STARTED',
+  GAS_LOADING_FINISHED: 'GAS_LOADING_FINISHED',
+  setGasLimit,
+  setGasPrice,
+  updateGasData,
+  setGasTotal,
+  setSendTokenBalance,
   updateSendTokenBalance,
   updateSendFrom,
+  updateSendHexData,
   updateSendTo,
   updateSendAmount,
   updateSendMemo,
-  updateSendErrors,
   setMaxModeTo,
   updateSend,
+  updateSendErrors,
   clearSend,
   setSelectedAddress,
+  gasLoadingStarted,
+  gasLoadingFinished,
   // app messages
   confirmSeedWords: confirmSeedWords,
   showAccountDetail: showAccountDetail,
@@ -270,11 +302,14 @@ var actions = {
   SET_MOUSE_USER_STATE: 'SET_MOUSE_USER_STATE',
 
   // Network
-  setNetworkEndpoints,
   updateNetworkEndpointType,
   UPDATE_NETWORK_ENDPOINT_TYPE: 'UPDATE_NETWORK_ENDPOINT_TYPE',
 
   retryTransaction,
+  SET_PENDING_TOKENS: 'SET_PENDING_TOKENS',
+  CLEAR_PENDING_TOKENS: 'CLEAR_PENDING_TOKENS',
+  setPendingTokens,
+  clearPendingTokens,
 };
 
 module.exports = actions;
@@ -317,6 +352,7 @@ function tryUnlockMetamask(password) {
           background.verifySeedPhrase(err => {
             if (err) {
               dispatch(actions.displayWarning(err.message));
+              return reject(err);
             }
 
             resolve();
@@ -330,6 +366,7 @@ function tryUnlockMetamask(password) {
       .catch(err => {
         dispatch(actions.unlockFailed(err.message));
         dispatch(actions.hideLoadingIndication());
+        return Promise.reject(err);
       });
   };
 }
@@ -498,15 +535,41 @@ function requestRevealSeedWords(password) {
 }
 
 function resetAccount() {
-  return (dispatch) => {
-    background.resetAccount((err, account) => {
-      dispatch(actions.hideLoadingIndication());
-      if (err) {
-        dispatch(actions.displayWarning(err.message));
-      }
+  return dispatch => {
+    dispatch(actions.showLoadingIndication());
 
-      log.info('Transaction history reset for ' + account);
-      dispatch(actions.showAccountsPage());
+    return new Promise((resolve, reject) => {
+      background.resetAccount((err, account) => {
+        dispatch(actions.hideLoadingIndication());
+        if (err) {
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
+        }
+
+        log.info('Transaction history reset for ' + account);
+        dispatch(actions.showAccountsPage());
+        resolve(account);
+      });
+    });
+  };
+}
+
+function removeAccount(address) {
+  return dispatch => {
+    dispatch(actions.showLoadingIndication());
+
+    return new Promise((resolve, reject) => {
+      background.removeAccount(address, (err, account) => {
+        dispatch(actions.hideLoadingIndication());
+        if (err) {
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
+        }
+
+        log.info('Account removed: ' + account);
+        dispatch(actions.showAccountsPage());
+        resolve();
+      });
     });
   };
 }
@@ -524,31 +587,28 @@ function addNewKeyring(type, opts) {
 }
 
 function importNewAccount(strategy, args) {
-  return (dispatch) => {
-    dispatch(actions.showLoadingIndication('This may take a while, be patient.'));
-    log.debug(`background.importAccountWithStrategy`);
-    return new Promise((resolve, reject) => {
-      background.importAccountWithStrategy(strategy, args, (err) => {
-        if (err) {
-          dispatch(actions.displayWarning(err.message));
-          return reject(err);
-        }
-        log.debug(`background.getState`);
-        background.getState((err, newState) => {
-          dispatch(actions.hideLoadingIndication());
-          if (err) {
-            dispatch(actions.displayWarning(err.message));
-            return reject(err);
-          }
-          dispatch(actions.updateMetamaskState(newState));
-          dispatch({
-            type: actions.SHOW_ACCOUNT_DETAIL,
-            value: newState.selectedAddress,
-          });
-          resolve(newState);
-        });
+  return async(dispatch) => {
+    let newState;
+    dispatch(actions.showLoadingIndication('This may take a while, please be patient.'));
+    try {
+      log.debug(`background.importAccountWithStrategy`);
+      await pify(background.importAccountWithStrategy).call(background, strategy, args);
+      log.debug(`background.getState`);
+      newState = await pify(background.getState).call(background);
+    } catch (err) {
+      dispatch(actions.hideLoadingIndication());
+      dispatch(actions.displayWarning(err.message));
+      throw err;
+    }
+    dispatch(actions.hideLoadingIndication());
+    dispatch(actions.updateMetamaskState(newState));
+    if (newState.selectedAddress) {
+      dispatch({
+        type: actions.SHOW_ACCOUNT_DETAIL,
+        value: newState.selectedAddress,
       });
-    });
+    }
+    return newState;
   };
 }
 
@@ -580,9 +640,113 @@ function addNewAccount() {
   };
 }
 
+function checkHardwareStatus(deviceName) {
+  log.debug(`background.checkHardwareStatus`, deviceName);
+  return (dispatch, getState) => {
+    dispatch(actions.showLoadingIndication());
+    return new Promise((resolve, reject) => {
+      background.checkHardwareStatus(deviceName, (err, unlocked) => {
+        if (err) {
+          log.error(err);
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
+        }
+
+        dispatch(actions.hideLoadingIndication());
+
+        forceUpdateMetamaskState(dispatch);
+        return resolve(unlocked);
+      });
+    });
+  };
+}
+
+function forgetDevice(deviceName) {
+  log.debug(`background.forgetDevice`, deviceName);
+  return (dispatch, getState) => {
+    dispatch(actions.showLoadingIndication());
+    return new Promise((resolve, reject) => {
+      background.forgetDevice(deviceName, (err, response) => {
+        if (err) {
+          log.error(err);
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
+        }
+
+        dispatch(actions.hideLoadingIndication());
+
+        forceUpdateMetamaskState(dispatch);
+        return resolve();
+      });
+    });
+  };
+}
+
+function connectHardware(deviceName, page) {
+  log.debug(`background.connectHardware`, deviceName, page);
+  return (dispatch, getState) => {
+    dispatch(actions.showLoadingIndication());
+    return new Promise((resolve, reject) => {
+      background.connectHardware(deviceName, page, (err, accounts) => {
+        if (err) {
+          log.error(err);
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
+        }
+
+        dispatch(actions.hideLoadingIndication());
+
+        forceUpdateMetamaskState(dispatch);
+        return resolve(accounts);
+      });
+    });
+  };
+}
+
+function unlockTrezorAccount(index) {
+  log.debug(`background.unlockTrezorAccount`, index);
+  return (dispatch, getState) => {
+    dispatch(actions.showLoadingIndication());
+    return new Promise((resolve, reject) => {
+      background.unlockTrezorAccount(index, (err, accounts) => {
+        if (err) {
+          log.error(err);
+          dispatch(actions.displayWarning(err.message));
+          return reject(err);
+        }
+
+        dispatch(actions.hideLoadingIndication());
+        return resolve();
+      });
+    });
+  };
+}
+
 function showInfoPage() {
   return {
     type: actions.SHOW_INFO_PAGE,
+  };
+}
+
+function showQrScanner(ROUTE) {
+  return (dispatch, getState) => {
+    return WebcamUtils.checkStatus()
+                      .then(status => {
+                        if (!status.environmentReady) {
+                          // We need to switch to fullscreen mode to ask for permission
+                          global.platform.openExtensionInBrowser(`${ROUTE}`, `scan=true`);
+                        } else {
+                          dispatch(actions.showModal({
+                            name: 'QR_SCANNER',
+                          }));
+                        }
+                      }).catch(e => {
+        dispatch(actions.showModal({
+          name: 'QR_SCANNER',
+          error: true,
+          errorType: e.type,
+        }));
+      });
   };
 }
 
@@ -610,7 +774,7 @@ function setCurrentCurrency(currencyCode) {
 
 function signMsg(msgData) {
   log.debug('action - signMsg');
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(actions.showLoadingIndication());
 
     return new Promise((resolve, reject) => {
@@ -627,6 +791,12 @@ function signMsg(msgData) {
         }
 
         dispatch(actions.completedTx(msgData.metamaskId));
+
+        if (global.METAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+          !hasUnconfirmedTransactions(getState())) {
+          return global.platform.closeCurrentWindow();
+        }
+
         return resolve(msgData);
       });
     });
@@ -635,7 +805,7 @@ function signMsg(msgData) {
 
 function signPersonalMsg(msgData) {
   log.debug('action - signPersonalMsg');
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(actions.showLoadingIndication());
 
     return new Promise((resolve, reject) => {
@@ -652,6 +822,12 @@ function signPersonalMsg(msgData) {
         }
 
         dispatch(actions.completedTx(msgData.metamaskId));
+
+        if (global.METAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+          !hasUnconfirmedTransactions(getState())) {
+          return global.platform.closeCurrentWindow();
+        }
+
         return resolve(msgData);
       });
     });
@@ -660,7 +836,7 @@ function signPersonalMsg(msgData) {
 
 function signTypedMsg(msgData) {
   log.debug('action - signTypedMsg');
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(actions.showLoadingIndication());
 
     return new Promise((resolve, reject) => {
@@ -677,6 +853,12 @@ function signTypedMsg(msgData) {
         }
 
         dispatch(actions.completedTx(msgData.metamaskId));
+
+        if (global.METAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+          !hasUnconfirmedTransactions(getState())) {
+          return global.platform.closeCurrentWindow();
+        }
+
         return resolve(msgData);
       });
     });
@@ -685,70 +867,127 @@ function signTypedMsg(msgData) {
 
 function signTx(txData) {
   return (dispatch) => {
-    dispatch(actions.showLoadingIndication());
     global.ethQuery.sendTransaction(txData, (err, data) => {
-      dispatch(actions.hideLoadingIndication());
-      if (err) return dispatch(actions.displayWarning(err.message));
-      dispatch(actions.hideWarning());
+      if (err) {
+        return dispatch(actions.displayWarning(err.message));
+      }
     });
     dispatch(actions.showConfTxPage({}));
   };
 }
 
-function estimateGas(params = {}) {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      global.ethQuery.estimateGas(params, (err, data) => {
-        if (err) {
-          dispatch(actions.displayWarning(err.message));
-          return reject(err);
-        }
-        dispatch(actions.hideWarning());
-        dispatch(actions.updateGasLimit(data));
-        return resolve(data);
-      });
-    });
-  };
-}
-
-function updateGasLimit(gasLimit) {
+function setGasLimit(gasLimit) {
   return {
     type: actions.UPDATE_GAS_LIMIT,
     value: gasLimit,
   };
 }
 
-function getGasPrice() {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      global.ethQuery.gasPrice((err, data) => {
-        if (err) {
-          dispatch(actions.displayWarning(err.message));
-          return reject(err);
-        }
-        dispatch(actions.hideWarning());
-        dispatch(actions.updateGasPrice(data));
-        return resolve(data);
-      });
-    });
-  };
-}
-
-function updateGasPrice(gasPrice) {
+function setGasPrice(gasPrice) {
   return {
     type: actions.UPDATE_GAS_PRICE,
     value: gasPrice,
   };
 }
 
-function updateGasTotal(gasTotal) {
+function setGasTotal(gasTotal) {
   return {
     type: actions.UPDATE_GAS_TOTAL,
     value: gasTotal,
   };
 }
 
-function updateSendTokenBalance(tokenBalance) {
+function updateGasData({
+  blockGasLimit,
+  recentBlocks,
+  selectedAddress,
+  selectedToken,
+  to,
+  value,
+}) {
+  return (dispatch) => {
+    dispatch(actions.gasLoadingStarted());
+    return new Promise((resolve, reject) => {
+      background.getGasPrice((err, data) => {
+        if (err) return reject(err);
+        return resolve(data);
+      });
+    })
+      .then(estimateGasPrice => {
+        return Promise.all([
+          Promise.resolve(estimateGasPrice),
+          estimateGas({
+            estimateGasMethod: background.estimateGas,
+            blockGasLimit,
+            selectedAddress,
+            selectedToken,
+            to,
+            value,
+            estimateGasPrice,
+          }),
+        ]);
+      })
+      .then(([gasPrice, gas]) => {
+        dispatch(actions.setGasPrice(gasPrice));
+        dispatch(actions.setGasLimit(gas));
+        return calcGasTotal(gas, gasPrice);
+      })
+      .then((gasEstimate) => {
+        dispatch(actions.setGasTotal(gasEstimate));
+        dispatch(updateSendErrors({gasLoadingError: null}));
+        dispatch(actions.gasLoadingFinished());
+      })
+      .catch(err => {
+        log.error(err);
+        dispatch(updateSendErrors({gasLoadingError: 'gasLoadingError'}));
+        dispatch(actions.gasLoadingFinished());
+      });
+  };
+}
+
+function gasLoadingStarted() {
+  return {
+    type: actions.GAS_LOADING_STARTED,
+  };
+}
+
+function gasLoadingFinished() {
+  return {
+    type: actions.GAS_LOADING_FINISHED,
+  };
+}
+
+function updateSendTokenBalance({
+  selectedToken,
+  tokenContract,
+  address,
+}) {
+  return (dispatch) => {
+    const tokenBalancePromise = tokenContract
+      ? tokenContract.balanceOf(address)
+      : Promise.resolve();
+    return tokenBalancePromise
+      .then(usersToken => {
+        if (usersToken) {
+          const newTokenBalance = calcTokenBalance({selectedToken, usersToken});
+          dispatch(setSendTokenBalance(newTokenBalance.toString(10)));
+        }
+      })
+      .catch(err => {
+        log.error(err);
+        updateSendErrors({tokenBalance: 'tokenBalanceError'});
+      });
+  };
+}
+
+function updateSendErrors(errorObject) {
+  return {
+    type: actions.UPDATE_SEND_ERRORS,
+    value: errorObject,
+  };
+}
+
+function setSendTokenBalance(tokenBalance) {
   return {
     type: actions.UPDATE_SEND_TOKEN_BALANCE,
     value: tokenBalance,
@@ -759,6 +998,13 @@ function updateSendFrom(from) {
   return {
     type: actions.UPDATE_SEND_FROM,
     value: from,
+  };
+}
+
+function updateSendHexData(value) {
+  return {
+    type: actions.UPDATE_SEND_HEX_DATA,
+    value,
   };
 }
 
@@ -780,13 +1026,6 @@ function updateSendMemo(memo) {
   return {
     type: actions.UPDATE_SEND_MEMO,
     value: memo,
-  };
-}
-
-function updateSendErrors(error) {
-  return {
-    type: actions.UPDATE_SEND_ERRORS,
-    value: error,
   };
 }
 
@@ -812,7 +1051,7 @@ function clearSend() {
 
 function sendTx(txData) {
   log.info(`actions - sendTx: ${JSON.stringify(txData.txParams)}`);
-  return (dispatch) => {
+  return (dispatch, getState) => {
     log.debug(`actions calling background.approveTransaction`);
     background.approveTransaction(txData.id, (err) => {
       if (err) {
@@ -820,6 +1059,11 @@ function sendTx(txData) {
         return log.error(err.message);
       }
       dispatch(actions.completedTx(txData.id));
+
+      if (global.METAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+        !hasUnconfirmedTransactions(getState())) {
+        return global.platform.closeCurrentWindow();
+      }
     });
   };
 }
@@ -839,29 +1083,41 @@ function signTokenTx(tokenAddress, toAddress, amount, txData) {
 
 function updateTransaction(txData) {
   log.info('actions: updateTx: ' + JSON.stringify(txData));
-  return (dispatch) => {
+  return dispatch => {
     log.debug(`actions calling background.updateTx`);
-    background.updateTransaction(txData, (err) => {
-      dispatch(actions.hideLoadingIndication());
-      dispatch(actions.updateTransactionParams(txData.id, txData.txParams));
-      if (err) {
-        dispatch(actions.txError(err));
-        dispatch(actions.goHome());
-        return log.error(err.message);
-      }
-      dispatch(actions.showConfTxPage({id: txData.id}));
-    });
+    dispatch(actions.showLoadingIndication());
+
+    return new Promise((resolve, reject) => {
+      background.updateTransaction(txData, (err) => {
+        dispatch(actions.updateTransactionParams(txData.id, txData.txParams));
+        if (err) {
+          dispatch(actions.txError(err));
+          dispatch(actions.goHome());
+          log.error(err.message);
+          return reject(err);
+        }
+
+        resolve(txData);
+      });
+    })
+      .then(() => updateMetamaskStateFromBackground())
+      .then(newState => dispatch(actions.updateMetamaskState(newState)))
+      .then(() => {
+        dispatch(actions.showConfTxPage({id: txData.id}));
+        dispatch(actions.hideLoadingIndication());
+        return txData;
+      });
   };
 }
 
 function updateAndApproveTx(txData) {
   log.info('actions: updateAndApproveTx: ' + JSON.stringify(txData));
-  return (dispatch) => {
+  return (dispatch, getState) => {
     log.debug(`actions calling background.updateAndApproveTx`);
+    dispatch(actions.showLoadingIndication());
 
     return new Promise((resolve, reject) => {
       background.updateAndApproveTransaction(txData, err => {
-        dispatch(actions.hideLoadingIndication());
         dispatch(actions.updateTransactionParams(txData.id, txData.txParams));
         dispatch(actions.clearSend());
 
@@ -872,10 +1128,23 @@ function updateAndApproveTx(txData) {
           reject(err);
         }
 
-        dispatch(actions.completedTx(txData.id));
         resolve(txData);
       });
-    });
+    })
+      .then(() => updateMetamaskStateFromBackground())
+      .then(newState => dispatch(actions.updateMetamaskState(newState)))
+      .then(() => {
+        dispatch(actions.clearSend());
+        dispatch(actions.completedTx(txData.id));
+        dispatch(actions.hideLoadingIndication());
+
+        if (global.METAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+          !hasUnconfirmedTransactions(getState())) {
+          return global.platform.closeCurrentWindow();
+        }
+
+        return txData;
+      });
   };
 }
 
@@ -902,7 +1171,7 @@ function txError(err) {
 }
 
 function cancelMsg(msgData) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(actions.showLoadingIndication());
 
     return new Promise((resolve, reject) => {
@@ -916,6 +1185,12 @@ function cancelMsg(msgData) {
         }
 
         dispatch(actions.completedTx(msgData.id));
+
+        if (global.METAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+          !hasUnconfirmedTransactions(getState())) {
+          return global.platform.closeCurrentWindow();
+        }
+
         return resolve(msgData);
       });
     });
@@ -923,7 +1198,7 @@ function cancelMsg(msgData) {
 }
 
 function cancelPersonalMsg(msgData) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(actions.showLoadingIndication());
 
     return new Promise((resolve, reject) => {
@@ -937,6 +1212,12 @@ function cancelPersonalMsg(msgData) {
         }
 
         dispatch(actions.completedTx(id));
+
+        if (global.METAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+          !hasUnconfirmedTransactions(getState())) {
+          return global.platform.closeCurrentWindow();
+        }
+
         return resolve(msgData);
       });
     });
@@ -944,7 +1225,7 @@ function cancelPersonalMsg(msgData) {
 }
 
 function cancelTypedMsg(msgData) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(actions.showLoadingIndication());
 
     return new Promise((resolve, reject) => {
@@ -958,6 +1239,12 @@ function cancelTypedMsg(msgData) {
         }
 
         dispatch(actions.completedTx(id));
+
+        if (global.METAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+          !hasUnconfirmedTransactions(getState())) {
+          return global.platform.closeCurrentWindow();
+        }
+
         return resolve(msgData);
       });
     });
@@ -965,15 +1252,33 @@ function cancelTypedMsg(msgData) {
 }
 
 function cancelTx(txData) {
-  return dispatch => {
+  return (dispatch, getState) => {
     log.debug(`background.cancelTransaction`);
+    dispatch(actions.showLoadingIndication());
+
     return new Promise((resolve, reject) => {
-      background.cancelTransaction(txData.id, () => {
+      background.cancelTransaction(txData.id, err => {
+        if (err) {
+          return reject(err);
+        }
+
+        resolve();
+      });
+    })
+      .then(() => updateMetamaskStateFromBackground())
+      .then(newState => dispatch(actions.updateMetamaskState(newState)))
+      .then(() => {
         dispatch(actions.clearSend());
         dispatch(actions.completedTx(txData.id));
-        resolve(txData);
+        dispatch(actions.hideLoadingIndication());
+
+        if (global.METAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+          !hasUnconfirmedTransactions(getState())) {
+          return global.platform.closeCurrentWindow();
+        }
+
+        return txData;
       });
-    });
   };
 }
 
@@ -1207,11 +1512,12 @@ function showAccountDetail(address) {
   return (dispatch) => {
     dispatch(actions.showLoadingIndication());
     log.debug(`background.setSelectedAddress`);
-    background.setSelectedAddress(address, (err) => {
+    background.setSelectedAddress(address, (err, tokens) => {
       dispatch(actions.hideLoadingIndication());
       if (err) {
         return dispatch(actions.displayWarning(err.message));
       }
+      dispatch(updateTokens(tokens));
       dispatch({
         type: actions.SHOW_ACCOUNT_DETAIL,
         value: address,
@@ -1397,16 +1703,24 @@ function markAccountsFound() {
 
 function retryTransaction(txId) {
   log.debug(`background.retryTransaction`);
+  let newTxId;
+
   return (dispatch) => {
-    background.retryTransaction(txId, (err, newState) => {
-      if (err) {
-        return dispatch(actions.displayWarning(err.message));
-      }
-      const {selectedAddressTxList} = newState;
-      const {id: newTxId} = selectedAddressTxList[selectedAddressTxList.length - 1];
-      dispatch(actions.updateMetamaskState(newState));
-      dispatch(actions.viewPendingTx(newTxId));
-    });
+    return new Promise((resolve, reject) => {
+      background.retryTransaction(txId, (err, newState) => {
+        if (err) {
+          dispatch(actions.displayWarning(err.message));
+          reject(err);
+        }
+
+        const {selectedAddressTxList} = newState;
+        const {id} = selectedAddressTxList[selectedAddressTxList.length - 1];
+        newTxId = id;
+        resolve(newState);
+      });
+    })
+      .then(newState => dispatch(actions.updateMetamaskState(newState)))
+      .then(() => newTxId);
   };
 }
 
@@ -1508,6 +1822,31 @@ function hideSidebar() {
   };
 }
 
+function showAlert(msg) {
+  return {
+    type: actions.ALERT_OPEN,
+    value: msg,
+  };
+}
+
+function hideAlert() {
+  return {
+    type: actions.ALERT_CLOSE,
+  };
+}
+
+/**
+ * This action will receive two types of values via qrCodeData
+ * an object with the following structure {type, values}
+ * or null (used to clear the previous value)
+ */
+function qrCodeDetected(qrCodeData) {
+  return {
+    type: actions.QR_CODE_DETECTED,
+    value: qrCodeData,
+  };
+}
+
 function showLoadingIndication(message) {
   return {
     type: actions.SHOW_LOADING,
@@ -1600,13 +1939,13 @@ function showPrivateKey(key) {
   };
 }
 
-function saveAccountLabel(account, label) {
+function setAccountLabel(account, label) {
   return (dispatch) => {
     dispatch(actions.showLoadingIndication());
-    log.debug(`background.saveAccountLabel`);
+    log.debug(`background.setAccountLabel`);
 
     return new Promise((resolve, reject) => {
-      background.saveAccountLabel(account, label, (err) => {
+      background.setAccountLabel(account, label, (err) => {
         dispatch(actions.hideLoadingIndication());
 
         if (err) {
@@ -1615,7 +1954,7 @@ function saveAccountLabel(account, label) {
         }
 
         dispatch({
-          type: actions.SAVE_ACCOUNT_LABEL,
+          type: actions.SET_ACCOUNT_LABEL,
           value: {account, label},
         });
 
@@ -1817,6 +2156,24 @@ function updateFeatureFlags(updatedFeatureFlags) {
   };
 }
 
+function setNetworkNonce(networkNonce) {
+  return {
+    type: actions.SET_NETWORK_NONCE,
+    value: networkNonce,
+  };
+}
+
+function updateNetworkNonce(address) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      global.ethQuery.getTransactionCount(address, (err, data) => {
+        dispatch(setNetworkNonce(data));
+        resolve(data);
+      });
+    });
+  };
+}
+
 function setMouseUserState(isMouseUser) {
   return {
     type: actions.SET_MOUSE_USER_STATE,
@@ -1926,26 +2283,28 @@ function setLocaleMessages(localeMessages) {
   };
 }
 
-function setNetworkEndpoints(networkEndpointType) {
-  return dispatch => {
-    log.debug(`background.setNetworkEndpoints: ${networkEndpointType}`);
-    return new Promise((resolve, reject) => {
-      background.setNetworkEndpoints(networkEndpointType, err => {
-        if (err) {
-          dispatch(actions.displayWarning(err.message));
-          return reject(err);
-        }
-
-        dispatch(actions.updateNetworkEndpointType(networkEndpointType));
-        resolve(networkEndpointType);
-      });
-    });
-  };
-}
-
 function updateNetworkEndpointType(networkEndpointType) {
   return {
     type: actions.UPDATE_NETWORK_ENDPOINT_TYPE,
     value: networkEndpointType,
+  };
+}
+
+function setPendingTokens(pendingTokens) {
+  const {customToken = {}, selectedTokens = {}} = pendingTokens;
+  const {address, symbol, decimals} = customToken;
+  const tokens = address && symbol && decimals
+    ? {...selectedTokens, [address]: {...customToken, isCustom: true}}
+    : selectedTokens;
+
+  return {
+    type: actions.SET_PENDING_TOKENS,
+    payload: tokens,
+  };
+}
+
+function clearPendingTokens() {
+  return {
+    type: actions.CLEAR_PENDING_TOKENS,
   };
 }

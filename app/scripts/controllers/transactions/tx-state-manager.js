@@ -161,7 +161,7 @@ class TransactionStateManager extends EventEmitter {
   /**
    updates the txMeta in the list and adds a history entry
    @param txMeta {Object} - the txMeta to update
-   @param [note] {string} - a not about the update for history
+   @param [note] {string} - a note about the update for history
    */
   updateTx(txMeta, note) {
     // validate txParams
@@ -235,19 +235,19 @@ class TransactionStateManager extends EventEmitter {
    */
 
   /*
-  ****************HINT****************
-  | `err: undefined` is like looking |
-  | for a tx with no err             |
-  | so you can also search txs that  |
-  | dont have something as well by   |
-  | setting the value as undefined   |
-  ************************************
+   ****************HINT****************
+   | `err: undefined` is like looking |
+   | for a tx with no err             |
+   | so you can also search txs that  |
+   | dont have something as well by   |
+   | setting the value as undefined   |
+   ************************************
 
-  this is for things like filtering a the tx list
-  for only tx's from 1 account
-  or for filltering for all txs from one account
-  and that have been 'confirmed'
-  */
+   this is for things like filtering a the tx list
+   for only tx's from 1 account
+   or for filltering for all txs from one account
+   and that have been 'confirmed'
+   */
   getFilteredTxList(opts, initialList) {
     let filteredTxList = initialList;
     Object.keys(opts).forEach((key) => {
@@ -266,7 +266,7 @@ class TransactionStateManager extends EventEmitter {
    */
   getTxsByMetaData(key, value, txList = this.getTxList()) {
     return txList.filter((txMeta) => {
-      if (txMeta.txParams[key]) {
+      if (key in txMeta.txParams) {
         return txMeta.txParams[key] === value;
       } else {
         return txMeta[key] === value;
@@ -291,6 +291,7 @@ class TransactionStateManager extends EventEmitter {
    */
   setTxStatusRejected(txId) {
     this._setTxStatus(txId, 'rejected');
+    this._removeTx(txId);
   }
 
   /**
@@ -344,6 +345,7 @@ class TransactionStateManager extends EventEmitter {
   setTxStatusDropped(txId) {
     this._setTxStatus(txId, 'dropped');
   }
+
 
   /**
    should update the status of the tx to 'failed'.
@@ -425,6 +427,11 @@ class TransactionStateManager extends EventEmitter {
   // Function is intended only for internal use
   _saveTxList(transactions) {
     this.store.updateState({transactions});
+  }
+
+  _removeTx(txId) {
+    const transactionList = this.getFullTxList();
+    this._saveTxList(transactionList.filter((txMeta) => txMeta.id !== txId));
   }
 }
 

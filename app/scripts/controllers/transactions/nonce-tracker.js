@@ -50,29 +50,35 @@ class NonceTracker {
     await this._globalMutexFree();
     // await lock free, then take lock
     const releaseLock = await this._takeMutex(address);
-    // evaluate multiple nextNonce strategies
-    const nonceDetails = {};
-    const networkNonceResult = await this._getNetworkNextNonce(address);
-    const highestLocallyConfirmed = this._getHighestLocallyConfirmed(address);
-    const nextNetworkNonce = networkNonceResult.nonce;
-    const highestSuggested = Math.max(nextNetworkNonce, highestLocallyConfirmed);
+    try {
+      // evaluate multiple nextNonce strategies
+      const nonceDetails = {};
+      const networkNonceResult = await this._getNetworkNextNonce(address);
+      const highestLocallyConfirmed = this._getHighestLocallyConfirmed(address);
+      const nextNetworkNonce = networkNonceResult.nonce;
+      const highestSuggested = Math.max(nextNetworkNonce, highestLocallyConfirmed);
 
-    const pendingTxs = this.getPendingTransactions(address);
-    const localNonceResult = this._getHighestContinuousFrom(pendingTxs, highestSuggested) || 0;
+      const pendingTxs = this.getPendingTransactions(address);
+      const localNonceResult = this._getHighestContinuousFrom(pendingTxs, highestSuggested) || 0;
 
-    nonceDetails.params = {
-      highestLocallyConfirmed,
-      highestSuggested,
-      nextNetworkNonce,
-    };
-    nonceDetails.local = localNonceResult;
-    nonceDetails.network = networkNonceResult;
+      nonceDetails.params = {
+        highestLocallyConfirmed,
+        highestSuggested,
+        nextNetworkNonce,
+      };
+      nonceDetails.local = localNonceResult;
+      nonceDetails.network = networkNonceResult;
 
-    const nextNonce = Math.max(networkNonceResult.nonce, localNonceResult.nonce);
-    assert(Number.isInteger(nextNonce), `nonce-tracker - nextNonce is not an integer - got: (${typeof nextNonce}) "${nextNonce}"`);
+      const nextNonce = Math.max(networkNonceResult.nonce, localNonceResult.nonce);
+      assert(Number.isInteger(nextNonce), `nonce-tracker - nextNonce is not an integer - got: (${typeof nextNonce}) "${nextNonce}"`);
 
-    // return nonce and release cb
-    return {nextNonce, nonceDetails, releaseLock};
+      // return nonce and release cb
+      return {nextNonce, nonceDetails, releaseLock};
+    } catch (err) {
+      // release lock if we encounter an error
+      releaseLock();
+      throw err;
+    }
   }
 
   async _getCurrentBlock() {
@@ -86,8 +92,8 @@ class NonceTracker {
 
   async _globalMutexFree() {
     const globalMutex = this._lookupMutex('global');
-    const release = await globalMutex.acquire();
-    release();
+    const releaseLock = await globalMutex.acquire();
+    releaseLock();
   }
 
   async _takeMutex(lockId) {
@@ -122,19 +128,6 @@ class NonceTracker {
     const confirmedTransactions = this.getConfirmedTransactions(address);
     const highest = this._getHighestNonce(confirmedTransactions);
     return Number.isInteger(highest) ? highest + 1 : 0;
-  }
-
-  _reduceTxListToUniqueNonces(txList) {
-    const reducedTxList = txList.reduce((reducedList, txMeta, index) => {
-      if (!index) return [txMeta];
-      const nonceMatches = txList.filter((txData) => {
-        return txMeta.txParams.nonce === txData.txParams.nonce;
-      });
-      if (nonceMatches.length > 1) return reducedList;
-      reducedList.push(txMeta);
-      return reducedList;
-    }, []);
-    return reducedTxList;
   }
 
   _getHighestNonce(txList) {

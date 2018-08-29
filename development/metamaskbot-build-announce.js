@@ -4,7 +4,7 @@ const VERSION = require('../dist/chrome/manifest.json').version;
 
 start().catch(console.error);
 
-async function start() {
+async function start () {
 
   const GITHUB_COMMENT_TOKEN = process.env.GITHUB_COMMENT_TOKEN;
   const CIRCLE_PULL_REQUEST = process.env.CIRCLE_PULL_REQUEST;

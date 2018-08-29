@@ -11,8 +11,9 @@ const {SEND_ROUTE} = require('../routes');
 const {checksumAddress: toChecksumAddress} = require('../util');
 
 const BalanceComponent = require('./balance-component');
+const Tooltip = require('./tooltip');
 const TxList = require('./tx-list');
-const Identicon = require('./identicon');
+const SelectedAccount = require('./selected-account');
 
 module.exports = compose(
   withRouter,
@@ -104,7 +105,8 @@ TxView.prototype.renderButtons = function() {
 };
 
 TxView.prototype.render = function() {
-  const {selectedAddress, identity, network, isMascara} = this.props;
+  const {hideSidebar, isMascara, showSidebar, sidebarOpen} = this.props;
+  const {t} = this.context;
 
   return h('div.tx-view.flex-column', {
     style: {},
@@ -112,44 +114,39 @@ TxView.prototype.render = function() {
 
     h('div.flex-row.phone-visible', {
       style: {
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         flex: '0 0 auto',
-        margin: '10px',
+        marginBottom: '16px',
+        padding: '5px',
+        borderBottom: '1px solid #e5e5e5',
       },
     }, [
 
-      h('div.fa.fa-bars', {
-        style: {
-          fontSize: '1.3em',
-          cursor: 'pointer',
-          padding: '10px',
-        },
-        onClick: () => this.props.sidebarOpen ? this.props.hideSidebar() : this.props.showSidebar(),
-      }),
-
-      h('.identicon-wrapper.select-none', {
-        style: {
-          marginLeft: '0.9em',
-        },
+      h(Tooltip, {
+        title: t('menu'),
+        position: 'bottom',
       }, [
-        h(Identicon, {
-          diameter: 24,
-          address: selectedAddress,
-          network,
+        h('div.fa.fa-bars', {
+          style: {
+            fontSize: '1.3em',
+            cursor: 'pointer',
+            padding: '10px',
+          },
+          onClick: () => sidebarOpen ? hideSidebar() : showSidebar(),
         }),
       ]),
 
-      h('span.account-name', {
-        style: {},
+      h(SelectedAccount),
+
+      !isMascara && h(Tooltip, {
+        title: t('openInTab'),
+        position: 'bottom',
       }, [
-        identity.name,
+        h('div.open-in-browser', {
+          onClick: () => global.platform.openExtensionInBrowser(),
+        }, [h('img', {src: 'images/popout.svg'})]),
       ]),
-
-      !isMascara && h('div.open-in-browser', {
-        onClick: () => global.platform.openExtensionInBrowser(),
-      }, [h('img', {src: 'images/popout.svg'})]),
-
     ]),
 
     this.renderHeroBalance(),

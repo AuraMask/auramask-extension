@@ -52,6 +52,7 @@ class PendingTransactionTracker extends EventEmitter {
         return;
       }
 
+
       block.transactions.forEach((tx) => {
         if (tx.hash === txHash) this.emit('tx:confirmed', txId);
       });
@@ -85,13 +86,13 @@ class PendingTransactionTracker extends EventEmitter {
     if (!pending.length) return;
     pending.forEach((txMeta) => this._resubmitTx(txMeta, block.number).catch((err) => {
       /*
-      Dont marked as failed if the error is a "known" transaction warning
-      "there is already a transaction with the same sender-nonce
-      but higher/same gas price"
+       Dont marked as failed if the error is a "known" transaction warning
+       "there is already a transaction with the same sender-nonce
+       but higher/same gas price"
 
-      Also don't mark as failed if it has ever been broadcast successfully.
-      A successful broadcast means it may still be mined.
-      */
+       Also don't mark as failed if it has ever been broadcast successfully.
+       A successful broadcast means it may still be mined.
+       */
       const errorMessage = err.message.toLowerCase();
       const isKnownTx = (
         // geth
@@ -197,14 +198,14 @@ class PendingTransactionTracker extends EventEmitter {
   async _checkPendingTxs() {
     const signedTxList = this.getPendingTransactions();
     // in order to keep the nonceTracker accurate we block it while updating pending transactions
-    const nonceGlobalLock = await this.nonceTracker.getGlobalLock();
+    const {releaseLock} = await this.nonceTracker.getGlobalLock();
     try {
       await Promise.all(signedTxList.map((txMeta) => this._checkPendingTx(txMeta)));
     } catch (err) {
       log.error('PendingTransactionWatcher - Error updating pending transactions');
       log.error(err);
     }
-    nonceGlobalLock.releaseLock();
+    releaseLock();
   }
 
   /**

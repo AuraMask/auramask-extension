@@ -68,7 +68,7 @@ const actions = {
   },
 };
 
-var css = MetaMaskUiCss();
+const css = MetaMaskUiCss();
 injectCss(css);
 
 // parse opts

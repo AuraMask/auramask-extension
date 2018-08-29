@@ -2,9 +2,9 @@ const version = 13;
 
 /*
 
-This migration modifies the network config from ambiguous 'testnet' to explicit 'ropsten'
+ This migration modifies the network config from ambiguous 'testnet' to explicit 'ropsten'
 
-*/
+ */
 
 const clone = require('clone');
 
@@ -16,8 +16,7 @@ module.exports = {
     versionedData.meta.version = version;
     try {
       const state = versionedData.data;
-      const newState = transformState(state);
-      versionedData.data = newState;
+      versionedData.data = transformState(state);
     } catch (err) {
       console.warn(`MetaMask Migration #${version}` + err.stack);
     }
@@ -30,7 +29,7 @@ function transformState(state) {
   const {config} = newState;
   if (config && config.provider) {
     if (config.provider.type === 'testnet') {
-      newState.config.provider.type = 'ropsten';
+      newState.config.provider.type = 'localhost';
     }
   }
   return newState;

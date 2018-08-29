@@ -138,8 +138,7 @@ class RecentBlocksController {
       await Promise.all(targetBlockNumbers.map(async(targetBlockNumber) => {
         try {
           const newBlock = await this.getBlockByNumber(targetBlockNumber);
-          if (!newBlock) return;
-          this.backfillBlock(newBlock);
+          if (newBlock) this.backfillBlock(newBlock);
         } catch (e) {
           log.error(e);
         }

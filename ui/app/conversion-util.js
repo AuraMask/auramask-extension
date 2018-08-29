@@ -1,25 +1,26 @@
 /* Currency Conversion Utility
-* This utility function can be used for converting currency related values within metamask.
-* The caller should be able to pass it a value, along with information about the value's
-* numeric base, denomination and currency, and the desired numeric base, denomination and
-* currency. It should return a single value.
-*
-* @param {(number | string | BN)} value The value to convert.
-* @param {Object} [options] Options to specify details of the conversion
-* @param {string} [options.fromCurrency = 'ETH' | 'USD'] The currency of the passed value
-* @param {string} [options.toCurrency = 'ETH' | 'USD'] The desired currency of the result
-* @param {string} [options.fromNumericBase = 'hex' | 'dec' | 'BN'] The numeric basic of the passed value.
-* @param {string} [options.toNumericBase = 'hex' | 'dec' | 'BN'] The desired numeric basic of the result.
-* @param {string} [options.fromDenomination = 'WEI'] The denomination of the passed value
-* @param {number} [options.numberOfDecimals] The desired number of in the result
-* @param {number} [options.conversionRate] The rate to use to make the fromCurrency -> toCurrency conversion
-* @returns {(number | string | BN)}
-*
-* The utility passes value along with the options as a single object to the `converter` function.
-* `converter` uses Ramda.js to apply a composition of conditional setters to the `value` property, depending
-* on the accompanying options. Some of these conditional setters are selected via key-value maps, where
-* the keys are specified in the options parameters and the values are setter functions.
-*/
+ * This utility function can be used for converting currency related values within metamask.
+ * The caller should be able to pass it a value, along with information about the value's
+ * numeric base, denomination and currency, and the desired numeric base, denomination and
+ * currency. It should return a single value.
+ *
+ * @param {(number | string | BN)} value The value to convert.
+ * @param {Object} [options] Options to specify details of the conversion
+ * @param {string} [options.fromCurrency = 'ETH' | 'USD'] The currency of the passed value
+ * @param {string} [options.toCurrency = 'ETH' | 'USD'] The desired currency of the result
+ * @param {string} [options.fromNumericBase = 'hex' | 'dec' | 'BN'] The numeric basic of the passed value.
+ * @param {string} [options.toNumericBase = 'hex' | 'dec' | 'BN'] The desired numeric basic of the result.
+ * @param {string} [options.fromDenomination = 'WEI'] The denomination of the passed value
+ * @param {string} [options.numberOfDecimals] The desired number of decimals in the result
+ * @param {string} [options.roundDown] The desired number of decimals to round down to
+ * @param {number} [options.conversionRate] The rate to use to make the fromCurrency -> toCurrency conversion
+ * @returns {(number | string | BN)}
+ *
+ * The utility passes value along with the options as a single object to the `converter` function.
+ * `converter` uses Ramda.js to apply a composition of conditional setters to the `value` property, depending
+ * on the accompanying options. Some of these conditional setters are selected via key-value maps, where
+ * the keys are specified in the options parameters and the values are setter functions.
+ */
 
 const BigNumber = require('bignumber.js');
 const ethUtil = require('icjs-util');
@@ -38,13 +39,14 @@ const BIG_NUMBER_GWEI_MULTIPLIER = new BigNumber('1000000000');
 // Individual Setters
 const convert = R.invoker(1, 'times');
 const round = R.invoker(2, 'round')(R.__, BigNumber.ROUND_HALF_DOWN);
+const roundDown = R.invoker(2, 'round')(R.__, BigNumber.ROUND_DOWN);
 const invertConversionRate = conversionRate => () => new BigNumber(1.0).div(conversionRate);
 const decToBigNumberViaString = n => R.pipe(String, toBigNumber['dec']);
 
 // Setter Maps
 const toBigNumber = {
   hex: n => new BigNumber(stripHexPrefix(n), 16),
-  dec: n => new BigNumber(n, 10),
+  dec: n => new BigNumber(String(n), 10),
   BN: n => new BigNumber(n.toString(16), 16),
 };
 const toNormalizedDenomination = {
@@ -104,6 +106,7 @@ const converter = R.pipe(
   whenPredSetWithPropAndSetter(fromAndToCurrencyPropsNotEqual, 'conversionRate', convert),
   whenPropApplySetterMap('toDenomination', toSpecifiedDenomination),
   whenPredSetWithPropAndSetter(R.prop('numberOfDecimals'), 'numberOfDecimals', round),
+  whenPredSetWithPropAndSetter(R.prop('roundDown'), 'roundDown', roundDown),
   whenPropApplySetterMap('toNumericBase', baseChange),
   R.view(R.lensProp('value')),
 );
@@ -137,7 +140,7 @@ const addCurrencies = (a, b, options = {}) => {
     bBase,
     ...conversionOptions
   } = options;
-  const value = (new BigNumber(a, aBase)).add(b, bBase);
+  const value = (new BigNumber(a.toString(), aBase)).add(b.toString(), bBase);
 
   return converter({
     value,
@@ -151,7 +154,7 @@ const subtractCurrencies = (a, b, options = {}) => {
     bBase,
     ...conversionOptions
   } = options;
-  const value = (new BigNumber(a, aBase)).minus(b, bBase);
+  const value = (new BigNumber(String(a), aBase)).minus(b, bBase);
 
   return converter({
     value,
@@ -185,6 +188,16 @@ const conversionGreaterThan = (
   const secondValue = converter({...secondProps});
 
   return firstValue.gt(secondValue);
+};
+
+const conversionLessThan = (
+  {...firstProps},
+  {...secondProps},
+) => {
+  const firstValue = converter({...firstProps});
+  const secondValue = converter({...secondProps});
+
+  return firstValue.lt(secondValue);
 };
 
 const conversionMax = (
@@ -226,6 +239,7 @@ module.exports = {
   addCurrencies,
   multiplyCurrencies,
   conversionGreaterThan,
+  conversionLessThan,
   conversionGTE,
   conversionLTE,
   conversionMax,

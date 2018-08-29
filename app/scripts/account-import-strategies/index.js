@@ -15,7 +15,20 @@ const accountImporter = {
   },
 
   strategies: {
-    'Private Key': (privateKey) => ircUtil.stripHexPrefix(privateKey),
+    'Private Key': (privateKey) => {
+      if (!privateKey) {
+        throw new Error('Cannot import an empty key.');
+      }
+
+      const prefixed = ircUtil.addHexPrefix(privateKey);
+      const buffer = ircUtil.toBuffer(prefixed);
+
+      if (!ircUtil.isValidPrivate(buffer)) {
+        throw new Error('Cannot import invalid private key.');
+      }
+
+      return ircUtil.stripHexPrefix(prefixed);
+    },
     'JSON File': (input, password) => {
       let wallet;
       try {

@@ -48,7 +48,7 @@ module.exports = class ExtensionStore {
   _get() {
     const local = extension.storage.local;
     return new Promise((resolve, reject) => {
-      local.get(null, (/** @type {any} */ result) => {
+      local.get(null, (result) => {
         const err = extension.runtime.lastError;
         if (err) {
           reject(err);

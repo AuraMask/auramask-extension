@@ -35,6 +35,7 @@ const TypedMessageManager = require('./lib/typed-message-manager');
 const TransactionController = require('./controllers/transactions');
 const BalancesController = require('./controllers/computed-balances');
 const TokenRatesController = require('./controllers/token-rates');
+const DetectTokensController = require('./controllers/detect-tokens');
 const ConfigManager = require('./lib/config-manager');
 const nodeify = require('./lib/nodeify');
 const accountImporter = require('./account-import-strategies');
@@ -45,7 +46,9 @@ const BN = require('bn.js');
 const GWEI_BN = new BN('1000000000');
 const percentile = require('percentile');
 const seedPhraseVerifier = require('./lib/seed-phrase-verifier');
+const cleanErrorStack = require('./lib/cleanErrorStack');
 const log = require('loglevel');
+const TrezorKeyring = require('eth-trezor-keyring');
 
 module.exports = class MetamaskController extends EventEmitter {
 
@@ -84,6 +87,7 @@ module.exports = class MetamaskController extends EventEmitter {
     this.preferencesController = new PreferencesController({
       initState: initState.PreferencesController,
       initLangCode: opts.initLangCode,
+      network: this.networkController,
     });
 
     // currency controller
@@ -123,7 +127,9 @@ module.exports = class MetamaskController extends EventEmitter {
     });
 
     // key mgmt
+    const additionalKeyrings = [TrezorKeyring];
     this.keyringController = new KeyringController({
+      keyringTypes: additionalKeyrings,
       initState: initState.KeyringController,
       getNetwork: this.networkController.getNetworkState.bind(this.networkController),
       encryptor: opts.encryptor || undefined,
@@ -138,13 +144,23 @@ module.exports = class MetamaskController extends EventEmitter {
         const address = addresses[0];
         this.preferencesController.setSelectedAddress(address);
       }
+      // ensure preferences + identities controller know about all addresses
+      this.preferencesController.addAddresses(addresses);
       this.accountTracker.syncWithAddresses(addresses);
+    });
+
+    // detect tokens controller
+    this.detectTokensController = new DetectTokensController({
+      preferences: this.preferencesController,
+      network: this.networkController,
+      keyringMemStore: this.keyringController.memStore,
     });
 
     // address book controller
     this.addressBookController = new AddressBookController({
       initState: initState.AddressBookController,
-    }, this.keyringController);
+      preferencesStore: this.preferencesController.store,
+    });
 
     // tx mgmt
     this.txController = new TransactionController({
@@ -159,6 +175,13 @@ module.exports = class MetamaskController extends EventEmitter {
       getGasPrice: this.getGasPrice.bind(this),
     });
     this.txController.on('newUnapprovedTx', opts.showUnapprovedTx.bind(opts));
+
+    this.txController.on(`tx:status-update`, (txId, status) => {
+      if (status === 'confirmed' || status === 'failed') {
+        const txMeta = this.txController.txStateManager.getTx(txId);
+        this.platform.showTransactionNotification(txMeta);
+      }
+    });
 
     // computed balances (accounting for pending transactions)
     this.balancesController = new BalancesController({
@@ -177,9 +200,6 @@ module.exports = class MetamaskController extends EventEmitter {
       version,
       firstVersion: initState.firstTimeInfo.version,
     });
-    this.noticeController.updateNoticesList();
-    // to be uncommented when retrieving notices from a remote server.
-    // this.noticeController.startPolling()
 
     this.shapeshiftController = new ShapeShiftController({
       initState: initState.ShapeShiftController,
@@ -276,11 +296,10 @@ module.exports = class MetamaskController extends EventEmitter {
     });
 
     function selectPublicState(memState) {
-      const result = {
+      return {
         selectedAddress: memState.isUnlocked ? memState.selectedAddress : undefined,
         networkVersion: memState.network,
       };
-      return result;
     }
 
     return publicConfigStore;
@@ -336,6 +355,7 @@ module.exports = class MetamaskController extends EventEmitter {
       markAccountsFound: this.markAccountsFound.bind(this),
       markPasswordForgotten: this.markPasswordForgotten.bind(this),
       unMarkPasswordForgotten: this.unMarkPasswordForgotten.bind(this),
+      getGasPrice: (cb) => cb(null, this.getGasPrice()),
 
       // coinbase
       buyEth: this.buyEth.bind(this),
@@ -348,13 +368,21 @@ module.exports = class MetamaskController extends EventEmitter {
       verifySeedPhrase: nodeify(this.verifySeedPhrase, this),
       clearSeedWordCache: this.clearSeedWordCache.bind(this),
       resetAccount: nodeify(this.resetAccount, this),
-      importAccountWithStrategy: this.importAccountWithStrategy.bind(this),
+      removeAccount: nodeify(this.removeAccount, this),
+      importAccountWithStrategy: nodeify(this.importAccountWithStrategy, this),
+
+      // hardware wallets
+      connectHardware: nodeify(this.connectHardware, this),
+      forgetDevice: nodeify(this.forgetDevice, this),
+      checkHardwareStatus: nodeify(this.checkHardwareStatus, this),
+
+      // TREZOR
+      unlockTrezorAccount: nodeify(this.unlockTrezorAccount, this),
 
       // vault management
-      submitPassword: nodeify(keyringController.submitPassword, keyringController),
+      submitPassword: nodeify(this.submitPassword, this),
 
       // network management
-      setNetworkEndpoints: nodeify(networkController.setNetworkEndpoints, networkController),
       setProviderType: nodeify(networkController.setProviderType, networkController),
       setCustomRpc: nodeify(this.setCustomRpc, this),
 
@@ -363,6 +391,7 @@ module.exports = class MetamaskController extends EventEmitter {
       addToken: nodeify(preferencesController.addToken, preferencesController),
       removeToken: nodeify(preferencesController.removeToken, preferencesController),
       setCurrentAccountTab: nodeify(preferencesController.setCurrentAccountTab, preferencesController),
+      setAccountLabel: nodeify(preferencesController.setAccountLabel, preferencesController),
       setFeatureFlag: nodeify(preferencesController.setFeatureFlag, preferencesController),
 
       // AddressController
@@ -373,7 +402,6 @@ module.exports = class MetamaskController extends EventEmitter {
       createNewVaultAndKeychain: nodeify(this.createNewVaultAndKeychain, this),
       createNewVaultAndRestore: nodeify(this.createNewVaultAndRestore, this),
       addNewKeyring: nodeify(keyringController.addNewKeyring, keyringController),
-      saveAccountLabel: nodeify(keyringController.saveAccountLabel, keyringController),
       exportAccount: nodeify(keyringController.exportAccount, keyringController),
 
       // txController
@@ -381,6 +409,9 @@ module.exports = class MetamaskController extends EventEmitter {
       updateTransaction: nodeify(txController.updateTransaction, txController),
       updateAndApproveTransaction: nodeify(txController.updateAndApproveTransaction, txController),
       retryTransaction: nodeify(this.retryTransaction, this),
+      getFilteredTxList: nodeify(txController.getFilteredTxList, txController),
+      isNonceTaken: nodeify(txController.isNonceTaken, txController),
+      estimateGas: nodeify(this.estimateGas, this),
 
       // messageManager
       signMessage: nodeify(this.signMessage, this),
@@ -399,6 +430,7 @@ module.exports = class MetamaskController extends EventEmitter {
       markNoticeRead: noticeController.markNoticeRead.bind(noticeController),
     };
   }
+
 
 //=============================================================================
 // VAULT / KEYRING RELATED METHODS
@@ -419,26 +451,24 @@ module.exports = class MetamaskController extends EventEmitter {
    * @returns {Object} vault
    */
   async createNewVaultAndKeychain(password) {
-    const release = await this.createVaultMutex.acquire();
-    let vault;
-
+    const releaseLock = await this.createVaultMutex.acquire();
     try {
+      let vault;
       const accounts = await this.keyringController.getAccounts();
-
       if (accounts.length > 0) {
         vault = await this.keyringController.fullUpdate();
-
       } else {
         vault = await this.keyringController.createNewVaultAndKeychain(password);
-        this.selectFirstIdentity(vault);
+        const accounts = await this.keyringController.getAccounts();
+        this.preferencesController.setAddresses(accounts);
+        this.selectFirstIdentity();
       }
-      release();
+      releaseLock();
+      return vault;
     } catch (err) {
-      release();
+      releaseLock();
       throw err;
     }
-
-    return vault;
   }
 
   /**
@@ -447,16 +477,44 @@ module.exports = class MetamaskController extends EventEmitter {
    * @param  {} seed
    */
   async createNewVaultAndRestore(password, seed) {
-    const release = await this.createVaultMutex.acquire();
+    const releaseLock = await this.createVaultMutex.acquire();
     try {
+      // clear known identities
+      this.preferencesController.setAddresses([]);
+      // create new vault
       const vault = await this.keyringController.createNewVaultAndRestore(password, seed);
-      this.selectFirstIdentity(vault);
-      release();
+      // set new identities
+      const accounts = await this.keyringController.getAccounts();
+      this.preferencesController.setAddresses(accounts);
+      this.selectFirstIdentity();
+      releaseLock();
       return vault;
     } catch (err) {
-      release();
+      releaseLock();
       throw err;
     }
+  }
+
+  /*
+   * Submits the user's password and attempts to unlock the vault.
+   * Also synchronizes the preferencesController, to ensure its schema
+   * is up to date with known accounts once the vault is decrypted.
+   *
+   * @param {string} password - The user's password
+   * @returns {Promise<object>} - The keyringController update.
+   */
+  async submitPassword(password) {
+    await this.keyringController.submitPassword(password);
+    const accounts = await this.keyringController.getAccounts();
+
+    // verify keyrings
+    const nonSimpleKeyrings = this.keyringController.keyrings.filter(keyring => keyring.type !== 'Simple Key Pair');
+    if (nonSimpleKeyrings.length > 1 && this.diagnostics) {
+      await this.diagnostics.reportMultipleKeyrings(nonSimpleKeyrings);
+    }
+
+    await this.preferencesController.syncAddresses(accounts);
+    return this.keyringController.fullUpdate();
   }
 
   /**
@@ -468,15 +526,134 @@ module.exports = class MetamaskController extends EventEmitter {
    */
 
   /**
-   * Retrieves the first Identiy from the passed Vault and selects the related address
-   *
-   * @param  {} vault
+   * Sets the first address in the state to the selected address
    */
-  selectFirstIdentity(vault) {
-    const {identities} = vault;
+  selectFirstIdentity() {
+    const {identities} = this.preferencesController.store.getState();
     const address = Object.keys(identities)[0];
     this.preferencesController.setSelectedAddress(address);
   }
+
+  //
+  // Hardware
+  //
+
+  /**
+   * Fetch account list from a trezor device.
+   *
+   * @returns [] accounts
+   */
+  async connectHardware(deviceName, page) {
+
+    switch (deviceName) {
+      case 'trezor':
+        const keyringController = this.keyringController;
+        const oldAccounts = await keyringController.getAccounts();
+        let keyring = await keyringController.getKeyringsByType(
+          'Trezor Hardware',
+        )[0];
+        if (!keyring) {
+          keyring = await this.keyringController.addNewKeyring('Trezor Hardware');
+        }
+        let accounts = [];
+
+        switch (page) {
+          case -1:
+            accounts = await keyring.getPreviousPage();
+            break;
+          case 1:
+            accounts = await keyring.getNextPage();
+            break;
+          default:
+            accounts = await keyring.getFirstPage();
+        }
+
+        // Merge with existing accounts
+        // and make sure addresses are not repeated
+        const accountsToTrack = [...new Set(oldAccounts.concat(accounts.map(a => a.address.toLowerCase())))];
+        this.accountTracker.syncWithAddresses(accountsToTrack);
+        return accounts;
+
+      default:
+        throw new Error('MetamaskController:connectHardware - Unknown device');
+    }
+  }
+
+  /**
+   * Check if the device is unlocked
+   *
+   * @returns {Promise<boolean>}
+   */
+  async checkHardwareStatus(deviceName) {
+
+    switch (deviceName) {
+      case 'trezor':
+        const keyringController = this.keyringController;
+        const keyring = await keyringController.getKeyringsByType(
+          'Trezor Hardware',
+        )[0];
+        if (!keyring) {
+          return false;
+        }
+        return keyring.isUnlocked();
+      default:
+        throw new Error('MetamaskController:checkHardwareStatus - Unknown device');
+    }
+  }
+
+  /**
+   * Clear
+   *
+   * @returns {Promise<boolean>}
+   */
+  async forgetDevice(deviceName) {
+
+    switch (deviceName) {
+      case 'trezor':
+        const keyringController = this.keyringController;
+        const keyring = await keyringController.getKeyringsByType(
+          'Trezor Hardware',
+        )[0];
+        if (!keyring) {
+          throw new Error('MetamaskController:forgetDevice - Trezor Hardware keyring not found');
+        }
+        keyring.forgetDevice();
+        return true;
+      default:
+        throw new Error('MetamaskController:forgetDevice - Unknown device');
+    }
+  }
+
+  /**
+   * Imports an account from a trezor device.
+   *
+   * @returns {} keyState
+   */
+  async unlockTrezorAccount(index) {
+    const keyringController = this.keyringController;
+    const keyring = await keyringController.getKeyringsByType(
+      'Trezor Hardware',
+    )[0];
+    if (!keyring) {
+      throw new Error('MetamaskController - No Trezor Hardware Keyring found');
+    }
+
+    keyring.setAccountToUnlock(index);
+    const oldAccounts = await keyringController.getAccounts();
+    const keyState = await keyringController.addNewAccount(keyring);
+    const newAccounts = await keyringController.getAccounts();
+    this.preferencesController.setAddresses(newAccounts);
+    newAccounts.forEach(address => {
+      if (!oldAccounts.includes(address)) {
+        this.preferencesController.setAccountLabel(address, `TREZOR #${parseInt(index, 10) + 1}`);
+        this.preferencesController.setSelectedAddress(address);
+      }
+    });
+
+    const {identities} = this.preferencesController.store.getState();
+    return {...keyState, identities};
+  }
+
 
   //
   // Account Management
@@ -499,13 +676,15 @@ module.exports = class MetamaskController extends EventEmitter {
 
     await this.verifySeedPhrase();
 
+    this.preferencesController.setAddresses(newAccounts);
     newAccounts.forEach((address) => {
       if (!oldAccounts.includes(address)) {
         this.preferencesController.setSelectedAddress(address);
       }
     });
 
-    return keyState;
+    const {identities} = this.preferencesController.store.getState();
+    return {...keyState, identities};
   }
 
   /**
@@ -583,13 +762,27 @@ module.exports = class MetamaskController extends EventEmitter {
   async resetAccount() {
     const selectedAddress = this.preferencesController.getSelectedAddress();
     this.txController.wipeTransactions(selectedAddress);
-
-    const networkController = this.networkController;
-    const oldType = networkController.getProviderConfig().type;
-    await networkController.setProviderType(oldType, true);
+    this.networkController.resetConnection();
 
     return selectedAddress;
   }
+
+  /**
+   * Removes an account from state / storage.
+   *
+   * @param {string[]} address A hex address
+   *
+   */
+  async removeAccount(address) {
+    // Remove account from the preferences controller
+    this.preferencesController.removeAddress(address);
+    // Remove account from the account tracker controller
+    this.accountTracker.removeAccount(address);
+    // Remove account from the keyring
+    await this.keyringController.removeAccount(address);
+    return address;
+  }
+
 
   /**
    * Imports an account with the specified import strategy.
@@ -600,15 +793,15 @@ module.exports = class MetamaskController extends EventEmitter {
    * @param  {any} args - The data required by that strategy to import an account.
    * @param  {Function} cb - A callback function called with a state update on success.
    */
-  importAccountWithStrategy(strategy, args, cb) {
-    accountImporter.importAccount(strategy, args)
-                   .then((privateKey) => {
-                     return this.keyringController.addNewKeyring('Simple Key Pair', [privateKey]);
-                   })
-                   .then(keyring => keyring.getAccounts())
-                   .then((accounts) => this.preferencesController.setSelectedAddress(accounts[0]))
-                   .then(() => { cb(null, this.keyringController.fullUpdate()); })
-                   .catch((reason) => { cb(reason); });
+  async importAccountWithStrategy(strategy, args) {
+    const privateKey = await accountImporter.importAccount(strategy, args);
+    const keyring = await this.keyringController.addNewKeyring('Simple Key Pair', [privateKey]);
+    const accounts = await keyring.getAccounts();
+    // update accounts in preferences controller
+    const allAccounts = await this.keyringController.getAccounts();
+    this.preferencesController.setAddresses(allAccounts);
+    // set new account as selected
+    await this.preferencesController.setSelectedAddress(accounts[0]);
   }
 
   // ---------------------------------------------------------------------------
@@ -634,9 +827,9 @@ module.exports = class MetamaskController extends EventEmitter {
         case 'signed':
           return cb(null, data.rawSig);
         case 'rejected':
-          return cb(new Error('MetaMask Message Signature: User denied message signature.'));
+          return cb(cleanErrorStack(new Error('MetaMask Message Signature: User denied message signature.')));
         default:
-          return cb(new Error(`MetaMask Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`));
+          return cb(cleanErrorStack(new Error(`MetaMask Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`)));
       }
     });
   }
@@ -653,17 +846,18 @@ module.exports = class MetamaskController extends EventEmitter {
 
     // sets the status op the message to 'approved'
     // and removes the metamaskId for signing
-    return this.messageManager.approveMessage(msgParams)
-               .then((cleanMsgParams) => {
-                 // signs the message
-                 return this.keyringController.signMessage(cleanMsgParams);
-               })
-               .then((rawSig) => {
-                 // tells the listener that the message has been signed
-                 // and can be returned to the dapp
-                 this.messageManager.setMsgStatusSigned(msgId, rawSig);
-                 return this.getState();
-               });
+    return this
+      .messageManager.approveMessage(msgParams)
+      .then((cleanMsgParams) => {
+        // signs the message
+        return this.keyringController.signMessage(cleanMsgParams);
+      })
+      .then((rawSig) => {
+        // tells the listener that the message has been signed
+        // and can be returned to the dapp
+        this.messageManager.setMsgStatusSigned(msgId, rawSig);
+        return this.getState();
+      });
   }
 
   /**
@@ -694,7 +888,7 @@ module.exports = class MetamaskController extends EventEmitter {
    */
   newUnsignedPersonalMessage(msgParams, cb) {
     if (!msgParams.from) {
-      return cb(new Error('MetaMask Message Signature: from field is required.'));
+      return cb(cleanErrorStack(new Error('MetaMask Message Signature: from field is required.')));
     }
 
     const msgId = this.personalMessageManager.addUnapprovedMessage(msgParams);
@@ -705,9 +899,9 @@ module.exports = class MetamaskController extends EventEmitter {
         case 'signed':
           return cb(null, data.rawSig);
         case 'rejected':
-          return cb(new Error('MetaMask Message Signature: User denied message signature.'));
+          return cb(cleanErrorStack(new Error('MetaMask Message Signature: User denied message signature.')));
         default:
-          return cb(new Error(`MetaMask Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`));
+          return cb(cleanErrorStack(new Error(`MetaMask Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`)));
       }
     });
   }
@@ -724,17 +918,18 @@ module.exports = class MetamaskController extends EventEmitter {
     const msgId = msgParams.metamaskId;
     // sets the status op the message to 'approved'
     // and removes the metamaskId for signing
-    return this.personalMessageManager.approveMessage(msgParams)
-               .then((cleanMsgParams) => {
-                 // signs the message
-                 return this.keyringController.signPersonalMessage(cleanMsgParams);
-               })
-               .then((rawSig) => {
-                 // tells the listener that the message has been signed
-                 // and can be returned to the dapp
-                 this.personalMessageManager.setMsgStatusSigned(msgId, rawSig);
-                 return this.getState();
-               });
+    return this
+      .personalMessageManager.approveMessage(msgParams)
+      .then((cleanMsgParams) => {
+        // signs the message
+        return this.keyringController.signPersonalMessage(cleanMsgParams);
+      })
+      .then((rawSig) => {
+        // tells the listener that the message has been signed
+        // and can be returned to the dapp
+        this.personalMessageManager.setMsgStatusSigned(msgId, rawSig);
+        return this.getState();
+      });
   }
 
   /**
@@ -773,9 +968,9 @@ module.exports = class MetamaskController extends EventEmitter {
         case 'signed':
           return cb(null, data.rawSig);
         case 'rejected':
-          return cb(new Error('MetaMask Message Signature: User denied message signature.'));
+          return cb(cleanErrorStack(new Error('MetaMask Message Signature: User denied message signature.')));
         default:
-          return cb(new Error(`MetaMask Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`));
+          return cb(cleanErrorStack(new Error(`MetaMask Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`)));
       }
     });
   }
@@ -792,17 +987,18 @@ module.exports = class MetamaskController extends EventEmitter {
     const msgId = msgParams.metamaskId;
     // sets the status op the message to 'approved'
     // and removes the metamaskId for signing
-    return this.typedMessageManager.approveMessage(msgParams)
-               .then((cleanMsgParams) => {
-                 // signs the message
-                 return this.keyringController.signTypedMessage(cleanMsgParams);
-               })
-               .then((rawSig) => {
-                 // tells the listener that the message has been signed
-                 // and can be returned to the dapp
-                 this.typedMessageManager.setMsgStatusSigned(msgId, rawSig);
-                 return this.getState();
-               });
+    return this
+      .typedMessageManager.approveMessage(msgParams)
+      .then((cleanMsgParams) => {
+        // signs the message
+        return this.keyringController.signTypedMessage(cleanMsgParams);
+      })
+      .then((rawSig) => {
+        // tells the listener that the message has been signed
+        // and can be returned to the dapp
+        this.typedMessageManager.setMsgStatusSigned(msgId, rawSig);
+        return this.getState();
+      });
   }
 
   /**
@@ -909,8 +1105,19 @@ module.exports = class MetamaskController extends EventEmitter {
    */
   async retryTransaction(txId, cb) {
     await this.txController.retryTransaction(txId);
-    const state = await this.getState();
-    return state;
+    return await this.getState();
+  }
+
+  estimateGas(estimateGasParams) {
+    return new Promise((resolve, reject) => {
+      return this.txController.txGasUtil.query.estimateGas(estimateGasParams, (err, res) => {
+        if (err) {
+          return reject(err);
+        }
+
+        return resolve(res);
+      });
+    });
   }
 
 //=============================================================================
@@ -1096,18 +1303,20 @@ module.exports = class MetamaskController extends EventEmitter {
       return '0x' + GWEI_BN.toString(16);
     }
 
-    const lowestPrices = recentBlocks.map((block) => {
-      if (!block.gasPrices || block.gasPrices.length < 1) {
-        return GWEI_BN;
-      }
-      return block.gasPrices
-                  .map(hexPrefix => hexPrefix.substr(2))
-                  .map(hex => new BN(hex, 16))
-                  .sort((a, b) => {
-                    return a.gt(b) ? 1 : -1;
-                  })[0];
-    })
-                                     .map(number => number.div(GWEI_BN).toNumber());
+    const lowestPrices = recentBlocks
+      .map((block) => {
+        if (!block.gasPrices || block.gasPrices.length < 1) {
+          return GWEI_BN;
+        }
+        return block
+          .gasPrices
+          .map(hexPrefix => hexPrefix.substr(2))
+          .map(hex => new BN(hex, 16))
+          .sort((a, b) => {
+            return a.gt(b) ? 1 : -1;
+          })[0];
+      })
+      .map(number => number.div(GWEI_BN).toNumber());
 
     const percentileNum = percentile(50, lowestPrices);
     const percentileNumBn = new BN(percentileNum);
@@ -1226,10 +1435,12 @@ module.exports = class MetamaskController extends EventEmitter {
   set isClientOpen(open) {
     this._isClientOpen = open;
     this.isClientOpenAndUnlocked = this.getState().isUnlocked && open;
+    this.detectTokensController.isOpen = open;
   }
 
   /**
-   * A method for activating the retrieval of price data, which should only be fetched when the UI is visible.
+   * A method for activating the retrieval of price data,
+   * which should only be fetched when the UI is visible.
    * @private
    * @param {boolean} active - True if price data should be getting fetched.
    */

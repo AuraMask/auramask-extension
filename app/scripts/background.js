@@ -1,5 +1,5 @@
 /**
-* @file The entry point for the web extension singleton process.
+ * @file The entry point for the web extension singleton process.
  */
 
 const urlUtil = require('url');
@@ -25,6 +25,9 @@ const setupMetamaskMeshMetrics = require('./lib/setupMetamaskMeshMetrics');
 const EdgeEncryptor = require('./edge-encryptor');
 const getFirstPreferredLangCode = require('./lib/get-first-preferred-lang-code');
 const getObjStructure = require('./lib/getObjStructure');
+const createStreamSink = require('./lib/createStreamSink');
+const ipfsContent = require('./lib/ipfsContent.js');
+
 const {
   ENVIRONMENT_TYPE_POPUP,
   ENVIRONMENT_TYPE_NOTIFICATION,
@@ -36,7 +39,7 @@ const METAMASK_DEBUG = process.env.METAMASK_DEBUG;
 
 log.setDefaultLevel(process.env.METAMASK_DEBUG ? 'debug' : 'warn');
 
-let platform = new ExtensionPlatform();
+const platform = new ExtensionPlatform();
 const notificationManager = new NotificationManager();
 global.METAMASK_NOTIFIER = notificationManager;
 
@@ -50,6 +53,7 @@ const isIE = !!document.documentMode;
 // Edge 20+
 const isEdge = !isIE && !!window.StyleMedia;
 
+let ipfsHandle;
 let popupIsOpen = false;
 let notificationIsOpen = false;
 const openMetamaskTabsIDs = {};
@@ -64,6 +68,7 @@ initialize().catch(log.error);
 
 // setup metamask mesh testing container
 setupMetamaskMeshMetrics();
+
 
 /**
  * An object representing a transaction, in whatever state it is in.
@@ -154,6 +159,7 @@ async function initialize() {
   const initLangCode = await getFirstPreferredLangCode();
   await setupController(initState, initLangCode);
   log.debug('MetaMask initialization complete.');
+  ipfsHandle = ipfsContent(initState.NetworkController.provider);
 }
 
 //
@@ -257,6 +263,11 @@ function setupController(initState, initLangCode) {
   });
   global.metamaskController = controller;
 
+  controller.networkController.on('networkDidChange', () => {
+    ipfsHandle && ipfsHandle.remove();
+    ipfsHandle = ipfsContent(controller.networkController.providerStore.getState());
+  });
+
   // report failed transactions to Sentry
   controller.txController.on(`tx:status-update`, (txId, status) => {
     if (status !== 'failed') return;
@@ -273,7 +284,7 @@ function setupController(initState, initLangCode) {
     asStream(controller.store),
     debounce(1000),
     storeTransform(versionifyData),
-    storeTransform(persistData),
+    createStreamSink(persistData),
     (error) => {
       log.error('MetaMask - Persistence pipeline failed', error);
     },
@@ -289,7 +300,7 @@ function setupController(initState, initLangCode) {
     return versionedData;
   }
 
-  function persistData(state) {
+  async function persistData(state) {
     if (!state) {
       throw new Error('MetaMask - updated state is missing', state);
     }
@@ -297,12 +308,13 @@ function setupController(initState, initLangCode) {
       throw new Error('MetaMask - updated state does not have data', state);
     }
     if (localStore.isSupported) {
-      localStore.set(state)
-                .catch((err) => {
-                  log.error('error setting state in local store:', err);
-                });
+      try {
+        await localStore.set(state);
+      } catch (err) {
+        // log error so we dont break the pipeline
+        log.error('error setting state in local store:', err);
+      }
     }
-    return state;
   }
 
   //
@@ -323,7 +335,7 @@ function setupController(initState, initLangCode) {
 
   /**
    * A runtime.Port object, as provided by the browser:
-   * @link https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/runtime/Port
+   * @see https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/runtime/Port
    * @typedef Port
    * @type Object
    */

@@ -41,6 +41,27 @@ log.debug('MetaMask - injected webu');
 // export global webu, with usage-detection
 setupDappAutoReload(webu, inpageProvider.publicConfigStore);
 
+// export global webu, with usage-detection and deprecation warning
+
+/* TODO: Uncomment this area once auto-reload.js has been deprecated:
+let hasBeenWarned = false
+global.webu = new Proxy(webu, {
+  get: (_webu, key) => {
+    // show warning once on webu access
+    if (!hasBeenWarned && key !== 'currentProvider') {
+      console.warn('MetaMask: webu will be deprecated in the near future in favor of the irchainProvider \nhttps://github.com/MetaMask/faq/blob/master/detecting_metamask.md#webu-deprecation')
+      hasBeenWarned = true
+    }
+    // return value normally
+    return _webu[key]
+  },
+  set: (_webu, key, value) => {
+    // set value normally
+    _webu[key] = value
+  },
+})
+*/
+
 // set webu defaultAccount
 inpageProvider.publicConfigStore.subscribe(function(state) {
   webu.irc.defaultAccount = state.selectedAddress;

@@ -22,6 +22,8 @@ const {
   conversionRateSelector,
 } = require('../selectors.js');
 
+import {clearConfirmTransaction} from '../ducks/confirm-transaction.duck';
+
 const {DEFAULT_ROUTE} = require('../routes');
 
 function mapStateToProps(state) {
@@ -39,6 +41,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     goHome: () => dispatch(actions.goHome()),
+    clearConfirmTransaction: () => dispatch(clearConfirmTransaction()),
   };
 }
 
@@ -115,7 +118,7 @@ SignatureRequest.prototype.renderBalance = function() {
 
   return h('div.request-signature__balance', [
 
-    h('div.request-signature__balance-text', [this.context.t('balance')]),
+    h('div.request-signature__balance-text', `${this.context.t('balance')}:`),
 
     h('div.request-signature__balance-value', `${balanceInEther} ETH`),
 
@@ -174,11 +177,19 @@ SignatureRequest.prototype.renderBody = function() {
 
   if (type === 'personal_sign') {
     rows = [{name: this.context.t('message'), value: this.msgHexToText(data)}];
-  } else if (type === 'irc_signTypedData') {
+  } else if (type === 'eth_signTypedData') {
     rows = data;
-  } else if (type === 'irc_sign') {
+  } else if (type === 'eth_sign') {
     rows = [{name: this.context.t('message'), value: data}];
-    notice = this.context.t('signNotice');
+    notice = [
+      this.context.t('signNotice'),
+      h('span.request-signature__help-link', {
+        onClick: () => {
+          global.platform.openWindow({
+            url: 'https://consensys.zendesk.com/hc/en-us/articles/360004427792',
+          });
+        },
+      }, this.context.t('learnMore'))];
   }
 
   return h('div.request-signature__body', {}, [
@@ -197,6 +208,9 @@ SignatureRequest.prototype.renderBody = function() {
     h('div.request-signature__rows', [
 
       ...rows.map(({name, value}) => {
+        if (typeof value === 'boolean') {
+          value = value.toString();
+        }
         return h('div.request-signature__row', [
           h('div.request-signature__row-title', [`${name}:`]),
           h('div.request-signature__row-value', value),
@@ -235,14 +249,20 @@ SignatureRequest.prototype.renderFooter = function() {
   }
 
   return h('div.request-signature__footer', [
-    h('button.btn-secondary--lg.request-signature__footer__cancel-button', {
+    h('button.btn-default.btn--large.request-signature__footer__cancel-button', {
       onClick: event => {
-        cancel(event).then(() => this.props.history.push(DEFAULT_ROUTE));
+        cancel(event).then(() => {
+          this.props.clearConfirmTransaction();
+          this.props.history.push(DEFAULT_ROUTE);
+        });
       },
     }, this.context.t('cancel')),
-    h('button.btn-primary--lg', {
+    h('button.btn-primary.btn--large', {
       onClick: event => {
-        sign(event).then(() => this.props.history.push(DEFAULT_ROUTE));
+        sign(event).then(() => {
+          this.props.clearConfirmTransaction();
+          this.props.history.push(DEFAULT_ROUTE);
+        });
       },
     }, this.context.t('sign')),
   ]);
