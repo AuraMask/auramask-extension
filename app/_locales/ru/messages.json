@@ -415,9 +415,6 @@
   "keepTrackTokens": {
     "message": "Следите за купленными вами токенами с помощью аккаунта MetaMask."
   },
-  "kovan": {
-    "message": "Тестовая сеть Kovan"
-  },
   "knowledgeDataBase": {
     "message": "Посмотрите нашу Базу Знаний"
   },
@@ -634,26 +631,11 @@
   "revert": {
     "message": "Восстановить"
   },
-  "rinkeby": {
-    "message": "Тестовая сеть Rinkeby"
-  },
-  "ropsten": {
-    "message": "Тестовая сеть Ropsten"
-  },
   "currentRpc": {
     "message": "Current RPC"
   },
   "connectingToMainnet": {
     "message": "Соединение с основной сетью Ethereum"
-  },
-  "connectingToRopsten": {
-    "message": "Соединение с тестовой сетью Ropsten"
-  },
-  "connectingToKovan": {
-    "message": "Соединение с тестовой сетью Kovan"
-  },
-  "connectingToRinkeby": {
-    "message": "Соединение с тестовой сетью Rinkeby"
   },
   "connectingToUnknown": {
     "message": "Соединение с неизвестной сетью"

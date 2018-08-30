@@ -421,9 +421,6 @@
   "keepTrackTokens": {
     "message": "உங்கள் மேடமஸ்க் கணக்குடன் நீங்கள் வாங்கிய டோக்கன்களை கண்காணியுங்கள்."
   },
-  "kovan": {
-    "message": "கோவன் டெஸ்ட் நெட்வொர்க்"
-  },
   "knowledgeDataBase": {
     "message": "எங்கள் அறிவுத் தளத்தைப் பார்வையிடவும்"
   },
@@ -640,26 +637,11 @@
   "revert": {
     "message": "மாற்றியமை"
   },
-  "rinkeby": {
-    "message": "ரிங்கெப்ய டெஸ்ட் நெட்வொர்க்"
-  },
-  "ropsten": {
-    "message": "ரொப்ஸ்டென் டெஸ்ட் நெட்வொர்க்"
-  },
   "currentRpc": {
     "message": "தற்போதைய RPC"
   },
   "connectingToMainnet": {
     "message": "முக்கிய எதெரியும் நெட்வொர்க் இணைக்கும்"
-  },
-  "connectingToRopsten": {
-    "message": "ரொப்ஸ்டென் டெஸ்ட் நெட்வொர்க்குடன் இணைக்கிறது"
-  },
-  "connectingToKovan": {
-    "message": "கோவன் டெஸ்ட் நெட்வொர்க்குடன் இணைத்தல்"
-  },
-  "connectingToRinkeby": {
-    "message": "ரிங்கெப்ய டெஸ்ட் நெட்வொர்க்குடன் இணைக்கிறது"
   },
   "connectingToUnknown": {
     "message": "தெரியாத நெட்வொர்க்குடன் இணைக்கிறது"

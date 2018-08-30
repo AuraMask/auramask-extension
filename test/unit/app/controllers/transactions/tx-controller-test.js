@@ -16,9 +16,9 @@ describe('Transaction Controller', function () {
   beforeEach(function () {
     providerResultStub = {
       // 1 gwei
-      eth_gasPrice: '0x0de0b6b3a7640000',
+      irc_gasPrice: '0x0de0b6b3a7640000',
       // by default, all accounts are external accounts (not contracts)
-      eth_getCode: '0x',
+      irc_getCode: '0x',
     }
     provider = createTestProviderTools({ scaffold: providerResultStub }).provider
     fromAccount = getTestAccounts()[0]
@@ -172,7 +172,7 @@ describe('Transaction Controller', function () {
     })
 
     it('should emit newUnapprovedTx event and pass txMeta as the first argument', function (done) {
-      providerResultStub.eth_gasPrice = '4a817c800'
+      providerResultStub.irc_gasPrice = '4a817c800'
       txController.once('newUnapprovedTx', (txMetaFromEmit) => {
         assert(txMetaFromEmit, 'txMeta is falsey')
         done()
@@ -208,9 +208,9 @@ describe('Transaction Controller', function () {
           'to': '0xc684832530fcbddae4b4230a47e991ddcec2831d',
         },
       }
-        providerResultStub.eth_gasPrice = '4a817c800'
-        providerResultStub.eth_getBlockByNumber = { gasLimit: '47b784' }
-        providerResultStub.eth_estimateGas = '5209'
+        providerResultStub.irc_gasPrice = '4a817c800'
+        providerResultStub.irc_getBlockByNumber = { gasLimit: '47b784' }
+        providerResultStub.irc_estimateGas = '5209'
       txController.addTxGasDefaults(txMeta)
       .then((txMetaWithDefaults) => {
         assert(txMetaWithDefaults.txParams.value, '0x0', 'should have added 0x0 as the value')
@@ -273,8 +273,8 @@ describe('Transaction Controller', function () {
       const wrongValue = '0x05'
 
       txController.addTx(txMeta)
-      providerResultStub.eth_gasPrice = wrongValue
-      providerResultStub.eth_estimateGas = '0x5209'
+      providerResultStub.irc_gasPrice = wrongValue
+      providerResultStub.irc_estimateGas = '0x5209'
 
       const signStub = sinon.stub(txController, 'signTransaction').callsFake(() => Promise.resolve())
 
@@ -377,7 +377,7 @@ describe('Transaction Controller', function () {
         txParams: {},
         metamaskNetworkId: currentNetworkId,
       }
-      providerResultStub.eth_sendRawTransaction = hash
+      providerResultStub.irc_sendRawTransaction = hash
     })
 
     it('should publish a tx, updates the rawTx when provided a one', async function () {

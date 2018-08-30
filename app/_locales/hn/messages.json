@@ -397,9 +397,6 @@
     "message": "JSON फ़ाइल",
     "description": "एक खाता आयात करने के लिए प्रारूप"
   },
-  "kovan": {
-    "message": "कोवान टेस्ट नेटवर्क"
-  },
   "knowledgeDataBase": {
     "message": "हमारे नॉलेज बेस पर जाएं"
   },
@@ -597,12 +594,6 @@
   },
   "revert": {
     "message": "वापस"
-  },
-  "rinkeby": {
-    "message": "रिचीव टेस्ट नेटवर्क"
-  },
-  "ropsten": {
-    "message": "रॉप्स्टेन टेस्ट नेटवर्क"
   },
   "sampleAccountName": {
     "message": "उदाहरण के लिए मेरा नया खाता",

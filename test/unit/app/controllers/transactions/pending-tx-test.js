@@ -154,12 +154,12 @@ describe('PendingTransactionTracker', function () {
     })
 
     it('should should return if query does not return txParams', function () {
-      providerResultStub.eth_getTransactionByHash = null
+      providerResultStub.irc_getTransactionByHash = null
       pendingTxTracker._checkPendingTx(txMeta)
     })
 
     it('should emit \'txConfirmed\'', function (done) {
-      providerResultStub.eth_getTransactionByHash = {blockNumber: '0x01'}
+      providerResultStub.irc_getTransactionByHash = {blockNumber: '0x01'}
       pendingTxTracker.once('tx:confirmed', (txId) => {
         assert(txId, txMeta.id, 'should pass txId')
         done()

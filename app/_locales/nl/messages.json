@@ -397,9 +397,6 @@
     "message": "JSON-bestand",
     "description": "formaat voor het importeren van een account"
   },
-  "kovan": {
-    "message": "Kovan-testnetwerk"
-  },
   "knowledgeDataBase": {
     "message": "Bezoek onze Knowledge Base"
   },
@@ -597,12 +594,6 @@
   },
   "revert": {
     "message": "terugkeren"
-  },
-  "rinkeby": {
-    "message": "Rinkeby testnetwerk"
-  },
-  "ropsten": {
-    "message": "Ropsten testnetwerk"
   },
   "sampleAccountName": {
     "message": "Bijv. Mijn nieuwe account",

@@ -177,9 +177,9 @@ SignatureRequest.prototype.renderBody = function() {
 
   if (type === 'personal_sign') {
     rows = [{name: this.context.t('message'), value: this.msgHexToText(data)}];
-  } else if (type === 'eth_signTypedData') {
+  } else if (type === 'irc_signTypedData') {
     rows = data;
-  } else if (type === 'eth_sign') {
+  } else if (type === 'irc_sign') {
     rows = [{name: this.context.t('message'), value: data}];
     notice = [
       this.context.t('signNotice'),

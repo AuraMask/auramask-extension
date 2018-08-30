@@ -10,7 +10,7 @@ const stubs = {
 }
 
 const sendUtils = proxyquire('../send-footer.utils.js', {
-  'ethereumjs-abi': {
+  'icjs-abi': {
     rawEncode: stubs.rawEncode,
   },
 })

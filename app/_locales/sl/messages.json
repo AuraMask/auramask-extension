@@ -397,9 +397,6 @@
     "message": "JSON datoteka",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Testno omrežje Kovan"
-  },
   "knowledgeDataBase": {
     "message": "Obiščite našo pomoč"
   },
@@ -597,12 +594,6 @@
   },
   "revert": {
     "message": "Povrni"
-  },
-  "rinkeby": {
-    "message": "Testno omrežje Rinkeby"
-  },
-  "ropsten": {
-    "message": "Testno omrežje Ropsten"
   },
   "sampleAccountName": {
     "message": "npr. Moj nov račun",

@@ -316,9 +316,6 @@
     "message": "JSON File",
     "description": "format para sa pag-import ng account"
   },
-  "kovan": {
-    "message": "Kovan Test Network"
-  },
   "lessThanMax": {
     "message": "dapat mas mababa o katumbas ng $1.",
     "description": "helper para sa pag-input ng hex bilang decimal input"
@@ -468,12 +465,6 @@
   },
   "revert": {
     "message": "Ibalik"
-  },
-  "rinkeby": {
-    "message": "Rinkeby Test Network"
-  },
-  "ropsten": {
-    "message": "Ropsten Test Network"
   },
   "sampleAccountName": {
     "message": "Halimbawa: Ang aking bagong account",

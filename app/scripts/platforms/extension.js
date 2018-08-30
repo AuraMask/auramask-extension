@@ -1,5 +1,5 @@
 const extension = require('extensionizer');
-const explorerLink = require('etherscan-link').createExplorerLink;
+const explorerLink = require('irc.js').scanLink.createExplorerLink;
 
 class ExtensionPlatform {
 

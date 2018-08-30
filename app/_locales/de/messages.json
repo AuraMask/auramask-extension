@@ -415,9 +415,6 @@
     "message": "JSON Datei",
     "description": "Dateiformat für das Importieren eines Accounts"
   },
-  "kovan": {
-    "message": "Kovan Testnetzwerk"
-  },
   "knowledgeDataBase": {
     "message": "Schau in unsere Wissensdatenbank"
   },
@@ -628,26 +625,11 @@
   "revert": {
     "message": "Rückgängig machen"
   },
-  "rinkeby": {
-    "message": "Rinkeby Testnetzwerk"
-  },
-  "ropsten": {
-    "message": "Ropsten Testnetzwerk"
-  },
   "currentRpc": {
     "message": "Aktueller RPC"
   },
   "connectingToMainnet": {
     "message": "Verbinde zum Ethereum Main Net"
-  },
-  "connectingToRopsten": {
-    "message": " Verbinde zum Ropsten Testnetzwerk"
-  },
-  "connectingToKovan": {
-    "message": " Verbinde zum Kovan Testnetzwerk"
-  },
-  "connectingToRinkeby": {
-    "message": " Verbinde zum Rinkeby Testnetzwerk"
   },
   "connectingToUnknown": {
     "message": "Verbinde zu einem unbekanntem Netzwerk"

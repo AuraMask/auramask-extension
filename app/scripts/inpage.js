@@ -1,6 +1,6 @@
 /*global webu*/
 cleanContextForImports();
-require('webu/dist/webu-light.min');
+const Webu = require('webu/dist/webu-light.min');
 const log = require('loglevel');
 const LocalMessageDuplexStream = require('post-message-stream');
 const setupDappAutoReload = require('./lib/auto-reload.js');

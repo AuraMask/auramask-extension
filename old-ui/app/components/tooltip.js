@@ -1,7 +1,7 @@
 const Component = require('react').Component;
 const h = require('react-hyperscript');
 const inherits = require('util').inherits;
-const ReactTooltip = require('react-tooltip-component');
+// const ReactTooltip = require('react-tooltip-component');
 
 module.exports = Tooltip;
 
@@ -12,12 +12,13 @@ function Tooltip() {
 }
 
 Tooltip.prototype.render = function() {
-  const props = this.props;
-  const {position, title, children} = props;
-
-  return h(ReactTooltip, {
-    position: position || 'left',
-    title,
-    fixed: true,
-  }, children);
+  // const props = this.props;
+  // const {position, title, children} = props;
+  window.log('???????????????????????????????????????????');
+  return h();
+  // return h(ReactTooltip, {
+  //   position: position || 'left',
+  //   title,
+  //   fixed: true,
+  // }, children);
 };

@@ -1,5 +1,5 @@
-const ethAbi = require('ethereumjs-abi')
-const ethUtil = require('ethereumjs-util')
+const ethAbi = require('icjs-abi')
+const ethUtil = require('icjs-util')
 const { TOKEN_TRANSFER_FUNCTION_SIGNATURE } = require('../send.constants')
 
 function addHexPrefixToObjectValues (obj) {

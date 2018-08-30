@@ -316,9 +316,6 @@
     "message": "Fichier JSON",
     "description": "format d'importation d'un compte"
   },
-  "kovan": {
-    "message": "Réseau de test Kovan"
-  },
   "lessThanMax": {
     "message": "doit être inférieur ou égal à $1.",
     "description": "helper pour la saisie hexadécimale en entrée décimale"
@@ -468,12 +465,6 @@
   },
   "revert": {
     "message": "Rétablir"
-  },
-  "rinkeby": {
-    "message": "Réseau de test Rinkeby"
-  },
-  "ropsten": {
-    "message": "Réseau de test Ropsten"
   },
   "sampleAccountName": {
     "message": "Par exemple mon nouveau compte",

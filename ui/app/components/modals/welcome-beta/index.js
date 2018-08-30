@@ -1,2 +1,3 @@
-import WelcomeBeta from './welcome-beta.component'
-module.exports = WelcomeBeta
+import WelcomeBeta from './welcome-beta.component';
+
+module.exports = WelcomeBeta;

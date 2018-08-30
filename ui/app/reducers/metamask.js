@@ -17,7 +17,7 @@ function reduceMetamask(state, action) {
     isAccountMenuOpen: false,
     isMascara: window.platform instanceof MetamascaraPlatform,
     isPopup: getEnvironmentType(window.location.href) === ENVIRONMENT_TYPE_POPUP,
-    rpcTarget: 'https://rawtestrpc.metamask.io/',
+    rpcTarget: 'http://localhost:8545/',
     identities: {},
     unapprovedTxs: {},
     noActiveNotices: true,

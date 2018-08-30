@@ -4,24 +4,23 @@
     "isUnlocked": false,
     "currentDomain": "example.com",
     "rpcTarget": "http://localhost:8545/",
-    "identities": {},
-    "unconfTxs": {},
+    "identities": { },
+    "unconfTxs": { },
     "currentCurrency": "USD",
     "conversionRate": 11.4379398,
     "conversionDate": 1473358355,
-    "accounts": {},
+    "accounts": { },
     "transactions": [],
     "selectedAddress": "0xfdea65c8e26263f6d9a1b5de9555d2931a33b825",
     "network": "1473186153102",
     "seedWords": null,
-    "unconfMsgs": {},
+    "unconfMsgs": { },
     "messages": [],
     "shapeShiftTxList": [],
     "provider": {
       "type": "rpc",
-      "rpcTarget": "http://localhost:8545"
-    },
-    "selectedAddress": "0xfdea65c8e26263f6d9a1b5de9555d2931a33b825"
+      "rpcTarget": "http://localhost:8545/"
+    }
   },
   "appState": {
     "menuOpen": false,
@@ -38,5 +37,5 @@
     "isLoading": false,
     "warning": null
   },
-  "identities": {}
+  "identities": { }
 }

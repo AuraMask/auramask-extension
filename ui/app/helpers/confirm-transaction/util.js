@@ -1,82 +1,83 @@
-import currencyFormatter from 'currency-formatter'
-import currencies from 'currency-formatter/currencies'
-import abi from 'human-standard-token-abi'
-import abiDecoder from 'abi-decoder'
-import ethUtil from 'ethereumjs-util'
-import BigNumber from 'bignumber.js'
+import currencyFormatter from 'currency-formatter';
+import currencies from 'currency-formatter/currencies';
+import abi from 'human-standard-token-abi';
+import abiDecoder from 'irc.js/src/abi';
+import ethUtil from 'icjs-util';
+import BigNumber from 'bignumber.js';
 
-abiDecoder.addABI(abi)
+// abiDecoder.addABI(abi);
 
-import MethodRegistry from 'eth-method-registry'
-const registry = new MethodRegistry({ provider: global.ethereumProvider })
+import MethodRegistry from 'irc.js/src/registry';
+
+const registry = new MethodRegistry({provider: global.ethereumProvider});
 
 import {
   conversionUtil,
   addCurrencies,
   multiplyCurrencies,
   conversionGreaterThan,
-} from '../../conversion-util'
+} from '../../conversion-util';
 
-import { unconfirmedTransactionsCountSelector } from '../../selectors/confirm-transaction'
+import {unconfirmedTransactionsCountSelector} from '../../selectors/confirm-transaction';
 
-export function getTokenData (data = {}) {
-  return abiDecoder.decodeMethod(data)
+export function getTokenData(data = {}) {
+  return abiDecoder.decodeMethod(data);
 }
 
-export async function getMethodData (data = {}) {
-  const prefixedData = ethUtil.addHexPrefix(data)
-  const fourBytePrefix = prefixedData.slice(0, 10)
-  const sig = await registry.lookup(fourBytePrefix)
-  const parsedResult = registry.parse(sig)
+export async function getMethodData(data = {}) {
+  const prefixedData = ethUtil.addHexPrefix(data);
+  const fourBytePrefix = prefixedData.slice(0, 10);
+  const sig = await registry.lookup(fourBytePrefix);
+  const parsedResult = registry.parse(sig);
 
   return {
     name: parsedResult.name,
     params: parsedResult.args,
-  }
+  };
 }
 
-export function increaseLastGasPrice (lastGasPrice) {
+export function increaseLastGasPrice(lastGasPrice) {
   return ethUtil.addHexPrefix(multiplyCurrencies(lastGasPrice, 1.1, {
     multiplicandBase: 16,
     multiplierBase: 10,
     toNumericBase: 'hex',
-  }))
+  }));
 }
 
-export function hexGreaterThan (a, b) {
+export function hexGreaterThan(a, b) {
   return conversionGreaterThan(
-    { value: a, fromNumericBase: 'hex' },
-    { value: b, fromNumericBase: 'hex' },
-  )
+    {value: a, fromNumericBase: 'hex'},
+    {value: b, fromNumericBase: 'hex'},
+  );
 }
 
-export function getHexGasTotal ({ gasLimit, gasPrice }) {
+export function getHexGasTotal({gasLimit, gasPrice}) {
   return ethUtil.addHexPrefix(multiplyCurrencies(gasLimit, gasPrice, {
     toNumericBase: 'hex',
     multiplicandBase: 16,
     multiplierBase: 16,
-  }))
+  }));
 }
 
-export function addEth (...args) {
+export function addEth(...args) {
   return args.reduce((acc, base) => {
     return addCurrencies(acc, base, {
       toNumericBase: 'dec',
       numberOfDecimals: 6,
-    })
-  })
+    });
+  });
 }
 
-export function addFiat (...args) {
+export function addFiat(...args) {
   return args.reduce((acc, base) => {
     return addCurrencies(acc, base, {
       toNumericBase: 'dec',
       numberOfDecimals: 2,
-    })
-  })
+    });
+  });
 }
 
-export function getTransactionAmount ({
+export function getTransactionAmount({
   value,
   toCurrency,
   conversionRate,
@@ -90,10 +91,10 @@ export function getTransactionAmount ({
     numberOfDecimals,
     fromDenomination: 'WEI',
     conversionRate,
-  })
+  });
 }
 
-export function getTransactionFee ({
+export function getTransactionFee({
   value,
   toCurrency,
   conversionRate,
@@ -107,24 +108,24 @@ export function getTransactionFee ({
     toCurrency,
     numberOfDecimals,
     conversionRate,
-  })
+  });
 }
 
-export function formatCurrency (value, currencyCode) {
-  const upperCaseCurrencyCode = currencyCode.toUpperCase()
+export function formatCurrency(value, currencyCode) {
+  const upperCaseCurrencyCode = currencyCode.toUpperCase();
 
   return currencies.find(currency => currency.code === upperCaseCurrencyCode)
-    ? currencyFormatter.format(Number(value), { code: upperCaseCurrencyCode })
-    : value
+    ? currencyFormatter.format(Number(value), {code: upperCaseCurrencyCode})
+    : value;
 }
 
-export function convertTokenToFiat ({
+export function convertTokenToFiat({
   value,
   toCurrency,
   conversionRate,
   contractExchangeRate,
 }) {
-  const totalExchangeRate = conversionRate * contractExchangeRate
+  const totalExchangeRate = conversionRate * contractExchangeRate;
 
   return conversionUtil(value, {
     fromNumericBase: 'dec',
@@ -132,17 +133,17 @@ export function convertTokenToFiat ({
     toCurrency,
     numberOfDecimals: 2,
     conversionRate: totalExchangeRate,
-  })
+  });
 }
 
-export function hasUnconfirmedTransactions (state) {
-  return unconfirmedTransactionsCountSelector(state) > 0
+export function hasUnconfirmedTransactions(state) {
+  return unconfirmedTransactionsCountSelector(state) > 0;
 }
 
-export function roundExponential (value) {
-  const PRECISION = 4
-  const bigNumberValue = new BigNumber(String(value))
+export function roundExponential(value) {
+  const PRECISION = 4;
+  const bigNumberValue = new BigNumber(String(value));
 
   // In JS, numbers with exponentials greater than 20 get displayed as an exponential.
-  return bigNumberValue.e > 20 ? Number(bigNumberValue.toPrecision(PRECISION)) : value
+  return bigNumberValue.e > 20 ? Number(bigNumberValue.toPrecision(PRECISION)) : value;
 }

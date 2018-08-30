@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
-import ethUtil from 'ethereumjs-util'
+import ethUtil from 'icjs-util'
 import { checkExistingAddresses } from './util'
 import { tokenInfoGetter } from '../../../token-util'
 import { DEFAULT_ROUTE, CONFIRM_ADD_TOKEN_ROUTE } from '../../../routes'

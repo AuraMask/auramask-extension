@@ -1,31 +1,16 @@
-const ROPSTEN = 'eth ropsten';
-const RINKEBY = 'eth rinkeby';
-const KOVAN = 'eth kovan';
-const MAINNET = 'eth mainnet';
 const LOCALHOST = 'localhost';
 
-const MAINNET_CODE = 1
-const ROPSTEN_CODE = 3;
-const RINKEYBY_CODE = 4;
-const KOVAN_CODE = 42;
+const MAINNET_CODE = 1;
 
-const ROPSTEN_DISPLAY_NAME = 'Ropsten';
-const RINKEBY_DISPLAY_NAME = 'Rinkeby';
-const KOVAN_DISPLAY_NAME = 'Kovan';
 const MAINNET_DISPLAY_NAME = 'Main IrChain Network';
 
+const MAINNET_RPC_URL = '';
+const LOCALHOST_RPC_URL = 'http://localhost:8545/';
+
 module.exports = {
-  ROPSTEN,
-  RINKEBY,
-  KOVAN,
-  MAINNET,
   LOCALHOST,
   MAINNET_CODE,
-  ROPSTEN_CODE,
-  RINKEYBY_CODE,
-  KOVAN_CODE,
-  ROPSTEN_DISPLAY_NAME,
-  RINKEBY_DISPLAY_NAME,
-  KOVAN_DISPLAY_NAME,
   MAINNET_DISPLAY_NAME,
+  MAINNET_RPC_URL,
+  LOCALHOST_RPC_URL,
 };

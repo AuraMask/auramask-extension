@@ -8,9 +8,9 @@ Before we get started, it's worth becoming familiar with our basic architecture:
 
 The `metamask-background` describes the file at `app/scripts/background.js`, which is the web extension singleton. This context instantiates an instance of the `MetaMask Controller`, which represents the user's accounts, a connection to the blockchain, and the interaction with new Dapps.
 
-When a new site is visited, the WebExtension creates a new `ContentScript` in that page's context, which can be seen at `app/scripts/contentscript.js`. This script represents a per-page setup process, which creates the per-page `web3` api, connects it to the background script via the Port API (wrapped in a [stream abstraction](https://github.com/substack/stream-handbook)), and injected into the DOM before anything loads.
+When a new site is visited, the WebExtension creates a new `ContentScript` in that page's context, which can be seen at `app/scripts/contentscript.js`. This script represents a per-page setup process, which creates the per-page `webu` api, connects it to the background script via the Port API (wrapped in a [stream abstraction](https://github.com/substack/stream-handbook)), and injected into the DOM before anything loads.
 
-The most confusing part about porting MetaMask to a new platform is the way we provide the Web3 API over a series of streams between contexts. Once you understand how we create the [InpageProvider](../app/scripts/lib/inpage-provider.js) in the [inpage.js script](../app/scripts/inpage.js), you will be able to understand how the [port-stream](../app/scripts/lib/port-stream.js) is just a thin wrapper around the [postMessage API](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage), and a similar stream API can be wrapped around any communication channel to communicate with the `MetaMaskController` via its `setupUntrustedCommunication(stream, domain)` method.
+The most confusing part about porting MetaMask to a new platform is the way we provide the Webu API over a series of streams between contexts. Once you understand how we create the [InpageProvider](../app/scripts/lib/inpage-provider.js) in the [inpage.js script](../app/scripts/inpage.js), you will be able to understand how the [port-stream](../app/scripts/lib/port-stream.js) is just a thin wrapper around the [postMessage API](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage), and a similar stream API can be wrapped around any communication channel to communicate with the `MetaMaskController` via its `setupUntrustedCommunication(stream, domain)` method.
 
 ### The MetaMask Controller
 
@@ -77,21 +77,21 @@ Since `background.js` is essentially the Extension setup file, we can see it doi
 - Provide the instance's initial state, leaving MetaMask persistence to the platform.
 - Providing a `platform` object. This is becoming our catch-all adapter for platforms to define a few other platform-variant features we require, like opening a web link. (Soon we will be moving encryption out here too, since our browser-encryption isn't portable enough!)
 
-## Ports, streams, and Web3!
+## Ports, streams, and Webu!
 
 Everything so far has been enough to create a MetaMask wallet on virtually any platform that runs JS, but MetaMask's most unique feature isn't being a wallet, it's providing an Ethereum-enabled JavaScript context to websites.
 
 MetaMask has two kinds of [duplex stream APIs](https://github.com/substack/stream-handbook#duplex) that it exposes:
 - [metamask.setupTrustedCommunication(connectionStream, originDomain)](https://github.com/MetaMask/metamask-extension/blob/master/app/scripts/metamask-controller.js#L352) - This stream is used to connect the user interface over a remote port, and may not be necessary for contexts where the interface and the metamask-controller share a process.
-- [metamask.setupUntrustedCommunication(connectionStream, originDomain)](https://github.com/MetaMask/metamask-extension/blob/master/app/scripts/metamask-controller.js#L337) - This method is used to connect a new web site's web3 API to MetaMask's blockchain connection. Additionally, the `originDomain` is used to block detected phishing sites.
+- [metamask.setupUntrustedCommunication(connectionStream, originDomain)](https://github.com/MetaMask/metamask-extension/blob/master/app/scripts/metamask-controller.js#L337) - This method is used to connect a new web site's webu API to MetaMask's blockchain connection. Additionally, the `originDomain` is used to block detected phishing sites.
 
-### Web3 as a Stream
+### Webu as a Stream
 
-If you are making a MetaMask-powered browser for a new platform, one of the trickiest tasks will be injecting the Web3 API into websites that are visited. On WebExtensions, we actually have to pipe data through a total of three JS contexts just to let sites talk to our background process (site -> contentscript -> background).
+If you are making a MetaMask-powered browser for a new platform, one of the trickiest tasks will be injecting the Webu API into websites that are visited. On WebExtensions, we actually have to pipe data through a total of three JS contexts just to let sites talk to our background process (site -> contentscript -> background).
 
-To make this as easy as possible, we use one of our favorite internal tools, [web3-provider-engine](https://www.npmjs.com/package/web3-provider-engine) to construct a custom web3 provider object whose source of truth is a stream that we connect to remotely.
+To make this as easy as possible, we use one of our favorite internal tools, [webu-provider-engine](https://www.npmjs.com/package/webu-provider-engine) to construct a custom webu provider object whose source of truth is a stream that we connect to remotely.
 
-To see how we do that, you can refer to the [inpage script](https://github.com/MetaMask/metamask-extension/blob/master/app/scripts/inpage.js) that we inject into every website. There you can see it creates a multiplex stream to the background, and uses it to initialize what we call the [inpage-provider](https://github.com/MetaMask/metamask-extension/blob/master/app/scripts/lib/inpage-provider.js), which you can see stubs a few methods out, but mostly just passes calls to `sendAsync` through the stream it's passed! That's really all the magic that's needed to create a web3-like API in a remote context, once you have a stream to MetaMask available.
+To see how we do that, you can refer to the [inpage script](https://github.com/MetaMask/metamask-extension/blob/master/app/scripts/inpage.js) that we inject into every website. There you can see it creates a multiplex stream to the background, and uses it to initialize what we call the [inpage-provider](https://github.com/MetaMask/metamask-extension/blob/master/app/scripts/lib/inpage-provider.js), which you can see stubs a few methods out, but mostly just passes calls to `sendAsync` through the stream it's passed! That's really all the magic that's needed to create a webu-like API in a remote context, once you have a stream to MetaMask available.
 
 In `inpage.js` you can see we create a `PortStream`, that's just a class we use to wrap WebExtension ports as streams, so we can reuse our favorite stream abstraction over the more irregular API surface of the WebExtension. In a new platform, you will probably need to construct this stream differently. The key is that you need to construct a stream that talks from the site context to the background. Once you have that set up, it works like magic!
 

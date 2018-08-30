@@ -18,8 +18,8 @@ const {
   SIMPLE_GAS_COST,
   TOKEN_TRANSFER_FUNCTION_SIGNATURE,
 } = require('./send.constants')
-const abi = require('ethereumjs-abi')
-const ethUtil = require('ethereumjs-util')
+const abi = require('icjs-abi')
+const ethUtil = require('icjs-util')
 
 module.exports = {
   addGasBuffer,

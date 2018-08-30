@@ -421,9 +421,6 @@
   "keepTrackTokens": {
     "message": "Udržujte si záznamy o tokenech, které jste koupili s účtem v MetaMasku."
   },
-  "kovan": {
-    "message": "Kovan Test Network"
-  },
   "knowledgeDataBase": {
     "message": "Navštivte naši Knowledge Base"
   },
@@ -640,26 +637,11 @@
   "revert": {
     "message": "Zvrátit"
   },
-  "rinkeby": {
-    "message": "Rinkeby Test Network"
-  },
-  "ropsten": {
-    "message": "Ropsten Test Network"
-  },
   "currentRpc": {
     "message": "Současné RPC"
   },
   "connectingToMainnet": {
     "message": "Připojuji se k Main Ethereum Network"
-  },
-  "connectingToRopsten": {
-    "message": "Připojuji se k Ropsten Test Network"
-  },
-  "connectingToKovan": {
-    "message": "Připojuji se k Kovan Test Network"
-  },
-  "connectingToRinkeby": {
-    "message": "Připojuji se k Rinkeby Test Network"
   },
   "connectingToUnknown": {
     "message": "Připojuji se k neznámé síti"

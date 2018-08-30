@@ -55,9 +55,9 @@ function MetamaskInpageProvider(connectionStream) {
 MetamaskInpageProvider.prototype.sendAsync = function(payload, cb) {
   const self = this;
 
-  if (payload.method === 'eth_signTypedData') {
+  if (payload.method === 'irc_signTypedData') {
     console.warn(
-      'MetaMask: This experimental version of eth_signTypedData will be deprecated in the next release in favor of the standard as defined in EIP-712. See https://git.io/fNzPl for more information on the new standard.');
+      'MetaMask: This experimental version of irc_signTypedData will be deprecated in the next release in favor of the standard as defined in EIP-712. See https://git.io/fNzPl for more information on the new standard.');
   }
 
   self.rpcEngine.handle(payload, cb);

@@ -19,8 +19,8 @@
     "tokenExchangeRates": {},
     "coinOptions": {},
     "provider": {
-      "type": "mainnet",
-      "rpcTarget": "https://mainnet.infura.io/metamask"
+      "type": "localhost",
+      "rpcTarget": "http://localhost:8545/"
     },
     "network": "1",
     "accounts": {
@@ -702,10 +702,7 @@
     "conversionRate": 418.62,
     "conversionDate": 1512615622,
     "infuraNetworkStatus": {
-      "mainnet": "ok",
-      "ropsten": "ok",
-      "kovan": "ok",
-      "rinkeby": "ok"
+      "mainnet": "ok"
     },
     "shapeShiftTxList": [],
     "lostAccounts": []

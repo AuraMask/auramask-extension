@@ -113,15 +113,6 @@
   "connectingToMainnet": {
     "message": "Conectando a la red principal de Ethereum (Main Net)"
   },
-  "connectingToRopsten": {
-    "message": "Conectando a la red de test Ropsten"
-  },
-  "connectingToKovan": {
-    "message": "Conectando a la red de test Kovan"
-  },
-  "connectingToRinkeby": {
-    "message": "Conectando a la red de test Rinkeby"
-  },
   "connectingToUnknown": {
     "message": "Conectando a una red desconocida"
   },
@@ -430,9 +421,6 @@
   "knowledgeDataBase": {
     "message": "Visita nuestra base de conocimiento"
   },
-  "kovan": {
-    "message": "Red de pruebas Kovan"
-  },
   "lessThanMax": {
     "message": "Debe ser menor o igual a $1",
     "description": "Helper para ingresar hex como decimal"
@@ -651,12 +639,6 @@
   },
   "revert": {
     "message": "Revertir"
-  },
-  "rinkeby": {
-    "message": "Red privada Rinkeby"
-  },
-  "ropsten": {
-    "message": "Red privada Ropsten"
   },
   "sampleAccountName": {
     "message": "P.ej. Mi nueva cuenta",

@@ -68,7 +68,7 @@
 - Add an extra px to address for Firefox clipping.
 - Fix Firefox scrollbar.
 - Open metamask popup for transaction confirmation before gas estimation finishes and add a loading screen over transaction confirmation.
-- Fix bug that prevented eth_signTypedData from signing bytes.
+- Fix bug that prevented irc_signTypedData from signing bytes.
 - Further improve gas price estimation.
 
 ## 3.13.4 2018-1-9
@@ -121,11 +121,11 @@
 - Fix bug where log filters were not populated correctly
 - Fix bug where webu API was sometimes injected after the page loaded.
 - Fix bug where first account was sometimes not selected correctly after creating or restoring a vault.
-- Fix bug where imported accounts could not use new eth_signTypedData method.
+- Fix bug where imported accounts could not use new irc_signTypedData method.
 
 ## 3.11.0 2017-10-11
 
-- Add support for new eth_signTypedData method per EIP 712.
+- Add support for new irc_signTypedData method per EIP 712.
 - Fix bug where some transactions would be shown as pending forever, even after successfully mined.
 - Fix bug where a transaction might be shown as pending forever if another tx with the same nonce was mined.
 - Fix link to support article on token addresses.
@@ -197,8 +197,8 @@ rollback to 3.10.0 due to bug
 ## 3.9.12 2017-9-6
 
 - Fix bug that prevented webu 1.0 compatibility
-- Make eth_sign deprecation warning less noisy
-- Add useful link to eth_sign deprecation warning.
+- Make irc_sign deprecation warning less noisy
+- Add useful link to irc_sign deprecation warning.
 - Fix bug with network version serialization over synchronous RPC
 - Add MetaMask version to state logs.
 - Add the total amount of tokens when multiple tokens are added under the token list
@@ -220,8 +220,8 @@ rollback to 3.10.0 due to bug
 
 - Fix bug where some transaction submission errors would show an empty screen.
 - Fix bug that could mis-render token balances when very small.
-- Fix formatting of eth_sign "Sign Message" view.
-- Add deprecation warning to eth_sign "Sign Message" view.
+- Fix formatting of irc_sign "Sign Message" view.
+- Add deprecation warning to irc_sign "Sign Message" view.
 
 ## 3.9.8 2017-8-16
 
@@ -461,13 +461,13 @@ rollback to 3.10.0 due to bug
 
 ## 3.2.2 2017-2-8
 
-- Revert eth.sign behavior to the previous one with a big warning.  We will be gradually implementing the new behavior over the coming time. https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_sign
+- Revert eth.sign behavior to the previous one with a big warning.  We will be gradually implementing the new behavior over the coming time. https://github.com/ethereum/wiki/wiki/JSON-RPC#irc_sign
 
 - Improve test coverage of eth.sign behavior, including a code example of verifying a signature.
 
 ## 3.2.2 2017-2-8
 
-- Revert eth.sign behavior to the previous one with a big warning.  We will be gradually implementing the new behavior over the coming time. https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_sign
+- Revert eth.sign behavior to the previous one with a big warning.  We will be gradually implementing the new behavior over the coming time. https://github.com/ethereum/wiki/wiki/JSON-RPC#irc_sign
 
 ## 3.2.1 2017-2-8
 
@@ -504,7 +504,7 @@ rollback to 3.10.0 due to bug
 - Fix Bug where you see an empty transaction flash by on the confirm transaction view.
 - Create visible difference in transaction history between an approved but not yet included in a block transaction and a transaction who has been confirmed.
 - Fix memory leak in RPC Cache
-- Override RPC commands eth_syncing and webu_clientVersion
+- Override RPC commands irc_syncing and webu_clientVersion
 - Remove certain non-essential permissions from certain builds.
 - Add a check for when a tx is included in a block.
 - Fix bug where browser-solidity would sometimes warn of a contract creation error when there was none.
@@ -529,7 +529,7 @@ rollback to 3.10.0 due to bug
 
 ## 2.13.11 2016-11-23
 
-- Add support for synchronous RPC method "eth_uninstallFilter".
+- Add support for synchronous RPC method "irc_uninstallFilter".
 - Forgotten password prompts now send users directly to seed word restoration.
 
 ## 2.13.10 2016-11-22
@@ -822,13 +822,13 @@ popup notification opens up.
 ## 1.8.3 2016-05-12
 
 - Bumped webu to 0.6.0
-- Really fixed `eth_syncing` method response.
+- Really fixed `irc_syncing` method response.
 
 ## 1.8.2 2016-05-11
 
 - Fixed bug where send view would not load correctly the first time it was visited per account.
 - Migrated all users to new scalable backend.
-- Fixed `eth_syncing` method response.
+- Fixed `irc_syncing` method response.
 
 ## 1.8.1 2016-05-10
 

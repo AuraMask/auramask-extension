@@ -355,9 +355,6 @@
   "keepTrackTokens": {
     "message": "MetaMaskアカウントで入手したトークンを検索できます。"
   },
-  "kovan": {
-    "message": "Kovanテストネットワーク"
-  },
   "learnMore": {
     "message": "詳細"
   },
@@ -558,12 +555,6 @@
   },
   "revert": {
     "message": "元に戻す"
-  },
-  "rinkeby": {
-    "message": "Rinkebyテストネットワーク"
-  },
-  "ropsten": {
-    "message": "Ropstenテストネットワーク"
   },
   "sampleAccountName": {
     "message": "例.新しいマイアカウント",

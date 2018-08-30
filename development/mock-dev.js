@@ -30,16 +30,16 @@ window.log = log;
 log.setLevel('debug');
 
 // Compatible states
-for (const key in states) {
-  if (states.hasOwnProperty(key)) {
-    const metamask = states[key].metamask;
-    metamask.tokens = metamask.tokens || [];
-    metamask.featureFlags = metamask.featureFlags || {};
-    metamask.selectedAddressTxList = metamask.selectedAddressTxList || [];
-    metamask.keyrings = metamask.keyrings || [];
-    metamask.lastUnreadNotice = metamask.lastUnreadNotice || {};
-  }
-}
+// for (const key in states) {
+//   if (states.hasOwnProperty(key)) {
+//     const metamask = states[key].metamask;
+//     metamask.tokens = metamask.tokens || [];
+//     metamask.featureFlags = metamask.featureFlags || {};
+//     metamask.selectedAddressTxList = metamask.selectedAddressTxList || [];
+//     metamask.keyrings = metamask.keyrings || [];
+//     metamask.lastUnreadNotice = metamask.lastUnreadNotice || {};
+//   }
+// }
 
 // Query String
 const qs = require('qs');

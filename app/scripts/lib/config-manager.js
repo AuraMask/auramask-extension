@@ -2,9 +2,7 @@ const ethUtil = require('icjs-util');
 const normalize = require('irc-sig-util').normalize;
 const {
   MAINNET_RPC_URL,
-  ROPSTEN_RPC_URL,
-  KOVAN_RPC_URL,
-  RINKEBY_RPC_URL,
+  LOCALHOST_RPC_URL
 } = require('../controllers/network/enums');
 
 /* The config-manager is a convenience object
@@ -151,21 +149,10 @@ ConfigManager.prototype.getCurrentRpcAddress = function() {
   var provider = this.getProvider();
   if (!provider) return null;
   switch (provider.type) {
-
     case 'mainnet':
       return MAINNET_RPC_URL;
-
-    case 'ropsten':
-      return ROPSTEN_RPC_URL;
-
-    case 'kovan':
-      return KOVAN_RPC_URL;
-
-    case 'rinkeby':
-      return RINKEBY_RPC_URL;
-
     default:
-      return provider && provider.rpcTarget ? provider.rpcTarget : RINKEBY_RPC_URL;
+      return provider && provider.rpcTarget ? provider.rpcTarget : LOCALHOST_RPC_URL;
   }
 };
 

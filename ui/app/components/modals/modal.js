@@ -417,9 +417,7 @@ Modal.prototype.render = function() {
         }
         this.onHide();
       },
-      ref: (ref) => {
-        this.modalRef = ref;
-      },
+      ref: (ref) => { this.modalRef = ref; },
       modalStyle,
       contentStyle,
       backdropStyle: BACKDROPSTYLE,

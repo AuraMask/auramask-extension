@@ -33,7 +33,7 @@
     ],
     "keyrings": [],
     "provider": {
-      "type": "testnet"
+      "type": "localhost"
     },
     "shapeShiftTxList": [],
     "lostAccounts": [],

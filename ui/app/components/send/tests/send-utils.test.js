@@ -41,7 +41,7 @@ const sendUtils = proxyquire('../send.utils.js', {
     conversionLessThan: stubs.conversionLessThan,
   },
   '../../token-util': { calcTokenAmount: stubs.calcTokenAmount },
-  'ethereumjs-abi': {
+  'icjs-abi': {
     rawEncode: stubs.rawEncode,
   },
 })

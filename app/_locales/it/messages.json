@@ -397,9 +397,6 @@
     "message": "File JSON",
     "description": "formato per importare un account"
   },
-  "kovan": {
-    "message": "Rete di test Kovan"
-  },
   "knowledgeDataBase": {
     "message": "Visita la nostra Knowledge Base"
   },
@@ -597,12 +594,6 @@
   },
   "revert": {
     "message": "Annulla"
-  },
-  "rinkeby": {
-    "message": "Rete di test Rinkeby"
-  },
-  "ropsten": {
-    "message": "Rete di test Ropsten"
   },
   "sampleAccountName": {
     "message": "Es: Il mio nuovo account",

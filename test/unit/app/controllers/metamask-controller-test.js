@@ -587,8 +587,8 @@ describe('MetaMaskController', function () {
       assert.equal(metamaskMsgs[msgId].status, 'unapproved')
     })
 
-    it('sets the type to eth_sign', function () {
-      assert.equal(metamaskMsgs[msgId].type, 'eth_sign')
+    it('sets the type to irc_sign', function () {
+      assert.equal(metamaskMsgs[msgId].type, 'irc_sign')
     })
 
     it('rejects the message', function () {

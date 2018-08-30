@@ -316,9 +316,6 @@
     "description": "định dạng để nhập tài khoản",
     "message": "Tập tin JSON"
   },
-  "kovan": {
-    "message": "Mạng thử nghiệm Kovan"
-  },
   "lessThanMax": {
     "description": "trợ giúp để nhập hex dưới dạng số thập phân",
     "message": "phải ít hơn hoặc bằng $1."
@@ -468,12 +465,6 @@
   },
   "revert": {
     "message": "Chuyển lại"
-  },
-  "rinkeby": {
-    "message": "Mạng thử nghiệm Rinkeby"
-  },
-  "ropsten": {
-    "message": "Mạng thử nghiệm Ropsten"
   },
   "sampleAccountName": {
     "description": "Giúp người dùng hiểu khái niệm thêm một cái tên có thể đọc được vào tài khoản của họ",

@@ -430,9 +430,6 @@
   "keepTrackTokens": {
     "message": "Keep track of the tokens you’ve bought with your MetaMask account."
   },
-  "kovan": {
-    "message": "Kovan 测试网络"
-  },
   "knowledgeDataBase": {
     "message": "浏览我们的知识库"
   },
@@ -664,26 +661,11 @@
   "revert": {
     "message": "还原"
   },
-  "rinkeby": {
-    "message": "Rinkeby 测试网络"
-  },
-  "ropsten": {
-    "message": "Ropsten 测试网络"
-  },
   "currentRpc": {
     "message": "当前 RPC"
   },
   "connectingToMainnet": {
     "message": "正在连接到以太坊主网"
-  },
-  "connectingToRopsten": {
-    "message": "正在连接到Ropsten测试网络"
-  },
-  "connectingToKovan": {
-    "message": "正在连接到Kovan测试网络"
-  },
-  "connectingToRinkeby": {
-    "message": "正在连接到Rinkeby测试网络"
   },
   "connectingToUnknown": {
     "message": "正在连接到未知网络"

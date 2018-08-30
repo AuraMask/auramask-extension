@@ -48,7 +48,7 @@ const percentile = require('percentile');
 const seedPhraseVerifier = require('./lib/seed-phrase-verifier');
 const cleanErrorStack = require('./lib/cleanErrorStack');
 const log = require('loglevel');
-const TrezorKeyring = require('eth-trezor-keyring');
+const TrezorKeyring = require('irc-keyring/trezor');
 
 module.exports = class MetamaskController extends EventEmitter {
 
@@ -516,14 +516,6 @@ module.exports = class MetamaskController extends EventEmitter {
     await this.preferencesController.syncAddresses(accounts);
     return this.keyringController.fullUpdate();
   }
-
-  /**
-   * @type Identity
-   * @property {string} name - The account nickname.
-   * @property {string} address - The account's ethereum address, in lower case.
-   * @property {boolean} mayBeFauceting - Whether this account is currently
-   * receiving funds from our automatic Ropsten faucet.
-   */
 
   /**
    * Sets the first address in the state to the selected address

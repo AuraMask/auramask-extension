@@ -1,10 +1,5 @@
 const version = 13;
 
-/*
-
- This migration modifies the network config from ambiguous 'testnet' to explicit 'ropsten'
-
- */
 
 const clone = require('clone');
 

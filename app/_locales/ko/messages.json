@@ -316,9 +316,6 @@
     "message": "JSON 파일",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Kovan 테스트넷"
-  },
   "lessThanMax": {
     "message": "$1 이하여야합니다.",
     "description": "helper for inputting hex as decimal input"
@@ -468,12 +465,6 @@
   },
   "revert": {
     "message": "취소"
-  },
-  "rinkeby": {
-    "message": "Rinkeby 테스트넷"
-  },
-  "ropsten": {
-    "message": "Ropsten 테스트넷"
   },
   "sampleAccountName": {
     "message": "예) 나의 새 계좌",

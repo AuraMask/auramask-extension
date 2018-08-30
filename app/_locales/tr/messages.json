@@ -421,9 +421,6 @@
   "keepTrackTokens": {
     "message": "MetaMask hesabınızla satın aldığınız jetonların kaydını tutun."
   },
-  "kovan": {
-    "message": "Kovan Test Ağı"
-  },
   "knowledgeDataBase": {
     "message": "Bilgi veritabanımızı ziyaret edin"
   },
@@ -640,26 +637,11 @@
   "revert": {
     "message": "Geri döndür"
   },
-  "rinkeby": {
-    "message": "Rinkeby Test Ağı"
-  },
-  "ropsten": {
-    "message": "Ropsten Test Ağı"
-  },
   "currentRpc": {
     "message": "Geçerli RPC"
   },
   "connectingToMainnet": {
     "message": "Main Ethereum Ağına bağlanıyor"
-  },
-  "connectingToRopsten": {
-    "message": "Ropsten Test Ağına bağlanıyor"
-  },
-  "connectingToKovan": {
-    "message": "Kovan Test Ağına bağlanıyor"
-  },
-  "connectingToRinkeby": {
-    "message": "Rinkeby Test Ağına bağlanıyor"
   },
   "connectingToUnknown": {
     "message": "Bilinmeyen Ağa bağlanıyor"

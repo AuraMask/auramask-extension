@@ -25,19 +25,19 @@ const Selector = require('./selector');
 // logger
 const log = require('loglevel');
 window.log = log;
-log.setDefaultLevel(1);
+// log.setDefaultLevel(1);
 
-// Compatible states
-for (const key in states) {
-  if (states.hasOwnProperty(key)) {
-    const metamask = states[key].metamask;
-    metamask.tokens = metamask.tokens || [];
-    metamask.featureFlags = metamask.featureFlags || {};
-    metamask.selectedAddressTxList = metamask.selectedAddressTxList || [];
-    metamask.keyrings = metamask.keyrings || [];
-    metamask.lastUnreadNotice = metamask.lastUnreadNotice || {};
-  }
-}
+// // Compatible states
+// for (const key in states) {
+//   if (states.hasOwnProperty(key)) {
+//     const metamask = states[key].metamask;
+//     metamask.tokens = metamask.tokens || [];
+//     metamask.featureFlags = metamask.featureFlags || {};
+//     metamask.selectedAddressTxList = metamask.selectedAddressTxList || [];
+//     metamask.keyrings = metamask.keyrings || [];
+//     metamask.lastUnreadNotice = metamask.lastUnreadNotice || {};
+//   }
+// }
 
 // Query String
 const qs = require('qs');

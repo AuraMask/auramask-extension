@@ -32,7 +32,7 @@ const cleanErrorStack = require('../../lib/cleanErrorStack');
  @param {object} - opts
  @param {object}  opts.initState - initial transaction list default is an empty array
  @param {Object}  opts.networkStore - an observable store for network number
- @param {Object}  opts.blockTracker - An instance of eth-blocktracker
+ @param {Object}  opts.blockTracker - An instance of irc-blocktracker
  @param {Object}  opts.provider - A network provider.
  @param {Function}  opts.signTransaction - function the signs an icjs-tx
  @param {Function}  [opts.getGasPrice] - optional gas price calculator
