@@ -15,8 +15,8 @@ module.exports = connect(mapStateToProps)(ShiftListItem);
 
 function mapStateToProps(state) {
   return {
-    conversionRate: state.metamask.conversionRate,
-    currentCurrency: state.metamask.currentCurrency,
+    conversionRate: state.auramask.conversionRate,
+    currentCurrency: state.auramask.currentCurrency,
   };
 }
 

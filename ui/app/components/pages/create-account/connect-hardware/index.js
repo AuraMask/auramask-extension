@@ -199,7 +199,7 @@ ConnectHardwareForm.propTypes = {
 
 const mapStateToProps = state => {
   const {
-    metamask: { network, selectedAddress, identities = {}, accounts = [] },
+    auramask: { network, selectedAddress, identities = {}, accounts = [] },
   } = state
   const numberOfExistingAccounts = Object.keys(identities).length
 

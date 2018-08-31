@@ -1,6 +1,6 @@
 const injectCss = require('inject-css');
-const MetaMaskUi = require('./index.js');
-const MetaMaskUiCss = require('./css.js');
+const AuraMaskUi = require('./index.js');
+const AuraMaskUiCss = require('./css.js');
 const EventEmitter = require('events').EventEmitter;
 
 // account management
@@ -103,10 +103,10 @@ accountManager._didUpdate = function() {
 
 var container = document.getElementById('app-content');
 
-var css = MetaMaskUiCss();
+var css = AuraMaskUiCss();
 injectCss(css);
 
-MetaMaskUi({
+AuraMaskUi({
   container: container,
   accountManager: accountManager,
 });

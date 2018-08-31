@@ -7,9 +7,9 @@ const LocalStorageStore = require('obs-store');
 const asStream = require('obs-store/lib/asStream');
 const ObjectMultiplex = require('obj-multiplex');
 
-module.exports = MetamaskInpageProvider;
+module.exports = AuramaskInpageProvider;
 
-function MetamaskInpageProvider(connectionStream) {
+function AuramaskInpageProvider(connectionStream) {
   const self = this;
 
   // setup connectionStream multiplexing
@@ -18,16 +18,16 @@ function MetamaskInpageProvider(connectionStream) {
     connectionStream,
     mux,
     connectionStream,
-    (err) => logStreamDisconnectWarning('MetaMask', err),
+    (err) => logStreamDisconnectWarning('AuraMask', err),
   );
 
-  // subscribe to metamask public config (one-way)
-  self.publicConfigStore = new LocalStorageStore({storageKey: 'MetaMask-Config'});
+  // subscribe to auramask public config (one-way)
+  self.publicConfigStore = new LocalStorageStore({storageKey: 'AuraMask-Config'});
 
   pump(
     mux.createStream('publicConfig'),
     asStream(self.publicConfigStore),
-    (err) => logStreamDisconnectWarning('MetaMask PublicConfigStore', err),
+    (err) => logStreamDisconnectWarning('AuraMask PublicConfigStore', err),
   );
 
   // ignore phishing warning message (handled elsewhere)
@@ -39,7 +39,7 @@ function MetamaskInpageProvider(connectionStream) {
     streamMiddleware.stream,
     mux.createStream('provider'),
     streamMiddleware.stream,
-    (err) => logStreamDisconnectWarning('MetaMask RpcProvider', err),
+    (err) => logStreamDisconnectWarning('AuraMask RpcProvider', err),
   );
 
   // handle sendAsync requests via dapp-side rpc engine
@@ -52,19 +52,19 @@ function MetamaskInpageProvider(connectionStream) {
 
 // handle sendAsync requests via asyncProvider
 // also remap ids inbound and outbound
-MetamaskInpageProvider.prototype.sendAsync = function(payload, cb) {
+AuramaskInpageProvider.prototype.sendAsync = function(payload, cb) {
   const self = this;
 
   if (payload.method === 'irc_signTypedData') {
     console.warn(
-      'MetaMask: This experimental version of irc_signTypedData will be deprecated in the next release in favor of the standard as defined in EIP-712. See https://git.io/fNzPl for more information on the new standard.');
+      'AuraMask: This experimental version of irc_signTypedData will be deprecated in the next release in favor of the standard as defined in EIP-712. See https://git.io/fNzPl for more information on the new standard.');
   }
 
   self.rpcEngine.handle(payload, cb);
 };
 
 
-MetamaskInpageProvider.prototype.send = function(payload) {
+AuramaskInpageProvider.prototype.send = function(payload) {
   const self = this;
 
   let selectedAddress;
@@ -95,8 +95,8 @@ MetamaskInpageProvider.prototype.send = function(payload) {
 
     // throw not-supported Error
     default:
-      var link = 'https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#dizzy-all-async---think-of-metamask-as-a-light-client';
-      var message = `The MetaMask webu object does not support synchronous methods like ${payload.method} without a callback parameter. See ${link} for details.`;
+      var link = 'https://github.com/AuraMask/faq/blob/master/DEVELOPERS.md#dizzy-all-async---think-of-auramask-as-a-light-client';
+      var message = `The AuraMask webu object does not support synchronous methods like ${payload.method} without a callback parameter. See ${link} for details.`;
       throw new Error(message);
 
   }
@@ -109,16 +109,16 @@ MetamaskInpageProvider.prototype.send = function(payload) {
   };
 };
 
-MetamaskInpageProvider.prototype.isConnected = function() {
+AuramaskInpageProvider.prototype.isConnected = function() {
   return true;
 };
 
-MetamaskInpageProvider.prototype.isMetaMask = true;
+AuramaskInpageProvider.prototype.isAuraMask = true;
 
 // util
 
 function logStreamDisconnectWarning(remoteLabel, err) {
-  let warningMsg = `MetamaskInpageProvider - lost connection to ${remoteLabel}`;
+  let warningMsg = `AuramaskInpageProvider - lost connection to ${remoteLabel}`;
   if (err) warningMsg += '\n' + err.stack;
   console.warn(warningMsg);
 }

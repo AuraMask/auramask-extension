@@ -1,29 +1,29 @@
-const PropTypes = require('prop-types')
-const {PureComponent} = require('react')
-const h = require('react-hyperscript')
-const actions = require('../../ui/app/actions')
+const PropTypes = require('prop-types');
+const {PureComponent} = require('react');
+const h = require('react-hyperscript');
+const actions = require('../../ui/app/actions');
 
 module.exports = class NewUiAnnouncement extends PureComponent {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
   };
 
-  close = async () => {
-    await this.props.dispatch(actions.setFeatureFlag('skipAnnounceBetaUI', true))
-  }
+  close = async() => {
+    await this.props.dispatch(actions.setFeatureFlag('skipAnnounceBetaUI', true));
+  };
 
-  switchToNewUi = async () => {
-    const flag = 'betaUI'
-    const enabled = true
+  switchToNewUi = async() => {
+    const flag = 'betaUI';
+    const enabled = true;
     await this.props.dispatch(actions.setFeatureFlag(
       flag,
       enabled,
-    ))
-    await this.close()
-    global.platform.openExtensionInBrowser()
-  }
+    ));
+    await this.close();
+    global.platform.openExtensionInBrowser();
+  };
 
-  render () {
+  render() {
     return (
       h('div.new-ui-announcement', [
         h('section.new-ui-announcement__announcement-header', [
@@ -33,9 +33,9 @@ module.exports = class NewUiAnnouncement extends PureComponent {
           }, '×'),
         ]),
         h('section.new-ui-announcement__body', [
-          h('h1', 'A New Version of MetaMask'),
+          h('h1', 'A New Version of AuraMask'),
           h('p', [
-            "We're excited to announce a brand-new version of MetaMask with enhanced features and functionality.",
+            'We\'re excited to announce a brand-new version of AuraMask with enhanced features and functionality.',
           ]),
           h('div.updates-list', [
             h('h2', 'Updates include'),
@@ -50,7 +50,7 @@ module.exports = class NewUiAnnouncement extends PureComponent {
             ]),
           ]),
           h('p', [
-            'You can still use the current version of MetaMask. The new version is still in beta, ' +
+            'You can still use the current version of AuraMask. The new version is still in beta, ' +
             'however we encourage you to try it out as we transition into this exciting new update.',
             h('span', {
               dangerouslySetInnerHTML: {
@@ -58,12 +58,12 @@ module.exports = class NewUiAnnouncement extends PureComponent {
               },
             }),
             h('a', {
-              href: 'https://medium.com/metamask/74dba32cc7f7',
-              onClick ({target}) {
-                const url = target.href
+              href: 'https://medium.com/auramask/74dba32cc7f7',
+              onClick({target}) {
+                const url = target.href;
                 global.platform.openWindow({
                   url,
-                })
+                });
               },
             }, [
               'Learn more.',
@@ -71,7 +71,7 @@ module.exports = class NewUiAnnouncement extends PureComponent {
           ]),
         ]),
         h('section.new-ui-announcement__footer', [
-          h('h1', 'Ready to try the new MetaMask?'),
+          h('h1', 'Ready to try the new AuraMask?'),
           h('button.positive', {
             onClick: this.switchToNewUi,
           }, 'Try it now'),
@@ -80,6 +80,6 @@ module.exports = class NewUiAnnouncement extends PureComponent {
           }, 'No thanks, maybe later'),
         ]),
       ])
-    )
+    );
   }
-}
+};

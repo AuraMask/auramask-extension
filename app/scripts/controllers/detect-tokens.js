@@ -57,7 +57,7 @@ class DetectTokensController {
           this._preferences.addToken(contractAddress, contracts[contractAddress].symbol, contracts[contractAddress].decimals);
         }
       } else {
-        warn(`MetaMask - DetectTokensController balance fetch failed for ${contractAddress}.`, error);
+        warn(`AuraMask - DetectTokensController balance fetch failed for ${contractAddress}.`, error);
       }
     });
   }

@@ -71,7 +71,7 @@ EnsInput.prototype.componentDidMount = function() {
   this.setState({ensResolution: ZERO_ADDRESS});
 
   if (networkHasEnsSupport) {
-    const provider = global.ethereumProvider;
+    const provider = global.irchainProvider;
     this.ens = new ENS({provider, network});
     this.checkName = debounce(this.lookupEnsName.bind(this), 200);
   }
@@ -122,7 +122,7 @@ EnsInput.prototype.componentDidUpdate = function(prevProps, prevState) {
   // the user's own accounts, a default of a one-space string is used.
   const nickname = state.nickname || ' ';
   if (prevProps.network !== this.props.network) {
-    const provider = global.ethereumProvider;
+    const provider = global.irchainProvider;
     this.ens = new ENS({provider, network: this.props.network});
     this.onChange(ensResolution);
   }

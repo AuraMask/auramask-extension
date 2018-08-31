@@ -3,11 +3,11 @@ import txHelper from '../../lib/tx-helper'
 import { calcTokenAmount } from '../token-util'
 import { roundExponential } from '../helpers/confirm-transaction/util'
 
-const unapprovedTxsSelector = state => state.metamask.unapprovedTxs
-const unapprovedMsgsSelector = state => state.metamask.unapprovedMsgs
-const unapprovedPersonalMsgsSelector = state => state.metamask.unapprovedPersonalMsgs
-const unapprovedTypedMessagesSelector = state => state.metamask.unapprovedTypedMessages
-const networkSelector = state => state.metamask.network
+const unapprovedTxsSelector = state => state.auramask.unapprovedTxs
+const unapprovedMsgsSelector = state => state.auramask.unapprovedMsgs
+const unapprovedPersonalMsgsSelector = state => state.auramask.unapprovedPersonalMsgs
+const unapprovedTypedMessagesSelector = state => state.auramask.unapprovedTypedMessages
+const networkSelector = state => state.auramask.network
 
 export const unconfirmedTransactionsListSelector = createSelector(
   unapprovedTxsSelector,
@@ -44,10 +44,10 @@ export const unconfirmedTransactionsHashSelector = createSelector(
     network
   ) => {
     const filteredUnapprovedTxs = Object.keys(unapprovedTxs).reduce((acc, address) => {
-      const { metamaskNetworkId } = unapprovedTxs[address]
+      const { auramaskNetworkId } = unapprovedTxs[address]
       const transactions = { ...acc }
 
-      if (metamaskNetworkId === network) {
+      if (auramaskNetworkId === network) {
         transactions[address] = unapprovedTxs[address]
       }
 
@@ -63,9 +63,9 @@ export const unconfirmedTransactionsHashSelector = createSelector(
   }
 )
 
-const unapprovedMsgCountSelector = state => state.metamask.unapprovedMsgCount
-const unapprovedPersonalMsgCountSelector = state => state.metamask.unapprovedPersonalMsgCount
-const unapprovedTypedMessagesCountSelector = state => state.metamask.unapprovedTypedMessagesCount
+const unapprovedMsgCountSelector = state => state.auramask.unapprovedMsgCount
+const unapprovedPersonalMsgCountSelector = state => state.auramask.unapprovedPersonalMsgCount
+const unapprovedTypedMessagesCountSelector = state => state.auramask.unapprovedTypedMessagesCount
 
 export const unconfirmedTransactionsCountSelector = createSelector(
   unapprovedTxsSelector,
@@ -81,8 +81,8 @@ export const unconfirmedTransactionsCountSelector = createSelector(
     network
   ) => {
     const filteredUnapprovedTxIds = Object.keys(unapprovedTxs).filter(txId => {
-      const { metamaskNetworkId } = unapprovedTxs[txId]
-      return metamaskNetworkId === network
+      const { auramaskNetworkId } = unapprovedTxs[txId]
+      return auramaskNetworkId === network
     })
 
     return filteredUnapprovedTxIds.length + unapprovedTypedMessagesCount + unapprovedMsgCount +
@@ -91,14 +91,14 @@ export const unconfirmedTransactionsCountSelector = createSelector(
 )
 
 
-export const currentCurrencySelector = state => state.metamask.currentCurrency
-export const conversionRateSelector = state => state.metamask.conversionRate
+export const currentCurrencySelector = state => state.auramask.currentCurrency
+export const conversionRateSelector = state => state.auramask.conversionRate
 
 const txDataSelector = state => state.confirmTransaction.txData
 const tokenDataSelector = state => state.confirmTransaction.tokenData
 const tokenPropsSelector = state => state.confirmTransaction.tokenProps
 
-const contractExchangeRatesSelector = state => state.metamask.contractExchangeRates
+const contractExchangeRatesSelector = state => state.auramask.contractExchangeRates
 
 const tokenDecimalsSelector = createSelector(
   tokenPropsSelector,
@@ -159,7 +159,7 @@ export const approveTokenAmountAndToAddressSelector = createSelector(
       if (tokenDecimals) {
         tokenAmount = calcTokenAmount(value, tokenDecimals)
       }
-      
+
       tokenAmount = roundExponential(tokenAmount)
     }
 

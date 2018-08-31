@@ -2,7 +2,7 @@
  *
  * This is a utility module.
  * It initializes a minimalist browserifiable project
- * that contains the Metamask UI, with a local background process.
+ * that contains the Auramask UI, with a local background process.
  *
  * Includes a state reset button for restoring to initial state.
  *
@@ -20,7 +20,7 @@ const actions = require('../ui/app/actions');
 const states = require('./states');
 const backGroundConnectionModifiers = require('./backGroundConnectionModifiers');
 const Selector = require('./selector');
-const MetamaskController = require('../app/scripts/metamask-controller');
+const AuramaskController = require('../app/scripts/auramask-controller');
 const firstTimeState = require('../app/scripts/first-time-state');
 const ExtensionPlatform = require('../app/scripts/platforms/extension');
 const noop = function() {};
@@ -30,16 +30,16 @@ window.log = log;
 log.setLevel('debug');
 
 // Compatible states
-// for (const key in states) {
-//   if (states.hasOwnProperty(key)) {
-//     const metamask = states[key].metamask;
-//     metamask.tokens = metamask.tokens || [];
-//     metamask.featureFlags = metamask.featureFlags || {};
-//     metamask.selectedAddressTxList = metamask.selectedAddressTxList || [];
-//     metamask.keyrings = metamask.keyrings || [];
-//     metamask.lastUnreadNotice = metamask.lastUnreadNotice || {};
-//   }
-// }
+for (const key in states) {
+  if (states.hasOwnProperty(key)) {
+    const auramask = states[key].auramask;
+    auramask.tokens = auramask.tokens || [];
+    auramask.featureFlags = auramask.featureFlags || {};
+    auramask.selectedAddressTxList = auramask.selectedAddressTxList || [];
+    auramask.keyrings = auramask.keyrings || [];
+    auramask.lastUnreadNotice = auramask.lastUnreadNotice || {};
+  }
+}
 
 // Query String
 const qs = require('qs');
@@ -69,11 +69,11 @@ function updateQueryParams(newView) {
 
 // CSS
 
-const MetaMaskUiCss = require('../ui/css');
+const AuraMaskUiCss = require('../ui/css');
 const injectCss = require('inject-css');
 
-// MetaMask Controller
-const controller = new MetamaskController({
+// AuraMask Controller
+const controller = new AuramaskController({
   // User confirmation callbacks:
   showUnconfirmedMessage: noop,
   unlockAccountMessage: noop,
@@ -82,7 +82,7 @@ const controller = new MetamaskController({
   // initial state
   initState: firstTimeState,
 });
-global.metamaskController = controller;
+global.auramaskController = controller;
 global.platform = new ExtensionPlatform();
 
 // User Interface
@@ -104,7 +104,7 @@ function modifyBackgroundConnection(backgroundConnectionModifier) {
   actions._setBackgroundConnection(modifiedBackgroundConnection);
 }
 
-var css = MetaMaskUiCss();
+var css = AuraMaskUiCss();
 injectCss(css);
 
 // parse opts

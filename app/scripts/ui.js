@@ -1,6 +1,6 @@
 const injectCss = require('inject-css');
-const OldMetaMaskUiCss = require('../../old-ui/css');
-const NewMetaMaskUiCss = require('../../ui/css');
+const OldAuraMaskUiCss = require('../../old-ui/css');
+const NewAuraMaskUiCss = require('../../ui/css');
 const startPopup = require('./popup-core');
 const PortStream = require('./lib/port-stream.js');
 const {getEnvironmentType} = require('./lib/util');
@@ -16,7 +16,7 @@ window.onload = function() {
   start().catch(log.error);
 };
 
-async function start () {
+async function start() {
 
   // create platform global
   global.platform = new ExtensionPlatform();
@@ -26,12 +26,12 @@ async function start () {
   setupRaven({release});
 
   // inject css
-  // const css = MetaMaskUiCss()
+  // const css = AuraMaskUiCss()
   // injectCss(css)
 
   // identify window type (popup, notification)
   const windowType = getEnvironmentType(window.location.href);
-  global.METAMASK_UI_TYPE = windowType;
+  global.AURAMASK_UI_TYPE = windowType;
   closePopupIfOpen(windowType);
 
   // setup stream to background
@@ -44,30 +44,30 @@ async function start () {
     if (err) return displayCriticalError(err);
 
     // Code commented out until we begin auto adding users to NewUI
-    // const { isMascara, identities = {}, featureFlags = {} } = store.getState().metamask
+    // const { isMascara, identities = {}, featureFlags = {} } = store.getState().auramask
     // const firstTime = Object.keys(identities).length === 0
-    const {isMascara, featureFlags = {}} = store.getState().metamask;
+    const {isMascara, featureFlags = {}} = store.getState().auramask;
     let betaUIState = featureFlags.betaUI;
 
     // Code commented out until we begin auto adding users to NewUI
     // const useBetaCss = isMascara || firstTime || betaUIState
     const useBetaCss = isMascara || betaUIState;
 
-    let css = useBetaCss ? NewMetaMaskUiCss() : OldMetaMaskUiCss();
+    let css = useBetaCss ? NewAuraMaskUiCss() : OldAuraMaskUiCss();
     let deleteInjectedCss = injectCss(css);
     let newBetaUIState;
 
     store.subscribe(() => {
       const state = store.getState();
-      newBetaUIState = state.metamask.featureFlags.betaUI;
+      newBetaUIState = state.auramask.featureFlags.betaUI;
       if (newBetaUIState !== betaUIState) {
         deleteInjectedCss();
         betaUIState = newBetaUIState;
-        css = betaUIState ? NewMetaMaskUiCss() : OldMetaMaskUiCss();
+        css = betaUIState ? NewAuraMaskUiCss() : OldAuraMaskUiCss();
         deleteInjectedCss = injectCss(css);
       }
-    })
-  })
+    });
+  });
 
 
   function closePopupIfOpen(windowType) {
@@ -78,7 +78,7 @@ async function start () {
   }
 
   function displayCriticalError(err) {
-    container.innerHTML = '<div class="critical-error">The MetaMask app failed to load: please open and close MetaMask again to restart.</div>';
+    container.innerHTML = '<div class="critical-error">The AuraMask app failed to load: please open and close AuraMask again to restart.</div>';
     container.style.height = '80px';
     log.error(err.stack);
     throw err;

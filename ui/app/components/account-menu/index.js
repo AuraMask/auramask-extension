@@ -36,11 +36,11 @@ function AccountMenu() {
 
 function mapStateToProps(state) {
   return {
-    selectedAddress: state.metamask.selectedAddress,
-    isAccountMenuOpen: state.metamask.isAccountMenuOpen,
-    keyrings: state.metamask.keyrings,
-    identities: state.metamask.identities,
-    accounts: state.metamask.accounts,
+    selectedAddress: state.auramask.selectedAddress,
+    isAccountMenuOpen: state.auramask.isAccountMenuOpen,
+    keyrings: state.auramask.keyrings,
+    identities: state.auramask.identities,
+    accounts: state.auramask.accounts,
   };
 }
 
@@ -52,8 +52,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(actions.hideSidebar());
       dispatch(actions.toggleAccountMenu());
     },
-    lockMetamask: () => {
-      dispatch(actions.lockMetamask());
+    lockAuramask: () => {
+      dispatch(actions.lockAuramask());
       dispatch(actions.hideWarning());
       dispatch(actions.hideSidebar());
       dispatch(actions.toggleAccountMenu());
@@ -78,7 +78,7 @@ AccountMenu.prototype.render = function() {
   const {
     isAccountMenuOpen,
     toggleAccountMenu,
-    lockMetamask,
+    lockAuramask,
     history,
   } = this.props;
 
@@ -93,7 +93,7 @@ AccountMenu.prototype.render = function() {
       this.context.t('myAccounts'),
       h('button.account-menu__logout-button', {
         onClick: () => {
-          lockMetamask();
+          lockAuramask();
           history.push(DEFAULT_ROUTE);
         },
       }, this.context.t('logout'))]),

@@ -3,7 +3,7 @@ const version = 20;
 /*
 
 This migration ensures previous installations
-get a `firstTimeInfo` key on the metamask state,
+get a `firstTimeInfo` key on the auramask state,
 so that we can version notices in the future.
 
 */
@@ -21,7 +21,7 @@ module.exports = {
       const newState = transformState(state);
       versionedData.data = newState;
     } catch (err) {
-      console.warn(`MetaMask Migration #${version}` + err.stack);
+      console.warn(`AuraMask Migration #${version}` + err.stack);
     }
     return Promise.resolve(versionedData);
   },
@@ -29,9 +29,9 @@ module.exports = {
 
 function transformState(state) {
   const newState = state;
-  if ('metamask' in newState &&
-    !('firstTimeInfo' in newState.metamask)) {
-    newState.metamask.firstTimeInfo = {
+  if ('auramask' in newState &&
+    !('firstTimeInfo' in newState.auramask)) {
+    newState.auramask.firstTimeInfo = {
       version: '3.12.0',
       date: Date.now(),
     };

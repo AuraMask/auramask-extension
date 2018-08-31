@@ -1,5 +1,5 @@
 const Raven = require('raven-js');
-const METAMASK_DEBUG = process.env.METAMASK_DEBUG;
+const AURAMASK_DEBUG = process.env.AURAMASK_DEBUG;
 const extractEthjsErrorMessage = require('./extractEthjsErrorMessage');
 const PROD = 'https://3567c198f8a8412082d32655da2961d0@sentry.io/273505';
 const DEV = 'https://f59f3dd640d2429d9d0e2445a87ea8e1@sentry.io/273496';
@@ -13,7 +13,7 @@ function setupRaven(opts) {
   // detect brave
   const isBrave = Boolean(window.chrome.ipcRenderer);
 
-  if (METAMASK_DEBUG) {
+  if (AURAMASK_DEBUG) {
     console.log('Setting up Sentry Remote Error Reporting: DEV');
     ravenTarget = DEV;
   } else {
@@ -81,20 +81,20 @@ function rewriteErrorMessages(report, rewriteFn) {
 
 function rewriteReportUrls(report) {
   // update request url
-  report.request.url = toMetamaskUrl(report.request.url);
+  report.request.url = toAuramaskUrl(report.request.url);
   // update exception stack trace
   if (report.exception && report.exception.values) {
     report.exception.values.forEach(item => {
       item.stacktrace.frames.forEach(frame => {
-        frame.filename = toMetamaskUrl(frame.filename);
+        frame.filename = toAuramaskUrl(frame.filename);
       });
     });
   }
 }
 
-function toMetamaskUrl(origUrl) {
+function toAuramaskUrl(origUrl) {
   const filePath = origUrl.split(location.origin)[1];
   if (!filePath) return origUrl;
-  const metamaskUrl = `metamask${filePath}`;
-  return metamaskUrl;
+  const auramaskUrl = `auramask${filePath}`;
+  return auramaskUrl;
 }

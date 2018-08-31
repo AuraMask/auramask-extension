@@ -33,59 +33,59 @@ const selectors = {
 module.exports = selectors;
 
 function getSelectedAddress(state) {
-  const selectedAddress = state.metamask.selectedAddress || Object.keys(state.metamask.accounts)[0];
+  const selectedAddress = state.auramask.selectedAddress || Object.keys(state.auramask.accounts)[0];
 
   return selectedAddress;
 }
 
 function getSelectedIdentity(state) {
   const selectedAddress = getSelectedAddress(state);
-  const identities = state.metamask.identities;
+  const identities = state.auramask.identities;
 
   return identities[selectedAddress];
 }
 
 function getSelectedAccount(state) {
-  const accounts = state.metamask.accounts;
+  const accounts = state.auramask.accounts;
   const selectedAddress = getSelectedAddress(state);
 
   return accounts[selectedAddress];
 }
 
 function getSelectedToken(state) {
-  const tokens = state.metamask.tokens || [];
-  const selectedTokenAddress = state.metamask.selectedTokenAddress;
+  const tokens = state.auramask.tokens || [];
+  const selectedTokenAddress = state.auramask.selectedTokenAddress;
   const selectedToken = tokens.filter(({address}) => address === selectedTokenAddress)[0];
-  const sendToken = state.metamask.send.token;
+  const sendToken = state.auramask.send.token;
 
   return selectedToken || sendToken || null;
 }
 
 function getSelectedTokenExchangeRate(state) {
-  const contractExchangeRates = state.metamask.contractExchangeRates;
+  const contractExchangeRates = state.auramask.contractExchangeRates;
   const selectedToken = getSelectedToken(state) || {};
   const {address} = selectedToken;
   return contractExchangeRates[address] || 0;
 }
 
 function getTokenExchangeRate(state, address) {
-  const contractExchangeRates = state.metamask.contractExchangeRates;
+  const contractExchangeRates = state.auramask.contractExchangeRates;
   return contractExchangeRates[address] || 0;
 }
 
 function conversionRateSelector(state) {
-  return state.metamask.conversionRate;
+  return state.auramask.conversionRate;
 }
 
 function getAddressBook(state) {
-  return state.metamask.addressBook;
+  return state.auramask.addressBook;
 }
 
 function accountsWithSendEtherInfoSelector(state) {
   const {
     accounts,
     identities,
-  } = state.metamask;
+  } = state.auramask;
 
   const accountsWithSendEtherInfo = Object.entries(accounts).map(([key, account]) => {
     return Object.assign({}, account, identities[key]);
@@ -102,10 +102,10 @@ function getCurrentAccountWithSendEtherInfo(state) {
 }
 
 function transactionsSelector(state) {
-  const {network, selectedTokenAddress} = state.metamask;
-  const unapprovedMsgs = valuesFor(state.metamask.unapprovedMsgs);
-  const shapeShiftTxList = (network === '1') ? state.metamask.shapeShiftTxList : undefined;
-  const transactions = state.metamask.selectedAddressTxList || [];
+  const {network, selectedTokenAddress} = state.auramask;
+  const unapprovedMsgs = valuesFor(state.auramask.unapprovedMsgs);
+  const shapeShiftTxList = (network === '1') ? state.auramask.shapeShiftTxList : undefined;
+  const transactions = state.auramask.selectedAddressTxList || [];
   const txsToRender = !shapeShiftTxList ? transactions.concat(unapprovedMsgs) : transactions.concat(unapprovedMsgs, shapeShiftTxList);
 
   // console.log({txsToRender, selectedTokenAddress})
@@ -122,23 +122,23 @@ function getGasIsLoading(state) {
 }
 
 function getForceGasMin(state) {
-  return state.metamask.send.forceGasMin;
+  return state.auramask.send.forceGasMin;
 }
 
 function getSendFrom(state) {
-  return state.metamask.send.from;
+  return state.auramask.send.from;
 }
 
 function getSendAmount(state) {
-  return state.metamask.send.amount;
+  return state.auramask.send.amount;
 }
 
 function getSendMaxModeState(state) {
-  return state.metamask.send.maxModeOn;
+  return state.auramask.send.maxModeOn;
 }
 
 function getCurrentCurrency(state) {
-  return state.metamask.currentCurrency;
+  return state.auramask.currentCurrency;
 }
 
 function getSelectedTokenToFiatRate(state) {
@@ -157,7 +157,7 @@ function getSelectedTokenToFiatRate(state) {
 function getSelectedTokenContract(state) {
   const selectedToken = getSelectedToken(state);
   return selectedToken
-    ? global.eth.contract(abi).at(selectedToken.address)
+    ? global.irc.contract(abi).at(selectedToken.address)
     : null;
 }
 
@@ -167,14 +167,14 @@ function autoAddToBetaUI(state) {
   const autoAddTokensThreshold = 1;
 
   // const
-  const numberOfTransactions = state.metamask.selectedAddressTxList.length;
-  const numberOfAccounts = Object.keys(state.metamask.accounts).length;
-  const numberOfTokensAdded = state.metamask.tokens.length;
+  const numberOfTransactions = state.auramask.selectedAddressTxList.length;
+  const numberOfAccounts = Object.keys(state.auramask.accounts).length;
+  const numberOfTokensAdded = state.auramask.tokens.length;
 
   const userPassesThreshold = (numberOfTransactions > autoAddTransactionThreshold) &&
     (numberOfAccounts > autoAddAccountsThreshold) &&
     (numberOfTokensAdded > autoAddTokensThreshold);
-  const userIsNotInBeta = !state.metamask.featureFlags.betaUI;
+  const userIsNotInBeta = !state.auramask.featureFlags.betaUI;
 
   return userIsNotInBeta && userPassesThreshold;
 }
@@ -184,13 +184,13 @@ function getCurrentViewContext(state) {
   return currentView.context;
 }
 
-function getTotalUnapprovedCount({metamask}) {
+function getTotalUnapprovedCount({auramask}) {
   const {
     unapprovedTxs = {},
     unapprovedMsgCount,
     unapprovedPersonalMsgCount,
     unapprovedTypedMessagesCount,
-  } = metamask;
+  } = auramask;
 
   return Object.keys(unapprovedTxs).length + unapprovedMsgCount + unapprovedPersonalMsgCount +
     unapprovedTypedMessagesCount;

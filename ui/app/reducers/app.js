@@ -8,7 +8,7 @@ module.exports = reduceApp;
 function reduceApp(state, action) {
   log.debug('App Reducer got ' + action.type);
   // clone and defaults
-  const selectedAddress = state.metamask.selectedAddress;
+  const selectedAddress = state.auramask.selectedAddress;
   const hasUnconfActions = checkUnconfActions(state);
   let name = 'accounts';
   if (selectedAddress) {
@@ -27,7 +27,7 @@ function reduceApp(state, action) {
   };
 
   // confirm seed words
-  var seedWords = state.metamask.seedWords;
+  var seedWords = state.auramask.seedWords;
   var seedConfView = {
     name: 'createVaultComplete',
     seedWords,
@@ -300,7 +300,7 @@ function reduceApp(state, action) {
 
     // unlock
 
-    case actions.UNLOCK_METAMASK:
+    case actions.UNLOCK_AURAMASK:
       return extend(appState, {
         forgottenPassword: appState.forgottenPassword ? !appState.forgottenPassword : null,
         detailView: {},
@@ -309,7 +309,7 @@ function reduceApp(state, action) {
         warning: null,
       });
 
-    case actions.LOCK_METAMASK:
+    case actions.LOCK_AURAMASK:
       return extend(appState, {
         currentView: defaultView,
         transForward: false,
@@ -467,7 +467,7 @@ function reduceApp(state, action) {
           warning: null,
           currentView: {
             name: 'accountDetail',
-            context: state.metamask.selectedAddress,
+            context: state.auramask.selectedAddress,
           },
           accountDetail: {
             subview: 'transactions',
@@ -604,7 +604,7 @@ function reduceApp(state, action) {
           name: 'buyEth',
           context: appState.currentView.name,
         },
-        identity: state.metamask.identities[action.value],
+        identity: state.auramask.identities[action.value],
         buyView: {
           subview: 'Coinbase',
           amount: '15.00',
@@ -623,7 +623,7 @@ function reduceApp(state, action) {
           name: 'onboardingBuyEth',
           context: appState.currentView.name,
         },
-        identity: state.metamask.identities[action.value],
+        identity: state.auramask.identities[action.value],
       });
 
     case actions.COINBASE_SUBVIEW:
@@ -729,7 +729,7 @@ function getUnconfActionList(state) {
   const {
     unapprovedTxs, unapprovedMsgs,
     unapprovedPersonalMsgs, unapprovedTypedMessages, network,
-  } = state.metamask;
+  } = state.auramask;
 
   const unconfActionList = txHelper(unapprovedTxs, unapprovedMsgs, unapprovedPersonalMsgs, unapprovedTypedMessages, network);
   return unconfActionList;

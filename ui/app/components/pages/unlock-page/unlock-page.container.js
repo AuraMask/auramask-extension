@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { compose } from 'recompose'
 
 const {
-  tryUnlockMetamask,
+  tryUnlockAuramask,
   forgotPassword,
   markPasswordForgotten,
 } = require('../../../actions')
@@ -11,7 +11,7 @@ const {
 import UnlockPage from './unlock-page.component'
 
 const mapStateToProps = state => {
-  const { metamask: { isUnlocked } } = state
+  const { auramask: { isUnlocked } } = state
   return {
     isUnlocked,
   }
@@ -20,7 +20,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     forgotPassword: () => dispatch(forgotPassword()),
-    tryUnlockMetamask: password => dispatch(tryUnlockMetamask(password)),
+    tryUnlockAuramask: password => dispatch(tryUnlockAuramask(password)),
     markPasswordForgotten: () => dispatch(markPasswordForgotten()),
   }
 }

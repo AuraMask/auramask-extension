@@ -52,7 +52,7 @@ class WelcomeScreen extends Component {
 
         h('div.welcome-screen__info__header', this.context.t('welcomeBeta')),
 
-        h('div.welcome-screen__info__copy', this.context.t('metamaskDescription')),
+        h('div.welcome-screen__info__copy', this.context.t('auramaskDescription')),
 
         h('div.welcome-screen__info__copy', this.context.t('holdEther')),
 
@@ -66,7 +66,7 @@ class WelcomeScreen extends Component {
   }
 }
 
-const mapStateToProps = ({metamask: {welcomeScreenSeen}}) => {
+const mapStateToProps = ({auramask: {welcomeScreenSeen}}) => {
   return {
     welcomeScreenSeen,
   };

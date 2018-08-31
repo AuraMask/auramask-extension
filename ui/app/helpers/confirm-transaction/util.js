@@ -9,7 +9,7 @@ import BigNumber from 'bignumber.js';
 
 import MethodRegistry from 'irc.js/src/registry';
 
-const registry = new MethodRegistry({provider: global.ethereumProvider});
+const registry = new MethodRegistry({provider: global.irchainProvider});
 
 import {
   conversionUtil,

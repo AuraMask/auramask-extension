@@ -61,7 +61,7 @@ class ExtensionPlatform {
 
     this._subscribeToNotificationClicked();
 
-    const url = explorerLink(txMeta.hash, parseInt(txMeta.metamaskNetworkId));
+    const url = explorerLink(txMeta.hash, parseInt(txMeta.auramaskNetworkId));
     const nonce = parseInt(txMeta.txParams.nonce, 16);
 
     const title = 'Confirmed transaction';
@@ -96,7 +96,7 @@ class ExtensionPlatform {
 
   _viewOnEtherScan(txId) {
     if (txId.startsWith('http://')) {
-      global.metamaskController.platform.openWindow({url: txId});
+      global.auramaskController.platform.openWindow({url: txId});
     }
   }
 }

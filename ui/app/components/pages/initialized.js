@@ -3,11 +3,11 @@ const PropTypes = require('prop-types');
 const {Redirect} = require('react-router-dom');
 const h = require('react-hyperscript');
 const {INITIALIZE_ROUTE} = require('../../routes');
-const MetamaskRoute = require('./metamask-route');
+const AuramaskRoute = require('./auramask-route');
 
 const Initialized = props => {
   return props.isInitialized
-    ? h(MetamaskRoute, {...props})
+    ? h(AuramaskRoute, {...props})
     : h(Redirect, {to: {pathname: INITIALIZE_ROUTE}});
 };
 
@@ -16,7 +16,7 @@ Initialized.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const {metamask: {isInitialized}} = state;
+  const {auramask: {isInitialized}} = state;
   return {
     isInitialized,
   };

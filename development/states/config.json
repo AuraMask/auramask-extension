@@ -1,5 +1,5 @@
 {
-  "metamask": {
+  "auramask": {
     "currentCurrency": "USD",
     "conversionRate": 11.06608791,
     "conversionDate": 1470421024,
@@ -76,7 +76,7 @@
       "accountExport": "none",
       "privateKey": ""
     },
-    "currentDomain": "testfaucet.metamask.io",
+    "currentDomain": "testfaucet.auramask.io",
     "transForward": true,
     "isLoading": false,
     "warning": null,

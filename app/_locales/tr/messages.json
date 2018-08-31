@@ -34,7 +34,7 @@
     "description": "Uygulama açıklaması"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "AuraMask",
     "description": "Uygulama ismi"
   },
   "approved": {
@@ -75,7 +75,7 @@
     "message": "Dharma (Beta) ile ödünç al"
   },
   "builtInCalifornia": {
-    "message": "MetaMask California'da tasarlandı ve yaratıldı"
+    "message": "AuraMask California'da tasarlandı ve yaratıldı"
   },
   "buy": {
     "message": "Satın al"
@@ -190,7 +190,7 @@
     "message": "Ether işlemleri için varsayılan ağ Main Net."
   },
   "denExplainer": {
-    "message": "DEN'iniz MetaMask içersinde parola-şifrelenmiş deponuzdur."
+    "message": "DEN'iniz AuraMask içersinde parola-şifrelenmiş deponuzdur."
   },
   "deposit": {
     "message": "Yatır"
@@ -218,7 +218,7 @@
     "message": "ShapeShift ile yatır"
   },
   "depositShapeShiftExplainer": {
-    "message": "Eğer başka kripto paralara sahipseniz, MetaMask cüzdanınıza direk olarak Ether yatırabilirsiniz. Hesaba gerek yoktur."
+    "message": "Eğer başka kripto paralara sahipseniz, AuraMask cüzdanınıza direk olarak Ether yatırabilirsiniz. Hesaba gerek yoktur."
   },
   "details": {
     "message": "Ayrıntılar"
@@ -372,7 +372,7 @@
     "message": "Hesap Al"
   },
   "importAccountMsg": {
-    "message": " Alınan hesaplar orjinal kaynakifadenizle yarattığınız MetaMask hesabınızla ilişkilendirilmez. Alınan hesaplar ile ilgili daha fazla bilgi edinin "
+    "message": " Alınan hesaplar orjinal kaynakifadenizle yarattığınız AuraMask hesabınızla ilişkilendirilmez. Alınan hesaplar ile ilgili daha fazla bilgi edinin "
   },
   "importAnAccount": {
     "message": "Hesap al"
@@ -419,7 +419,7 @@
     "description": "Hesap alımı için düzenle"
   },
   "keepTrackTokens": {
-    "message": "MetaMask hesabınızla satın aldığınız jetonların kaydını tutun."
+    "message": "AuraMask hesabınızla satın aldığınız jetonların kaydını tutun."
   },
   "knowledgeDataBase": {
     "message": "Bilgi veritabanımızı ziyaret edin"
@@ -470,8 +470,8 @@
   "message": {
     "message": "Mesaj"
   },
-  "metamaskDescription": {
-    "message": "MetaMask Ethereum için güvenli bir kimlik kasasıdır."
+  "auramaskDescription": {
+    "message": "AuraMask Ethereum için güvenli bir kimlik kasasıdır."
   },
   "min": {
     "message": "Minimum"
@@ -483,7 +483,7 @@
     "message": "En az bir jeton seçilmeli"
   },
   "needEtherInWallet": {
-    "message": "MetaMask kullanarak merkezi olamayan uygulamalarla etkileşmek için cüzdanınızda Ether bulunmalıdır."
+    "message": "AuraMask kullanarak merkezi olamayan uygulamalarla etkileşmek için cüzdanınızda Ether bulunmalıdır."
   },
   "needImportFile": {
     "message": "Almak için bir dosya seçmelisiniz.",
@@ -800,7 +800,7 @@
     "message": "Jeton Sembolü"
   },
   "tokenWarning1": {
-    "message": "MetaMask hesabınızla aldığınız jetonların kaydını tutun. Başka bir hesapla jetonlar satın aldıysanız, o jetonlar burada gözükmeyecektir."
+    "message": "AuraMask hesabınızla aldığınız jetonların kaydını tutun. Başka bir hesapla jetonlar satın aldıysanız, o jetonlar burada gözükmeyecektir."
   },
   "total": {
     "message": "Toplam"
@@ -825,7 +825,7 @@
     "description": "Jeton bakiyelerini görmek için bir link (burası) ile takip ediliyor"
   },
   "twelveWords": {
-    "message": "MetaMask hesaplarınızı geri getirmenin tek yolu bu 12 kelimedir.\nBu kelimeleri güvenli ve gizli bir yerde saklayın."
+    "message": "AuraMask hesaplarınızı geri getirmenin tek yolu bu 12 kelimedir.\nBu kelimeleri güvenli ve gizli bir yerde saklayın."
   },
   "typePassword": {
     "message": "Parolanızı girin"
@@ -834,7 +834,7 @@
     "message": "Yeni UI (Beta)'ya hoşgeldiniz"
   },
   "uiWelcomeMessage": {
-    "message": "Şu anda yeni MetaMask UI kullanmaktasınız. Gözatın, jeton gönderme gibi yeni özellikleri deneyin ve herhangi bir sorunlar karşılaşırsanız bize haber verin"
+    "message": "Şu anda yeni AuraMask UI kullanmaktasınız. Gözatın, jeton gönderme gibi yeni özellikleri deneyin ve herhangi bir sorunlar karşılaşırsanız bize haber verin"
   },
   "unapproved": {
     "message": "Onaylanmadı"
@@ -880,7 +880,7 @@
     "message": "Uyarı"
   },
   "welcomeBeta": {
-    "message": "MetaMask Beta'ya Hoşgeldiniz"
+    "message": "AuraMask Beta'ya Hoşgeldiniz"
   },
   "whatsThis": {
     "message": "Bu nedir?"

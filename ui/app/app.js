@@ -196,7 +196,7 @@ class App extends Component {
     ]);
   }
 
-  toggleMetamaskActive() {
+  toggleAuramaskActive() {
     if (!this.props.isUnlocked) {
       // currently inactive: redirect to password box
       var passwordBox = document.querySelector('input[type=password]');
@@ -204,7 +204,7 @@ class App extends Component {
       passwordBox.focus();
     } else {
       // currently active: deactivate
-      this.props.dispatch(actions.lockMetamask(false));
+      this.props.dispatch(actions.lockAuramask(false));
     }
   }
 
@@ -285,7 +285,7 @@ App.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const {appState, metamask} = state;
+  const {appState, auramask} = state;
   const {
     networkDropdownOpen,
     sidebarOpen,
@@ -308,7 +308,7 @@ function mapStateToProps(state) {
     unapprovedMsgCount,
     unapprovedPersonalMsgCount,
     unapprovedTypedMessagesCount,
-  } = metamask;
+  } = auramask;
   const selected = address || Object.keys(accounts)[0];
 
   return {
@@ -321,33 +321,33 @@ function mapStateToProps(state) {
     loadingMessage,
     noActiveNotices,
     isInitialized,
-    isUnlocked: state.metamask.isUnlocked,
-    selectedAddress: state.metamask.selectedAddress,
+    isUnlocked: state.auramask.isUnlocked,
+    selectedAddress: state.auramask.selectedAddress,
     currentView: state.appState.currentView,
     activeAddress: state.appState.activeAddress,
     transForward: state.appState.transForward,
-    isMascara: state.metamask.isMascara,
+    isMascara: state.auramask.isMascara,
     isOnboarding: Boolean(!noActiveNotices || seedWords || !isInitialized),
-    isPopup: state.metamask.isPopup,
-    seedWords: state.metamask.seedWords,
+    isPopup: state.auramask.isPopup,
+    seedWords: state.auramask.seedWords,
     unapprovedTxs,
-    unapprovedMsgs: state.metamask.unapprovedMsgs,
+    unapprovedMsgs: state.auramask.unapprovedMsgs,
     unapprovedMsgCount,
     unapprovedPersonalMsgCount,
     unapprovedTypedMessagesCount,
     menuOpen: state.appState.menuOpen,
-    network: state.metamask.network,
-    provider: state.metamask.provider,
+    network: state.auramask.network,
+    provider: state.auramask.provider,
     forgottenPassword: state.appState.forgottenPassword,
     nextUnreadNotice,
     lostAccounts,
-    frequentRpcList: state.metamask.frequentRpcList || [],
-    currentCurrency: state.metamask.currentCurrency,
+    frequentRpcList: state.auramask.frequentRpcList || [],
+    currentCurrency: state.auramask.currentCurrency,
     isMouseUser: state.appState.isMouseUser,
-    betaUI: state.metamask.featureFlags.betaUI,
-    isRevealingSeedWords: state.metamask.isRevealingSeedWords,
+    betaUI: state.auramask.featureFlags.betaUI,
+    isRevealingSeedWords: state.auramask.isRevealingSeedWords,
     Qr: state.appState.Qr,
-    welcomeScreenSeen: state.metamask.welcomeScreenSeen,
+    welcomeScreenSeen: state.auramask.welcomeScreenSeen,
 
     // state needed to get account dropdown temporarily rendering from app bar
     identities,

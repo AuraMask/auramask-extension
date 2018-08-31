@@ -12,16 +12,16 @@ const {formatBalance, generateBalanceObject} = require('../util');
 module.exports = connect(mapStateToProps)(BalanceComponent);
 
 function mapStateToProps(state) {
-  const accounts = state.metamask.accounts;
-  const network = state.metamask.network;
-  const selectedAddress = state.metamask.selectedAddress || Object.keys(accounts)[0];
+  const accounts = state.auramask.accounts;
+  const network = state.auramask.network;
+  const selectedAddress = state.auramask.selectedAddress || Object.keys(accounts)[0];
   const account = accounts[selectedAddress];
 
   return {
     account,
     network,
-    conversionRate: state.metamask.conversionRate,
-    currentCurrency: state.metamask.currentCurrency,
+    conversionRate: state.auramask.conversionRate,
+    currentCurrency: state.auramask.currentCurrency,
   };
 }
 

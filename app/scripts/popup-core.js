@@ -3,14 +3,14 @@ const async = require('async');
 const Dnode = require('dnode');
 const Eth = require('irc.js');
 const EthQuery = require('irc-query');
-const launchMetamaskUi = require('../../ui');
+const launchAuramaskUi = require('../../ui');
 const StreamProvider = require('web3-stream-provider');
 const setupMultiplex = require('./lib/stream-utils.js').setupMultiplex;
 
 module.exports = initializePopup;
 
 /**
- * Asynchronously initializes the MetaMask popup UI
+ * Asynchronously initializes the AuraMask popup UI
  *
  * @param {{ container: Element, connectionStream: * }} config Popup configuration object
  * @param {Function} cb Called when initialization is complete
@@ -19,7 +19,7 @@ function initializePopup({container, connectionStream}, cb) {
   // setup app
   async.waterfall([
     (cb) => connectToAccountManager(connectionStream, cb),
-    (accountManager, cb) => launchMetamaskUi({container, accountManager}, cb),
+    (accountManager, cb) => launchAuramaskUi({container, accountManager}, cb),
   ], cb);
 }
 
@@ -48,9 +48,9 @@ function setupWebuConnection(connectionStream) {
   providerStream.pipe(connectionStream).pipe(providerStream);
   connectionStream.on('error', console.error.bind(console));
   providerStream.on('error', console.error.bind(console));
-  global.ethereumProvider = providerStream;
-  global.ethQuery = new EthQuery(providerStream);
-  global.eth = new Eth(providerStream);
+  global.irchainProvider = providerStream;
+  global.ircQuery = new EthQuery(providerStream);
+  global.irc = new Eth(providerStream, {});
 }
 
 /**

@@ -1,5 +1,5 @@
 {
-  "metamask": {
+  "auramask": {
     "isInitialized": false,
     "isUnlocked": false,
     "rpcTarget": "http://localhost:8545/",

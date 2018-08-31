@@ -21,7 +21,7 @@ function IdenticonComponent() {
 
 function mapStateToProps(state) {
   return {
-    useBlockie: state.metamask.useBlockie,
+    useBlockie: state.auramask.useBlockie,
   };
 }
 

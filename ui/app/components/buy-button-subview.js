@@ -20,11 +20,11 @@ module.exports = connect(mapStateToProps)(BuyButtonSubview);
 function mapStateToProps(state) {
   return {
     identity: state.appState.identity,
-    account: state.metamask.accounts[state.appState.buyView.buyAddress],
+    account: state.auramask.accounts[state.appState.buyView.buyAddress],
     warning: state.appState.warning,
     buyView: state.appState.buyView,
-    network: state.metamask.network,
-    provider: state.metamask.provider,
+    network: state.auramask.network,
+    provider: state.auramask.provider,
     context: state.appState.currentView.context,
     isSubLoading: state.appState.isSubLoading,
   };

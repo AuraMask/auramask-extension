@@ -118,7 +118,7 @@ ExportAccountView.prototype.render = function() {
         style: {
           marginLeft: '10px',
         },
-        onClick: () => exportAsFile(`MetaMask ${nickname} Private Key`, plainKey),
+        onClick: () => exportAsFile(`AuraMask ${nickname} Private Key`, plainKey),
       }, 'Save as File'),
     ]);
   }

@@ -44,7 +44,7 @@ UnlockScreen.prototype.render = function() {
             textTransform: 'uppercase',
             color: '#7F8082',
           },
-        }, 'MetaMask'),
+        }, 'AuraMask'),
 
         h('input.large-input', {
           type: 'password',
@@ -92,7 +92,7 @@ UnlockScreen.prototype.componentDidMount = function() {
 UnlockScreen.prototype.onSubmit = function(event) {
   const input = document.getElementById('password-box');
   const password = input.value;
-  this.props.dispatch(actions.tryUnlockMetamask(password));
+  this.props.dispatch(actions.tryUnlockAuramask(password));
 };
 
 UnlockScreen.prototype.onKeyPress = function(event) {
@@ -106,7 +106,7 @@ UnlockScreen.prototype.submitPassword = function(event) {
   var password = element.value;
   // reset input
   element.value = '';
-  this.props.dispatch(actions.tryUnlockMetamask(password));
+  this.props.dispatch(actions.tryUnlockAuramask(password));
 };
 
 UnlockScreen.prototype.inputChanged = function(event) {

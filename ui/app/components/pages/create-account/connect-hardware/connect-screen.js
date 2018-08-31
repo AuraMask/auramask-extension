@@ -40,7 +40,7 @@ class ConnectScreen extends Component {
         return h('div.hw-connect__get-trezor', {}, [
             h('p.hw-connect__get-trezor__msg', {}, this.context.t(`dontHaveATrezorWallet`)),
             h('a.hw-connect__get-trezor__link', {
-              href: 'https://shop.trezor.io/?a=metamask',
+              href: 'https://shop.trezor.io/?a=auramask',
               target: '_blank',
             }, this.context.t('orderOneHere')),
           ])
@@ -106,7 +106,7 @@ class ConnectScreen extends Component {
                 h('p.hw-connect__footer__msg', {}, [
                     this.context.t(`havingTroubleConnecting`),
                     h('a.hw-connect__footer__link', {
-                        href: 'https://support.metamask.io/',
+                        href: 'https://support.auramask.io/',
                         target: '_blank',
                       }, this.context.t('getHelp')),
                 ]),

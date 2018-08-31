@@ -8,8 +8,8 @@ const {getNetworkDisplayName} = require('../../../../app/scripts/controllers/net
 
 function mapStateToProps(state) {
   return {
-    network: state.metamask.network,
-    address: state.metamask.selectedAddress,
+    network: state.auramask.network,
+    address: state.auramask.selectedAddress,
   };
 }
 

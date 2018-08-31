@@ -49,7 +49,7 @@ const withTokenTracker = WrappedComponent => {
     createFreshTokenTracker() {
       this.removeListeners();
 
-      if (!global.ethereumProvider) {
+      if (!global.irchainProvider) {
         return;
       }
 
@@ -57,7 +57,7 @@ const withTokenTracker = WrappedComponent => {
 
       this.tracker = new TokenTracker({
         userAddress,
-        provider: global.ethereumProvider,
+        provider: global.irchainProvider,
         tokens: [token],
         pollingInterval: 8000,
       });

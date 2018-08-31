@@ -268,7 +268,7 @@ function getTxFeeBn(gas, gasPrice = MIN_GAS_PRICE_BN.toString(16), blockGasLimit
 }
 
 function getContractAtAddress(tokenAddress) {
-  return global.eth.contract(abi).at(tokenAddress);
+  return global.irc.contract(abi).at(tokenAddress);
 }
 
 function exportAsFile(filename, data, type = 'text/csv') {

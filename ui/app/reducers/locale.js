@@ -1,9 +1,9 @@
 const extend = require('xtend');
 const actions = require('../actions');
 
-module.exports = reduceMetamask;
+module.exports = reduceAuramask;
 
-function reduceMetamask(state, action) {
+function reduceAuramask(state, action) {
   const localeMessagesState = extend({}, state.localeMessages);
 
   switch (action.type) {

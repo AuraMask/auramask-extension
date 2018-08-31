@@ -448,7 +448,7 @@ gulp.task(
 function zipTask(target) {
   return () => {
     return gulp.src(`dist/${target}/**`)
-               .pipe(zip(`metamask-${target}-${manifest.version}.zip`))
+               .pipe(zip(`auramask-${target}-${manifest.version}.zip`))
                .pipe(gulp.dest('builds'));
   };
 }
@@ -465,7 +465,7 @@ function generateBundler(opts, performBundle) {
 
   // inject variables into bundle
   bundler.transform(envify({
-    METAMASK_DEBUG: opts.devMode,
+    AURAMASK_DEBUG: opts.devMode,
     NODE_ENV: opts.devMode ? 'development' : 'production',
   }));
 
@@ -547,7 +547,7 @@ function bundleTask(opts) {
       buildStream = buildStream
         .pipe(uglify({
           mangle: {
-            reserved: ['MetamaskInpageProvider'],
+            reserved: ['AuramaskInpageProvider'],
           },
         }));
     }

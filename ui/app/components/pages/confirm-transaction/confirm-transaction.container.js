@@ -10,7 +10,7 @@ import { getTotalUnapprovedCount } from '../../../selectors'
 import { unconfirmedTransactionsListSelector } from '../../../selectors/confirm-transaction'
 
 const mapStateToProps = state => {
-  const { metamask: { send }, confirmTransaction } = state
+  const { auramask: { send }, confirmTransaction } = state
 
   return {
     totalUnapprovedCount: getTotalUnapprovedCount(state),

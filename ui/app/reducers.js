@@ -4,13 +4,13 @@ const copyToClipboard = require('copy-to-clipboard');
 //
 // Sub-Reducers take in the complete state and return their sub-state
 //
-const reduceMetamask = require('./reducers/metamask');
+const reduceAuramask = require('./reducers/auramask');
 const reduceApp = require('./reducers/app');
 const reduceLocale = require('./reducers/locale');
 const reduceSend = require('./ducks/send.duck').default;
 import reduceConfirmTransaction from './ducks/confirm-transaction.duck';
 
-window.METAMASK_CACHED_LOG_STATE = null;
+window.AURAMASK_CACHED_LOG_STATE = null;
 
 module.exports = rootReducer;
 
@@ -23,10 +23,10 @@ function rootReducer(state, action) {
   }
 
   //
-  // MetaMask
+  // AuraMask
   //
 
-  state.metamask = reduceMetamask(state, action);
+  state.auramask = reduceAuramask(state, action);
 
   //
   // AppState
@@ -48,12 +48,12 @@ function rootReducer(state, action) {
 
   state.confirmTransaction = reduceConfirmTransaction(state, action);
 
-  window.METAMASK_CACHED_LOG_STATE = state;
+  window.AURAMASK_CACHED_LOG_STATE = state;
   return state;
 }
 
 window.logStateString = function(cb) {
-  const state = window.METAMASK_CACHED_LOG_STATE;
+  const state = window.AURAMASK_CACHED_LOG_STATE;
   const version = global.platform.getVersion();
   const browser = window.navigator.userAgent;
   return global.platform.getPlatformInfo((err, platform) => {

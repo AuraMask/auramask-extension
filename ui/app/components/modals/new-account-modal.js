@@ -72,7 +72,7 @@ NewAccountModal.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const {metamask: {network, selectedAddress, identities = {}}} = state;
+  const {auramask: {network, selectedAddress, identities = {}}} = state;
   const numberOfExistingAccounts = Object.keys(identities).length;
 
   return {

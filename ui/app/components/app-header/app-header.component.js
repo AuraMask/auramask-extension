@@ -77,11 +77,11 @@ class AppHeader extends Component {
       return true
     }
 
-    if (window.METAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION) {
+    if (window.AURAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION) {
       return true
     }
 
-    if (window.METAMASK_UI_TYPE === ENVIRONMENT_TYPE_POPUP && this.isConfirming()) {
+    if (window.AURAMASK_UI_TYPE === ENVIRONMENT_TYPE_POPUP && this.isConfirming()) {
       return true
     }
   }
@@ -108,7 +108,7 @@ class AppHeader extends Component {
           >
             <img
               className="app-header__metafox"
-              src="/images/metamask-fox.svg"
+              src="/images/auramask-fox.svg"
               height={42}
               width={42}
             />

@@ -105,7 +105,7 @@ TxList.prototype.renderTransactionListItem = function(transaction, conversionRat
     transactionAmount: transaction.txParams && transaction.txParams.value,
     transactionId: transaction.id,
     transactionHash: transaction.hash,
-    transactionNetworkId: transaction.metamaskNetworkId,
+    transactionNetworkId: transaction.auramaskNetworkId,
     transactionSubmittedTime: transaction.submittedTime,
   };
 

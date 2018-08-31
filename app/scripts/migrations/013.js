@@ -13,7 +13,7 @@ module.exports = {
       const state = versionedData.data;
       versionedData.data = transformState(state);
     } catch (err) {
-      console.warn(`MetaMask Migration #${version}` + err.stack);
+      console.warn(`AuraMask Migration #${version}` + err.stack);
     }
     return Promise.resolve(versionedData);
   },

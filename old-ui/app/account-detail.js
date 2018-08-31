@@ -19,20 +19,20 @@ module.exports = connect(mapStateToProps)(AccountDetailScreen);
 
 function mapStateToProps(state) {
   return {
-    metamask: state.metamask,
-    identities: state.metamask.identities,
-    accounts: state.metamask.accounts,
-    address: state.metamask.selectedAddress,
+    auramask: state.auramask,
+    identities: state.auramask.identities,
+    accounts: state.auramask.accounts,
+    address: state.auramask.selectedAddress,
     accountDetail: state.appState.accountDetail,
-    network: state.metamask.network,
-    unapprovedMsgs: valuesFor(state.metamask.unapprovedMsgs),
-    shapeShiftTxList: state.metamask.shapeShiftTxList,
-    transactions: state.metamask.selectedAddressTxList || [],
-    conversionRate: state.metamask.conversionRate,
-    currentCurrency: state.metamask.currentCurrency,
-    currentAccountTab: state.metamask.currentAccountTab,
-    tokens: state.metamask.tokens,
-    computedBalances: state.metamask.computedBalances,
+    network: state.auramask.network,
+    unapprovedMsgs: valuesFor(state.auramask.unapprovedMsgs),
+    shapeShiftTxList: state.auramask.shapeShiftTxList,
+    transactions: state.auramask.selectedAddressTxList || [],
+    conversionRate: state.auramask.conversionRate,
+    currentCurrency: state.auramask.currentCurrency,
+    currentAccountTab: state.auramask.currentAccountTab,
+    tokens: state.auramask.tokens,
+    computedBalances: state.auramask.computedBalances,
   };
 }
 

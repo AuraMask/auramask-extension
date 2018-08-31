@@ -15,14 +15,14 @@ module.exports = connect(mapStateToProps)(SendTransactionScreen);
 
 function mapStateToProps(state) {
   var result = {
-    address: state.metamask.selectedAddress,
-    accounts: state.metamask.accounts,
-    identities: state.metamask.identities,
+    address: state.auramask.selectedAddress,
+    accounts: state.auramask.accounts,
+    identities: state.auramask.identities,
     warning: state.appState.warning,
-    network: state.metamask.network,
-    addressBook: state.metamask.addressBook,
-    conversionRate: state.metamask.conversionRate,
-    currentCurrency: state.metamask.currentCurrency,
+    network: state.auramask.network,
+    addressBook: state.auramask.addressBook,
+    conversionRate: state.auramask.conversionRate,
+    currentCurrency: state.auramask.currentCurrency,
   };
 
   result.error = result.warning && result.warning.split('.')[0];

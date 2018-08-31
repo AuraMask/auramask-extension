@@ -14,7 +14,7 @@ module.exports = connect(mapStateToProps)(ConfigScreen);
 
 function mapStateToProps(state) {
   return {
-    metamask: state.metamask,
+    auramask: state.auramask,
     warning: state.appState.warning,
   };
 }
@@ -27,7 +27,7 @@ function ConfigScreen() {
 
 ConfigScreen.prototype.render = function() {
   var state = this.props;
-  var metamaskState = state.metamask;
+  var auramaskState = state.auramask;
   var warning = state.warning;
 
   return (
@@ -67,7 +67,7 @@ ConfigScreen.prototype.render = function() {
           },
         }, [
 
-          currentProviderDisplay(metamaskState),
+          currentProviderDisplay(auramaskState),
 
           h('div', {style: {display: 'flex'}}, [
             h('input#new_rpc', {
@@ -101,7 +101,7 @@ ConfigScreen.prototype.render = function() {
 
           h('hr.horizontal-line'),
 
-          currentConversionInformation(metamaskState, state),
+          currentConversionInformation(auramaskState, state),
 
           h('hr.horizontal-line'),
 
@@ -126,7 +126,7 @@ ConfigScreen.prototype.render = function() {
                   if (err) {
                     state.dispatch(actions.displayWarning('Error in retrieving state logs.'));
                   } else {
-                    exportAsFile('MetaMask State Logs.json', result);
+                    exportAsFile('AuraMask State Logs.json', result);
                   }
                 });
               },
@@ -167,7 +167,7 @@ ConfigScreen.prototype.render = function() {
             }, [
               'Resetting is for developer use only. ',
               h('a', {
-                href: 'http://metamask.helpscoutdocs.com/article/36-resetting-an-account',
+                href: 'http://auramask.helpscoutdocs.com/article/36-resetting-an-account',
                 target: '_blank',
               }, 'Read more.'),
             ]),
@@ -203,9 +203,9 @@ function rpcValidation(newRpc, state) {
   }
 }
 
-function currentConversionInformation(metamaskState, state) {
-  var currentCurrency = metamaskState.currentCurrency;
-  var conversionDate = metamaskState.conversionDate;
+function currentConversionInformation(auramaskState, state) {
+  var currentCurrency = auramaskState.currentCurrency;
+  var conversionDate = auramaskState.conversionDate;
   return h('div', [
     h('span', {style: {fontWeight: 'bold', paddingRight: '10px'}}, 'Current Conversion'),
     h('span', {style: {fontWeight: 'bold', paddingRight: '10px', fontSize: '13px'}}, `Updated ${Date(conversionDate)}`),
@@ -227,8 +227,8 @@ function currentConversionInformation(metamaskState, state) {
   ]);
 }
 
-function currentProviderDisplay(metamaskState) {
-  var provider = metamaskState.provider;
+function currentProviderDisplay(auramaskState) {
+  var provider = auramaskState.provider;
   var title, value;
 
   switch (provider.type) {
@@ -240,7 +240,7 @@ function currentProviderDisplay(metamaskState) {
 
     default:
       title = 'Current RPC';
-      value = metamaskState.provider.rpcTarget;
+      value = auramaskState.provider.rpcTarget;
   }
 
   return h('div', [

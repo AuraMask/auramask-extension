@@ -3,8 +3,8 @@ import AddToken from './add-token.component'
 
 const { setPendingTokens, clearPendingTokens } = require('../../../actions')
 
-const mapStateToProps = ({ metamask }) => {
-  const { identities, tokens, pendingTokens } = metamask
+const mapStateToProps = ({ auramask }) => {
+  const { identities, tokens, pendingTokens } = auramask
   return {
     identities,
     tokens,

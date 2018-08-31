@@ -15,7 +15,7 @@ function mapStateToProps(state) {
   return {
     warning: state.appState.warning,
     privateKey: state.appState.accountDetail.privateKey,
-    network: state.metamask.network,
+    network: state.auramask.network,
     selectedIdentity: getSelectedIdentity(state),
     previousModalState: state.appState.modal.previousModalState.name,
   };

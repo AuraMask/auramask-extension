@@ -49,31 +49,31 @@ function mapStateToProps(state) {
     noActiveNotices,
     seedWords,
     featureFlags,
-  } = state.metamask;
+  } = state.auramask;
   const selected = address || Object.keys(accounts)[0];
 
   return {
     // state from plugin
     isLoading: state.appState.isLoading,
     loadingMessage: state.appState.loadingMessage,
-    noActiveNotices: state.metamask.noActiveNotices,
-    isInitialized: state.metamask.isInitialized,
-    isUnlocked: state.metamask.isUnlocked,
+    noActiveNotices: state.auramask.noActiveNotices,
+    isInitialized: state.auramask.isInitialized,
+    isUnlocked: state.auramask.isUnlocked,
     currentView: state.appState.currentView,
-    selectedAddress: state.metamask.selectedAddress,
+    selectedAddress: state.auramask.selectedAddress,
     transForward: state.appState.transForward,
-    isMascara: state.metamask.isMascara,
+    isMascara: state.auramask.isMascara,
     isOnboarding: Boolean(!noActiveNotices || seedWords || !isInitialized),
-    seedWords: state.metamask.seedWords,
-    unapprovedTxs: state.metamask.unapprovedTxs,
-    unapprovedMsgs: state.metamask.unapprovedMsgs,
+    seedWords: state.auramask.seedWords,
+    unapprovedTxs: state.auramask.unapprovedTxs,
+    unapprovedMsgs: state.auramask.unapprovedMsgs,
     menuOpen: state.appState.menuOpen,
-    network: state.metamask.network,
-    provider: state.metamask.provider,
+    network: state.auramask.network,
+    provider: state.auramask.provider,
     forgottenPassword: state.appState.forgottenPassword,
-    nextUnreadNotice: state.metamask.nextUnreadNotice,
-    lostAccounts: state.metamask.lostAccounts,
-    frequentRpcList: state.metamask.frequentRpcList || [],
+    nextUnreadNotice: state.auramask.nextUnreadNotice,
+    lostAccounts: state.auramask.lostAccounts,
+    frequentRpcList: state.auramask.frequentRpcList || [],
     featureFlags,
 
     // state needed to get account dropdown temporarily rendering from app bar
@@ -274,7 +274,7 @@ App.prototype.renderPrimary = function() {
   }
 };
 
-App.prototype.toggleMetamaskActive = function() {
+App.prototype.toggleAuramaskActive = function() {
   if (!this.props.isUnlocked) {
     // currently inactive: redirect to password box
     var passwordBox = document.querySelector('input[type=password]');
@@ -282,7 +282,7 @@ App.prototype.toggleMetamaskActive = function() {
     passwordBox.focus();
   } else {
     // currently active: deactivate
-    this.props.dispatch(actions.lockMetamask(false));
+    this.props.dispatch(actions.lockAuramask(false));
   }
 };
 App.prototype.getNetworkName = function() {

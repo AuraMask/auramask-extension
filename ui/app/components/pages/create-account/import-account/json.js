@@ -7,7 +7,7 @@ const connect = require('react-redux').connect;
 const actions = require('../../../../actions');
 const FileInput = require('react-simple-file-input').default;
 const {DEFAULT_ROUTE} = require('../../../../routes');
-const HELP_LINK = 'https://support.metamask.io/kb/article/7-importing-accounts';
+const HELP_LINK = 'https://support.auramask.io/kb/article/7-importing-accounts';
 
 class JsonImportSubview extends Component {
   constructor(props) {
@@ -133,7 +133,7 @@ JsonImportSubview.propTypes = {
 const mapStateToProps = state => {
   return {
     error: state.appState.warning,
-    firstAddress: Object.keys(state.metamask.accounts)[0],
+    firstAddress: Object.keys(state.auramask.accounts)[0],
   };
 };
 

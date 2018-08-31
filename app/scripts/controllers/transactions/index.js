@@ -15,7 +15,7 @@ const cleanErrorStack = require('../../lib/cleanErrorStack');
 
 /**
  Transaction Controller is an aggregate of sub-controllers and trackers
- composing them in a way to be exposed to the metamask controller
+ composing them in a way to be exposed to the auramask controller
  <br>- txStateManager
  responsible for the state of a transaction and
  storing the transaction
@@ -123,7 +123,7 @@ class TransactionController extends EventEmitter {
    @param opts {object} - with the key origin to put the origin on the txMeta
    */
   async newUnapprovedTransaction(txParams, opts = {}) {
-    log.debug(`MetaMaskController newUnapprovedTransaction ${JSON.stringify(txParams)}`);
+    log.debug(`AuraMaskController newUnapprovedTransaction ${JSON.stringify(txParams)}`);
     const initialTxMeta = await this.addUnapprovedTransaction(txParams);
     initialTxMeta.origin = opts.origin;
     this.txStateManager.updateTx(initialTxMeta, '#newUnapprovedTransaction - adding the origin');
@@ -134,11 +134,11 @@ class TransactionController extends EventEmitter {
           case 'submitted':
             return resolve(finishedTxMeta.hash);
           case 'rejected':
-            return reject(cleanErrorStack(new Error('MetaMask Tx Signature: User denied transaction signature.')));
+            return reject(cleanErrorStack(new Error('AuraMask Tx Signature: User denied transaction signature.')));
           case 'failed':
             return reject(cleanErrorStack(new Error(finishedTxMeta.err.message)));
           default:
-            return reject(cleanErrorStack(new Error(`MetaMask Tx Signature: Unknown problem: ${JSON.stringify(finishedTxMeta.txParams)}`)));
+            return reject(cleanErrorStack(new Error(`AuraMask Tx Signature: Unknown problem: ${JSON.stringify(finishedTxMeta.txParams)}`)));
         }
       });
     });
@@ -162,7 +162,7 @@ class TransactionController extends EventEmitter {
 
     try {
       // check whether recipient account is blacklisted
-      recipientBlacklistChecker.checkAccount(txMeta.metamaskNetworkId, normalizedTxParams.to);
+      recipientBlacklistChecker.checkAccount(txMeta.auramaskNetworkId, normalizedTxParams.to);
       // add default tx params
       txMeta = await this.addTxGasDefaults(txMeta);
     } catch (error) {
@@ -444,7 +444,7 @@ class TransactionController extends EventEmitter {
     const unapprovedTxs = this.txStateManager.getUnapprovedTxList();
     const selectedAddressTxList = this.txStateManager.getFilteredTxList({
       from: this.getSelectedAddress(),
-      metamaskNetworkId: this.getNetwork(),
+      auramaskNetworkId: this.getNetwork(),
     });
     this.memStore.updateState({unapprovedTxs, selectedAddressTxList});
   }

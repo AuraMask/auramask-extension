@@ -2,7 +2,7 @@
  *
  * This is a utility module.
  * It initializes a minimalist browserifiable project
- * that contains the Metamask UI, with a mocked state.
+ * that contains the Auramask UI, with a mocked state.
  *
  * Includes a state menu for switching between different
  * mocked states, along with query param support,
@@ -27,17 +27,17 @@ const log = require('loglevel');
 window.log = log;
 // log.setDefaultLevel(1);
 
-// // Compatible states
-// for (const key in states) {
-//   if (states.hasOwnProperty(key)) {
-//     const metamask = states[key].metamask;
-//     metamask.tokens = metamask.tokens || [];
-//     metamask.featureFlags = metamask.featureFlags || {};
-//     metamask.selectedAddressTxList = metamask.selectedAddressTxList || [];
-//     metamask.keyrings = metamask.keyrings || [];
-//     metamask.lastUnreadNotice = metamask.lastUnreadNotice || {};
-//   }
-// }
+// Compatible states
+for (const key in states) {
+  if (states.hasOwnProperty(key)) {
+    const auramask = states[key].auramask;
+    auramask.tokens = auramask.tokens || [];
+    auramask.featureFlags = auramask.featureFlags || {};
+    auramask.selectedAddressTxList = auramask.selectedAddressTxList || [];
+    auramask.keyrings = auramask.keyrings || [];
+    auramask.lastUnreadNotice = auramask.lastUnreadNotice || {};
+  }
+}
 
 // Query String
 const qs = require('qs');
@@ -46,7 +46,7 @@ let selectedView = queryString.view || 'first time';
 updateQueryParams(selectedView);
 
 // CSS
-const MetaMaskUiCss = require('../ui/css');
+const AuraMaskUiCss = require('../ui/css');
 const injectCss = require('inject-css');
 
 function updateQueryParams(newView) {
@@ -68,7 +68,7 @@ const actions = {
   },
 };
 
-const css = MetaMaskUiCss();
+const css = AuraMaskUiCss();
 injectCss(css);
 
 // parse opts

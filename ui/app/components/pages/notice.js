@@ -153,8 +153,8 @@ class Notice extends Component {
 }
 
 const mapStateToProps = state => {
-  const {metamask} = state;
-  const {noActiveNotices, nextUnreadNotice, lostAccounts} = metamask;
+  const {auramask} = state;
+  const {noActiveNotices, nextUnreadNotice, lostAccounts} = auramask;
 
   return {
     noActiveNotices,

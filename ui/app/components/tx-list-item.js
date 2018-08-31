@@ -31,10 +31,10 @@ module.exports = compose(
 
 function mapStateToProps(state) {
   return {
-    tokens: state.metamask.tokens,
+    tokens: state.auramask.tokens,
     currentCurrency: getCurrentCurrency(state),
-    contractExchangeRates: state.metamask.contractExchangeRates,
-    selectedAddressTxList: state.metamask.selectedAddressTxList,
+    contractExchangeRates: state.auramask.contractExchangeRates,
+    selectedAddressTxList: state.auramask.selectedAddressTxList,
     networkNonce: state.appState.networkNonce,
   };
 }

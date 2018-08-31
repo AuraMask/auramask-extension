@@ -11,11 +11,11 @@ const I18nProvider = require('./i18n-provider');
 
 function mapStateToProps(state) {
   return {
-    betaUI: state.metamask.featureFlags.betaUI,
+    betaUI: state.auramask.featureFlags.betaUI,
     autoAdd: autoAddToBetaUI(state),
-    isUnlocked: state.metamask.isUnlocked,
-    isMascara: state.metamask.isMascara,
-    firstTime: Object.keys(state.metamask.identities).length === 0,
+    isUnlocked: state.auramask.isUnlocked,
+    isMascara: state.auramask.isMascara,
+    firstTime: Object.keys(state.auramask.identities).length === 0,
   };
 }
 

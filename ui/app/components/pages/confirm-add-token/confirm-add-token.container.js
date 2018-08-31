@@ -3,8 +3,8 @@ import ConfirmAddToken from './confirm-add-token.component'
 
 const { addTokens, clearPendingTokens } = require('../../../actions')
 
-const mapStateToProps = ({ metamask }) => {
-  const { pendingTokens } = metamask
+const mapStateToProps = ({ auramask }) => {
+  const { pendingTokens } = auramask
   return {
     pendingTokens,
   }

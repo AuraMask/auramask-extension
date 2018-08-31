@@ -28,11 +28,11 @@ function mapStateToProps(state) {
   const sidebarOpen = state.appState.sidebarOpen;
   const isMascara = state.appState.isMascara;
 
-  const identities = state.metamask.identities;
-  const accounts = state.metamask.accounts;
-  const network = state.metamask.network;
-  const selectedTokenAddress = state.metamask.selectedTokenAddress;
-  const selectedAddress = state.metamask.selectedAddress || Object.keys(accounts)[0];
+  const identities = state.auramask.identities;
+  const accounts = state.auramask.accounts;
+  const network = state.auramask.network;
+  const selectedTokenAddress = state.auramask.selectedTokenAddress;
+  const selectedAddress = state.auramask.selectedAddress || Object.keys(accounts)[0];
   const checksumAddress = toChecksumAddress(selectedAddress);
   const identity = identities[selectedAddress];
 

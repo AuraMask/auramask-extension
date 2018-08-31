@@ -1,9 +1,9 @@
-# MetaMask Browser Extension
-[![Build Status](https://circleci.com/gh/MetaMask/metamask-extension.svg?style=shield&circle-token=a1ddcf3cd38e29267f254c9c59d556d513e3a1fd)](https://circleci.com/gh/MetaMask/metamask-extension) [![Coverage Status](https://coveralls.io/repos/github/MetaMask/metamask-extension/badge.svg?branch=master)](https://coveralls.io/github/MetaMask/metamask-extension?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/MetaMask/metamask-extension.svg)](https://greenkeeper.io/) [![Stories in Ready](https://badge.waffle.io/MetaMask/metamask-extension.png?label=in%20progress&title=waffle.io)](https://waffle.io/MetaMask/metamask-extension)
+# AuraMask Browser Extension
+[![Build Status](https://circleci.com/gh/AuraMask/auramask-extension.svg?style=shield&circle-token=a1ddcf3cd38e29267f254c9c59d556d513e3a1fd)](https://circleci.com/gh/AuraMask/auramask-extension) [![Coverage Status](https://coveralls.io/repos/github/AuraMask/auramask-extension/badge.svg?branch=master)](https://coveralls.io/github/AuraMask/auramask-extension?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/AuraMask/auramask-extension.svg)](https://greenkeeper.io/) [![Stories in Ready](https://badge.waffle.io/AuraMask/auramask-extension.png?label=in%20progress&title=waffle.io)](https://waffle.io/AuraMask/auramask-extension)
 
 ## Support
 
-If you're a user seeking support, [here is our support site](https://metamask.helpscoutdocs.com/).
+If you're a user seeking support, [here is our support site](https://auramask.helpscoutdocs.com/).
 
 ## Introduction
 
@@ -18,11 +18,11 @@ If you're a web dapp developer, we've got two types of guides for you:
 ### New Dapp Developers
 
 - We recommend this [Learning Solidity](https://karl.tech/learning-solidity-part-1-deploy-a-contract/) tutorial series by Karl Floersch.
-- We wrote a (slightly outdated now) gentle introduction on [Developing Dapps with Truffle and MetaMask](https://medium.com/metamask/developing-ethereum-dapps-with-truffle-and-metamask-aa8ad7e363ba).
+- We wrote a (slightly outdated now) gentle introduction on [Developing Dapps with Truffle and AuraMask](https://medium.com/auramask/developing-ethereum-dapps-with-truffle-and-auramask-aa8ad7e363ba).
 
 ### Current Dapp Developers
 
-- If you have a Dapp, and you want to ensure compatibility, [here is our guide on building MetaMask-compatible Dapps](https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md)
+- If you have a Dapp, and you want to ensure compatibility, [here is our guide on building AuraMask-compatible Dapps](https://github.com/AuraMask/faq/blob/master/DEVELOPERS.md)
 
 ## Building locally
 
@@ -69,14 +69,14 @@ To write tests that will be run in the browser using QUnit, add your test files 
 - [How to add custom build to Chrome](./docs/add-to-chrome.md)
 - [How to add custom build to Firefox](./docs/add-to-firefox.md)
 - [How to develop a live-reloading UI](./docs/ui-dev-mode.md)
-- [How to add a new translation to MetaMask](./docs/translating-guide.md)
+- [How to add a new translation to AuraMask](./docs/translating-guide.md)
 - [Publishing Guide](./docs/publishing.md)
-- [The MetaMask Team](./docs/team.md)
+- [The AuraMask Team](./docs/team.md)
 - [How to develop an in-browser mocked UI](./docs/ui-mock-mode.md)
 - [How to live reload on local dependency changes](./docs/developing-on-deps.md)
 - [How to add new networks to the Provider Menu](./docs/adding-new-networks.md)
 - [How to manage notices that appear when the app starts up](./docs/notices.md)
-- [How to port MetaMask to a new platform](./docs/porting_to_new_environment.md)
+- [How to port AuraMask to a new platform](./docs/porting_to_new_environment.md)
 - [How to use the TREZOR emulator](./docs/trezor-emulator.md)
 - [How to generate a visualization of this repository's development](./docs/development-visualization.md)
 

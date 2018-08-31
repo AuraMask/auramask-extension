@@ -17,8 +17,8 @@ let FAUCET_ROW_TITLE;
 
 function mapStateToProps(state) {
   return {
-    network: state.metamask.network,
-    address: state.metamask.selectedAddress,
+    network: state.auramask.network,
+    address: state.auramask.selectedAddress,
   };
 }
 

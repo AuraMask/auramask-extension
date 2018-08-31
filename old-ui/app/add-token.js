@@ -16,7 +16,7 @@ module.exports = connect(mapStateToProps)(AddTokenScreen);
 
 function mapStateToProps(state) {
   return {
-    identities: state.metamask.identities,
+    identities: state.auramask.identities,
   };
 }
 
@@ -73,7 +73,7 @@ AddTokenScreen.prototype.render = function() {
             }, [
               h('a', {
                 style: {fontWeight: 'bold', paddingRight: '10px'},
-                href: 'https://support.metamask.io/kb/article/24-what-is-a-token-contract-address',
+                href: 'https://support.auramask.io/kb/article/24-what-is-a-token-contract-address',
                 target: '_blank',
               }, [
                 h('span', 'Token Contract Address  '),
@@ -168,9 +168,9 @@ AddTokenScreen.prototype.render = function() {
 };
 
 AddTokenScreen.prototype.componentWillMount = function() {
-  if (typeof global.ethereumProvider === 'undefined') return;
+  if (typeof global.irchainProvider === 'undefined') return;
 
-  this.eth = new EthQuery(global.ethereumProvider);
+  this.eth = new EthQuery(global.irchainProvider);
   this.contract = new EthContract(this.eth);
   this.TokenContract = this.contract(abi);
 };

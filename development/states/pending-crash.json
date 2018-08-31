@@ -1,5 +1,5 @@
 {
-  "metamask": {
+  "auramask": {
     "isInitialized": true,
     "isUnlocked": true,
     "currentDomain": "example.com",
@@ -14,8 +14,8 @@
           "gasPrice": "0xba43b7400",
           "gas": "0xf4240",
           "origin": "tokenfactory.surge.sh",
-          "metamaskId": 1467755147235616,
-          "metamaskNetworkId": "1"
+          "auramaskId": 1467755147235616,
+          "auramaskNetworkId": "1"
         },
         "time": 1467755147235,
         "status": "unconfirmed"
@@ -33,8 +33,8 @@
           "gasPrice": "0xba43b7400",
           "gas": "0xf4240",
           "origin": "tokenfactory.surge.sh",
-          "metamaskId": 1467742640796159,
-          "metamaskNetworkId": "2"
+          "auramaskId": 1467742640796159,
+          "auramaskNetworkId": "2"
         },
         "time": 1467742640796,
         "status": "rejected"
@@ -47,8 +47,8 @@
           "gasPrice": "0xba43b7400",
           "gas": "0xf4240",
           "origin": "tokenfactory.surge.sh",
-          "metamaskId": 1467742652846512,
-          "metamaskNetworkId": "2"
+          "auramaskId": 1467742652846512,
+          "auramaskNetworkId": "2"
         },
         "time": 1467742652846,
         "status": "confirmed",
@@ -62,8 +62,8 @@
           "gasPrice": "0xba43b7400",
           "gas": "0xf4240",
           "origin": "tokenfactory.surge.sh",
-          "metamaskId": 1467755147235616,
-          "metamaskNetworkId": "1"
+          "auramaskId": 1467755147235616,
+          "auramaskNetworkId": "1"
         },
         "time": 1467755147235,
         "status": "unconfirmed"

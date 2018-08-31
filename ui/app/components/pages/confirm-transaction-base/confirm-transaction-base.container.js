@@ -28,7 +28,7 @@ const casedContractMap = Object.keys(contractMap).reduce((acc, base) => {
 
 const mapStateToProps = (state, props) => {
   const {toAddress: propsToAddress} = props;
-  const {confirmTransaction, metamask} = state;
+  const {confirmTransaction, auramask} = state;
   const {
     ethTransactionAmount,
     ethTransactionFee,
@@ -52,7 +52,7 @@ const mapStateToProps = (state, props) => {
     accounts,
     selectedAddress,
     selectedAddressTxList,
-  } = metamask;
+  } = auramask;
 
   const {balance} = accounts[selectedAddress];
   const {name: fromName} = identities[selectedAddress];

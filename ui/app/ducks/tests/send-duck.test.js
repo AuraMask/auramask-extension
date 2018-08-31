@@ -19,12 +19,12 @@ describe('Send Duck', () => {
     toDropdownOpen: false,
     errors: {},
   }
-  const OPEN_FROM_DROPDOWN = 'metamask/send/OPEN_FROM_DROPDOWN'
-  const CLOSE_FROM_DROPDOWN = 'metamask/send/CLOSE_FROM_DROPDOWN'
-  const OPEN_TO_DROPDOWN = 'metamask/send/OPEN_TO_DROPDOWN'
-  const CLOSE_TO_DROPDOWN = 'metamask/send/CLOSE_TO_DROPDOWN'
-  const UPDATE_SEND_ERRORS = 'metamask/send/UPDATE_SEND_ERRORS'
-  const RESET_SEND_STATE = 'metamask/send/RESET_SEND_STATE'
+  const OPEN_FROM_DROPDOWN = 'auramask/send/OPEN_FROM_DROPDOWN'
+  const CLOSE_FROM_DROPDOWN = 'auramask/send/CLOSE_FROM_DROPDOWN'
+  const OPEN_TO_DROPDOWN = 'auramask/send/OPEN_TO_DROPDOWN'
+  const CLOSE_TO_DROPDOWN = 'auramask/send/CLOSE_TO_DROPDOWN'
+  const UPDATE_SEND_ERRORS = 'auramask/send/UPDATE_SEND_ERRORS'
+  const RESET_SEND_STATE = 'auramask/send/RESET_SEND_STATE'
 
   describe('SendReducer()', () => {
     it('should initialize state', () => {

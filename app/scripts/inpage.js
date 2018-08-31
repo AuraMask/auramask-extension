@@ -4,40 +4,40 @@ const Webu = require('webu/dist/webu-light.min');
 const log = require('loglevel');
 const LocalMessageDuplexStream = require('post-message-stream');
 const setupDappAutoReload = require('./lib/auto-reload.js');
-const MetamaskInpageProvider = require('./lib/inpage-provider.js');
+const AuramaskInpageProvider = require('./lib/inpage-provider.js');
 restoreContextAfterImports();
 
-log.setDefaultLevel(process.env.METAMASK_DEBUG ? 'debug' : 'warn');
+log.setDefaultLevel(process.env.AURAMASK_DEBUG ? 'debug' : 'warn');
 
 //
 // setup plugin communication
 //
 
 // setup background connection
-var metamaskStream = new LocalMessageDuplexStream({
+var auramaskStream = new LocalMessageDuplexStream({
   name: 'inpage',
   target: 'contentscript',
 });
 
 // compose the inpage provider
-var inpageProvider = new MetamaskInpageProvider(metamaskStream);
+var inpageProvider = new AuramaskInpageProvider(auramaskStream);
 
 //
 // setup webu
 //
 
 if (typeof window.webu !== 'undefined') {
-  throw new Error(`MetaMask detected another webu.
-     MetaMask will not work reliably with another webu extension.
-     This usually happens if you have two MetaMasks installed,
-     or MetaMask and another webu extension. Please remove one
+  throw new Error(`AuraMask detected another webu.
+     AuraMask will not work reliably with another webu extension.
+     This usually happens if you have two AuraMasks installed,
+     or AuraMask and another webu extension. Please remove one
      and try again.`);
 }
 var webu = new Webu(inpageProvider);
 webu.setProvider = function() {
-  log.debug('MetaMask - overrode webu.setProvider');
+  log.debug('AuraMask - overrode webu.setProvider');
 };
-log.debug('MetaMask - injected webu');
+log.debug('AuraMask - injected webu');
 // export global webu, with usage-detection
 setupDappAutoReload(webu, inpageProvider.publicConfigStore);
 
@@ -49,7 +49,7 @@ global.webu = new Proxy(webu, {
   get: (_webu, key) => {
     // show warning once on webu access
     if (!hasBeenWarned && key !== 'currentProvider') {
-      console.warn('MetaMask: webu will be deprecated in the near future in favor of the irchainProvider \nhttps://github.com/MetaMask/faq/blob/master/detecting_metamask.md#webu-deprecation')
+      console.warn('AuraMask: webu will be deprecated in the near future in favor of the irchainProvider \nhttps://github.com/AuraMask/faq/blob/master/detecting_auramask.md#webu-deprecation')
       hasBeenWarned = true
     }
     // return value normally
@@ -82,7 +82,7 @@ function cleanContextForImports() {
   try {
     global.define = undefined;
   } catch (_) {
-    console.warn('MetaMask - global.define could not be deleted.');
+    console.warn('AuraMask - global.define could not be deleted.');
   }
 }
 
@@ -93,6 +93,6 @@ function restoreContextAfterImports() {
   try {
     global.define = __define;
   } catch (_) {
-    console.warn('MetaMask - global.define could not be overwritten.');
+    console.warn('AuraMask - global.define could not be overwritten.');
   }
 }

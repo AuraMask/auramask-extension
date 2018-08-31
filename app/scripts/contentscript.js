@@ -16,7 +16,7 @@ const inpageBundle = inpageContent + inpageSuffix;
 //
 // But for now that is only Firefox
 // If we create a FireFox-only code path using that API,
-// MetaMask will be much faster loading and performant on Firefox.
+// AuraMask will be much faster loading and performant on Firefox.
 
 if (shouldInjectWebu()) {
   setupInjection();
@@ -36,7 +36,7 @@ function setupInjection() {
     // append as first child
     container.insertBefore(scriptTag, container.children[0]);
   } catch (e) {
-    console.error('Metamask injection failed.', e);
+    console.error('Auramask injection failed.', e);
   }
 }
 
@@ -58,7 +58,7 @@ function setupStreams() {
     pageStream,
     pluginStream,
     pageStream,
-    (err) => logStreamDisconnectWarning('MetaMask Contentscript Forwarding', err),
+    (err) => logStreamDisconnectWarning('AuraMask Contentscript Forwarding', err),
   );
 
   // setup local multistream channels
@@ -69,13 +69,13 @@ function setupStreams() {
     mux,
     pageStream,
     mux,
-    (err) => logStreamDisconnectWarning('MetaMask Inpage', err),
+    (err) => logStreamDisconnectWarning('AuraMask Inpage', err),
   );
   pump(
     mux,
     pluginStream,
     mux,
-    (err) => logStreamDisconnectWarning('MetaMask Background', err),
+    (err) => logStreamDisconnectWarning('AuraMask Background', err),
   );
 
   // connect ping stream
@@ -84,7 +84,7 @@ function setupStreams() {
     mux,
     pongStream,
     mux,
-    (err) => logStreamDisconnectWarning('MetaMask PingPongStream', err),
+    (err) => logStreamDisconnectWarning('AuraMask PingPongStream', err),
   );
 
   // connect phishing warning stream
@@ -103,7 +103,7 @@ function setupStreams() {
  * @param {Error} err Stream connection error
  */
 function logStreamDisconnectWarning(remoteLabel, err) {
-  let warningMsg = `MetamaskContentscript - lost connection to ${remoteLabel}`;
+  let warningMsg = `AuramaskContentscript - lost connection to ${remoteLabel}`;
   if (err) warningMsg += '\n' + err.stack;
   console.warn(warningMsg);
 }
@@ -114,8 +114,7 @@ function logStreamDisconnectWarning(remoteLabel, err) {
  * @returns {boolean} {@code true} if webu should be injected
  */
 function shouldInjectWebu() {
-  return doctypeCheck() && suffixCheck()
-    && documentElementCheck() && !blacklistedDomainCheck();
+  return doctypeCheck() && suffixCheck() && documentElementCheck() && !blacklistedDomainCheck();
 }
 
 /**
@@ -196,6 +195,6 @@ function blacklistedDomainCheck() {
  * Redirects the current page to a phishing information page
  */
 function redirectToPhishingWarning() {
-  console.log('MetaMask - routing to Phishing Warning component');
+  console.log('AuraMask - routing to Phishing Warning component');
   window.location.href = extension.runtime.getURL('phishing.html');
 }

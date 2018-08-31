@@ -156,11 +156,11 @@ TokenList.prototype.createFreshTokenTracker = function() {
     this.tracker.removeListener('error', this.showError);
   }
 
-  if (!global.ethereumProvider) return;
+  if (!global.irchainProvider) return;
   const {userAddress} = this.props;
   this.tracker = new TokenTracker({
     userAddress,
-    provider: global.ethereumProvider,
+    provider: global.irchainProvider,
     tokens: this.props.tokens,
     pollingInterval: 8000,
   });

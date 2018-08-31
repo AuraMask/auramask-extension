@@ -23,8 +23,8 @@ const notToggleElementClassnames = [
 
 function mapStateToProps(state) {
   return {
-    provider: state.metamask.provider,
-    frequentRpcList: state.metamask.frequentRpcList || [],
+    provider: state.auramask.provider,
+    frequentRpcList: state.auramask.frequentRpcList || [],
     networkDropdownOpen: state.appState.networkDropdownOpen,
   };
 }

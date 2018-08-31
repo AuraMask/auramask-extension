@@ -53,7 +53,7 @@ AccountImportSubview.prototype.render = function() {
       }, [
         h(
           'span',
-          'Imported accounts will not be associated with your originally created MetaMask account seedphrase. Learn more about imported accounts '),
+          'Imported accounts will not be associated with your originally created AuraMask account seedphrase. Learn more about imported accounts '),
         h('span', {
           style: {
             color: 'rgba(247, 134, 28, 1)',
@@ -62,7 +62,7 @@ AccountImportSubview.prototype.render = function() {
           },
           onClick: () => {
             global.platform.openWindow({
-              url: 'https://metamask.helpscoutdocs.com/article/17-what-are-loose-accounts',
+              url: 'https://auramask.helpscoutdocs.com/article/17-what-are-loose-accounts',
             });
           },
         }, 'here.'),

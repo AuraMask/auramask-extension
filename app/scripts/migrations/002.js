@@ -11,7 +11,7 @@ module.exports = {
     try {
       if (versionedData.data.config.provider.type === 'etherscan') {
         versionedData.data.config.provider.type = 'rpc';
-        versionedData.data.config.provider.rpcTarget = 'https://rpc.metamask.io/';
+        versionedData.data.config.provider.rpcTarget = 'https://rpc.auramask.io/';
       }
     } catch (e) {}
     return Promise.resolve(versionedData);

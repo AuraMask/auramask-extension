@@ -47,7 +47,7 @@ InfoScreen.prototype.render = function() {
           // current version number
 
           h('.info.info-gray', [
-            h('div', 'Metamask'),
+            h('div', 'Auramask'),
             h('div', {
               style: {
                 marginBottom: '10px',
@@ -63,7 +63,7 @@ InfoScreen.prototype.render = function() {
             [
               h('div', [
                 h('a', {
-                  href: 'https://metamask.io/privacy.html',
+                  href: 'https://auramask.io/privacy.html',
                   target: '_blank',
                   onClick: (event) => { this.navigateTo(event.target.href); },
                 }, [
@@ -72,7 +72,7 @@ InfoScreen.prototype.render = function() {
               ]),
               h('div', [
                 h('a', {
-                  href: 'https://metamask.io/terms.html',
+                  href: 'https://auramask.io/terms.html',
                   target: '_blank',
                   onClick: (event) => { this.navigateTo(event.target.href); },
                 }, [
@@ -81,7 +81,7 @@ InfoScreen.prototype.render = function() {
               ]),
               h('div', [
                 h('a', {
-                  href: 'https://metamask.io/attributions.html',
+                  href: 'https://auramask.io/attributions.html',
                   target: '_blank',
                   onClick: (event) => { this.navigateTo(event.target.href); },
                 }, [
@@ -106,14 +106,14 @@ InfoScreen.prototype.render = function() {
             [
               h('div.fa.fa-support', [
                 h('a.info', {
-                  href: 'https://support.metamask.io',
+                  href: 'https://support.auramask.io',
                   target: '_blank',
                 }, 'Visit our Support Center'),
               ]),
 
               h('div', [
                 h('a', {
-                  href: 'https://metamask.io/',
+                  href: 'https://auramask.io/',
                   target: '_blank',
                 }, [
                   h('img.icon-size', {
@@ -132,7 +132,7 @@ InfoScreen.prototype.render = function() {
               h('div', [
                 h('.fa.fa-twitter', [
                   h('a.info', {
-                    href: 'https://twitter.com/metamask_io',
+                    href: 'https://twitter.com/auramask_io',
                     target: '_blank',
                   }, 'Follow us on Twitter'),
                 ]),
@@ -142,7 +142,7 @@ InfoScreen.prototype.render = function() {
                 h('a.info', {
                   target: '_blank',
                   style: {width: '85vw'},
-                  href: 'mailto:help@metamask.io?subject=Feedback',
+                  href: 'mailto:help@auramask.io?subject=Feedback',
                 }, 'Email us!'),
               ]),
             ]),

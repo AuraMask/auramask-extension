@@ -7,36 +7,36 @@ const txHelper = require('./lib/tx-helper');
 const {fetchLocale} = require('./i18n-helper');
 const log = require('loglevel');
 
-module.exports = launchMetamaskUi;
+module.exports = launchAuramaskUi;
 
-log.setLevel(global.METAMASK_DEBUG ? 'debug' : 'warn');
+log.setLevel(global.AURAMASK_DEBUG ? 'debug' : 'warn');
 
-function launchMetamaskUi(opts, cb) {
+function launchAuramaskUi(opts, cb) {
   var accountManager = opts.accountManager;
   actions._setBackgroundConnection(accountManager);
   // check if we are unlocked first
-  accountManager.getState(function(err, metamaskState) {
+  accountManager.getState(function(err, auramaskState) {
     if (err) return cb(err);
-    startApp(metamaskState, accountManager, opts)
+    startApp(auramaskState, accountManager, opts)
       .then((store) => {
         cb(null, store);
       });
   });
 }
 
-async function startApp(metamaskState, accountManager, opts) {
+async function startApp(auramaskState, accountManager, opts) {
   // parse opts
-  if (!metamaskState.featureFlags) metamaskState.featureFlags = {};
+  if (!auramaskState.featureFlags) auramaskState.featureFlags = {};
 
-  const currentLocaleMessages = metamaskState.currentLocale
-    ? await fetchLocale(metamaskState.currentLocale)
+  const currentLocaleMessages = auramaskState.currentLocale
+    ? await fetchLocale(auramaskState.currentLocale)
     : {};
   const enLocaleMessages = await fetchLocale('en');
 
   const store = configureStore({
 
-    // metamaskState represents the cross-tab state
-    metamask: metamaskState,
+    // auramaskState represents the cross-tab state
+    auramask: auramaskState,
 
     // appState represents the current tab's popup state
     appState: {},
@@ -52,11 +52,11 @@ async function startApp(metamaskState, accountManager, opts) {
 
   // if unconfirmed txs, start on txConf page
   const unapprovedTxsAll = txHelper(
-    metamaskState.unapprovedTxs,
-    metamaskState.unapprovedMsgs,
-    metamaskState.unapprovedPersonalMsgs,
-    metamaskState.unapprovedTypedMessages,
-    metamaskState.network);
+    auramaskState.unapprovedTxs,
+    auramaskState.unapprovedMsgs,
+    auramaskState.unapprovedPersonalMsgs,
+    auramaskState.unapprovedTypedMessages,
+    auramaskState.network);
   const numberOfUnapprivedTx = unapprovedTxsAll.length;
   if (numberOfUnapprivedTx > 0) {
     store.dispatch(actions.showConfTxPage({
@@ -64,12 +64,12 @@ async function startApp(metamaskState, accountManager, opts) {
     }));
   }
 
-  accountManager.on('update', function(metamaskState) {
-    store.dispatch(actions.updateMetamaskState(metamaskState));
+  accountManager.on('update', function(auramaskState) {
+    store.dispatch(actions.updateAuramaskState(auramaskState));
   });
 
-  // global metamask api - used by tooling
-  global.metamask = {
+  // global auramask api - used by tooling
+  global.auramask = {
     updateCurrentLocale: (code) => {
       store.dispatch(actions.updateCurrentLocale(code));
     },

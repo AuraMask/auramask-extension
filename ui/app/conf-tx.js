@@ -19,34 +19,34 @@ module.exports = compose(
 )(ConfirmTxScreen);
 
 function mapStateToProps(state) {
-  const {metamask} = state;
+  const {auramask} = state;
   const {
     unapprovedMsgCount,
     unapprovedPersonalMsgCount,
     unapprovedTypedMessagesCount,
-  } = metamask;
+  } = auramask;
 
   return {
-    identities: state.metamask.identities,
-    accounts: state.metamask.accounts,
-    selectedAddress: state.metamask.selectedAddress,
-    unapprovedTxs: state.metamask.unapprovedTxs,
-    unapprovedMsgs: state.metamask.unapprovedMsgs,
-    unapprovedPersonalMsgs: state.metamask.unapprovedPersonalMsgs,
-    unapprovedTypedMessages: state.metamask.unapprovedTypedMessages,
+    identities: state.auramask.identities,
+    accounts: state.auramask.accounts,
+    selectedAddress: state.auramask.selectedAddress,
+    unapprovedTxs: state.auramask.unapprovedTxs,
+    unapprovedMsgs: state.auramask.unapprovedMsgs,
+    unapprovedPersonalMsgs: state.auramask.unapprovedPersonalMsgs,
+    unapprovedTypedMessages: state.auramask.unapprovedTypedMessages,
     index: state.appState.currentView.context,
     warning: state.appState.warning,
-    network: state.metamask.network,
-    provider: state.metamask.provider,
-    conversionRate: state.metamask.conversionRate,
-    currentCurrency: state.metamask.currentCurrency,
-    blockGasLimit: state.metamask.currentBlockGasLimit,
-    computedBalances: state.metamask.computedBalances,
+    network: state.auramask.network,
+    provider: state.auramask.provider,
+    conversionRate: state.auramask.conversionRate,
+    currentCurrency: state.auramask.currentCurrency,
+    blockGasLimit: state.auramask.currentBlockGasLimit,
+    computedBalances: state.auramask.computedBalances,
     unapprovedMsgCount,
     unapprovedPersonalMsgCount,
     unapprovedTypedMessagesCount,
-    send: state.metamask.send,
-    selectedAddressTxList: state.metamask.selectedAddressTxList,
+    send: state.auramask.send,
+    selectedAddressTxList: state.auramask.selectedAddressTxList,
   };
 }
 
@@ -179,7 +179,7 @@ ConfirmTxScreen.prototype.render = function() {
 ConfirmTxScreen.prototype.signMessage = function(msgData, event) {
   log.info('conf-tx.js: signing message');
   var params = msgData.msgParams;
-  params.metamaskId = msgData.id;
+  params.auramaskId = msgData.id;
   this.stopPropagation(event);
   return this.props.dispatch(actions.signMsg(params));
 };
@@ -193,7 +193,7 @@ ConfirmTxScreen.prototype.stopPropagation = function(event) {
 ConfirmTxScreen.prototype.signPersonalMessage = function(msgData, event) {
   log.info('conf-tx.js: signing personal message');
   var params = msgData.msgParams;
-  params.metamaskId = msgData.id;
+  params.auramaskId = msgData.id;
   this.stopPropagation(event);
   return this.props.dispatch(actions.signPersonalMsg(params));
 };
@@ -201,7 +201,7 @@ ConfirmTxScreen.prototype.signPersonalMessage = function(msgData, event) {
 ConfirmTxScreen.prototype.signTypedMessage = function(msgData, event) {
   log.info('conf-tx.js: signing typed message');
   var params = msgData.msgParams;
-  params.metamaskId = msgData.id;
+  params.auramaskId = msgData.id;
   this.stopPropagation(event);
   return this.props.dispatch(actions.signTypedMsg(params));
 };

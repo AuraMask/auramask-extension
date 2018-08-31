@@ -42,11 +42,11 @@ PendingMsg.prototype.render = function() {
         sites you fully trust with your entire account.
         This dangerous method will be removed in a future version. `,
         h('a', {
-          href: 'https://medium.com/metamask/the-new-secure-way-to-sign-data-in-your-browser-6af9dd2a1527',
+          href: 'https://medium.com/auramask/the-new-secure-way-to-sign-data-in-your-browser-6af9dd2a1527',
           style: {color: 'rgb(247, 134, 28)'},
           onClick: (event) => {
             event.preventDefault();
-            const url = 'https://medium.com/metamask/the-new-secure-way-to-sign-data-in-your-browser-6af9dd2a1527';
+            const url = 'https://medium.com/auramask/the-new-secure-way-to-sign-data-in-your-browser-6af9dd2a1527';
             global.platform.openWindow({url});
           },
         }, 'Read more here.'),

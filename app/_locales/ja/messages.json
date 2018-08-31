@@ -34,7 +34,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "AuraMask",
     "description": "The name of the application"
   },
   "attemptingConnect": {
@@ -169,7 +169,7 @@
     "message": "デフォルトのEther送受信ネットワークはメインネットです。"
   },
   "denExplainer": {
-    "message": "DENとは、あなたのパスワードが暗号化されたMetaMask内のストレージです。"
+    "message": "DENとは、あなたのパスワードが暗号化されたAuraMask内のストレージです。"
   },
   "deposit": {
     "message": "振込"
@@ -197,7 +197,7 @@
     "message": "ShapeShiftで交換"
   },
   "depositShapeShiftExplainer": {
-    "message": "他の暗号通貨とEtherを交換して、MetaMaskのウォレットへ入金できます。アカウント作成は不要です。"
+    "message": "他の暗号通貨とEtherを交換して、AuraMaskのウォレットへ入金できます。アカウント作成は不要です。"
   },
   "details": {
     "message": "詳細"
@@ -209,7 +209,7 @@
     "message": "Etherを直接入金"
   },
   "directDepositEtherExplainer": {
-    "message": "既にEtherをお持ちなら、MetaMaskの新しいウォレットにEtherを送信することができます。"
+    "message": "既にEtherをお持ちなら、AuraMaskの新しいウォレットにEtherを送信することができます。"
   },
   "done": {
     "message": "完了"
@@ -318,7 +318,7 @@
     "message": "アカウントのインポート"
   },
   "importAccountMsg": {
-    "message": "追加したアカウントはMetaMaskのアカウントパスフレーズとは関連付けられません。インポートしたアカウントについての詳細は"
+    "message": "追加したアカウントはAuraMaskのアカウントパスフレーズとは関連付けられません。インポートしたアカウントについての詳細は"
   },
   "importAnAccount": {
     "message": "アカウントをインポート"
@@ -353,7 +353,7 @@
     "description": "format for importing an account"
   },
   "keepTrackTokens": {
-    "message": "MetaMaskアカウントで入手したトークンを検索できます。"
+    "message": "AuraMaskアカウントで入手したトークンを検索できます。"
   },
   "learnMore": {
     "message": "詳細"
@@ -411,7 +411,7 @@
     "message": "一つ以上のトークンを選択してください。"
   },
   "needEtherInWallet": {
-    "message": "MetaMaskで分散型アプリケーションを使用するためには、このウォレットにEtherが必要です。"
+    "message": "AuraMaskで分散型アプリケーションを使用するためには、このウォレットにEtherが必要です。"
   },
   "needImportFile": {
     "message": "インポートするファイルを選択してください。",
@@ -678,7 +678,7 @@
     "message": "トークンシンボル"
   },
   "tokenWarning1": {
-    "message": "MetaMaskのアカウントで取得したアカウントのみ追加できます。他のアカウントを使用して取得したトークンは、カスタムトークンを使用してください。"
+    "message": "AuraMaskのアカウントで取得したアカウントのみ追加できます。他のアカウントを使用して取得したトークンは、カスタムトークンを使用してください。"
   },
   "total": {
     "message": "合計"
@@ -706,7 +706,7 @@
     "message": "新UIへようこそ! (ベータ版)"
   },
   "uiWelcomeMessage": {
-    "message": "現在、MetaMask の新しいUIをお使いになっています。トークン送信など、新たな機能を試してみましょう! 何か問題があればご報告ください。"
+    "message": "現在、AuraMask の新しいUIをお使いになっています。トークン送信など、新たな機能を試してみましょう! 何か問題があればご報告ください。"
   },
   "unavailable": {
     "message": "有効ではありません。"
@@ -743,7 +743,7 @@
     "message": "おかえりなさい!"
   },
   "welcomeBeta": {
-    "message": "MetaMask ベータ版へようこそ!"
+    "message": "AuraMask ベータ版へようこそ!"
   },
   "whatsThis": {
     "message": "この機能について"
