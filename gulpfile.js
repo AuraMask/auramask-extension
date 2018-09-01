@@ -11,7 +11,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const jsoneditor = require('gulp-json-editor');
 const zip = require('gulp-zip');
 const assign = require('lodash.assign');
-const livereload = require('gulp-livereload');
+const gulpreload = require('gulp-livereload');
 const del = require('del');
 const fs = require('fs');
 const path = require('path');
@@ -23,14 +23,7 @@ const gulpStylelint = require('gulp-stylelint');
 const stylefmt = require('gulp-stylefmt');
 const uglify = require('gulp-uglify-es').default;
 const pify = require('pify');
-const gulpMultiProcess = require('gulp-multi-process');
 const endOfStream = pify(require('end-of-stream'));
-
-function gulpParallel(...args) {
-  return function spawnGulpChildProcess(cb) {
-    return gulpMultiProcess(args, cb, true);
-  };
-}
 
 const browserPlatforms = [
   'firefox',
@@ -38,17 +31,11 @@ const browserPlatforms = [
   'edge',
   'opera',
 ];
-const commonPlatforms = [
-  // browser webapp
-  'mascara',
-  // browser extensions
-  ...browserPlatforms,
-];
 
 // browser reload
 
 gulp.task('dev:reload', function() {
-  livereload.listen({
+  gulpreload.listen({
     port: 35729,
   });
 });
@@ -60,30 +47,30 @@ const copyDevTaskNames = [];
 
 createCopyTasks('locales', {
   source: './app/_locales/',
-  destinations: commonPlatforms.map(platform => `./dist/${platform}/_locales`),
+  destinations: browserPlatforms.map(platform => `./dist/${platform}/_locales`),
 });
 createCopyTasks('images', {
   source: './app/images/',
-  destinations: commonPlatforms.map(platform => `./dist/${platform}/images`),
+  destinations: browserPlatforms.map(platform => `./dist/${platform}/images`),
 });
 createCopyTasks('contractImages', {
   source: './node_modules/irc-contract-metadata/images/',
-  destinations: commonPlatforms.map(platform => `./dist/${platform}/images/contract`),
+  destinations: browserPlatforms.map(platform => `./dist/${platform}/images/contract`),
 });
 createCopyTasks('fonts', {
   source: './app/fonts/',
-  destinations: commonPlatforms.map(platform => `./dist/${platform}/fonts`),
+  destinations: browserPlatforms.map(platform => `./dist/${platform}/fonts`),
 });
 createCopyTasks('reload', {
   devOnly: true,
-  source: './app/scripts/',
-  pattern: '/chromereload.js',
-  destinations: commonPlatforms.map(platform => `./dist/${platform}`),
+  source: './node_modules/livereload-js/dist/',
+  pattern: '/livereload.js',
+  destinations: browserPlatforms.map(platform => `./dist/${platform}`),
 });
 createCopyTasks('html', {
   source: './app/',
   pattern: '/*.html',
-  destinations: commonPlatforms.map(platform => `./dist/${platform}`),
+  destinations: browserPlatforms.map(platform => `./dist/${platform}`),
 });
 
 // copy extension
@@ -92,14 +79,6 @@ createCopyTasks('manifest', {
   source: './app/',
   pattern: '/*.json',
   destinations: browserPlatforms.map(platform => `./dist/${platform}`),
-});
-
-// copy mascara
-
-createCopyTasks('html:mascara', {
-  source: './mascara/',
-  pattern: 'proxy/index.html',
-  destinations: [`./dist/mascara/`],
 });
 
 function createCopyTasks(label, opts) {
@@ -123,7 +102,7 @@ function copyTask(taskName, opts) {
   return gulp.task(taskName, function() {
     if (devMode) {
       watch(source + pattern, (event) => {
-        livereload.changed(event.path);
+        gulpreload.changed(event.path);
         performCopy();
       });
     }
@@ -181,10 +160,10 @@ gulp.task('manifest:production', function() {
       './dist/opera/manifest.json',
     ], {base: './dist/'})
 
-    // Exclude chromereload script in production:
+    // Exclude livereload script in production:
     .pipe(jsoneditor(function(json) {
       json.background.scripts = json.background.scripts.filter((script) => {
-        return !script.includes('chromereload');
+        return !script.includes('livereload');
       });
       return json;
     }))
@@ -213,7 +192,7 @@ gulp.task(
 
 // scss compilation and autoprefixing tasks
 
-gulp.task('build:scss', createScssBuildTask({
+gulp.task('dist:scss', createScssBuildTask({
   src: 'ui/app/css/index.scss',
   dest: 'ui/app/css/output',
   devMode: false,
@@ -232,7 +211,7 @@ function createScssBuildTask({src, dest, devMode, pattern}) {
       watch(pattern, async(event) => {
         const stream = buildScss();
         await endOfStream(stream);
-        livereload.changed(event.path);
+        gulpreload.changed(event.path);
       });
     }
     return buildScss();
@@ -277,61 +256,35 @@ const buildJsFiles = [
 ];
 
 // bundle tasks
-createTasksForBuildJsExtension({buildJsFiles, taskPrefix: 'dev:extension:js', devMode: true});
-createTasksForBuildJsExtension({buildJsFiles, taskPrefix: 'build:extension:js'});
-createTasksForBuildJsMascara({taskPrefix: 'build:mascara:js'});
-createTasksForBuildJsMascara({taskPrefix: 'dev:mascara:js', devMode: true});
+createTasksForBuildJsExtension('dev:extension:js', true);
+createTasksForBuildJsExtension('dist:extension:js');
 
-function createTasksForBuildJsExtension({buildJsFiles, taskPrefix, devMode, bundleTaskOpts = {}}) {
+function createTasksForBuildJsExtension(taskPrefix, devMode) {
   // inpage must be built before all other scripts:
   const rootDir = './app/scripts';
-  const nonInpageFiles = buildJsFiles.filter(file => file !== 'inpage');
   const buildPhase1 = ['inpage'];
-  const buildPhase2 = nonInpageFiles;
+  const buildPhase2 = buildJsFiles.filter(file => file !== 'inpage');
   const destinations = browserPlatforms.map(platform => `./dist/${platform}`);
-  bundleTaskOpts = Object.assign({
-    buildSourceMaps: true,
-    sourceMapDir: devMode ? './' : '../sourcemaps',
-    minifyBuild: !devMode,
-    buildWithFullPaths: devMode,
-    watch: devMode,
-    devMode,
-  }, bundleTaskOpts);
-  createTasksForBuildJs({rootDir, taskPrefix, bundleTaskOpts, destinations, buildPhase1, buildPhase2});
-}
 
-function createTasksForBuildJsMascara({taskPrefix, devMode, bundleTaskOpts = {}}) {
-  // inpage must be built before all other scripts:
-  const rootDir = './mascara/src/';
-  const buildPhase1 = ['ui', 'proxy', 'background', 'metamascara'];
-  const destinations = ['./dist/mascara'];
-  bundleTaskOpts = Object.assign({
-    buildSourceMaps: true,
-    sourceMapDir: './',
-    minifyBuild: !devMode,
-    buildWithFullPaths: devMode,
-    watch: devMode,
-    devMode,
-  }, bundleTaskOpts);
-  createTasksForBuildJs({rootDir, taskPrefix, bundleTaskOpts, destinations, buildPhase1});
-}
-
-function createTasksForBuildJs({rootDir, taskPrefix, bundleTaskOpts, destinations, buildPhase1 = [], buildPhase2 = []}) {
   // bundle task for each file
-  const jsFiles = [].concat(buildPhase1, buildPhase2);
-  jsFiles.forEach((jsFile) => {
-    gulp.task(`${taskPrefix}:${jsFile}`, bundleTask(Object.assign({
+  buildJsFiles.forEach((jsFile) => {
+    gulp.task(`${taskPrefix}:${jsFile}`, bundleTask({
+      buildSourceMaps: true,
+      sourceMapDir: devMode ? './' : '../sourcemaps',
+      minifyBuild: !devMode,
+      buildWithFullPaths: devMode,
+      watch: devMode,
+      devMode,
       label: jsFile,
       filename: `${jsFile}.js`,
       filepath: `${rootDir}/${jsFile}.js`,
       destinations,
-    }, bundleTaskOpts)));
+    }));
   });
   // compose into larger task
   const subtasks = [];
   subtasks.push(gulp.parallel(buildPhase1.map(file => `${taskPrefix}:${file}`)));
-  if (buildPhase2.length) subtasks.push(gulp.parallel(buildPhase2.map(file => `${taskPrefix}:${file}`)));
-
+  subtasks.push(gulp.parallel(buildPhase2.map(file => `${taskPrefix}:${file}`)));
   gulp.task(taskPrefix, gulp.series(subtasks));
 }
 
@@ -365,72 +318,8 @@ gulp.task(
     'dev:scss',
     gulp.parallel(
       'dev:extension:js',
-      'dev:mascara:js',
       'dev:copy',
       'dev:reload',
-    ),
-  ),
-);
-
-gulp.task(
-  'dev:extension',
-  gulp.series(
-    'clean',
-    'dev:scss',
-    gulp.parallel(
-      'dev:extension:js',
-      'dev:copy',
-      'dev:reload',
-    ),
-  ),
-);
-
-gulp.task(
-  'dev:mascara',
-  gulp.series(
-    'clean',
-    'dev:scss',
-    gulp.parallel(
-      'dev:mascara:js',
-      'dev:copy',
-      'dev:reload',
-    ),
-  ),
-);
-
-gulp.task(
-  'build',
-  gulp.series(
-    'clean',
-    'build:scss',
-    gulpParallel(
-      'build:extension:js',
-      'build:mascara:js',
-      'copy',
-    ),
-  ),
-);
-
-gulp.task(
-  'build:extension',
-  gulp.series(
-    'clean',
-    'build:scss',
-    gulp.parallel(
-      'build:extension:js',
-      'copy',
-    ),
-  ),
-);
-
-gulp.task(
-  'build:mascara',
-  gulp.series(
-    'clean',
-    'build:scss',
-    gulp.parallel(
-      'build:mascara:js',
-      'copy',
     ),
   ),
 );
@@ -438,18 +327,25 @@ gulp.task(
 gulp.task(
   'dist',
   gulp.series(
-    'build',
+    'clean',
+    'dist:scss',
+    gulp.parallel(
+      'dist:extension:js',
+      'copy',
+    ),
     'zip',
   ),
 );
+
 
 // task generators
 
 function zipTask(target) {
   return () => {
-    return gulp.src(`dist/${target}/**`)
-               .pipe(zip(`auramask-${target}-${manifest.version}.zip`))
-               .pipe(gulp.dest('builds'));
+    return gulp
+      .src(`dist/${target}/**`)
+      .pipe(zip(`auramask-${target}-${manifest.version}.zip`))
+      .pipe(gulp.dest('builds'));
   };
 }
 
@@ -475,7 +371,7 @@ function generateBundler(opts, performBundle) {
     bundler.on('update', async(ids) => {
       const stream = performBundle();
       await endOfStream(stream);
-      livereload.changed(`${ids}`);
+      gulpreload.changed(`${ids}`);
     });
   }
 
@@ -500,9 +396,10 @@ function discTask(opts) {
     const discPath = path.join(discDir, `${opts.label}.html`);
 
     return (
-      bundler.bundle()
-             .pipe(disc())
-             .pipe(fs.createWriteStream(discPath))
+      bundler
+        .bundle()
+        .pipe(disc())
+        .pipe(fs.createWriteStream(discPath))
     );
   }
 }
