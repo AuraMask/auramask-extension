@@ -1,4 +1,4 @@
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import {
   getAmountConversionRate,
   getConversionRate,
@@ -9,23 +9,23 @@ import {
   getSendAmount,
   getSendFromBalance,
   getTokenBalance,
-} from '../../send.selectors'
+} from '../../send.selectors';
 import {
   sendAmountIsInError,
-} from './send-amount-row.selectors'
-import { getAmountErrorObject, getGasFeeErrorObject } from '../../send.utils'
+} from './send-amount-row.selectors';
+import { getAmountErrorObject, getGasFeeErrorObject } from '../../send.utils';
 import {
   setMaxModeTo,
   updateSendAmount,
-} from '../../../../actions'
+} from '../../../../actions';
 import {
   updateSendErrors,
-} from '../../../../ducks/send.duck'
-import SendAmountRow from './send-amount-row.component'
+} from '../../../../ducks/send.duck';
+import SendAmountRow from './send-amount-row.component';
 
-export default connect(mapStateToProps, mapDispatchToProps)(SendAmountRow)
+export default connect(mapStateToProps, mapDispatchToProps)(SendAmountRow);
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     amount: getSendAmount(state),
     amountConversionRate: getAmountConversionRate(state),
@@ -37,18 +37,18 @@ function mapStateToProps (state) {
     primaryCurrency: getPrimaryCurrency(state),
     selectedToken: getSelectedToken(state),
     tokenBalance: getTokenBalance(state),
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     setMaxModeTo: bool => dispatch(setMaxModeTo(bool)),
     updateSendAmount: newAmount => dispatch(updateSendAmount(newAmount)),
     updateGasFeeError: (amountDataObject) => {
-        dispatch(updateSendErrors(getGasFeeErrorObject(amountDataObject)))
+        dispatch(updateSendErrors(getGasFeeErrorObject(amountDataObject)));
     },
     updateSendAmountError: (amountDataObject) => {
-        dispatch(updateSendErrors(getAmountErrorObject(amountDataObject)))
+        dispatch(updateSendErrors(getAmountErrorObject(amountDataObject)));
     },
-  }
+  };
 }

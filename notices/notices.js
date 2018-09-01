@@ -1,6 +1,6 @@
 // fs.readFileSync is inlined by browserify transform "brfs"
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
 module.exports = [
   {
@@ -32,4 +32,4 @@ module.exports = [
     title: 'Phishing Warning',
     body: fs.readFileSync(path.join(__dirname, '/archive', 'notice_4.md'), 'utf8'),
   },
-]
+];

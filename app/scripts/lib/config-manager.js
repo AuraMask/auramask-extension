@@ -2,7 +2,7 @@ const ethUtil = require('icjs-util');
 const normalize = require('irc-sig-util').normalize;
 const {
   MAINNET_RPC_URL,
-  LOCALHOST_RPC_URL
+  LOCALHOST_RPC_URL,
 } = require('../controllers/network/enums');
 
 /* The config-manager is a convenience object

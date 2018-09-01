@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import React from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 const ConfirmDetailRow = props => {
   const {
@@ -11,7 +11,7 @@ const ConfirmDetailRow = props => {
     fiatTextColor,
     headerText,
     headerTextClassName,
-  } = props
+  } = props;
 
   return (
     <div className="confirm-detail-row">
@@ -36,8 +36,8 @@ const ConfirmDetailRow = props => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 ConfirmDetailRow.propTypes = {
   label: PropTypes.string,
@@ -47,6 +47,6 @@ ConfirmDetailRow.propTypes = {
   onHeaderClick: PropTypes.func,
   headerText: PropTypes.string,
   headerTextClassName: PropTypes.string,
-}
+};
 
-export default ConfirmDetailRow
+export default ConfirmDetailRow;

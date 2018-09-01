@@ -1,7 +1,7 @@
-import assert from 'assert'
+import assert from 'assert';
 import {
   getMaxModeOn,
-} from '../amount-max-button.selectors.js'
+} from '../amount-max-button.selectors.js';
 
 describe('amount-max-button selectors', () => {
 
@@ -13,10 +13,10 @@ describe('amount-max-button selectors', () => {
             maxModeOn: null,
           },
         },
-      }
+      };
 
-      assert.equal(getMaxModeOn(state), null)
-    })
-  })
+      assert.equal(getMaxModeOn(state), null);
+    });
+  });
 
-})
+});

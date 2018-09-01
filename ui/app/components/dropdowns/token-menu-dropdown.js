@@ -71,7 +71,7 @@ TokenMenuDropdown.prototype.render = function() {
         global.platform.openWindow({url});
         this.props.onClose();
       },
-      text: this.context.t('viewOnEtherscan'),
+      text: this.context.t('viewOnIrcerscan'),
     }),
   ]);
 };

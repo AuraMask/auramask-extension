@@ -151,10 +151,10 @@
     "message": "Déposez votre $1 à l'adresse ci-dessous",
     "description": "Indique à l'utilisateur quelle monnaie il a choisi de déposer avec shapeshift"
   },
-  "depositEth": {
-    "message": "Dépôt Eth"
+  "depositIrc": {
+    "message": "Dépôt Irc"
   },
-  "depositEther": {
+  "depositIrcer": {
     "message": "Dépôt Ether"
   },
   "depositFiat": {
@@ -175,10 +175,10 @@
   "directDeposit": {
     "message": "Dépôt direct"
   },
-  "directDepositEther": {
+  "directDepositIrcer": {
     "message": "Dépôt direct d'Ether"
   },
-  "directDepositEtherExplainer": {
+  "directDepositIrcerExplainer": {
     "message": "Si vous avez déjà de l'Ether, le moyen le plus rapide d'obtenir des Ether dans votre nouveau portefeuille est par dépôt direct."
   },
   "done": {
@@ -196,7 +196,7 @@
   "enterPassword": {
     "message": "Entrer le mot de passe"
   },
-  "etherscanView": {
+  "ircerscanView": {
     "message": "Afficher le compte sur Etherscan"
   },
   "exchangeRate": {
@@ -253,10 +253,10 @@
   "gasPriceRequired": {
     "message": "Prix du gaz requis"
   },
-  "getEther": {
+  "getIrcer": {
     "message": "Obtenir des Ether"
   },
-  "getEtherFromFaucet": {
+  "getIrcerFromFaucet": {
     "message": "Obtenir de l'Ether d'une faucet pour $1",
     "description": "Affiche le nom du réseau pour la faucet d'Ether"
   },
@@ -350,7 +350,7 @@
   "myAccounts": {
     "message": "Mes comptes"
   },
-  "needEtherInWallet": {
+  "needIrcerInWallet": {
     "message": "Pour interagir avec des applications décentralisées à l'aide de AuraMask, vous aurez besoin d'Ether dans votre portefeuille."
   },
   "needImportFile": {
@@ -532,7 +532,7 @@
     "message": "Destinataire"
   },
   "toETHviaShapeShift": {
-    "message": "$1 à ETH via ShapeShift",
+    "message": "$1 à IRC via ShapeShift",
     "description": "le système remplira le type de dépôt au début du message"
   },
   "tokenBalance": {

@@ -181,10 +181,10 @@
     "message": "$1を下記のアドレスへ振込んでください",
     "description": "Tells the user what coin they have selected to deposit with shapeshift"
   },
-  "depositEth": {
+  "depositIrc": {
     "message": "ETHを入金"
   },
-  "depositEther": {
+  "depositIrcer": {
     "message": "Etherを振込"
   },
   "depositFiat": {
@@ -205,10 +205,10 @@
   "directDeposit": {
     "message": "ダイレクトデポジット"
   },
-  "directDepositEther": {
+  "directDepositIrcer": {
     "message": "Etherを直接入金"
   },
-  "directDepositEtherExplainer": {
+  "directDepositIrcerExplainer": {
     "message": "既にEtherをお持ちなら、AuraMaskの新しいウォレットにEtherを送信することができます。"
   },
   "done": {
@@ -226,7 +226,7 @@
   "enterPassword": {
     "message": "パスワードを入力"
   },
-  "etherscanView": {
+  "ircerscanView": {
     "message": "Etherscanでアカウントを確認"
   },
   "exchangeRate": {
@@ -283,10 +283,10 @@
   "gasPriceRequired": {
     "message": "必要ガスプライス"
   },
-  "getEther": {
+  "getIrcer": {
     "message": "Etherを取得する"
   },
-  "getEtherFromFaucet": {
+  "getIrcerFromFaucet": {
     "message": "フォーセットで $1のEtherを得ることができます。",
     "description": "Displays network name for Ether faucet"
   },
@@ -410,7 +410,7 @@
   "mustSelectOne": {
     "message": "一つ以上のトークンを選択してください。"
   },
-  "needEtherInWallet": {
+  "needIrcerInWallet": {
     "message": "AuraMaskで分散型アプリケーションを使用するためには、このウォレットにEtherが必要です。"
   },
   "needImportFile": {
@@ -597,8 +597,8 @@
   "sendTokens": {
     "message": "トークンを送信"
   },
-  "onlySendToEtherAddress": {
-    "message": "ETH はイーサリウムアカウントのみに送信できます。"
+  "onlySendToIrcerAddress": {
+    "message": "IRC はイーサリウムアカウントのみに送信できます。"
   },
   "onlySendTokensToAccountAddress": {
     "message": "$1 はイーサリアムアカウントのみに送信できます。",
@@ -733,7 +733,7 @@
   "viewAccount": {
     "message": "アカウントを見る"
   },
-  "viewOnEtherscan": {
+  "viewOnIrcerscan": {
     "message": "Etherscan で見る"
   },
   "warning": {

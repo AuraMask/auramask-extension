@@ -1,25 +1,25 @@
-import assert from 'assert'
-import proxyquire from 'proxyquire'
-import sinon from 'sinon'
-const { TOKEN_TRANSFER_FUNCTION_SIGNATURE } = require('../../send.constants')
+import assert from 'assert';
+import proxyquire from 'proxyquire';
+import sinon from 'sinon';
+const { TOKEN_TRANSFER_FUNCTION_SIGNATURE } = require('../../send.constants');
 
 const stubs = {
   rawEncode: sinon.stub().callsFake((arr1, arr2) => {
-    return [ ...arr1, ...arr2 ]
+    return [ ...arr1, ...arr2 ];
   }),
-}
+};
 
 const sendUtils = proxyquire('../send-footer.utils.js', {
   'icjs-abi': {
     rawEncode: stubs.rawEncode,
   },
-})
+});
 const {
   addressIsNew,
   constructTxParams,
   constructUpdatedTx,
   addHexPrefixToObjectValues,
-} = sendUtils
+} = sendUtils;
 
 describe('send-footer utils', () => {
 
@@ -36,9 +36,9 @@ describe('send-footer utils', () => {
           prop2: '0x456',
           prop3: '0xx',
         }
-      )
-    })
-  })
+      );
+    });
+  });
 
   describe('addressIsNew()', () => {
     it('should return false if the address exists in toAccounts', () => {
@@ -49,8 +49,8 @@ describe('send-footer utils', () => {
           { address: '0xghi' },
         ], '0xdef'),
         false
-      )
-    })
+      );
+    });
 
     it('should return true if the address does not exists in toAccounts', () => {
       assert.equal(
@@ -60,9 +60,9 @@ describe('send-footer utils', () => {
           { address: '0xghi' },
         ], '0xxyz'),
         true
-      )
-    })
-  })
+      );
+    });
+  });
 
   describe('constructTxParams()', () => {
     it('should return a new txParams object with data if there data is given', () => {
@@ -84,8 +84,8 @@ describe('send-footer utils', () => {
           gas: '0xmockGas',
           gasPrice: '0xmockGasPrice',
         }
-      )
-    })
+      );
+    });
 
     it('should return a new txParams object with value and to properties if there is no selectedToken', () => {
       assert.deepEqual(
@@ -105,8 +105,8 @@ describe('send-footer utils', () => {
           gas: '0xmockGas',
           gasPrice: '0xmockGasPrice',
         }
-      )
-    })
+      );
+    });
 
     it('should return a new txParams object without a to property and a 0 value if there is a selectedToken', () => {
       assert.deepEqual(
@@ -125,9 +125,9 @@ describe('send-footer utils', () => {
           gas: '0xmockGas',
           gasPrice: '0xmockGasPrice',
         }
-      )
-    })
-  })
+      );
+    });
+  });
 
   describe('constructUpdatedTx()', () => {
     it('should return a new object with an updated txParams', () => {
@@ -148,7 +148,7 @@ describe('send-footer utils', () => {
             },
           },
         },
-      })
+      });
 
       assert.deepEqual(result, {
         unapprovedTxParam: 'someOtherParam',
@@ -160,8 +160,8 @@ describe('send-footer utils', () => {
           to: '0xmockTo',
           data: '0xsomeData',
         },
-      })
-    })
+      });
+    });
 
     it('should not have data property if there is non in the original tx', () => {
       const result = constructUpdatedTx({
@@ -183,7 +183,7 @@ describe('send-footer utils', () => {
             },
           },
         },
-      })
+      });
 
       assert.deepEqual(result, {
         unapprovedTxParam: 'someOtherParam',
@@ -194,8 +194,8 @@ describe('send-footer utils', () => {
           value: '0xmockAmount',
           to: '0xmockTo',
         },
-      })
-    })
+      });
+    });
 
     it('should have token property values if selectedToken is truthy', () => {
       const result = constructUpdatedTx({
@@ -215,7 +215,7 @@ describe('send-footer utils', () => {
             txParams: {},
           },
         },
-      })
+      });
 
       assert.deepEqual(result, {
         unapprovedTxParam: 'someOtherParam',
@@ -227,8 +227,8 @@ describe('send-footer utils', () => {
           to: '0xmockTokenAddress',
           data: `${TOKEN_TRANSFER_FUNCTION_SIGNATURE}ss56Tont`,
         },
-      })
-    })
-  })
+      });
+    });
+  });
 
-})
+});

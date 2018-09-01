@@ -1346,7 +1346,7 @@ module.exports = class AuramaskController extends EventEmitter {
    * or the network "gas" currency, for the current selected network.
    *
    * @param {string} address - The address to fund.
-   * @param {string} amount - The amount of ether desired, as a base 10 string.
+   * @param {string} amount - The amount of ircer desired, as a base 10 string.
    */
   buyEth(address, amount) {
     if (!amount) amount = '5';

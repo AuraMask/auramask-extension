@@ -1,20 +1,20 @@
-import { connect } from 'react-redux'
-import ConfirmAddToken from './confirm-add-token.component'
+import { connect } from 'react-redux';
+import ConfirmAddToken from './confirm-add-token.component';
 
-const { addTokens, clearPendingTokens } = require('../../../actions')
+const { addTokens, clearPendingTokens } = require('../../../actions');
 
 const mapStateToProps = ({ auramask }) => {
-  const { pendingTokens } = auramask
+  const { pendingTokens } = auramask;
   return {
     pendingTokens,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     addTokens: tokens => dispatch(addTokens(tokens)),
     clearPendingTokens: () => dispatch(clearPendingTokens()),
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmAddToken)
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmAddToken);

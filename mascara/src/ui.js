@@ -1,20 +1,20 @@
 const injectCss = require('inject-css');
 const SwController = require('sw-controller');
 const SwStream = require('sw-stream');
-const MetaMaskUiCss = require('../../ui/css');
+const AuraMaskUiCss = require('../../ui/css');
 const MetamascaraPlatform = require('../../app/scripts/platforms/window');
 const startPopup = require('../../app/scripts/popup-core');
 
 // create platform global
 global.platform = new MetamascaraPlatform();
 
-var css = MetaMaskUiCss();
+var css = AuraMaskUiCss();
 injectCss(css);
 const container = document.getElementById('app-content');
 
 const name = 'popup';
-window.METAMASK_UI_TYPE = name;
-window.METAMASK_PLATFORM_TYPE = 'mascara';
+window.AURAMASK_UI_TYPE = name;
+window.AURAMASK_PLATFORM_TYPE = 'mascara';
 
 const keepAliveDelay = Math.floor(Math.random() * (30000 - 1000)) + 1000;
 
@@ -62,7 +62,7 @@ function connectApp () {
 }
 
 function windowReload() {
-  if (window.METAMASK_SKIP_RELOAD) return;
+  if (window.AURAMASK_SKIP_RELOAD) return;
   window.location.reload();
 }
 

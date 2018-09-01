@@ -1,20 +1,20 @@
-import assert from 'assert'
-import proxyquire from 'proxyquire'
-import sinon from 'sinon'
+import assert from 'assert';
+import proxyquire from 'proxyquire';
+import sinon from 'sinon';
 
-let mapStateToProps
-let mapDispatchToProps
+let mapStateToProps;
+let mapDispatchToProps;
 
 const actionSpies = {
   showModal: sinon.spy(),
-}
+};
 
 proxyquire('../send-gas-row.container.js', {
   'react-redux': {
     connect: (ms, md) => {
-      mapStateToProps = ms
-      mapDispatchToProps = md
-      return () => ({})
+      mapStateToProps = ms;
+      mapDispatchToProps = md;
+      return () => ({});
     },
   },
   '../../send.selectors.js': {
@@ -27,7 +27,7 @@ proxyquire('../send-gas-row.container.js', {
     gasFeeIsInError: (s) => `mockGasFeeError:${s}`,
   },
   '../../../../actions': actionSpies,
-})
+});
 
 describe('send-gas-row container', () => {
 
@@ -40,31 +40,31 @@ describe('send-gas-row container', () => {
         gasTotal: 'mockGasTotal:mockState',
         gasFeeError: 'mockGasFeeError:mockState',
         gasLoadingError: 'mockGasLoadingError:mockState',
-      })
-    })
+      });
+    });
 
-  })
+  });
 
   describe('mapDispatchToProps()', () => {
-    let dispatchSpy
-    let mapDispatchToPropsObject
+    let dispatchSpy;
+    let mapDispatchToPropsObject;
 
     beforeEach(() => {
-      dispatchSpy = sinon.spy()
-      mapDispatchToPropsObject = mapDispatchToProps(dispatchSpy)
-    })
+      dispatchSpy = sinon.spy();
+      mapDispatchToPropsObject = mapDispatchToProps(dispatchSpy);
+    });
 
     describe('showCustomizeGasModal()', () => {
       it('should dispatch an action', () => {
-        mapDispatchToPropsObject.showCustomizeGasModal()
-        assert(dispatchSpy.calledOnce)
+        mapDispatchToPropsObject.showCustomizeGasModal();
+        assert(dispatchSpy.calledOnce);
         assert.deepEqual(
           actionSpies.showModal.getCall(0).args[0],
           { name: 'CUSTOMIZE_GAS' }
-        )
-      })
-    })
+        );
+      });
+    });
 
-  })
+  });
 
-})
+});

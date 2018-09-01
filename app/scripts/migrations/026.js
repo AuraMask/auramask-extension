@@ -1,4 +1,4 @@
-const version = 26
+const version = 26;
 
 /*
 
@@ -7,31 +7,31 @@ This migration moves the identities stored in the KeyringController
 
 */
 
-const clone = require('clone')
+const clone = require('clone');
 
 module.exports = {
   version,
-  migrate (originalVersionedData) {
-    const versionedData = clone(originalVersionedData)
-    versionedData.meta.version = version
+  migrate(originalVersionedData) {
+    const versionedData = clone(originalVersionedData);
+    versionedData.meta.version = version;
     try {
-      const state = versionedData.data
-      versionedData.data = transformState(state)
+      const state = versionedData.data;
+      versionedData.data = transformState(state);
     } catch (err) {
-      console.warn(`AuraMask Migration #${version}` + err.stack)
-      return Promise.reject(err)
+      console.warn(`AuraMask Migration #${version}` + err.stack);
+      return Promise.reject(err);
     }
-    return Promise.resolve(versionedData)
+    return Promise.resolve(versionedData);
   },
-}
+};
 
-function transformState (state) {
+function transformState(state) {
   if (!state.KeyringController || !state.PreferencesController) {
-    return state
+    return state;
   }
 
   if (!state.KeyringController.walletNicknames) {
-    return state
+    return state;
   }
 
   state.PreferencesController.identities = Object.keys(state.KeyringController.walletNicknames)
@@ -39,9 +39,9 @@ function transformState (state) {
       identities[address] = {
         name: state.KeyringController.walletNicknames[address],
         address,
-      }
-      return identities
-    }, {})
-  delete state.KeyringController.walletNicknames
-  return state
+      };
+      return identities;
+    }, {});
+  delete state.KeyringController.walletNicknames;
+  return state;
 }

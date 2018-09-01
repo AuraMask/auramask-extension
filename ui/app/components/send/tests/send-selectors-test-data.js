@@ -227,4 +227,4 @@ module.exports = {
     'toDropdownOpen': false,
     'errors': { 'someError': null },
   },
-}
+};

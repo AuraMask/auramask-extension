@@ -41,8 +41,10 @@ class Migrator extends EventEmitter {
         // attempt migration and validate
         const migratedData = await migration.migrate(versionedData);
         if (!migratedData.data) throw new Error('Migrator - migration returned empty data');
-        if (migratedData.version !== undefined && migratedData.meta.version !== migration.version) throw new Error(
+        if (migratedData.version !== undefined && migratedData.meta.version !== migration.version) {
+ throw new Error(
           'Migrator - Migration did not update version number correctly');
+}
         // accept the migration as good
         versionedData = migratedData;
       } catch (err) {

@@ -1,7 +1,7 @@
-import { connect } from 'react-redux'
-import SendEther from './send.component'
-import { withRouter } from 'react-router-dom'
-import { compose } from 'recompose'
+import { connect } from 'react-redux';
+import SendEther from './send.component';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
 import {
   getAmountConversionRate,
   getBlockGasLimit,
@@ -22,7 +22,7 @@ import {
   getSendTo,
   getTokenBalance,
   getQrCodeData,
-} from './send.selectors'
+} from './send.selectors';
 import {
   updateSendTo,
   updateSendTokenBalance,
@@ -30,25 +30,25 @@ import {
   setGasTotal,
   showQrScanner,
   qrCodeDetected,
-} from '../../actions'
+} from '../../actions';
 import {
   resetSendState,
   updateSendErrors,
-} from '../../ducks/send.duck'
+} from '../../ducks/send.duck';
 import {
   calcGasTotal,
-} from './send.utils.js'
+} from './send.utils.js';
 
 import {
   SEND_ROUTE,
-} from '../../routes'
+} from '../../routes';
 
 module.exports = compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps)
-)(SendEther)
+)(SendEther);
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     amount: getSendAmount(state),
     amountConversionRate: getAmountConversionRate(state),
@@ -69,10 +69,10 @@ function mapStateToProps (state) {
     tokenContract: getSelectedTokenContract(state),
     tokenToFiatRate: getSelectedTokenToFiatRate(state),
     qrCodeData: getQrCodeData(state),
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     updateAndSetGasTotal: ({
       blockGasLimit,
@@ -87,19 +87,19 @@ function mapDispatchToProps (dispatch) {
     }) => {
       !editingTransactionId
         ? dispatch(updateGasData({ recentBlocks, selectedAddress, selectedToken, blockGasLimit, to, value }))
-        : dispatch(setGasTotal(calcGasTotal(gasLimit, gasPrice)))
+        : dispatch(setGasTotal(calcGasTotal(gasLimit, gasPrice)));
     },
     updateSendTokenBalance: ({ selectedToken, tokenContract, address }) => {
       dispatch(updateSendTokenBalance({
         selectedToken,
         tokenContract,
         address,
-      }))
+      }));
     },
     updateSendErrors: newError => dispatch(updateSendErrors(newError)),
     resetSendState: () => dispatch(resetSendState()),
     scanQrCode: () => dispatch(showQrScanner(SEND_ROUTE)),
     qrCodeDetected: (data) => dispatch(qrCodeDetected(data)),
     updateSendTo: (to, nickname) => dispatch(updateSendTo(to, nickname)),
-  }
+  };
 }

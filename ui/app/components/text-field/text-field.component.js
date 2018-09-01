@@ -1,14 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { default as MaterialTextField } from '@material-ui/core/TextField'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import { default as MaterialTextField } from '@material-ui/core/TextField';
 
 const inputLabelBase = {
   transform: 'none',
   transition: 'none',
   position: 'initial',
   color: '#5b5b5b',
-}
+};
 
 const styles = {
   materialLabel: {
@@ -61,10 +61,10 @@ const styles = {
     ...inputLabelBase,
     fontSize: '.75rem',
   },
-}
+};
 
 const TextField = props => {
-  const { error, classes, material, startAdornment, largeLabel, ...textFieldProps } = props
+  const { error, classes, material, startAdornment, largeLabel, ...textFieldProps } = props;
 
   return (
     <MaterialTextField
@@ -91,12 +91,12 @@ const TextField = props => {
       }}
       {...textFieldProps}
     />
-  )
-}
+  );
+};
 
 TextField.defaultProps = {
   error: null,
-}
+};
 
 TextField.propTypes = {
   error: PropTypes.string,
@@ -104,6 +104,6 @@ TextField.propTypes = {
   material: PropTypes.bool,
   startAdornment: PropTypes.element,
   largeLabel: PropTypes.bool,
-}
+};
 
-export default withStyles(styles)(TextField)
+export default withStyles(styles)(TextField);

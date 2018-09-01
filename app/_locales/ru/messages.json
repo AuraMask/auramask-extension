@@ -202,10 +202,10 @@
     "message": "Отправьте ваш $1 на адрес ниже",
     "description": "Tells the user what coin they have selected to deposit with shapeshift"
   },
-  "depositEth": {
-    "message": "Пополнить Eth"
+  "depositIrc": {
+    "message": "Пополнить Irc"
   },
-  "depositEther": {
+  "depositIrcer": {
     "message": "Пополнить Ether"
   },
   "depositFiat": {
@@ -226,10 +226,10 @@
   "directDeposit": {
     "message": "Прямое пополнение"
   },
-  "directDepositEther": {
+  "directDepositIrcer": {
     "message": "Прямое пополнение Ether"
   },
-  "directDepositEtherExplainer": {
+  "directDepositIrcerExplainer": {
     "message": "Если у вас уже есть Ether, то самый быстрый способ получить Ether в ваш новый кошелек – это прямое пополнение."
   },
   "done": {
@@ -259,7 +259,7 @@
   "enterPasswordConfirm": {
     "message": "Введите ваш пароль для подтверждения"
   },
-  "etherscanView": {
+  "ircerscanView": {
     "message": "Просмотреть счет на Etherscan"
   },
   "exchangeRate": {
@@ -325,10 +325,10 @@
   "gasPriceRequired": {
     "message": "Установите стоимость газа"
   },
-  "getEther": {
+  "getIrcer": {
     "message": "Получить Ether"
   },
-  "getEtherFromFaucet": {
+  "getIrcerFromFaucet": {
     "message": "Получить Ether из крана для $1",
     "description": "Displays network name for Ether faucet"
   },
@@ -355,8 +355,8 @@
   "howToDeposit": {
     "message": "Как бы вы хотели пополнить Ether?"
   },
-  "holdEther": {
-    "message": "Позволяет вам хранить ether и токены и служит в качестве моста в децентрализированные приложения."
+  "holdIrcer": {
+    "message": "Позволяет вам хранить ircer и токены и служит в качестве моста в децентрализированные приложения."
   },
   "import": {
     "message": "Импортировать",
@@ -476,7 +476,7 @@
   "mustSelectOne": {
     "message": "Необходимо выбрать как минимум 1 токен."
   },
-  "needEtherInWallet": {
+  "needIrcerInWallet": {
     "message": "Для взаимодействия с децентрализованными приложениями с помощью AuraMask нужен Ether в вашем кошельке."
   },
   "needImportFile": {
@@ -488,7 +488,7 @@
     "description": "Password and file needed to import an account"
   },
   "negativeETH": {
-    "message": "Невозможно отправить отрицательную сумму ETH."
+    "message": "Невозможно отправить отрицательную сумму IRC."
   },
   "networks": {
     "message": "Сети"
@@ -682,13 +682,13 @@
     "message": "Отправить"
   },
   "sendETH": {
-    "message": "Отправить ETH"
+    "message": "Отправить IRC"
   },
   "sendTokens": {
     "message": "Отправить токены"
   },
-  "onlySendToEtherAddress": {
-    "message": "Отправляйте ETH только на Ethereum адреса."
+  "onlySendToIrcerAddress": {
+    "message": "Отправляйте IRC только на Ethereum адреса."
   },
   "searchTokens": {
     "message": "Поиск токенов"
@@ -769,7 +769,7 @@
     "message": "Получатель: "
   },
   "toETHviaShapeShift": {
-    "message": "$1 в ETH через ShapeShift",
+    "message": "$1 в IRC через ShapeShift",
     "description": "system will fill in deposit type in start of message"
   },
   "tokenAddress": {

@@ -1,8 +1,8 @@
-import assert from 'assert'
+import assert from 'assert';
 import {
   gasFeeIsInError,
   getGasLoadingError,
-} from '../send-gas-row.selectors.js'
+} from '../send-gas-row.selectors.js';
 
 describe('send-gas-row selectors', () => {
 
@@ -14,11 +14,11 @@ describe('send-gas-row selectors', () => {
             gasLoading: 'abc',
           },
         },
-      }
+      };
 
-      assert.equal(getGasLoadingError(state), 'abc')
-    })
-  })
+      assert.equal(getGasLoadingError(state), 'abc');
+    });
+  });
 
   describe('gasFeeIsInError()', () => {
     it('should return true if send.errors.gasFee is truthy', () => {
@@ -28,10 +28,10 @@ describe('send-gas-row selectors', () => {
             gasFee: 'def',
           },
         },
-      }
+      };
 
-      assert.equal(gasFeeIsInError(state), true)
-    })
+      assert.equal(gasFeeIsInError(state), true);
+    });
 
     it('should return false send.errors.gasFee is falsely', () => {
       const state = {
@@ -40,10 +40,10 @@ describe('send-gas-row selectors', () => {
             gasFee: null,
           },
         },
-      }
+      };
 
-      assert.equal(gasFeeIsInError(state), false)
-    })
-  })
+      assert.equal(gasFeeIsInError(state), false);
+    });
+  });
 
-})
+});

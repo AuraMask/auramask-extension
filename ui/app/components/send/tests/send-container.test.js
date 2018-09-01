@@ -1,26 +1,26 @@
-import assert from 'assert'
-import proxyquire from 'proxyquire'
-import sinon from 'sinon'
+import assert from 'assert';
+import proxyquire from 'proxyquire';
+import sinon from 'sinon';
 
-let mapStateToProps
-let mapDispatchToProps
+let mapStateToProps;
+let mapDispatchToProps;
 
 const actionSpies = {
   updateSendTokenBalance: sinon.spy(),
   updateGasData: sinon.spy(),
   setGasTotal: sinon.spy(),
-}
+};
 const duckActionSpies = {
   updateSendErrors: sinon.spy(),
   resetSendState: sinon.spy(),
-}
+};
 
 proxyquire('../send.container.js', {
   'react-redux': {
     connect: (ms, md) => {
-      mapStateToProps = ms
-      mapDispatchToProps = md
-      return () => ({})
+      mapStateToProps = ms;
+      mapDispatchToProps = md;
+      return () => ({});
     },
   },
   'react-router-dom': { withRouter: () => {} },
@@ -51,7 +51,7 @@ proxyquire('../send.container.js', {
   './send.utils.js': {
     calcGasTotal: (gasLimit, gasPrice) => gasLimit + gasPrice,
   },
-})
+});
 
 describe('send container', () => {
 
@@ -78,19 +78,19 @@ describe('send container', () => {
         tokenContract: 'mockTokenContract:mockState',
         tokenToFiatRate: 'mockTokenToFiatRate:mockState',
         qrCodeData: 'mockQrCodeData:mockState',
-      })
-    })
+      });
+    });
 
-  })
+  });
 
   describe('mapDispatchToProps()', () => {
-    let dispatchSpy
-    let mapDispatchToPropsObject
+    let dispatchSpy;
+    let mapDispatchToPropsObject;
 
     beforeEach(() => {
-      dispatchSpy = sinon.spy()
-      mapDispatchToPropsObject = mapDispatchToProps(dispatchSpy)
-    })
+      dispatchSpy = sinon.spy();
+      mapDispatchToPropsObject = mapDispatchToProps(dispatchSpy);
+    });
 
     describe('updateAndSetGasTotal()', () => {
       const mockProps = {
@@ -103,69 +103,69 @@ describe('send container', () => {
         selectedToken: { address: '0x1' },
         to: 'mockTo',
         value: 'mockValue',
-      }
+      };
 
       it('should dispatch a setGasTotal action when editingTransactionId is truthy', () => {
-        mapDispatchToPropsObject.updateAndSetGasTotal(mockProps)
-        assert(dispatchSpy.calledOnce)
+        mapDispatchToPropsObject.updateAndSetGasTotal(mockProps);
+        assert(dispatchSpy.calledOnce);
         assert.equal(
           actionSpies.setGasTotal.getCall(0).args[0],
           '0x30x4'
-        )
-      })
+        );
+      });
 
       it('should dispatch an updateGasData action when editingTransactionId is falsy', () => {
-        const { selectedAddress, selectedToken, recentBlocks, blockGasLimit, to, value } = mockProps
+        const { selectedAddress, selectedToken, recentBlocks, blockGasLimit, to, value } = mockProps;
         mapDispatchToPropsObject.updateAndSetGasTotal(
           Object.assign({}, mockProps, {editingTransactionId: false})
-        )
-        assert(dispatchSpy.calledOnce)
+        );
+        assert(dispatchSpy.calledOnce);
         assert.deepEqual(
           actionSpies.updateGasData.getCall(0).args[0],
           { selectedAddress, selectedToken, recentBlocks, blockGasLimit, to, value }
-        )
-      })
-    })
+        );
+      });
+    });
 
     describe('updateSendTokenBalance()', () => {
       const mockProps = {
         address: '0x10',
         tokenContract: '0x00a',
         selectedToken: {address: '0x1'},
-      }
+      };
 
       it('should dispatch an action', () => {
-        mapDispatchToPropsObject.updateSendTokenBalance(Object.assign({}, mockProps))
-        assert(dispatchSpy.calledOnce)
+        mapDispatchToPropsObject.updateSendTokenBalance(Object.assign({}, mockProps));
+        assert(dispatchSpy.calledOnce);
         assert.deepEqual(
           actionSpies.updateSendTokenBalance.getCall(0).args[0],
           mockProps
-        )
-      })
-    })
+        );
+      });
+    });
 
     describe('updateSendErrors()', () => {
       it('should dispatch an action', () => {
-        mapDispatchToPropsObject.updateSendErrors('mockError')
-        assert(dispatchSpy.calledOnce)
+        mapDispatchToPropsObject.updateSendErrors('mockError');
+        assert(dispatchSpy.calledOnce);
         assert.equal(
           duckActionSpies.updateSendErrors.getCall(0).args[0],
           'mockError'
-        )
-      })
-    })
+        );
+      });
+    });
 
     describe('resetSendState()', () => {
       it('should dispatch an action', () => {
-        mapDispatchToPropsObject.resetSendState()
-        assert(dispatchSpy.calledOnce)
+        mapDispatchToPropsObject.resetSendState();
+        assert(dispatchSpy.calledOnce);
         assert.equal(
           duckActionSpies.resetSendState.getCall(0).args.length,
           0
-        )
-      })
-    })
+        );
+      });
+    });
 
-  })
+  });
 
-})
+});

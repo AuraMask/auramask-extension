@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const Spinner = ({ className = '', color = '#000000' }) => {
   return (
@@ -67,12 +67,12 @@ const Spinner = ({ className = '', color = '#000000' }) => {
         </g>
       </svg>
     </div>
-  )
-}
+  );
+};
 
 Spinner.propTypes = {
   className: PropTypes.string,
   color: PropTypes.string,
-}
+};
 
-module.exports = Spinner
+module.exports = Spinner;

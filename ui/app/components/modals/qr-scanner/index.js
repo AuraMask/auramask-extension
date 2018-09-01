@@ -1,2 +1,2 @@
-import QrScanner from './qr-scanner.container'
-module.exports = QrScanner
+import QrScanner from './qr-scanner.container';
+module.exports = QrScanner;

@@ -17,8 +17,8 @@ var valueTable = {
   kwei: '1000000000000000',
   mwei: '1000000000000',
   gwei: '1000000000',
-  szabo: '1000000',
-  finney: '1000',
+  twei: '1000000',
+  pwei: '1000',
   ether: '1',
   kether: '0.001',
   mether: '0.000001',
@@ -89,8 +89,8 @@ function isValidAddress(address) {
   return (isAllOneCase(prefixed) && ethUtil.isValidAddress(prefixed)) || ethUtil.isValidChecksumAddress(prefixed);
 }
 
-function isValidENSAddress (address) {
-  return address.match(/^.{7,}\.(eth|test)$/)
+function isValidENSAddress(address) {
+  return address.match(/^.{7,}\.(eth|test)$/);
 }
 
 function isInvalidChecksumAddress(address) {
@@ -305,10 +305,10 @@ function checksumAddress(address) {
   return address ? ethUtil.toChecksumAddress(address) : '';
 }
 
-function addressSlicer (address = '') {
+function addressSlicer(address = '') {
   if (address.length < 11) {
-    return address
+    return address;
   }
 
-  return `${address.slice(0, 6)}...${address.slice(-4)}`
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }

@@ -1,5 +1,5 @@
-import { connect } from 'react-redux'
-import ConfirmTransactionSwitch from './confirm-transaction-switch.component'
+import { connect } from 'react-redux';
+import ConfirmTransactionSwitch from './confirm-transaction-switch.component';
 
 const mapStateToProps = state => {
   const {
@@ -8,13 +8,13 @@ const mapStateToProps = state => {
       methodData,
       fetchingMethodData,
     },
-  } = state
+  } = state;
 
   return {
     txData,
     methodData,
     fetchingMethodData,
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(ConfirmTransactionSwitch)
+export default connect(mapStateToProps)(ConfirmTransactionSwitch);

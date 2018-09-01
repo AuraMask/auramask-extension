@@ -1,23 +1,23 @@
-const { Component } = require('react')
-const PropTypes = require('prop-types')
-const h = require('react-hyperscript')
-const genAccountLink = require('../../../../../lib/account-link.js')
+const { Component } = require('react');
+const PropTypes = require('prop-types');
+const h = require('react-hyperscript');
+const genAccountLink = require('../../../../../lib/account-link.js');
 
 class AccountList extends Component {
-    constructor (props, context) {
-        super(props)
+    constructor(props, context) {
+        super(props);
     }
 
-    renderHeader () {
+    renderHeader() {
       return (
         h('div.hw-connect', [
           h('h3.hw-connect__title', {}, this.context.t('selectAnAccount')),
           h('p.hw-connect__msg', {}, this.context.t('selectAnAccountHelp')),
         ])
-      )
+      );
     }
 
-    renderAccounts () {
+    renderAccounts() {
         return h('div.hw-account-list', [
             this.props.accounts.map((a, i) => {
 
@@ -47,16 +47,16 @@ class AccountList extends Component {
                     {
                     href: genAccountLink(a.address, this.props.network),
                     target: '_blank',
-                    title: this.context.t('etherscanView'),
+                    title: this.context.t('ircerscanView'),
                     },
                     h('img', { src: 'images/popout.svg' })
                 ),
-                ])
+                ]);
             }),
-        ])
+        ]);
     }
 
-  renderPagination () {
+  renderPagination() {
     return h('div.hw-list-pagination', [
       h(
         'button.hw-list-pagination__button',
@@ -73,14 +73,14 @@ class AccountList extends Component {
         },
         `${this.context.t('next')} >`
       ),
-    ])
+    ]);
   }
 
-  renderButtons () {
-    const disabled = this.props.selectedAccount === null
-    const buttonProps = {}
+  renderButtons() {
+    const disabled = this.props.selectedAccount === null;
+    const buttonProps = {};
     if (disabled) {
-      buttonProps.disabled = true
+      buttonProps.disabled = true;
     }
 
     return h('div.new-account-connect-form__buttons', {}, [
@@ -100,25 +100,25 @@ class AccountList extends Component {
         },
         [this.context.t('unlock')]
       ),
-    ])
+    ]);
   }
 
-  renderForgetDevice () {
+  renderForgetDevice() {
     return h('div.hw-forget-device-container', {}, [
       h('a', {
         onClick: this.props.onForgetDevice.bind(this),
       }, this.context.t('forgetDevice')),
-    ])
+    ]);
   }
 
-  render () {
+  render() {
     return h('div.new-account-connect-form.account-list', {}, [
         this.renderHeader(),
         this.renderAccounts(),
         this.renderPagination(),
         this.renderButtons(),
         this.renderForgetDevice(),
-    ])
+    ]);
   }
 
 }
@@ -134,10 +134,10 @@ AccountList.propTypes = {
     history: PropTypes.object,
     onUnlockAccount: PropTypes.func,
     onCancel: PropTypes.func,
-}
+};
 
 AccountList.contextTypes = {
     t: PropTypes.func,
-}
+};
 
-module.exports = AccountList
+module.exports = AccountList;

@@ -1,7 +1,7 @@
-import assert from 'assert'
+import assert from 'assert';
 import {
   calcMaxAmount,
-} from '../amount-max-button.utils.js'
+} from '../amount-max-button.utils.js';
 
 describe('amount-max-button utils', () => {
 
@@ -11,8 +11,8 @@ describe('amount-max-button utils', () => {
         balance: 'ffffff',
         gasTotal: 'ff',
         selectedToken: false,
-      }), 'ffff00')
-    })
+      }), 'ffff00');
+    });
 
     it('should calculate the correct amount when a selectedToken is defined', () => {
       assert.deepEqual(calcMaxAmount({
@@ -20,8 +20,8 @@ describe('amount-max-button utils', () => {
           decimals: 10,
         },
         tokenBalance: 100,
-      }), 'e8d4a51000')
-    })
-  })
+      }), 'e8d4a51000');
+    });
+  });
 
-})
+});

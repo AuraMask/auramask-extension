@@ -250,10 +250,10 @@
     "message": "Deposit your $1 to the address below",
     "description": "Tells the user what coin they have selected to deposit with shapeshift"
   },
-  "depositEth": {
-    "message": "Deposit Eth"
+  "depositIrc": {
+    "message": "Deposit Irc"
   },
-  "depositEther": {
+  "depositIrcer": {
     "message": "Deposit Ether"
   },
   "depositFiat": {
@@ -274,10 +274,10 @@
   "directDeposit": {
     "message": "Direct Deposit"
   },
-  "directDepositEther": {
+  "directDepositIrcer": {
     "message": "Directly Deposit Ether"
   },
-  "directDepositEtherExplainer": {
+  "directDepositIrcerExplainer": {
     "message": "If you already have some Ether, the quickest way to get Ether in your new wallet by direct deposit."
   },
   "done": {
@@ -331,7 +331,7 @@
   "passwordsDontMatch": {
     "message": "Passwords Don't Match"
   },
-  "etherscanView": {
+  "ircerscanView": {
     "message": "View account on Etherscan"
   },
   "exchangeRate": {
@@ -406,10 +406,10 @@
   "generatingTransaction": {
     "message": "Generating transaction"
   },
-  "getEther": {
+  "getIrcer": {
     "message": "Get Ether"
   },
-  "getEtherFromFaucet": {
+  "getIrcerFromFaucet": {
     "message": "Get Ether from a faucet for the $1",
     "description": "Displays network name for Ether faucet"
   },
@@ -457,8 +457,8 @@
   "howToDeposit": {
     "message": "How would you like to deposit Ether?"
   },
-  "holdEther": {
-    "message": "It allows you to hold ether & tokens, and serves as your bridge to decentralized applications."
+  "holdIrcer": {
+    "message": "It allows you to hold ircer & tokens, and serves as your bridge to decentralized applications."
   },
   "import": {
     "message": "Import",
@@ -593,7 +593,7 @@
   "mustSelectOne": {
     "message": "Must select at least 1 token."
   },
-  "needEtherInWallet": {
+  "needIrcerInWallet": {
     "message": "To interact with decentralized applications using AuraMask, you’ll need Ether in your wallet."
   },
   "needImportFile": {
@@ -605,7 +605,7 @@
     "description": "Password and file needed to import an account"
   },
   "negativeETH": {
-    "message": "Can not send negative amounts of ETH."
+    "message": "Can not send negative amounts of IRC."
   },
   "networks": {
     "message": "Networks"
@@ -874,7 +874,7 @@
     "message": "Send"
   },
   "sendETH": {
-    "message": "Send ETH"
+    "message": "Send IRC"
   },
   "sendTokens": {
     "message": "Send Tokens"
@@ -882,8 +882,8 @@
   "separateEachWord": {
     "message": "Separate each word with a single space"
   },
-  "onlySendToEtherAddress": {
-    "message": "Only send ETH to an Ethereum address."
+  "onlySendToIrcerAddress": {
+    "message": "Only send IRC to an Ethereum address."
   },
   "onlySendTokensToAccountAddress": {
     "message": "Only send $1 to an Ethereum account address.",
@@ -926,7 +926,7 @@
     "message": "3. Start using dApps and more!"
   },
   "step3HardwareWalletMsg": {
-    "message": "Use your hardware account like you would with any Ethereum account. Log in to dApps, send Eth, buy and store ERC20 tokens and Non-Fungible tokens like CryptoKitties."
+    "message": "Use your hardware account like you would with any Ethereum account. Log in to dApps, send Irc, buy and store ERC20 tokens and Non-Fungible tokens like CryptoKitties."
   },
   "info": {
     "message": "Info"
@@ -1004,7 +1004,7 @@
     "message": "To: "
   },
   "toETHviaShapeShift": {
-    "message": "$1 to ETH via ShapeShift",
+    "message": "$1 to IRC via ShapeShift",
     "description": "system will fill in deposit type in start of message"
   },
   "token": {
@@ -1126,7 +1126,7 @@
   "viewAccount": {
     "message": "View Account"
   },
-  "viewOnEtherscan": {
+  "viewOnIrcerscan": {
     "message": "View on Etherscan"
   },
   "visitWebSite": {

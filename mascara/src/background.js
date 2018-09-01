@@ -7,19 +7,19 @@ const setupMultiplex = require('../../app/scripts/lib/stream-utils.js').setupMul
 const DbController = require('idb-global');
 
 const SwPlatform = require('../../app/scripts/platforms/sw');
-const MetamaskController = require('../../app/scripts/metamask-controller');
+const AuramaskController = require('../../app/scripts/auramask-controller');
 
 const Migrator = require('../../app/scripts/lib/migrator/');
 const migrations = require('../../app/scripts/migrations/');
 const firstTimeState = require('../../app/scripts/first-time-state');
 
-const STORAGE_KEY = 'metamask-config';
-const METAMASK_DEBUG = process.env.METAMASK_DEBUG;
-global.metamaskPopupIsOpen = false;
+const STORAGE_KEY = 'auramask-config';
+const AURAMASK_DEBUG = process.env.AURAMASK_DEBUG;
+global.auramaskPopupIsOpen = false;
 
 const log = require('loglevel');
 global.log = log;
-log.setDefaultLevel(METAMASK_DEBUG ? 'debug' : 'warn');
+log.setDefaultLevel(AURAMASK_DEBUG ? 'debug' : 'warn');
 
 global.addEventListener('install', function(event) {
   event.waitUntil(global.skipWaiting());
@@ -38,10 +38,10 @@ const dbController = new DbController({
 start().catch(log.error);
 
 async function start() {
-  log.debug('MetaMask initializing...');
+  log.debug('AuraMask initializing...');
   const initState = await loadStateFromPersistence();
   await setupController(initState);
-  log.debug('MetaMask initialization complete.');
+  log.debug('AuraMask initialization complete.');
 }
 
 //
@@ -61,12 +61,12 @@ async function loadStateFromPersistence() {
 async function setupController(initState, client) {
 
   //
-  // MetaMask Controller
+  // AuraMask Controller
   //
 
   const platform = new SwPlatform();
 
-  const controller = new MetamaskController({
+  const controller = new AuramaskController({
     // platform specific implementation
     platform,
     // User confirmation callbacks:
@@ -76,13 +76,13 @@ async function setupController(initState, client) {
     // initial state
     initState,
   });
-  global.metamaskController = controller;
+  global.auramaskController = controller;
 
   controller.store.subscribe(async (state) => {
     try {
       const versionedData = await versionifyData(state);
       await dbController.put(versionedData);
-    } catch (e) { console.error('METAMASK Error:', e); }
+    } catch (e) { console.error('AURAMASK Error:', e); }
   });
 
   async function versionifyData(state) {
@@ -103,11 +103,11 @@ async function setupController(initState, client) {
   });
 
   function connectRemote(connectionStream, context) {
-    var isMetaMaskInternalProcess = (context === 'popup');
-    if (isMetaMaskInternalProcess) {
+    var isAuraMaskInternalProcess = (context === 'popup');
+    if (isAuraMaskInternalProcess) {
       // communication with popup
-      controller.setupTrustedCommunication(connectionStream, 'MetaMask');
-      global.metamaskPopupIsOpen = true;
+      controller.setupTrustedCommunication(connectionStream, 'AuraMask');
+      global.auramaskPopupIsOpen = true;
     } else {
       // communication with page
       setupUntrustedCommunication(connectionStream, context);

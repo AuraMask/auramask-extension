@@ -47,7 +47,6 @@ global.AURAMASK_NOTIFIER = notificationManager;
 const release = platform.getVersion();
 const raven = setupRaven({release});
 
-// browser check if it is Edge - https://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
 // Internet Explorer 6-11
 const isIE = !!document.documentMode;
 // Edge 20+
@@ -67,7 +66,7 @@ let versionedData;
 initialize().catch(log.error);
 
 // setup auramask mesh testing container
-setupAuramaskMeshMetrics();
+// setupAuramaskMeshMetrics();
 
 
 /**

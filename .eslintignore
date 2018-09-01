@@ -8,7 +8,7 @@ development/bundle.js
 development/states.js
 
 app/scripts/lib/extension-instance.js
-app/scripts/chromereload.js
+app/scripts/livereload.js
 
 ui/lib/blockies.js
 

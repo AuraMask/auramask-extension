@@ -43,7 +43,7 @@ class UniqueImageScreen extends Component {
 export default compose(
   withRouter,
   connect(
-    ({metamask: {selectedAddress}}) => ({
+    ({auramask: {selectedAddress}}) => ({
       address: selectedAddress,
     }),
   ),

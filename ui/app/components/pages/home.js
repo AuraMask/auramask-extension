@@ -93,11 +93,11 @@ class Home extends Component {
         return h(NewKeyChainScreen, {key: 'new-keychain'});
 
       case 'buyEth':
-        log.debug('rendering buy ether screen');
+        log.debug('rendering buy ircer screen');
         return h(BuyView, {key: 'buyEthView'});
 
       case 'onboardingBuyEth':
-        log.debug('rendering onboarding buy ether screen');
+        log.debug('rendering onboarding buy ircer screen');
         return h(MascaraBuyEtherScreen, {key: 'buyEthView'});
 
       case 'qr':

@@ -1,8 +1,8 @@
-import assert from 'assert'
+import assert from 'assert';
 import {
   getToDropdownOpen,
   sendToIsInError,
-} from '../send-to-row.selectors.js'
+} from '../send-to-row.selectors.js';
 
 describe('send-to-row selectors', () => {
 
@@ -12,11 +12,11 @@ describe('send-to-row selectors', () => {
         send: {
           toDropdownOpen: false,
         },
-      }
+      };
 
-      assert.equal(getToDropdownOpen(state), false)
-    })
-  })
+      assert.equal(getToDropdownOpen(state), false);
+    });
+  });
 
   describe('sendToIsInError()', () => {
     it('should return true if send.errors.to is truthy', () => {
@@ -26,10 +26,10 @@ describe('send-to-row selectors', () => {
             to: 'abc',
           },
         },
-      }
+      };
 
-      assert.equal(sendToIsInError(state), true)
-    })
+      assert.equal(sendToIsInError(state), true);
+    });
 
     it('should return false if send.errors.to is falsy', () => {
       const state = {
@@ -38,10 +38,10 @@ describe('send-to-row selectors', () => {
             to: null,
           },
         },
-      }
+      };
 
-      assert.equal(sendToIsInError(state), false)
-    })
-  })
+      assert.equal(sendToIsInError(state), false);
+    });
+  });
 
-})
+});

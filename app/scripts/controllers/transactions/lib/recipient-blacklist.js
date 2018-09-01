@@ -14,4 +14,4 @@ module.exports = {
     '0x6330a553fc93768f612722bb8c2ec78ac90b3bbc',
     '0x5aeda56215b167893e80b4fe645ba6d5bab767de',
   ],
-}
+};

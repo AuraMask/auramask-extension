@@ -82,7 +82,7 @@ BuyButtonSubview.prototype.headerSubview = function() {
             paddingTop: '4px',
             paddingBottom: '4px',
           },
-        }, this.context.t('depositEth')),
+        }, this.context.t('depositIrc')),
       ]),
 
       // loading indication

@@ -151,10 +151,10 @@
     "message": "아래 주소로 $1를 입금해주세요.",
     "description": "Tells the user what coin they have selected to deposit with shapeshift"
   },
-  "depositEth": {
+  "depositIrc": {
     "message": "이더 입금"
   },
-  "depositEther": {
+  "depositIrcer": {
     "message": "이더 입금"
   },
   "depositFiat": {
@@ -175,10 +175,10 @@
   "directDeposit": {
     "message": "즉시 입금"
   },
-  "directDepositEther": {
+  "directDepositIrcer": {
     "message": "이더 즉시 입금"
   },
-  "directDepositEtherExplainer": {
+  "directDepositIrcerExplainer": {
     "message": "이더를 이미 보유하고 있다면, 직접 입금을 통해 이더를 즉시 입금하실 수 있습니다."
   },
   "done": {
@@ -196,7 +196,7 @@
   "enterPassword": {
     "message": "패스워드를 입력해주세요."
   },
-  "etherscanView": {
+  "ircerscanView": {
     "message": "이더스캔에서 계좌보기"
   },
   "exchangeRate": {
@@ -253,10 +253,10 @@
   "gasPriceRequired": {
     "message": "가스 가격이 필요합니다."
   },
-  "getEther": {
+  "getIrcer": {
     "message": "이더 얻기"
   },
-  "getEtherFromFaucet": {
+  "getIrcerFromFaucet": {
     "message": "faucet에서 $1에 달하는 이더를 얻으세요.",
     "description": "Displays network name for Ether faucet"
   },
@@ -350,7 +350,7 @@
   "myAccounts": {
     "message": "내 계좌"
   },
-  "needEtherInWallet": {
+  "needIrcerInWallet": {
     "message": "dApp을 이용하기 위해서는 지갑에 이더가 있어야 합니다."
   },
   "needImportFile": {

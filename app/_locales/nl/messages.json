@@ -190,10 +190,10 @@
     "message": "Stort uw $1 op het onderstaande adres",
     "description": "Laat de gebruiker weten welk muntje ze hebben geselecteerd om te deponeren met shapeshift"
   },
-  "depositEth": {
-    "message": "Aanbetaling Eth"
+  "depositIrc": {
+    "message": "Aanbetaling Irc"
   },
-  "depositEther": {
+  "depositIrcer": {
     "message": "Stort Ether"
   },
   "depositFiat": {
@@ -214,10 +214,10 @@
   "directDeposit": {
     "message": "Directe storting"
   },
-  "directDepositEther": {
+  "directDepositIrcer": {
     "message": "Directe Ether storten"
   },
-  "directDepositEtherExplainer": {
+  "directDepositIrcerExplainer": {
     "message": "Als je al wat Ether hebt, de snelste manier om Ether in je nieuwe portemonnee te krijgen door een directe storting."
   },
   "done": {
@@ -244,7 +244,7 @@
   "enterPasswordConfirm": {
     "message": "Voer uw wachtwoord in om te bevestigen"
   },
-  "etherscanView": {
+  "ircerscanView": {
     "message": "Bekijk account op Etherscan"
   },
   "exchangeRate": {
@@ -310,10 +310,10 @@
   "gasPriceRequired": {
     "message": "Gasprijs vereist"
   },
-  "getEther": {
+  "getIrcer": {
     "message": "Krijg Ether"
   },
-  "getEtherFromFaucet": {
+  "getIrcerFromFaucet": {
     "message": "Haal Ether uit een kraan voor de $1",
     "description": "Geeft de netwerknaam voor Ether-kraan weer"
   },
@@ -340,8 +340,8 @@
   "howToDeposit": {
     "message": "Hoe zou je Ether willen deponeren?"
   },
-  "holdEther": {
-    "message": "Hiermee kunt u ether & tokens bewaren en dient u als brug naar gedecentraliseerde applicaties."
+  "holdIrcer": {
+    "message": "Hiermee kunt u ircer & tokens bewaren en dient u als brug naar gedecentraliseerde applicaties."
   },
   "import": {
     "message": "Importeren",
@@ -449,7 +449,7 @@
   "mustSelectOne": {
     "message": "Moet ten minste één token selecteren."
   },
-  "needEtherInWallet": {
+  "needIrcerInWallet": {
     "message": "Om te communiceren met gedecentraliseerde applicaties met AuraMask, heb je Ether nodig in je portemonnee."
   },
   "needImportFile": {
@@ -461,7 +461,7 @@
     "description": "Wachtwoord en bestand nodig om een ​​account te importeren"
   },
   "negativeETH": {
-    "message": "Kan geen negatieve hoeveelheden ETH verzenden."
+    "message": "Kan geen negatieve hoeveelheden IRC verzenden."
   },
   "networks": {
     "message": "netwerken"
@@ -634,7 +634,7 @@
     "message": "Sturen"
   },
   "sendETH": {
-    "message": "Verzend ETH"
+    "message": "Verzend IRC"
   },
   "sendTokens": {
     "message": "Stuur tokens"
@@ -703,7 +703,7 @@
     "message": "Naar"
   },
   "toETHviaShapeShift": {
-    "message": "$1 tot ETH via ShapeShift",
+    "message": "$1 tot IRC via ShapeShift",
     "description": "systeem zal het aanbetalingstype invullen bij het begin van het bericht"
   },
   "tokenAddress": {

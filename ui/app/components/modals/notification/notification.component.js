@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Button from '../../button'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Button from '../../button';
 
 const Notification = (props, context) => {
   return (
@@ -15,16 +15,16 @@ const Notification = (props, context) => {
         </Button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 Notification.propTypes = {
   onHide: PropTypes.func.isRequired,
   children: PropTypes.element,
-}
+};
 
 Notification.contextTypes = {
   t: PropTypes.func,
-}
+};
 
-export default Notification
+export default Notification;

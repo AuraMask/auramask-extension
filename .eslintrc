@@ -35,7 +35,8 @@
     "webu": true,
     "window": false,
     "$": false,
-    "QUnit": false
+    "QUnit": false,
+    "platform": true
   },
   "rules": {
     "no-restricted-globals": ["error", "event"],

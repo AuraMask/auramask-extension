@@ -190,11 +190,11 @@
     "message": "Vplačajte $1 na spodnji naslov",
     "description": "Tells the user what coin they have selected to deposit with shapeshift"
   },
-  "depositEth": {
-    "message": "Vplačilo ETH"
+  "depositIrc": {
+    "message": "Vplačilo IRC"
   },
-  "depositEther": {
-    "message": "Vplačilo ethera"
+  "depositIrcer": {
+    "message": "Vplačilo ether"
   },
   "depositFiat": {
     "message": "Vplačilo s klasičnimi valutami"
@@ -206,7 +206,7 @@
     "message": "Vplačilo z ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Če imate druge kriptovalute, lahko vpačate ether neposredno v AuraMask. Brez računov."
+    "message": "Če imate druge kriptovalute, lahko vpačate ircer neposredno v AuraMask. Brez računov."
   },
   "details": {
     "message": "Podrobnosti"
@@ -214,10 +214,10 @@
   "directDeposit": {
     "message": "Direktno vplačilo"
   },
-  "directDepositEther": {
+  "directDepositIrcer": {
     "message": "Direktno vplačilo ehera"
   },
-  "directDepositEtherExplainer": {
+  "directDepositIrcerExplainer": {
     "message": "Če že imate ether, ga lahko najhitreje dobite v AuraMask z direktnim vplačilom."
   },
   "done": {
@@ -244,7 +244,7 @@
   "enterPasswordConfirm": {
     "message": "Potrdite geslo"
   },
-  "etherscanView": {
+  "ircerscanView": {
     "message": "Poglejte račun na Etherscan"
   },
   "exchangeRate": {
@@ -310,11 +310,11 @@
   "gasPriceRequired": {
     "message": "Gas price je zahtevan"
   },
-  "getEther": {
+  "getIrcer": {
     "message": "Pridobite ether"
   },
-  "getEtherFromFaucet": {
-    "message": "Pridobite ether iz fauceta za $1",
+  "getIrcerFromFaucet": {
+    "message": "Pridobite ircer iz fauceta za $1",
     "description": "Displays network name for Ether faucet"
   },
   "greaterThanMin": {
@@ -340,7 +340,7 @@
   "howToDeposit": {
     "message": "Kako želite vplačati ether?"
   },
-  "holdEther": {
+  "holdIrcer": {
     "message": "Omogoča vam, da imate eter in žetone in služi kot most za decentralizirane aplikacije."
   },
   "import": {
@@ -449,7 +449,7 @@
   "mustSelectOne": {
     "message": "Izbran mora biti vsaj 1 žeton."
   },
-  "needEtherInWallet": {
+  "needIrcerInWallet": {
     "message": "Za interakcijo z decentraliziranimi aplikacijami, ki uporabljajo AuraMask, boste v svoji denarnici potrebovali eter."
   },
   "needImportFile": {
@@ -461,7 +461,7 @@
     "description": "Password and file needed to import an account"
   },
   "negativeETH": {
-    "message": "Ni mogoče poslati negativne vsote ETH."
+    "message": "Ni mogoče poslati negativne vsote IRC."
   },
   "networks": {
     "message": "Omrežja"
@@ -634,7 +634,7 @@
     "message": "Pošlji"
   },
   "sendETH": {
-    "message": "Pošlji ETH"
+    "message": "Pošlji IRC"
   },
   "sendTokens": {
     "message": "Pošlji žetone"
@@ -703,7 +703,7 @@
     "message": "Za"
   },
   "toETHviaShapeShift": {
-    "message": "$1 v ETH prek ShapeShift",
+    "message": "$1 v IRC prek ShapeShift",
     "description": "system will fill in deposit type in start of message"
   },
   "tokenAddress": {

@@ -202,10 +202,10 @@
     "message": "உங்கள் முகவரிக்கு $ 1 ஐ கீழே உள்ளிடவும்",
     "description": "சேபஷிபிட் உடன் வைப்புக்குத் தேர்ந்தெடுக்கப்பட்ட நாணயத்தை பயனரிடம் கூறுகிறார்"
   },
-  "depositEth": {
+  "depositIrc": {
     "message": "வைப்புத்தொகை எது "
   },
-  "depositEther": {
+  "depositIrcer": {
     "message": "வைப்புத்தொகை எதிர் "
   },
   "depositFiat": {
@@ -226,10 +226,10 @@
   "directDeposit": {
     "message": "நேரடி வைப்பு"
   },
-  "directDepositEther": {
+  "directDepositIrcer": {
     "message": "நேரடியாக வைப்புத்தொகை"
   },
-  "directDepositEtherExplainer": {
+  "directDepositIrcerExplainer": {
     "message": "நீங்கள் ஏற்கனவே ஏதெர் இருந்தால், நேரடி வைப்பு மூலம் உங்கள் புதிய பணப்பையில் ஈத்தர் பெற விரைவான வழி."
   },
   "done": {
@@ -265,7 +265,7 @@
   "passwordsDontMatch": {
     "message": "கடவுச்சொற்கள் பொருந்தாதே"
   },
-  "etherscanView": {
+  "ircerscanView": {
     "message": "Etherscan கணக்கைப் பார்க்கவும்"
   },
   "exchangeRate": {
@@ -331,10 +331,10 @@
   "gasPriceRequired": {
     "message": "எரிவாயு விலை தேவைப்படுகிறது"
   },
-  "getEther": {
+  "getIrcer": {
     "message": "ஈத்தர் கிடைக்கும்"
   },
-  "getEtherFromFaucet": {
+  "getIrcerFromFaucet": {
     "message": "$ 1 க்கு ஒரு குழாய் இருந்து ஈதர் கிடைக்கும்$1",
     "description": "ஈத்தர் குழாய் ஐந்து பிணைய பெயர் காட்டுகிறது"
   },
@@ -361,7 +361,7 @@
   "howToDeposit": {
     "message": "எப்படி ஈத்தர் வைப்பது?"
   },
-  "holdEther": {
+  "holdIrcer": {
     "message": "இது நீங்கள் ஈத்தர் மற்றும் டோக்கன்களை வைத்திருக்க உதவுகிறது, மற்றும் பரவலாக்கப்பட்ட பயன்பாடுகளுக்கு உங்கள் பாலமாக செயல்படுகிறது."
   },
   "import": {
@@ -482,7 +482,7 @@
   "mustSelectOne": {
     "message": "குறைந்தது 1 டோக்கனை தேர்ந்தெடுக்க வேண்டும்."
   },
-  "needEtherInWallet": {
+  "needIrcerInWallet": {
     "message": "மேடமஸ்க் ஐ பயன்படுத்தி பரவலாக்கப்பட்ட பயன்பாடுகளுடன் தொடர்பு கொள்ள, உங்கள் பணப்பரிமாற்றத்தில் ஈதர் தேவை."
   },
   "needImportFile": {
@@ -494,7 +494,7 @@
     "description": "ஒரு கணக்கை இறக்குமதி செய்ய கடவுச்சொல் மற்றும் கோப்பு தேவை"
   },
   "negativeETH": {
-    "message": "ETH எதிர்மறை அளவுகளை அனுப்ப முடியாது."
+    "message": "IRC எதிர்மறை அளவுகளை அனுப்ப முடியாது."
   },
   "networks": {
     "message": "நெட்வொர்க்ஸ்"
@@ -694,13 +694,13 @@
     "message": "அனுப்பு"
   },
   "sendETH": {
-    "message": "ETH ஐ அனுப்பு"
+    "message": "IRC ஐ அனுப்பு"
   },
   "sendTokens": {
     "message": "டோக்கன்களை அனுப்பவும்"
   },
-  "onlySendToEtherAddress": {
-    "message": "ETH ஐ ஒரு எதரியும் முகவரிக்கு மட்டும் அனுப்பவும்."
+  "onlySendToIrcerAddress": {
+    "message": "IRC ஐ ஒரு எதரியும் முகவரிக்கு மட்டும் அனுப்பவும்."
   },
   "searchTokens": {
     "message": "தேடல் டோக்கன்ஸ்"
@@ -781,7 +781,7 @@
     "message": "பெறுநர்: "
   },
   "toETHviaShapeShift": {
-    "message": "$ 1 முதல் ETH வரை வடிவம்",
+    "message": "$ 1 முதல் IRC வரை வடிவம்",
     "description": "செய்தி தொடக்கத்தில் வைப்பு வகைகளில் நிரப்பப்படும்"
   },
   "tokenAddress": {

@@ -136,7 +136,7 @@
     "message": "Tùy chỉnh"
   },
   "defaultNetwork": {
-    "message": "Mạng lưới mặc định dùng cho các giao dịch Ether là Main Net (tiền ETH thật)."
+    "message": "Mạng lưới mặc định dùng cho các giao dịch Ether là Main Net (tiền IRC thật)."
   },
   "denExplainer": {
     "message": "Số DEN của bạn là mật khẩu đã được mã hóa và lưu trữ trong AuraMask"
@@ -151,10 +151,10 @@
     "description": "Báo cho người dùng biết đồng tiền nào họ đã chọn để ký gửi với ShapeShift",
     "message": "Ký gửi $1 đến địa chỉ sau:"
   },
-  "depositEth": {
-    "message": "Ký gửi Eth"
+  "depositIrc": {
+    "message": "Ký gửi Irc"
   },
-  "depositEther": {
+  "depositIrcer": {
     "message": "Ký gửi Ether"
   },
   "depositFiat": {
@@ -175,10 +175,10 @@
   "directDeposit": {
     "message": "Ký gửi trực tiếp"
   },
-  "directDepositEther": {
+  "directDepositIrcer": {
     "message": "Ký gửi Ether trực tiếp"
   },
-  "directDepositEtherExplainer": {
+  "directDepositIrcerExplainer": {
     "message": "Nếu bạn đã có sẵn vài Ether, cách nhanh nhất để thêm Ether vào ví tiền mới của bạn là bằng ký gửi trực tiếp."
   },
   "done": {
@@ -196,7 +196,7 @@
   "enterPassword": {
     "message": "Nhập mật khẩu"
   },
-  "etherscanView": {
+  "ircerscanView": {
     "message": "Xem tài khoản trên Etherscan"
   },
   "exchangeRate": {
@@ -253,10 +253,10 @@
   "gasPriceRequired": {
     "message": "Giá ga được yêu cầu"
   },
-  "getEther": {
+  "getIrcer": {
     "message": "Lấy Ether"
   },
-  "getEtherFromFaucet": {
+  "getIrcerFromFaucet": {
     "description": "Hiển thị tên mạng cho vòi Ether",
     "message": "Lấy Ether từ vòi với giá $1"
   },
@@ -339,7 +339,7 @@
     "message": "Nới lỏng"
   },
   "mainnet": {
-    "message": "Mạng Ethereum MainNet (tiền ETH thật)"
+    "message": "Mạng Ethereum MainNet (tiền IRC thật)"
   },
   "message": {
     "message": "Tin nhắn"
@@ -350,7 +350,7 @@
   "myAccounts": {
     "message": "Tài khoản của tôi"
   },
-  "needEtherInWallet": {
+  "needIrcerInWallet": {
     "message": "Để tương tác với các ứng dụng phân tán bằng AuraMask, bạn sẽ phải cần có Ether trong ví của bạn."
   },
   "needImportFile": {
@@ -526,14 +526,14 @@
     "message": "Chờ quá lâu?"
   },
   "testFaucet": {
-    "message": "Vòi nhận tiền ETH ảo để thử nghiệm"
+    "message": "Vòi nhận tiền IRC ảo để thử nghiệm"
   },
   "to": {
     "message": "Đến"
   },
   "toETHviaShapeShift": {
     "description": "hệ thống sẽ điền vào loại tiền gửi khi bắt đầu tin nhắn",
-    "message": "$1 thành ETH qua ShapeShift"
+    "message": "$1 thành IRC qua ShapeShift"
   },
   "tokenBalance": {
     "message": "Số dư token của bạn là:"

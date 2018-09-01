@@ -1,6 +1,6 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import TextField from './'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import TextField from './';
 
 storiesOf('TextField', module)
   .add('text', () =>
@@ -50,4 +50,4 @@ storiesOf('TextField', module)
       error="Invalid value"
       material
     />
-  )
+  );

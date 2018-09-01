@@ -190,10 +190,10 @@
     "message": "ฝาก $1 ของคุณไปที่แอดเดรสด้านล่างนี้:",
     "description": "Tells the user what coin they have selected to deposit with shapeshift"
   },
-  "depositEth": {
+  "depositIrc": {
     "message": "การฝากอีเธอร์"
   },
-  "depositEther": {
+  "depositIrcer": {
     "message": "การฝากอีเธอร์"
   },
   "depositFiat": {
@@ -214,10 +214,10 @@
   "directDeposit": {
     "message": "ฝากตรง"
   },
-  "directDepositEther": {
+  "directDepositIrcer": {
     "message": "ฝากอีเธอร์โดยตรง"
   },
-  "directDepositEtherExplainer": {
+  "directDepositIrcerExplainer": {
     "message": "ถ้าคุณมีอีเธอร์อยู่แล้ววิธีการที่เร็วที่สุดในการเอาเงินเข้ากระเป๋าใหม่ก็คือการโอนตรงๆ"
   },
   "done": {
@@ -244,7 +244,7 @@
   "enterPasswordConfirm": {
     "message": "ใส่รหัสผ่านอีกครั้งเพื่อยืนยัน"
   },
-  "etherscanView": {
+  "ircerscanView": {
     "message": "ดูบัญชีบน Etherscan"
   },
   "exchangeRate": {
@@ -310,10 +310,10 @@
   "gasPriceRequired": {
     "message": "ต้องมีราคาแก๊ส"
   },
-  "getEther": {
+  "getIrcer": {
     "message": "รับอีเธอร์"
   },
-  "getEtherFromFaucet": {
+  "getIrcerFromFaucet": {
     "message": "รับอีเธอร์ที่ปล่อยจาก $1",
     "description": "Displays network name for Ether faucet"
   },
@@ -340,7 +340,7 @@
   "howToDeposit": {
     "message": "คุณต้องการฝากอีเธอร์อย่างไร?"
   },
-  "holdEther": {
+  "holdIrcer": {
     "message": "ช่วยคุณถืออีเทอร์และโทเค็นและทำหน้าที่เป็นสะพานเชื่อมต่อกับแอพพลิเคชันแบบกระจาย"
   },
   "import": {
@@ -449,7 +449,7 @@
   "mustSelectOne": {
     "message": "ต้องเลือกอย่างน้อย 1 โทเค็น"
   },
-  "needEtherInWallet": {
+  "needIrcerInWallet": {
     "message": "คุณจะต้องมีอีเธอร์ในกระเป๋าเงินของคุณในการใช้งานกับแอพพลิเคชันแบบกระจายด้วย AuraMask"
   },
   "needImportFile": {

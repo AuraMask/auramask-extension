@@ -47,19 +47,19 @@ function TxList() {
 
 TxList.prototype.componentWillMount = function() {
   this.tokenInfoGetter = tokenInfoGetter();
-  this.props.updateNetworkNonce(this.props.selectedAddress)
-}
+  this.props.updateNetworkNonce(this.props.selectedAddress);
+};
 
-TxList.prototype.componentDidUpdate = function (prevProps) {
-  const oldTxsToRender = prevProps.txsToRender
+TxList.prototype.componentDidUpdate = function(prevProps) {
+  const oldTxsToRender = prevProps.txsToRender;
   const {
     txsToRender: newTxsToRender,
     selectedAddress,
     updateNetworkNonce,
-  } = this.props
+  } = this.props;
 
   if (newTxsToRender.length > oldTxsToRender.length) {
-    updateNetworkNonce(selectedAddress)
+    updateNetworkNonce(selectedAddress);
   }
 };
 

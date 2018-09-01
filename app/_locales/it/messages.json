@@ -190,10 +190,10 @@
     "message": "Deposita $1 all'indirizzo sotto",
     "description": "Dice all'utente quale moneta ha selezionato per depositare con Shapeshift"
   },
-  "depositEth": {
-    "message": "Deposita Eth"
+  "depositIrc": {
+    "message": "Deposita Irc"
   },
-  "depositEther": {
+  "depositIrcer": {
     "message": "Deposita Ether"
   },
   "depositFiat": {
@@ -214,10 +214,10 @@
   "directDeposit": {
     "message": "Deposito Diretto"
   },
-  "directDepositEther": {
+  "directDepositIrcer": {
     "message": "Deposita Direttamente Ether"
   },
-  "directDepositEtherExplainer": {
+  "directDepositIrcerExplainer": {
     "message": "Se possiedi già degli Ether, questa è la via più veloce per aggiungere Ether al tuo portafoglio con un deposito diretto."
   },
   "done": {
@@ -244,7 +244,7 @@
   "enterPasswordConfirm": {
     "message": "Inserisci la tua password per confermare"
   },
-  "etherscanView": {
+  "ircerscanView": {
     "message": "Vedi account su Etherscan"
   },
   "exchangeRate": {
@@ -310,10 +310,10 @@
   "gasPriceRequired": {
     "message": "Prezzo Gas Richiesto"
   },
-  "getEther": {
+  "getIrcer": {
     "message": "Ottieni Ether"
   },
-  "getEtherFromFaucet": {
+  "getIrcerFromFaucet": {
     "message": "Ottieni Get Ether da un faucet per $1",
     "description": "Visualizza il nome della rete per il faucet Ether"
   },
@@ -340,8 +340,8 @@
   "howToDeposit": {
     "message": "Come vuoi depositare Ether?"
   },
-  "holdEther": {
-    "message": "Ti permette di tenere ether & token, e serve da ponte per le applicazioni decentralizzate."
+  "holdIrcer": {
+    "message": "Ti permette di tenere ircer & token, e serve da ponte per le applicazioni decentralizzate."
   },
   "import": {
     "message": "Importa",
@@ -449,7 +449,7 @@
   "mustSelectOne": {
     "message": "Devi selezionare almeno un token."
   },
-  "needEtherInWallet": {
+  "needIrcerInWallet": {
     "message": "Per interagire con applicazioni decentralizzate con AuraMask, devi possedere Ether nel tuo portafoglio."
   },
   "needImportFile": {
@@ -461,7 +461,7 @@
     "description": "Password e file necessari per importare un account"
   },
   "negativeETH": {
-    "message": "Non puoi inviare una quantità di ETH negativa."
+    "message": "Non puoi inviare una quantità di IRC negativa."
   },
   "networks": {
     "message": "Reti"
@@ -634,7 +634,7 @@
     "message": "Invia"
   },
   "sendETH": {
-    "message": "Invia ETH"
+    "message": "Invia IRC"
   },
   "sendTokens": {
     "message": "Invia Tokens"
@@ -703,7 +703,7 @@
     "message": "A"
   },
   "toETHviaShapeShift": {
-    "message": "$1 a ETH via ShapeShift",
+    "message": "$1 a IRC via ShapeShift",
     "description": "il sistema riempirà il tipo di deposito all'inizio del messaggio"
   },
   "tokenAddress": {

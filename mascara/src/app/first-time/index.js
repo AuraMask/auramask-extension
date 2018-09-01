@@ -25,22 +25,26 @@ import WelcomeScreen from '../../../../ui/app/welcome-screen';
 
 class FirstTimeFlow extends Component {
 
-  static propTypes = {
-    isInitialized: PropTypes.bool,
-    seedWords: PropTypes.string,
-    address: PropTypes.string,
-    noActiveNotices: PropTypes.bool,
-    goToBuyEtherView: PropTypes.func,
-    isUnlocked: PropTypes.bool,
-    history: PropTypes.object,
-    welcomeScreenSeen: PropTypes.bool,
-    isPopup: PropTypes.bool,
+  static get propTypes() {
+    return {
+      isInitialized: PropTypes.bool,
+      seedWords: PropTypes.string,
+      address: PropTypes.string,
+      noActiveNotices: PropTypes.bool,
+      goToBuyEtherView: PropTypes.func,
+      isUnlocked: PropTypes.bool,
+      history: PropTypes.object,
+      welcomeScreenSeen: PropTypes.bool,
+      isPopup: PropTypes.bool,
+    };
   };
 
-  static defaultProps = {
-    isInitialized: false,
-    seedWords: '',
-    noActiveNotices: false,
+  static get defaultProps() {
+    return {
+      isInitialized: false,
+      seedWords: '',
+      noActiveNotices: false,
+    };
   };
 
   render() {
@@ -67,7 +71,7 @@ class FirstTimeFlow extends Component {
   }
 }
 
-const mapStateToProps = ({metamask}) => {
+const mapStateToProps = ({auramask}) => {
   const {
     isInitialized,
     seedWords,
@@ -78,7 +82,7 @@ const mapStateToProps = ({metamask}) => {
     isUnlocked,
     welcomeScreenSeen,
     isPopup,
-  } = metamask;
+  } = auramask;
 
   return {
     isMascara,

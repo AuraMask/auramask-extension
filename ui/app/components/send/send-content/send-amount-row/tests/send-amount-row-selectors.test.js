@@ -1,7 +1,7 @@
-import assert from 'assert'
+import assert from 'assert';
 import {
   sendAmountIsInError,
-} from '../send-amount-row.selectors.js'
+} from '../send-amount-row.selectors.js';
 
 describe('send-amount-row selectors', () => {
 
@@ -13,10 +13,10 @@ describe('send-amount-row selectors', () => {
             amount: 'abc',
           },
         },
-      }
+      };
 
-      assert.equal(sendAmountIsInError(state), true)
-    })
+      assert.equal(sendAmountIsInError(state), true);
+    });
 
     it('should return false if send.errors.amount is falsy', () => {
       const state = {
@@ -25,10 +25,10 @@ describe('send-amount-row selectors', () => {
             amount: null,
           },
         },
-      }
+      };
 
-      assert.equal(sendAmountIsInError(state), false)
-    })
-  })
+      assert.equal(sendAmountIsInError(state), false);
+    });
+  });
 
-})
+});

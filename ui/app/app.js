@@ -208,7 +208,7 @@ class App extends Component {
     }
   }
 
-  getConnectingLabel = function(loadingMessage) {
+  getConnectingLabel(loadingMessage) {
     if (loadingMessage) {
       return loadingMessage;
     }

@@ -69,7 +69,7 @@ class BackupPhraseScreen extends Component {
   exportSeedWords = () => {
     const {seedWords} = this.props;
 
-    exportAsFile('MetaMask Secret Backup Phrase', seedWords, 'text/plain');
+    exportAsFile('AuraMask Secret Backup Phrase', seedWords, 'text/plain');
   };
 
   renderSecretWordsContainer() {
@@ -168,7 +168,7 @@ class BackupPhraseScreen extends Component {
 export default compose(
   withRouter,
   connect(
-    ({metamask: {selectedAddress, seedWords}, appState: {isLoading}}) => ({
+    ({auramask: {selectedAddress, seedWords}, appState: {isLoading}}) => ({
       seedWords,
       isLoading,
       address: selectedAddress,

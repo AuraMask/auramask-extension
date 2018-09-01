@@ -1,9 +1,9 @@
 const selectors = {
   getMaxModeOn,
-}
+};
 
-module.exports = selectors
+module.exports = selectors;
 
-function getMaxModeOn (state) {
-  return state.auramask.send.maxModeOn
+function getMaxModeOn(state) {
+  return state.auramask.send.maxModeOn;
 }

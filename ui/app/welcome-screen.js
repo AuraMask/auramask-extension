@@ -54,7 +54,7 @@ class WelcomeScreen extends Component {
 
         h('div.welcome-screen__info__copy', this.context.t('auramaskDescription')),
 
-        h('div.welcome-screen__info__copy', this.context.t('holdEther')),
+        h('div.welcome-screen__info__copy', this.context.t('holdIrcer')),
 
         h('button.welcome-screen__button', {
           onClick: this.initiateAccountCreation,

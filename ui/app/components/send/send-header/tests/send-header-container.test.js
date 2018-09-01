@@ -1,20 +1,20 @@
-import assert from 'assert'
-import proxyquire from 'proxyquire'
-import sinon from 'sinon'
+import assert from 'assert';
+import proxyquire from 'proxyquire';
+import sinon from 'sinon';
 
-let mapStateToProps
-let mapDispatchToProps
+let mapStateToProps;
+let mapDispatchToProps;
 
 const actionSpies = {
   clearSend: sinon.spy(),
-}
+};
 
 proxyquire('../send-header.container.js', {
   'react-redux': {
     connect: (ms, md) => {
-      mapStateToProps = ms
-      mapDispatchToProps = md
-      return () => ({})
+      mapStateToProps = ms;
+      mapDispatchToProps = md;
+      return () => ({});
     },
   },
   '../../../actions': actionSpies,
@@ -22,7 +22,7 @@ proxyquire('../send-header.container.js', {
     getTitleKey: (s) => `mockTitleKey:${s}`,
     getSubtitleParams: (s) => `mockSubtitleParams:${s}`,
   },
-})
+});
 
 describe('send-header container', () => {
 
@@ -32,28 +32,28 @@ describe('send-header container', () => {
       assert.deepEqual(mapStateToProps('mockState'), {
         titleKey: 'mockTitleKey:mockState',
         subtitleParams: 'mockSubtitleParams:mockState',
-      })
-    })
+      });
+    });
 
-  })
+  });
 
   describe('mapDispatchToProps()', () => {
-    let dispatchSpy
-    let mapDispatchToPropsObject
+    let dispatchSpy;
+    let mapDispatchToPropsObject;
 
     beforeEach(() => {
-      dispatchSpy = sinon.spy()
-      mapDispatchToPropsObject = mapDispatchToProps(dispatchSpy)
-    })
+      dispatchSpy = sinon.spy();
+      mapDispatchToPropsObject = mapDispatchToProps(dispatchSpy);
+    });
 
     describe('clearSend()', () => {
       it('should dispatch an action', () => {
-        mapDispatchToPropsObject.clearSend()
-        assert(dispatchSpy.calledOnce)
-        assert(actionSpies.clearSend.calledOnce)
-      })
-    })
+        mapDispatchToPropsObject.clearSend();
+        assert(dispatchSpy.calledOnce);
+        assert(actionSpies.clearSend.calledOnce);
+      });
+    });
 
-  })
+  });
 
-})
+});

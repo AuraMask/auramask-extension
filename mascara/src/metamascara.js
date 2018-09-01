@@ -1,1 +1,1 @@
-global.metamask = require('auramascara');
+global.auramask = require('auramascara');

@@ -32,7 +32,7 @@ function transformState(state) {
   if ('auramask' in newState &&
     !('firstTimeInfo' in newState.auramask)) {
     newState.auramask.firstTimeInfo = {
-      version: '3.12.0',
+      version: '0.0.0',
       date: Date.now(),
     };
   }

@@ -121,10 +121,10 @@ class CreatePasswordScreen extends Component {
               height="225"
             />
             <div className="info">
-              MetaMask is a secure identity vault for Ethereum.
+              AuraMask is a secure identity vault for Ethereum.
             </div>
             <div className="info">
-              It allows you to hold ether & tokens, and interact with decentralized applications.
+              It allows you to hold ircer & tokens, and interact with decentralized applications.
             </div>
           </div>}
           <div className="create-password">
@@ -195,8 +195,8 @@ class CreatePasswordScreen extends Component {
   }
 }
 
-const mapStateToProps = ({metamask, appState}) => {
-  const {isInitialized, isUnlocked, isMascara, noActiveNotices} = metamask;
+const mapStateToProps = ({auramask, appState}) => {
+  const {isInitialized, isUnlocked, isMascara, noActiveNotices} = auramask;
   const {isLoading} = appState;
 
   return {

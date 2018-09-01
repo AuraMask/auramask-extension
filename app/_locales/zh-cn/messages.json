@@ -205,10 +205,10 @@
     "message": "将你的 $1 存入到下面的地址",
     "description": "Tells the user what coin they have selected to deposit with shapeshift"
   },
-  "depositEth": {
-    "message": "存入 Eth"
+  "depositIrc": {
+    "message": "存入 Irc"
   },
-  "depositEther": {
+  "depositIrcer": {
     "message": "存入 Ether"
   },
   "depositFiat": {
@@ -229,10 +229,10 @@
   "directDeposit": {
     "message": "直接存入"
   },
-  "directDepositEther": {
+  "directDepositIrcer": {
     "message": "直接存入 Ether"
   },
-  "directDepositEtherExplainer": {
+  "directDepositIrcerExplainer": {
     "message": "如果你已经有了一些 Ether，通过直接转入是你的新钱包获取 Ether 的最快捷方式。"
   },
   "done": {
@@ -271,7 +271,7 @@
   "passwordsDontMatch": {
     "message": "密码不匹配"
   },
-  "etherscanView": {
+  "ircerscanView": {
     "message": "在 Etherscan 上查看账户"
   },
   "exchangeRate": {
@@ -340,10 +340,10 @@
   "generatingTransaction": {
     "message": "生成 交易"
   },
-  "getEther": {
+  "getIrcer": {
     "message": "获取 Ether"
   },
-  "getEtherFromFaucet": {
+  "getIrcerFromFaucet": {
     "message": "从水管获取$1网络的 Ether",
     "description": "Displays network name for Ether faucet"
   },
@@ -370,7 +370,7 @@
   "howToDeposit": {
     "message": "你想怎样转入 Ether？"
   },
-  "holdEther": {
+  "holdIrcer": {
     "message": "它允许你保存ether和代币，并作为你使用Dapp的桥梁."
   },
   "import": {
@@ -494,7 +494,7 @@
   "mustSelectOne": {
     "message": "至少选择一种代币."
   },
-  "needEtherInWallet": {
+  "needIrcerInWallet": {
     "message": "使用 AuraMask 与 DAPP 交互，需要你的钱包里有 Ether。"
   },
   "needImportFile": {
@@ -506,7 +506,7 @@
     "description": "Password and file needed to import an account"
   },
   "negativeETH": {
-    "message": "Can not send negative amounts of ETH."
+    "message": "Can not send negative amounts of IRC."
   },
   "networks": {
     "message": "网络"
@@ -721,13 +721,13 @@
     "message": "发送"
   },
   "sendETH": {
-    "message": "发送 ETH"
+    "message": "发送 IRC"
   },
   "sendTokens": {
     "message": "发送 代币"
   },
-  "onlySendToEtherAddress": {
-    "message": "只发送 ETH 给一个以太坊地址"
+  "onlySendToIrcerAddress": {
+    "message": "只发送 IRC 给一个以太坊地址"
   },
   "searchTokens": {
     "message": "搜索代币"
@@ -808,7 +808,7 @@
     "message": "至"
   },
   "toETHviaShapeShift": {
-    "message": "$1 ETH 通过 ShapeShift",
+    "message": "$1 IRC 通过 ShapeShift",
     "description": "system will fill in deposit type in start of message"
   },
   "tokenAddress": {

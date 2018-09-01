@@ -190,10 +190,10 @@
     "message": "नीचे दिए गए पते पर अपना $1 जमा करें",
     "description": "उपयोगकर्ता को बताता है कि उन्होंने सिक्का के साथ जमा करने के लिए किस सिक्का का चयन किया है"
   },
-  "depositEth": {
-    "message": "Eth जमाआर्थ"
+  "depositIrc": {
+    "message": "Irc जमाआर्थ"
   },
-  "depositEther": {
+  "depositIrcer": {
     "message": "जमा - Ether"
   },
   "depositFiat": {
@@ -214,10 +214,10 @@
   "directDeposit": {
     "message": "प्रत्यक्ष जमा"
   },
-  "directDepositEther": {
+  "directDepositIrcer": {
     "message": "सीधे ईथर जमा करें"
   },
-  "directDepositEtherExplainer": {
+  "directDepositIrcerExplainer": {
     "message": "यदि आपके पास पहले से कुछ ईथर है, तो सीधे जमा द्वारा अपने नए बटुए में ईथर प्राप्त करने का तेज़ तरीका है।"
   },
   "done": {
@@ -244,7 +244,7 @@
   "enterPasswordConfirm": {
     "message": "पुष्टि करने के लिए अपना पासवर्ड दर्ज करें"
   },
-  "etherscanView": {
+  "ircerscanView": {
     "message": "ईथरस्कैन पर खाता देखें"
   },
   "exchangeRate": {
@@ -310,10 +310,10 @@
   "gasPriceRequired": {
     "message": "गैस की कीमत आवश्यक है"
   },
-  "getEther": {
+  "getIrcer": {
     "message": "ईथर प्राप्त करें"
   },
-  "getEtherFromFaucet": {
+  "getIrcerFromFaucet": {
     "message": "$1 के लिए एक नल से ईथर प्राप्त करें",
     "description": "ईथर नल के लिए नेटवर्क नाम प्रदर्शित करता है"
   },
@@ -340,7 +340,7 @@
   "howToDeposit": {
     "message": "आप ईथर जमा कैसे करना चाहेंगे?"
   },
-  "holdEther": {
+  "holdIrcer": {
     "message": "यह आपको आकाश और टोकन रखने की अनुमति देता है, और विकेंद्रीकृत अनुप्रयोगों के लिए आपके पुल के रूप में कार्य करता है।"
   },
   "import": {
@@ -449,7 +449,7 @@
   "mustSelectOne": {
     "message": "कम से कम 1 टोकन का चयन करना आवश्यक है।"
   },
-  "needEtherInWallet": {
+  "needIrcerInWallet": {
     "message": "मेटामास्क का उपयोग करने वाले विकेन्द्रीकृत अनुप्रयोगों के साथ बातचीत करने के लिए, आपको अपने वॉलेट में ईथर की आवश्यकता होगी।"
   },
   "needImportFile": {
@@ -634,7 +634,7 @@
     "message": "भेजें"
   },
   "sendETH": {
-    "message": "भेजें ETH"
+    "message": "भेजें IRC"
   },
   "sendTokens": {
     "message": "भेजें टोकन"
@@ -703,7 +703,7 @@
     "message": "के लिए"
   },
   "toETHviaShapeShift": {
-    "message": "शैपशैफ्ट द्वारा $1 से ETH में जमा",
+    "message": "शैपशैफ्ट द्वारा $1 से IRC में जमा",
     "description": "संदेश की शुरुआत में जमा प्रकार भर जाएगा"
   },
   "tokenAddress": {

@@ -112,8 +112,8 @@ class NoticeScreen extends Component {
   }
 }
 
-const mapStateToProps = ({metamask, appState}) => {
-  const {selectedAddress, nextUnreadNotice, noActiveNotices} = metamask;
+const mapStateToProps = ({auramask, appState}) => {
+  const {selectedAddress, nextUnreadNotice, noActiveNotices} = auramask;
   const {isLoading} = appState;
 
   return {

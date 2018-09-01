@@ -46,8 +46,8 @@ function DepositEtherModal(props, context) {
   Component.call(this);
 
   // need to set after i18n locale has loaded
-  DIRECT_DEPOSIT_ROW_TITLE = context.t('directDepositEther');
-  DIRECT_DEPOSIT_ROW_TEXT = context.t('directDepositEtherExplainer');
+  DIRECT_DEPOSIT_ROW_TITLE = context.t('directDepositIrcer');
+  DIRECT_DEPOSIT_ROW_TEXT = context.t('directDepositIrcerExplainer');
   COINBASE_ROW_TITLE = context.t('buyCoinbase');
   COINBASE_ROW_TEXT = context.t('buyCoinbaseExplainer');
   SHAPESHIFT_ROW_TITLE = context.t('depositShapeShift');
@@ -66,7 +66,7 @@ DepositEtherModal.contextTypes = {
 module.exports = connect(mapStateToProps, mapDispatchToProps)(DepositEtherModal);
 
 DepositEtherModal.prototype.facuetRowText = function(networkName) {
-  return this.context.t('getEtherFromFaucet', [networkName]);
+  return this.context.t('getIrcerFromFaucet', [networkName]);
 };
 
 DepositEtherModal.prototype.renderRow = function({
@@ -128,10 +128,10 @@ DepositEtherModal.prototype.render = function() {
 
     h('div.page-container__header', [
 
-      h('div.page-container__title', [this.context.t('depositEther')]),
+      h('div.page-container__title', [this.context.t('depositIrcer')]),
 
       h('div.page-container__subtitle', [
-        this.context.t('needEtherInWallet'),
+        this.context.t('needIrcerInWallet'),
       ]),
 
       h('div.page-container__header-close', {
@@ -163,7 +163,7 @@ DepositEtherModal.prototype.render = function() {
           logo: h('i.fa.fa-tint.fa-2x'),
           title: FAUCET_ROW_TITLE,
           text: this.facuetRowText(networkName),
-          buttonLabel: this.context.t('getEther'),
+          buttonLabel: this.context.t('getIrcer'),
           onButtonClick: () => toFaucet(network),
           hide: !isTestNetwork || buyingWithShapeshift,
         }),

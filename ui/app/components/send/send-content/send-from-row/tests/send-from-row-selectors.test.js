@@ -1,7 +1,7 @@
-import assert from 'assert'
+import assert from 'assert';
 import {
   getFromDropdownOpen,
-} from '../send-from-row.selectors.js'
+} from '../send-from-row.selectors.js';
 
 describe('send-from-row selectors', () => {
 
@@ -11,10 +11,10 @@ describe('send-from-row selectors', () => {
         send: {
           fromDropdownOpen: null,
         },
-      }
+      };
 
-      assert.equal(getFromDropdownOpen(state), null)
-    })
-  })
+      assert.equal(getFromDropdownOpen(state), null);
+    });
+  });
 
-})
+});

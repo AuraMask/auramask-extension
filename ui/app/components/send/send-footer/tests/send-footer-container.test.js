@@ -1,9 +1,9 @@
-import assert from 'assert'
-import proxyquire from 'proxyquire'
-import sinon from 'sinon'
+import assert from 'assert';
+import proxyquire from 'proxyquire';
+import sinon from 'sinon';
 
-let mapStateToProps
-let mapDispatchToProps
+let mapStateToProps;
+let mapDispatchToProps;
 
 const actionSpies = {
   addToAddressBook: sinon.spy(),
@@ -11,19 +11,19 @@ const actionSpies = {
   signTokenTx: sinon.spy(),
   signTx: sinon.spy(),
   updateTransaction: sinon.spy(),
-}
+};
 const utilsStubs = {
   addressIsNew: sinon.stub().returns(true),
   constructTxParams: sinon.stub().returns('mockConstructedTxParams'),
   constructUpdatedTx: sinon.stub().returns('mockConstructedUpdatedTxParams'),
-}
+};
 
 proxyquire('../send-footer.container.js', {
   'react-redux': {
     connect: (ms, md) => {
-      mapStateToProps = ms
-      mapDispatchToProps = md
-      return () => ({})
+      mapStateToProps = ms;
+      mapDispatchToProps = md;
+      return () => ({});
     },
   },
   '../../../actions': actionSpies,
@@ -43,7 +43,7 @@ proxyquire('../send-footer.container.js', {
   },
   './send-footer.selectors': { isSendFormInError: (s) => `mockInError:${s}` },
   './send-footer.utils': utilsStubs,
-})
+});
 
 describe('send-footer container', () => {
 
@@ -64,27 +64,27 @@ describe('send-footer container', () => {
         toAccounts: 'mockToAccounts:mockState',
         tokenBalance: 'mockTokenBalance:mockState',
         unapprovedTxs: 'mockUnapprovedTxs:mockState',
-      })
-    })
+      });
+    });
 
-  })
+  });
 
   describe('mapDispatchToProps()', () => {
-    let dispatchSpy
-    let mapDispatchToPropsObject
+    let dispatchSpy;
+    let mapDispatchToPropsObject;
 
     beforeEach(() => {
-      dispatchSpy = sinon.spy()
-      mapDispatchToPropsObject = mapDispatchToProps(dispatchSpy)
-    })
+      dispatchSpy = sinon.spy();
+      mapDispatchToPropsObject = mapDispatchToProps(dispatchSpy);
+    });
 
     describe('clearSend()', () => {
       it('should dispatch an action', () => {
-        mapDispatchToPropsObject.clearSend()
-        assert(dispatchSpy.calledOnce)
-        assert(actionSpies.clearSend.calledOnce)
-      })
-    })
+        mapDispatchToPropsObject.clearSend();
+        assert(dispatchSpy.calledOnce);
+        assert(actionSpies.clearSend.calledOnce);
+      });
+    });
 
     describe('sign()', () => {
       it('should dispatch a signTokenTx action if selectedToken is defined', () => {
@@ -97,8 +97,8 @@ describe('send-footer container', () => {
           from: 'mockFrom',
           gas: 'mockGas',
           gasPrice: 'mockGasPrice',
-        })
-        assert(dispatchSpy.calledOnce)
+        });
+        assert(dispatchSpy.calledOnce);
         assert.deepEqual(
           utilsStubs.constructTxParams.getCall(0).args[0],
           {
@@ -112,23 +112,23 @@ describe('send-footer container', () => {
             gas: 'mockGas',
             gasPrice: 'mockGasPrice',
           }
-        )
+        );
         assert.deepEqual(
           actionSpies.signTokenTx.getCall(0).args,
           [ '0xabc', 'mockTo', 'mockAmount', 'mockConstructedTxParams' ]
-        )
-      })
+        );
+      });
 
       it('should dispatch a sign action if selectedToken is not defined', () => {
-        utilsStubs.constructTxParams.resetHistory()
+        utilsStubs.constructTxParams.resetHistory();
         mapDispatchToPropsObject.sign({
           to: 'mockTo',
           amount: 'mockAmount',
           from: 'mockFrom',
           gas: 'mockGas',
           gasPrice: 'mockGasPrice',
-        })
-        assert(dispatchSpy.calledOnce)
+        });
+        assert(dispatchSpy.calledOnce);
         assert.deepEqual(
           utilsStubs.constructTxParams.getCall(0).args[0],
           {
@@ -140,13 +140,13 @@ describe('send-footer container', () => {
             gas: 'mockGas',
             gasPrice: 'mockGasPrice',
           }
-        )
+        );
         assert.deepEqual(
           actionSpies.signTx.getCall(0).args,
           [ 'mockConstructedTxParams' ]
-        )
-      })
-    })
+        );
+      });
+    });
 
     describe('update()', () => {
       it('should dispatch an updateTransaction action', () => {
@@ -159,8 +159,8 @@ describe('send-footer container', () => {
           editingTransactionId: 'mockEditingTransactionId',
           selectedToken: 'mockSelectedToken',
           unapprovedTxs: 'mockUnapprovedTxs',
-        })
-        assert(dispatchSpy.calledOnce)
+        });
+        assert(dispatchSpy.calledOnce);
         assert.deepEqual(
           utilsStubs.constructUpdatedTx.getCall(0).args[0],
           {
@@ -174,23 +174,23 @@ describe('send-footer container', () => {
             selectedToken: 'mockSelectedToken',
             unapprovedTxs: 'mockUnapprovedTxs',
           }
-        )
-        assert.equal(actionSpies.updateTransaction.getCall(0).args[0], 'mockConstructedUpdatedTxParams')
-      })
-    })
+        );
+        assert.equal(actionSpies.updateTransaction.getCall(0).args[0], 'mockConstructedUpdatedTxParams');
+      });
+    });
 
     describe('addToAddressBookIfNew()', () => {
       it('should dispatch an action', () => {
-        mapDispatchToPropsObject.addToAddressBookIfNew('mockNewAddress', 'mockToAccounts', 'mockNickname')
-        assert(dispatchSpy.calledOnce)
-        assert.equal(utilsStubs.addressIsNew.getCall(0).args[0], 'mockToAccounts')
+        mapDispatchToPropsObject.addToAddressBookIfNew('mockNewAddress', 'mockToAccounts', 'mockNickname');
+        assert(dispatchSpy.calledOnce);
+        assert.equal(utilsStubs.addressIsNew.getCall(0).args[0], 'mockToAccounts');
         assert.deepEqual(
           actionSpies.addToAddressBook.getCall(0).args,
           [ '0xmockNewAddress', 'mockNickname' ]
-        )
-      })
-    })
+        );
+      });
+    });
 
-  })
+  });
 
-})
+});
