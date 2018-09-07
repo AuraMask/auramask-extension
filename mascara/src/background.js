@@ -50,8 +50,7 @@ async function start() {
 async function loadStateFromPersistence() {
   // migrations
   const migrator = new Migrator({migrations});
-  const initialState = migrator.generateInitialState(firstTimeState);
-  dbController.initialState = initialState;
+  dbController.initialState = migrator.generateInitialState(firstTimeState);
   const versionedData = await dbController.open();
   const migratedData = await migrator.migrateData(versionedData);
   await dbController.put(migratedData);

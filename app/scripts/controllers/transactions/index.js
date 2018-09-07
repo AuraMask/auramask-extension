@@ -1,8 +1,8 @@
 const EventEmitter = require('events');
 const ObservableStore = require('obs-store');
-const ethUtil = require('icjs-util');
+const ircUtil = require('icjs-util');
 const Transaction = require('icjs-tx');
-const EthQuery = require('irc.js').Query;
+const IrcQuery = require('irc.js').Query;
 const TransactionStateManager = require('./tx-state-manager');
 const TxGasUtil = require('./tx-gas-utils');
 const PendingTransactionTracker = require('./pending-tx-tracker');
@@ -36,7 +36,7 @@ const cleanErrorStack = require('../../lib/cleanErrorStack');
  @param {Object}  opts.provider - A network provider.
  @param {Function}  opts.signTransaction - function the signs an icjs-tx
  @param {Function}  [opts.getGasPrice] - optional gas price calculator
- @param {Function}  opts.signTransaction - ethTx signer that returns a rawTx
+ @param {Function}  opts.signTransaction - ircTx signer that returns a rawTx
  @param {Number}  [opts.txHistoryLimit] - number *optional* for limiting how many transactions are in state
  @param {Object}  opts.preferencesStore
  */
@@ -48,11 +48,11 @@ class TransactionController extends EventEmitter {
     this.preferencesStore = opts.preferencesStore || new ObservableStore({});
     this.provider = opts.provider;
     this.blockTracker = opts.blockTracker;
-    this.signEthTx = opts.signTransaction;
+    this.signIrcTx = opts.signTransaction;
     this.getGasPrice = opts.getGasPrice;
 
     this.memStore = new ObservableStore({});
-    this.query = new EthQuery(this.provider);
+    this.query = new IrcQuery(this.provider);
     this.txGasUtil = new TxGasUtil(this.provider);
 
     this._mapMethods();
@@ -185,13 +185,13 @@ class TransactionController extends EventEmitter {
   async addTxGasDefaults(txMeta) {
     const txParams = txMeta.txParams;
     // ensure value
-    txParams.value = txParams.value ? ethUtil.addHexPrefix(txParams.value) : '0x0';
+    txParams.value = txParams.value ? ircUtil.addHexPrefix(txParams.value) : '0x0';
     txMeta.gasPriceSpecified = Boolean(txParams.gasPrice);
     let gasPrice = txParams.gasPrice;
     if (!gasPrice) {
       gasPrice = this.getGasPrice ? this.getGasPrice() : await this.query.gasPrice();
     }
-    txParams.gasPrice = ethUtil.addHexPrefix(gasPrice.toString(16));
+    txParams.gasPrice = ircUtil.addHexPrefix(gasPrice.toString(16));
     // set gasLimit
     return await this.txGasUtil.analyzeGasUsage(txMeta);
   }
@@ -256,7 +256,7 @@ class TransactionController extends EventEmitter {
       // if txMeta has lastGasPrice then it is a retry at same nonce with higher
       // gas price transaction and their for the nonce should not be calculated
       const nonce = txMeta.lastGasPrice ? txMeta.txParams.nonce : nonceLock.nextNonce;
-      txMeta.txParams.nonce = ethUtil.addHexPrefix(nonce.toString(16));
+      txMeta.txParams.nonce = ircUtil.addHexPrefix(nonce.toString(16));
       // add nonce debugging information to txMeta
       txMeta.nonceDetails = nonceLock.nonceDetails;
       this.txStateManager.updateTx(txMeta, 'transactions#approveTransaction');
@@ -291,12 +291,11 @@ class TransactionController extends EventEmitter {
     const txParams = Object.assign({}, txMeta.txParams, {chainId});
     // sign tx
     const fromAddress = txParams.from;
-    const ethTx = new Transaction(txParams);
-    await this.signEthTx(ethTx, fromAddress);
+    const ircTx = new Transaction(txParams);
+    await this.signIrcTx(ircTx, fromAddress);
     // set state to signed
     this.txStateManager.setTxStatusSigned(txMeta.id);
-    const rawTx = ethUtil.bufferToHex(ethTx.serialize());
-    return rawTx;
+    return ircUtil.bufferToHex(ircTx.serialize());
   }
 
   /**

@@ -1,35 +1,39 @@
-import React, { Component } from 'react'
-import classnames from 'classnames'
-import PropTypes from 'prop-types'
-import ethUtil from 'icjs-util'
-import { checkExistingAddresses } from './util'
-import { tokenInfoGetter } from '../../../token-util'
-import { DEFAULT_ROUTE, CONFIRM_ADD_TOKEN_ROUTE } from '../../../routes'
-import Button from '../../button'
-import TextField from '../../text-field'
-import TokenList from './token-list'
-import TokenSearch from './token-search'
+import React, {Component} from 'react';
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import ircUtil from 'icjs-util';
+import {checkExistingAddresses} from './util';
+import {tokenInfoGetter} from '../../../token-util';
+import {DEFAULT_ROUTE, CONFIRM_ADD_TOKEN_ROUTE} from '../../../routes';
+import Button from '../../button';
+import TextField from '../../text-field';
+import TokenList from './token-list';
+import TokenSearch from './token-search';
 
-const emptyAddr = '0x0000000000000000000000000000000000000000'
-const SEARCH_TAB = 'SEARCH'
-const CUSTOM_TOKEN_TAB = 'CUSTOM_TOKEN'
+const emptyAddr = '0x0000000000000000000000000000000000000000';
+const SEARCH_TAB = 'SEARCH';
+const CUSTOM_TOKEN_TAB = 'CUSTOM_TOKEN';
 
 class AddToken extends Component {
-  static contextTypes = {
-    t: PropTypes.func,
-  }
+  static get contextTypes() {
+    return {
+      t: PropTypes.func,
+    };
+  };
 
-  static propTypes = {
-    history: PropTypes.object,
-    setPendingTokens: PropTypes.func,
-    pendingTokens: PropTypes.object,
-    clearPendingTokens: PropTypes.func,
-    tokens: PropTypes.array,
-    identities: PropTypes.object,
-  }
+  static get propTypes() {
+    return {
+      history: PropTypes.object,
+      setPendingTokens: PropTypes.func,
+      pendingTokens: PropTypes.object,
+      clearPendingTokens: PropTypes.func,
+      tokens: PropTypes.array,
+      identities: PropTypes.object,
+    };
+  };
 
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
 
     this.state = {
       customAddress: '',
@@ -43,121 +47,121 @@ class AddToken extends Component {
       customDecimalsError: null,
       autoFilled: false,
       displayedTab: SEARCH_TAB,
-    }
+    };
   }
 
-  componentDidMount () {
-    this.tokenInfoGetter = tokenInfoGetter()
-    const { pendingTokens = {} } = this.props
-    const pendingTokenKeys = Object.keys(pendingTokens)
+  componentDidMount() {
+    this.tokenInfoGetter = tokenInfoGetter();
+    const {pendingTokens = {}} = this.props;
+    const pendingTokenKeys = Object.keys(pendingTokens);
 
     if (pendingTokenKeys.length > 0) {
-      let selectedTokens = {}
-      let customToken = {}
+      let selectedTokens = {};
+      let customToken = {};
 
       pendingTokenKeys.forEach(tokenAddress => {
-        const token = pendingTokens[tokenAddress]
-        const { isCustom } = token
+        const token = pendingTokens[tokenAddress];
+        const {isCustom} = token;
 
         if (isCustom) {
-          customToken = { ...token }
+          customToken = {...token};
         } else {
-          selectedTokens = { ...selectedTokens, [tokenAddress]: { ...token } }
+          selectedTokens = {...selectedTokens, [tokenAddress]: {...token}};
         }
-      })
+      });
 
       const {
         address: customAddress = '',
         symbol: customSymbol = '',
         decimals: customDecimals = 0,
-      } = customToken
+      } = customToken;
 
-      const displayedTab = Object.keys(selectedTokens).length > 0 ? SEARCH_TAB : CUSTOM_TOKEN_TAB
-      this.setState({ selectedTokens, customAddress, customSymbol, customDecimals, displayedTab })
+      const displayedTab = Object.keys(selectedTokens).length > 0 ? SEARCH_TAB : CUSTOM_TOKEN_TAB;
+      this.setState({selectedTokens, customAddress, customSymbol, customDecimals, displayedTab});
     }
   }
 
-  handleToggleToken (token) {
-    const { address } = token
-    const { selectedTokens = {} } = this.state
-    const selectedTokensCopy = { ...selectedTokens }
+  handleToggleToken(token) {
+    const {address} = token;
+    const {selectedTokens = {}} = this.state;
+    const selectedTokensCopy = {...selectedTokens};
 
     if (address in selectedTokensCopy) {
-      delete selectedTokensCopy[address]
+      delete selectedTokensCopy[address];
     } else {
-      selectedTokensCopy[address] = token
+      selectedTokensCopy[address] = token;
     }
 
     this.setState({
       selectedTokens: selectedTokensCopy,
       tokenSelectorError: null,
-    })
+    });
   }
 
-  hasError () {
+  hasError() {
     const {
       tokenSelectorError,
       customAddressError,
       customSymbolError,
       customDecimalsError,
-    } = this.state
+    } = this.state;
 
-    return tokenSelectorError || customAddressError || customSymbolError || customDecimalsError
+    return tokenSelectorError || customAddressError || customSymbolError || customDecimalsError;
   }
 
-  hasSelected () {
-    const { customAddress = '', selectedTokens = {} } = this.state
-    return customAddress || Object.keys(selectedTokens).length > 0
+  hasSelected() {
+    const {customAddress = '', selectedTokens = {}} = this.state;
+    return customAddress || Object.keys(selectedTokens).length > 0;
   }
 
-  handleNext () {
+  handleNext() {
     if (this.hasError()) {
-      return
+      return;
     }
 
     if (!this.hasSelected()) {
-      this.setState({ tokenSelectorError: this.context.t('mustSelectOne') })
-      return
+      this.setState({tokenSelectorError: this.context.t('mustSelectOne')});
+      return;
     }
 
-    const { setPendingTokens, history } = this.props
+    const {setPendingTokens, history} = this.props;
     const {
       customAddress: address,
       customSymbol: symbol,
       customDecimals: decimals,
       selectedTokens,
-    } = this.state
+    } = this.state;
 
     const customToken = {
       address,
       symbol,
       decimals,
-    }
+    };
 
-    setPendingTokens({ customToken, selectedTokens })
-    history.push(CONFIRM_ADD_TOKEN_ROUTE)
+    setPendingTokens({customToken, selectedTokens});
+    history.push(CONFIRM_ADD_TOKEN_ROUTE);
   }
 
-  async attemptToAutoFillTokenParams (address) {
-    const { symbol = '', decimals = 0 } = await this.tokenInfoGetter(address)
+  async attemptToAutoFillTokenParams(address) {
+    const {symbol = '', decimals = 0} = await this.tokenInfoGetter(address);
 
-    const autoFilled = Boolean(symbol && decimals)
-    this.setState({ autoFilled })
-    this.handleCustomSymbolChange(symbol || '')
-    this.handleCustomDecimalsChange(decimals)
+    const autoFilled = Boolean(symbol && decimals);
+    this.setState({autoFilled});
+    this.handleCustomSymbolChange(symbol || '');
+    this.handleCustomDecimalsChange(decimals);
   }
 
-  handleCustomAddressChange (value) {
-    const customAddress = value.trim()
+  handleCustomAddressChange(value) {
+    const customAddress = value.trim();
     this.setState({
       customAddress,
       customAddressError: null,
       tokenSelectorError: null,
       autoFilled: false,
-    })
+    });
 
-    const isValidAddress = ethUtil.isValidAddress(customAddress)
-    const standardAddress = ethUtil.addHexPrefix(customAddress).toLowerCase()
+    const isValidAddress = ircUtil.isValidAddress(customAddress);
+    const standardAddress = ircUtil.addHexPrefix(customAddress).toLowerCase();
 
     switch (true) {
       case !isValidAddress:
@@ -167,56 +171,56 @@ class AddToken extends Component {
           customDecimals: 0,
           customSymbolError: null,
           customDecimalsError: null,
-        })
+        });
 
-        break
+        break;
       case Boolean(this.props.identities[standardAddress]):
         this.setState({
           customAddressError: this.context.t('personalAddressDetected'),
-        })
+        });
 
-        break
+        break;
       case checkExistingAddresses(customAddress, this.props.tokens):
         this.setState({
           customAddressError: this.context.t('tokenAlreadyAdded'),
-        })
+        });
 
-        break
+        break;
       default:
         if (customAddress !== emptyAddr) {
-          this.attemptToAutoFillTokenParams(customAddress)
+          this.attemptToAutoFillTokenParams(customAddress);
         }
     }
   }
 
-  handleCustomSymbolChange (value) {
-    const customSymbol = value.trim()
-    const symbolLength = customSymbol.length
-    let customSymbolError = null
+  handleCustomSymbolChange(value) {
+    const customSymbol = value.trim();
+    const symbolLength = customSymbol.length;
+    let customSymbolError = null;
 
     if (symbolLength <= 0 || symbolLength >= 10) {
-      customSymbolError = this.context.t('symbolBetweenZeroTen')
+      customSymbolError = this.context.t('symbolBetweenZeroTen');
     }
 
-    this.setState({ customSymbol, customSymbolError })
+    this.setState({customSymbol, customSymbolError});
   }
 
-  handleCustomDecimalsChange (value) {
-    const customDecimals = value.trim()
+  handleCustomDecimalsChange(value) {
+    const customDecimals = value.trim();
     const validDecimals = customDecimals !== null &&
       customDecimals !== '' &&
       customDecimals >= 0 &&
-      customDecimals < 36
-    let customDecimalsError = null
+      customDecimals < 36;
+    let customDecimalsError = null;
 
     if (!validDecimals) {
-      customDecimalsError = this.context.t('decimalsMustZerotoTen')
+      customDecimalsError = this.context.t('decimalsMustZerotoTen');
     }
 
-    this.setState({ customDecimals, customDecimalsError })
+    this.setState({customDecimals, customDecimalsError});
   }
 
-  renderCustomTokenForm () {
+  renderCustomTokenForm() {
     const {
       customAddress,
       customSymbol,
@@ -225,7 +229,7 @@ class AddToken extends Component {
       customSymbolError,
       customDecimalsError,
       autoFilled,
-    } = this.state
+    } = this.state;
 
     return (
       <div className="add-token__custom-token-form">
@@ -262,16 +266,16 @@ class AddToken extends Component {
           disabled={autoFilled}
         />
       </div>
-    )
+    );
   }
 
-  renderSearchToken () {
-    const { tokenSelectorError, selectedTokens, searchResults } = this.state
+  renderSearchToken() {
+    const {tokenSelectorError, selectedTokens, searchResults} = this.state;
 
     return (
       <div className="add-token__search-token">
         <TokenSearch
-          onSearch={({ results = [] }) => this.setState({ searchResults: results })}
+          onSearch={({results = []}) => this.setState({searchResults: results})}
           error={tokenSelectorError}
         />
         <div className="add-token__token-list">
@@ -282,35 +286,35 @@ class AddToken extends Component {
           />
         </div>
       </div>
-    )
+    );
   }
 
-  render () {
-    const { displayedTab } = this.state
-    const { history, clearPendingTokens } = this.props
+  render() {
+    const {displayedTab} = this.state;
+    const {history, clearPendingTokens} = this.props;
 
     return (
       <div className="page-container">
         <div className="page-container__header page-container__header--no-padding-bottom">
           <div className="page-container__title">
-            { this.context.t('addTokens') }
+            {this.context.t('addTokens')}
           </div>
           <div className="page-container__tabs">
             <div
               className={classnames('page-container__tab', {
                 'page-container__tab--selected': displayedTab === SEARCH_TAB,
               })}
-              onClick={() => this.setState({ displayedTab: SEARCH_TAB })}
+              onClick={() => this.setState({displayedTab: SEARCH_TAB})}
             >
-              { this.context.t('search') }
+              {this.context.t('search')}
             </div>
             <div
               className={classnames('page-container__tab', {
                 'page-container__tab--selected': displayedTab === CUSTOM_TOKEN_TAB,
               })}
-              onClick={() => this.setState({ displayedTab: CUSTOM_TOKEN_TAB })}
+              onClick={() => this.setState({displayedTab: CUSTOM_TOKEN_TAB})}
             >
-              { this.context.t('customToken') }
+              {this.context.t('customToken')}
             </div>
           </div>
         </div>
@@ -327,11 +331,11 @@ class AddToken extends Component {
             large
             className="page-container__footer-button"
             onClick={() => {
-              clearPendingTokens()
-              history.push(DEFAULT_ROUTE)
+              clearPendingTokens();
+              history.push(DEFAULT_ROUTE);
             }}
           >
-            { this.context.t('cancel') }
+            {this.context.t('cancel')}
           </Button>
           <Button
             type="primary"
@@ -340,12 +344,12 @@ class AddToken extends Component {
             onClick={() => this.handleNext()}
             disabled={this.hasError() || !this.hasSelected()}
           >
-            { this.context.t('next') }
+            {this.context.t('next')}
           </Button>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default AddToken
+export default AddToken;

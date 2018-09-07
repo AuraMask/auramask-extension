@@ -5,7 +5,7 @@ const inherits = require('util').inherits;
 const exportAsFile = require('../util').exportAsFile;
 const copyToClipboard = require('copy-to-clipboard');
 const actions = require('../actions');
-const ethUtil = require('icjs-util');
+const ircUtil = require('icjs-util');
 const connect = require('react-redux').connect;
 
 ExportAccountView.contextTypes = {
@@ -97,7 +97,7 @@ ExportAccountView.prototype.render = function() {
   }
 
   if (accountExported) {
-    const plainKey = ethUtil.stripHexPrefix(accountDetail.privateKey);
+    const plainKey = ircUtil.stripHexPrefix(accountDetail.privateKey);
 
     return h('div.privateKey', {
       style: {
@@ -113,7 +113,7 @@ ExportAccountView.prototype.render = function() {
           maxWidth: '275px',
         },
         onClick: function(event) {
-          copyToClipboard(ethUtil.stripHexPrefix(accountDetail.privateKey));
+          copyToClipboard(ircUtil.stripHexPrefix(accountDetail.privateKey));
         },
       }, plainKey),
       h('button', {

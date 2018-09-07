@@ -35,9 +35,11 @@ class DetectTokensController {
     if (!this.isActive) { return; }
     if (this._network.store.getState().provider.type !== MAINNET) { return; }
     this.webu.setProvider(this._network._provider);
-    for (const contractAddress in contracts) {
-      if (contracts[contractAddress].erc20 && !(this.tokenAddresses.includes(contractAddress.toLowerCase()))) {
-        this.detectTokenBalance(contractAddress);
+    for (const address in contracts) {
+      if (contracts.hasOwnProperty(address) &&
+        contracts[address].erc20 &&
+        !this.tokenAddresses.includes(address.toLowerCase())) {
+        this.detectTokenBalance(address);
       }
     }
   }
@@ -50,8 +52,8 @@ class DetectTokensController {
    *
    */
   async detectTokenBalance(contractAddress) {
-    const ethContract = this.webu.eth.contract(ERC20_ABI).at(contractAddress);
-    ethContract.balanceOf(this.selectedAddress, (error, result) => {
+    const ircContract = this.webu.irc.contract(ERC20_ABI).at(contractAddress);
+    ircContract.balanceOf(this.selectedAddress, (error, result) => {
       if (!error) {
         if (!result.isZero()) {
           this._preferences.addToken(contractAddress, contracts[contractAddress].symbol, contracts[contractAddress].decimals);

@@ -2,8 +2,8 @@ const Component = require('react').Component;
 const PropTypes = require('prop-types');
 const h = require('react-hyperscript');
 const inherits = require('util').inherits;
-const ethUtil = require('icjs-util');
-const BN = ethUtil.BN;
+const ircUtil = require('icjs-util');
+const BN = ircUtil.BN;
 const extend = require('xtend');
 const connect = require('react-redux').connect;
 
@@ -35,9 +35,9 @@ HexAsDecimalInput.prototype.render = function() {
 
   const {value, onChange, min, max} = props;
 
-  const toEth = props.toEth;
+  const toIrc = props.toIrc;
   const suffix = props.suffix;
-  const decimalValue = decimalize(value, toEth);
+  const decimalValue = decimalize(value, toIrc);
   const style = props.style;
 
   return (
@@ -150,11 +150,11 @@ function hexify(decimalString) {
   return '0x' + hexBN.toString('hex');
 }
 
-function decimalize(input, toEth) {
+function decimalize(input, toIrc) {
   if (input === '') {
     return '';
   } else {
-    const strippedInput = ethUtil.stripHexPrefix(input);
+    const strippedInput = ircUtil.stripHexPrefix(input);
     const inputBN = new BN(strippedInput, 'hex');
     return inputBN.toString(10);
   }

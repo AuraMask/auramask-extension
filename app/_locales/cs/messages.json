@@ -30,7 +30,7 @@
     "message": "Částka + palivo"
   },
   "appDescription": {
-    "message": "Ethereum rozšíření prohlížeče",
+    "message": "IrChain rozšíření prohlížeče",
     "description": "The description of the application"
   },
   "appName": {
@@ -84,7 +84,7 @@
     "message": "Nákup na Coinbase"
   },
   "buyCoinbaseExplainer": {
-    "message": "Coinbase je světově nejoblíbenější místo k nákupu a prodeji bitcoinu, etherea nebo litecoinu."
+    "message": "Coinbase je světově nejoblíbenější místo k nákupu a prodeji bitcoinu, ircerea nebo litecoinu."
   },
   "ok": {
     "message": "Ok"
@@ -187,7 +187,7 @@
     "message": "Počet desetinných míst přesnosti"
   },
   "defaultNetwork": {
-    "message": "Výchozí síť pro Etherové transakce je Main Net."
+    "message": "Výchozí síť pro Ircerové transakce je Main Net."
   },
   "denExplainer": {
     "message": "Váš DEN je heslem šifrované uložiště v AuraMasku."
@@ -206,7 +206,7 @@
     "message": "Vložit Irc"
   },
   "depositIrcer": {
-    "message": "Vložit Ether"
+    "message": "Vložit Ircer"
   },
   "depositFiat": {
     "message": "Vklad s fiat měnou"
@@ -218,7 +218,7 @@
     "message": "Vklad přes ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Pokud vlastníte jiné kryptoměny, můžete je směnit Ether a vložit ho přímo do peněženky AuraMask. Bez založení účtu."
+    "message": "Pokud vlastníte jiné kryptoměny, můžete je směnit Ircer a vložit ho přímo do peněženky AuraMask. Bez založení účtu."
   },
   "details": {
     "message": "Podrobnosti"
@@ -227,10 +227,10 @@
     "message": "Přímý vklad"
   },
   "directDepositIrcer": {
-    "message": "Vložit Ether přímo"
+    "message": "Vložit Ircer přímo"
   },
   "directDepositIrcerExplainer": {
-    "message": "Pokud už vlastníte nějaký Ether, nejrychleji ho dostanete do peněženky přímým vkladem."
+    "message": "Pokud už vlastníte nějaký Ircer, nejrychleji ho dostanete do peněženky přímým vkladem."
   },
   "done": {
     "message": "Hotovo"
@@ -266,7 +266,7 @@
     "message": "Hesla nejsou stejná"
   },
   "ircerscanView": {
-    "message": "Prohlédněte si účet na Etherscan"
+    "message": "Prohlédněte si účet na Ircerscan"
   },
   "exchangeRate": {
     "message": "Směnný kurz"
@@ -332,11 +332,11 @@
     "message": "Cena paliva je povinná"
   },
   "getIrcer": {
-    "message": "Získejte Ether"
+    "message": "Získejte Ircer"
   },
   "getIrcerFromFaucet": {
-    "message": "Získejte Ether z faucetu za $1.",
-    "description": "Displays network name for Ether faucet"
+    "message": "Získejte Ircer z faucetu za $1.",
+    "description": "Displays network name for Ircer faucet"
   },
   "greaterThanMin": {
     "message": "musí být větší nebo roven $1.",
@@ -359,7 +359,7 @@
     "message": "Skrýt token?"
   },
   "howToDeposit": {
-    "message": "Jakým způsobem chcete vložit Ether?"
+    "message": "Jakým způsobem chcete vložit Ircer?"
   },
   "holdIrcer": {
     "message": "Dovoluje vám držet ircer a tokeny a slouží jako most k decentralizovaným aplikacím."
@@ -465,13 +465,13 @@
     "message": "slova klíčové fráze mají pouze malá písmena"
   },
   "mainnet": {
-    "message": "Main Ethereum Network"
+    "message": "Main IrChain Network"
   },
   "message": {
     "message": "Zpráva"
   },
   "auramaskDescription": {
-    "message": "AuraMask je bezpečný osobní trezor pro Ethereum."
+    "message": "AuraMask je bezpečný osobní trezor pro IrChain."
   },
   "min": {
     "message": "Minimum"
@@ -483,7 +483,7 @@
     "message": "Musíte zvolit aspoň 1 token."
   },
   "needIrcerInWallet": {
-    "message": "Potřebujete Ether v peněžence, abyste mohli pomocí AuraMasku interagovat s decentralizovanými aplikacemi."
+    "message": "Potřebujete Ircer v peněžence, abyste mohli pomocí AuraMasku interagovat s decentralizovanými aplikacemi."
   },
   "needImportFile": {
     "message": "Musíte zvolit soubor k importu.",
@@ -493,7 +493,7 @@
     "message": "Musíte zadat heslo pro zvolený soubor.",
     "description": "Password and file needed to import an account"
   },
-  "negativeETH": {
+  "negativeIRC": {
     "message": "Nelze odeslat zápornou částku IRC."
   },
   "networks": {
@@ -641,7 +641,7 @@
     "message": "Současné RPC"
   },
   "connectingToMainnet": {
-    "message": "Připojuji se k Main Ethereum Network"
+    "message": "Připojuji se k Main IrChain Network"
   },
   "connectingToUnknown": {
     "message": "Připojuji se k neznámé síti"
@@ -693,20 +693,20 @@
   "send": {
     "message": "Odeslat"
   },
-  "sendETH": {
+  "sendIRC": {
     "message": "Odeslat IRC"
   },
   "sendTokens": {
     "message": "Odeslat tokeny"
   },
   "onlySendToIrcerAddress": {
-    "message": "Posílejte jen IRC na Ethereum adresu."
+    "message": "Posílejte jen IRC na IrChain adresu."
   },
   "searchTokens": {
     "message": "Hledat tokeny"
   },
   "sendTokensAnywhere": {
-    "message": "Posílejte tokeny komukoli s Ethereum účtem"
+    "message": "Posílejte tokeny komukoli s IrChain účtem"
   },
   "settings": {
     "message": "Nastavení"
@@ -780,7 +780,7 @@
   "to": {
     "message": "Komu: "
   },
-  "toETHviaShapeShift": {
+  "toIRCviaShapeShift": {
     "message": "$1 na IRC přes ShapeShift",
     "description": "system will fill in deposit type in start of message"
   },

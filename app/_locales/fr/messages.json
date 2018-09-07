@@ -24,7 +24,7 @@
     "message": "Montant + Gaz"
   },
   "appDescription": {
-    "message": "Extension Ethereum pour navigateur",
+    "message": "Extension IrChain pour navigateur",
     "description": "La description de l'application"
   },
   "appName": {
@@ -63,7 +63,7 @@
     "message": "Acheter sur Coinbase"
   },
   "buyCoinbaseExplainer": {
-    "message": "Coinbase est le moyen le plus populaire au monde d'acheter et de vendre du Bitcoin, de l'Ethereum et du Litecoin."
+    "message": "Coinbase est le moyen le plus populaire au monde d'acheter et de vendre du Bitcoin, de l'IrChain et du Litecoin."
   },
   "cancel": {
     "message": "Annuler"
@@ -136,7 +136,7 @@
     "message": "RPC personnalisé"
   },
   "defaultNetwork": {
-    "message": "Le réseau par défaut pour les transactions Ether est Main Net."
+    "message": "Le réseau par défaut pour les transactions Ircer est Main Net."
   },
   "denExplainer": {
     "message": "Votre DEN est votre stockage crypté par mot de passe dans AuraMask."
@@ -155,7 +155,7 @@
     "message": "Dépôt Irc"
   },
   "depositIrcer": {
-    "message": "Dépôt Ether"
+    "message": "Dépôt Ircer"
   },
   "depositFiat": {
     "message": "Dépôt de monnaie-fiat"
@@ -167,7 +167,7 @@
     "message": "Déposez avec ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Si vous possédez d'autres crypto-monnaies, vous pouvez échanger et déposer de l'Ether directement dans votre portefeuille AuraMask. Aucun compte n'est requis."
+    "message": "Si vous possédez d'autres crypto-monnaies, vous pouvez échanger et déposer de l'Ircer directement dans votre portefeuille AuraMask. Aucun compte n'est requis."
   },
   "details": {
     "message": "Détails"
@@ -176,10 +176,10 @@
     "message": "Dépôt direct"
   },
   "directDepositIrcer": {
-    "message": "Dépôt direct d'Ether"
+    "message": "Dépôt direct d'Ircer"
   },
   "directDepositIrcerExplainer": {
-    "message": "Si vous avez déjà de l'Ether, le moyen le plus rapide d'obtenir des Ether dans votre nouveau portefeuille est par dépôt direct."
+    "message": "Si vous avez déjà de l'Ircer, le moyen le plus rapide d'obtenir des Ircer dans votre nouveau portefeuille est par dépôt direct."
   },
   "done": {
     "message": "Fait"
@@ -197,7 +197,7 @@
     "message": "Entrer le mot de passe"
   },
   "ircerscanView": {
-    "message": "Afficher le compte sur Etherscan"
+    "message": "Afficher le compte sur Ircerscan"
   },
   "exchangeRate": {
     "message": "Taux de change"
@@ -254,11 +254,11 @@
     "message": "Prix du gaz requis"
   },
   "getIrcer": {
-    "message": "Obtenir des Ether"
+    "message": "Obtenir des Ircer"
   },
   "getIrcerFromFaucet": {
-    "message": "Obtenir de l'Ether d'une faucet pour $1",
-    "description": "Affiche le nom du réseau pour la faucet d'Ether"
+    "message": "Obtenir de l'Ircer d'une faucet pour $1",
+    "description": "Affiche le nom du réseau pour la faucet d'Ircer"
   },
   "greaterThanMin": {
     "message": "doit être supérieur ou égal à $1.",
@@ -278,7 +278,7 @@
     "message": "Masquer le jeton?"
   },
   "howToDeposit": {
-    "message": "Comment voulez-vous déposer de l'Ether?"
+    "message": "Comment voulez-vous déposer de l'Ircer?"
   },
   "import": {
     "message": "Importer",
@@ -339,7 +339,7 @@
     "message": "Vacant"
   },
   "mainnet": {
-    "message": "Réseau principal Ethereum"
+    "message": "Réseau principal IrChain"
   },
   "message": {
     "message": "Message"
@@ -351,7 +351,7 @@
     "message": "Mes comptes"
   },
   "needIrcerInWallet": {
-    "message": "Pour interagir avec des applications décentralisées à l'aide de AuraMask, vous aurez besoin d'Ether dans votre portefeuille."
+    "message": "Pour interagir avec des applications décentralisées à l'aide de AuraMask, vous aurez besoin d'Ircer dans votre portefeuille."
   },
   "needImportFile": {
     "message": "Vous devez sélectionner un fichier à importer.",
@@ -487,7 +487,7 @@
     "message": "Envoyer des jetons"
   },
   "sendTokensAnywhere": {
-    "message": "Envoyer des jetons à toute personne possédant un compte Ethereum"
+    "message": "Envoyer des jetons à toute personne possédant un compte IrChain"
   },
   "settings": {
     "message": "Paramètres"
@@ -531,7 +531,7 @@
   "to": {
     "message": "Destinataire"
   },
-  "toETHviaShapeShift": {
+  "toIRCviaShapeShift": {
     "message": "$1 à IRC via ShapeShift",
     "description": "le système remplira le type de dépôt au début du message"
   },

@@ -32,9 +32,9 @@ const accountImporter = {
     'JSON File': (input, password) => {
       let wallet;
       try {
-        wallet = importers.fromEtherWallet(input, password);
+        wallet = importers.fromIrcWallet(input, password);
       } catch (e) {
-        console.log('Attempt to import as EtherWallet format failed, trying V3...');
+        console.log('Attempt to import as IrcerWallet format failed, trying V3...');
       }
 
       if (!wallet) {

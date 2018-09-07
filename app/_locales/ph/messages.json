@@ -24,7 +24,7 @@
     "message": "Halaga + Gas"
   },
   "appDescription": {
-    "message": "Ethereum Browser Extension",
+    "message": "IrChain Browser Extension",
     "description": "Ang deskripsyon ng application"
   },
   "appName": {
@@ -63,7 +63,7 @@
     "message": "Bumili sa Coinbase"
   },
   "buyCoinbaseExplainer": {
-    "message": "Ang Coinbase ang pinakasikat na paraan upang bumili at magbenta ng Bitcoin, Ethereum, at Litecoin sa buong mundo."
+    "message": "Ang Coinbase ang pinakasikat na paraan upang bumili at magbenta ng Bitcoin, IrChain, at Litecoin sa buong mundo."
   },
   "cancel": {
     "message": "Kanselahin"
@@ -136,7 +136,7 @@
     "message": "Custom RPC"
   },
   "defaultNetwork": {
-    "message": "Ang default network para sa Ether transactions ay ang Main Net."
+    "message": "Ang default network para sa Ircer transactions ay ang Main Net."
   },
   "denExplainer": {
     "message": "Ang iyong DEN ang nagsisilbing password-encrypted storage mo sa loob ng AuraMask."
@@ -155,7 +155,7 @@
     "message": "I-deposito ang Irc"
   },
   "depositIrcer": {
-    "message": "I-deposito ang Ether"
+    "message": "I-deposito ang Ircer"
   },
   "depositFiat": {
     "message": "I-deposito ang Fiat"
@@ -167,7 +167,7 @@
     "message": "I-deposito gamit ang ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Kung ikaw ay nagmamay-ari ng iba pang cryptocurrencies, pwede kang mag-trade at mag-deposito ng Ether diretso sa iyong AuraMask wallet. Hindi mo na kailangan ng account."
+    "message": "Kung ikaw ay nagmamay-ari ng iba pang cryptocurrencies, pwede kang mag-trade at mag-deposito ng Ircer diretso sa iyong AuraMask wallet. Hindi mo na kailangan ng account."
   },
   "details": {
     "message": "Detalye"
@@ -176,10 +176,10 @@
     "message": "Direktang Deposito"
   },
   "directDepositIrcer": {
-    "message": "Direktang I-deposito ang Ether"
+    "message": "Direktang I-deposito ang Ircer"
   },
   "directDepositIrcerExplainer": {
-    "message": "Kung ika ay mayroon nang Ether, ang pinakamabilis na paraan upang makuha ang Ether sa iyong bagong wallet ay sa pamamagitan ng direktang deposito."
+    "message": "Kung ika ay mayroon nang Ircer, ang pinakamabilis na paraan upang makuha ang Ircer sa iyong bagong wallet ay sa pamamagitan ng direktang deposito."
   },
   "done": {
     "message": "Tapos na"
@@ -197,7 +197,7 @@
     "message": "I-enter ang password"
   },
   "ircerscanView": {
-    "message": "Tingnan ang account sa Etherscan"
+    "message": "Tingnan ang account sa Ircerscan"
   },
   "exchangeRate": {
     "message": "Exchange Rate"
@@ -254,11 +254,11 @@
     "message": "Kailangan ang Gas Price"
   },
   "getIrcer": {
-    "message": "Kumuha ng Ether"
+    "message": "Kumuha ng Ircer"
   },
   "getIrcerFromFaucet": {
-    "message": "Kumuha ng Ether mula sa faucet para sa $1",
-    "description": "Ipinapakita ang pangalan ng network para sa Ether faucet"
+    "message": "Kumuha ng Ircer mula sa faucet para sa $1",
+    "description": "Ipinapakita ang pangalan ng network para sa Ircer faucet"
   },
   "greaterThanMin": {
     "message": "dapat mas malaki o katumbas ng $1.",
@@ -278,7 +278,7 @@
     "message": "Itago ang Token?"
   },
   "howToDeposit": {
-    "message": "Paano mo gustong mag-deposito ng Ether?"
+    "message": "Paano mo gustong mag-deposito ng Ircer?"
   },
   "import": {
     "message": "I-import",
@@ -339,7 +339,7 @@
     "message": "Loose"
   },
   "mainnet": {
-    "message": "Main Ethereum Network"
+    "message": "Main IrChain Network"
   },
   "message": {
     "message": "Mensahe"
@@ -351,7 +351,7 @@
     "message": "Aking mga Account"
   },
   "needIrcerInWallet": {
-    "message": "Upang makipag-ugnayan sa decentralized applications gamit ang AuraMask, kakailanganin mo ng Ether sa iyong wallet."
+    "message": "Upang makipag-ugnayan sa decentralized applications gamit ang AuraMask, kakailanganin mo ng Ircer sa iyong wallet."
   },
   "needImportFile": {
     "message": "Dapat kang pumili ng file para i-import.",
@@ -487,7 +487,7 @@
     "message": "Magpadala ng Tokens"
   },
   "sendTokensAnywhere": {
-    "message": "Magpadala ng Tokens sa sinumang may Ethereum account"
+    "message": "Magpadala ng Tokens sa sinumang may IrChain account"
   },
   "settings": {
     "message": "Mga Setting"
@@ -531,7 +531,7 @@
   "to": {
     "message": "To"
   },
-  "toETHviaShapeShift": {
+  "toIRCviaShapeShift": {
     "message": "$1 sa IRC sa pamamagitan ng ShapeShift",
     "description": "Pupunan ng system ang deposit type sa simula ng mensahe"
   },

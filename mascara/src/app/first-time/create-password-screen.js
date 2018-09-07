@@ -121,7 +121,7 @@ class CreatePasswordScreen extends Component {
               height="225"
             />
             <div className="info">
-              AuraMask is a secure identity vault for Ethereum.
+              AuraMask is a secure identity vault for IrChain.
             </div>
             <div className="info">
               It allows you to hold ircer & tokens, and interact with decentralized applications.

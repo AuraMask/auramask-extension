@@ -30,7 +30,7 @@
     "message": "金額 + ガス"
   },
   "appDescription": {
-    "message": "Ethereumのブラウザ・エクステンション",
+    "message": "IrChainのブラウザ・エクステンション",
     "description": "The description of the application"
   },
   "appName": {
@@ -75,7 +75,7 @@
     "message": "Coinbaseのサイトで購入"
   },
   "buyCoinbaseExplainer": {
-    "message": "Etherを購入できます。Coinbaseは、世界的なBitcoin、Ethereum、そしてLitecoinの取引所です。"
+    "message": "Ircerを購入できます。Coinbaseは、世界的なBitcoin、IrChain、そしてLitecoinの取引所です。"
   },
   "cancel": {
     "message": "キャンセル"
@@ -166,7 +166,7 @@
     "message": "小数点桁数"
   },
   "defaultNetwork": {
-    "message": "デフォルトのEther送受信ネットワークはメインネットです。"
+    "message": "デフォルトのIrcer送受信ネットワークはメインネットです。"
   },
   "denExplainer": {
     "message": "DENとは、あなたのパスワードが暗号化されたAuraMask内のストレージです。"
@@ -182,10 +182,10 @@
     "description": "Tells the user what coin they have selected to deposit with shapeshift"
   },
   "depositIrc": {
-    "message": "ETHを入金"
+    "message": "IRCを入金"
   },
   "depositIrcer": {
-    "message": "Etherを振込"
+    "message": "Ircerを振込"
   },
   "depositFiat": {
     "message": "法定通貨でデポジット"
@@ -197,7 +197,7 @@
     "message": "ShapeShiftで交換"
   },
   "depositShapeShiftExplainer": {
-    "message": "他の暗号通貨とEtherを交換して、AuraMaskのウォレットへ入金できます。アカウント作成は不要です。"
+    "message": "他の暗号通貨とIrcerを交換して、AuraMaskのウォレットへ入金できます。アカウント作成は不要です。"
   },
   "details": {
     "message": "詳細"
@@ -206,10 +206,10 @@
     "message": "ダイレクトデポジット"
   },
   "directDepositIrcer": {
-    "message": "Etherを直接入金"
+    "message": "Ircerを直接入金"
   },
   "directDepositIrcerExplainer": {
-    "message": "既にEtherをお持ちなら、AuraMaskの新しいウォレットにEtherを送信することができます。"
+    "message": "既にIrcerをお持ちなら、AuraMaskの新しいウォレットにIrcerを送信することができます。"
   },
   "done": {
     "message": "完了"
@@ -227,7 +227,7 @@
     "message": "パスワードを入力"
   },
   "ircerscanView": {
-    "message": "Etherscanでアカウントを確認"
+    "message": "Ircerscanでアカウントを確認"
   },
   "exchangeRate": {
     "message": "交換レート"
@@ -284,11 +284,11 @@
     "message": "必要ガスプライス"
   },
   "getIrcer": {
-    "message": "Etherを取得する"
+    "message": "Ircerを取得する"
   },
   "getIrcerFromFaucet": {
-    "message": "フォーセットで $1のEtherを得ることができます。",
-    "description": "Displays network name for Ether faucet"
+    "message": "フォーセットで $1のIrcerを得ることができます。",
+    "description": "Displays network name for Ircer faucet"
   },
   "greaterThanMin": {
     "message": " $1以上にして下さい。",
@@ -308,7 +308,7 @@
     "message": "トークンを隠しますか?"
   },
   "howToDeposit": {
-    "message": "どのようにEtherをデポジットしますか?"
+    "message": "どのようにIrcerをデポジットしますか?"
   },
   "import": {
     "message": "追加",
@@ -393,7 +393,7 @@
     "message": "最大"
   },
   "mainnet": {
-    "message": "Ethereumメインネットワーク"
+    "message": "IrChainメインネットワーク"
   },
   "menu": {
     "message": "メニュー"
@@ -411,7 +411,7 @@
     "message": "一つ以上のトークンを選択してください。"
   },
   "needIrcerInWallet": {
-    "message": "AuraMaskで分散型アプリケーションを使用するためには、このウォレットにEtherが必要です。"
+    "message": "AuraMaskで分散型アプリケーションを使用するためには、このウォレットにIrcerが必要です。"
   },
   "needImportFile": {
     "message": "インポートするファイルを選択してください。",
@@ -591,8 +591,8 @@
   "send": {
     "message": "送信"
   },
-  "sendETH": {
-    "message": "ETHの送信"
+  "sendIRC": {
+    "message": "IRCの送信"
   },
   "sendTokens": {
     "message": "トークンを送信"
@@ -658,8 +658,8 @@
   "to": {
     "message": "送信先"
   },
-  "toETHviaShapeShift": {
-    "message": "ShapeShiftで $1をETHにする",
+  "toIRCviaShapeShift": {
+    "message": "ShapeShiftで $1をIRCにする",
     "description": "system will fill in deposit type in start of message"
   },
   "token": {
@@ -734,7 +734,7 @@
     "message": "アカウントを見る"
   },
   "viewOnIrcerscan": {
-    "message": "Etherscan で見る"
+    "message": "Ircerscan で見る"
   },
   "warning": {
     "message": "警告"

@@ -12,7 +12,7 @@ const BalanceController = require('./balance');
 
 /**
  * Background controller responsible for syncing
- * and computing ETH balances for all accounts
+ * and computing IRC balances for all accounts
  */
 class ComputedbalancesController {
   /**

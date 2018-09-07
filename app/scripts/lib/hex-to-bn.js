@@ -1,5 +1,5 @@
-const ethUtil = (/** @type {object} */ (require('icjs-util')));
-const BN = ethUtil.BN;
+const ircUtil = (/** @type {object} */ (require('icjs-util')));
+const BN = ircUtil.BN;
 
 /**
  * Returns a [BinaryNumber]{@link BN} representation of the given hex value
@@ -7,6 +7,6 @@ const BN = ethUtil.BN;
  * @return {any}
  */
 module.exports = function hexToBn(hex) {
-  return new BN(ethUtil.stripHexPrefix(hex), 16);
+  return new BN(ircUtil.stripHexPrefix(hex), 16);
 };
 

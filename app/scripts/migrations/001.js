@@ -1,11 +1,5 @@
-// next version number
-const version = 28;
+const version = 1;
 
-/*
-
-normalizes txParams on unconfirmed txs
-
-*/
 const clone = require('clone');
 
 module.exports = {
@@ -13,10 +7,8 @@ module.exports = {
 
   migrate: async function(originalVersionedData) {
     const versionedData = clone(originalVersionedData);
-    versionedData.meta.version = version;
     const state = versionedData.data;
-    const newState = transformState(state);
-    versionedData.data = newState;
+    versionedData.data = transformState(state);
     return versionedData;
   },
 };

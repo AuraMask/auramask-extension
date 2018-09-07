@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import ConfirmTransactionBase from '../confirm-transaction-base'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import ConfirmTransactionBase from '../confirm-transaction-base';
 import {
   formatCurrency,
   convertTokenToFiat,
   addFiat,
   roundExponential,
-} from '../../../helpers/confirm-transaction/util'
+} from '../../../helpers/confirm-transaction/util';
 
 export default class ConfirmTokenTransactionBase extends Component {
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
   static propTypes = {
     tokenAddress: PropTypes.string,
@@ -19,59 +19,59 @@ export default class ConfirmTokenTransactionBase extends Component {
     tokenAmount: PropTypes.number,
     tokenSymbol: PropTypes.string,
     fiatTransactionTotal: PropTypes.string,
-    ethTransactionTotal: PropTypes.string,
+    ircTransactionTotal: PropTypes.string,
     contractExchangeRate: PropTypes.number,
     conversionRate: PropTypes.number,
     currentCurrency: PropTypes.string,
-  }
+  };
 
-  getFiatTransactionAmount () {
-    const { tokenAmount, currentCurrency, conversionRate, contractExchangeRate } = this.props
+  getFiatTransactionAmount() {
+    const {tokenAmount, currentCurrency, conversionRate, contractExchangeRate} = this.props;
 
     return convertTokenToFiat({
       value: tokenAmount,
       toCurrency: currentCurrency,
       conversionRate,
       contractExchangeRate,
-    })
+    });
   }
 
-  getSubtitle () {
-    const { currentCurrency, contractExchangeRate } = this.props
+  getSubtitle() {
+    const {currentCurrency, contractExchangeRate} = this.props;
 
     if (typeof contractExchangeRate === 'undefined') {
-      return this.context.t('noConversionRateAvailable')
+      return this.context.t('noConversionRateAvailable');
     } else {
-      const fiatTransactionAmount = this.getFiatTransactionAmount()
-      const roundedFiatTransactionAmount = roundExponential(fiatTransactionAmount)
-      return formatCurrency(roundedFiatTransactionAmount, currentCurrency)
+      const fiatTransactionAmount = this.getFiatTransactionAmount();
+      const roundedFiatTransactionAmount = roundExponential(fiatTransactionAmount);
+      return formatCurrency(roundedFiatTransactionAmount, currentCurrency);
     }
   }
 
-  getFiatTotalTextOverride () {
-    const { fiatTransactionTotal, currentCurrency, contractExchangeRate } = this.props
+  getFiatTotalTextOverride() {
+    const {fiatTransactionTotal, currentCurrency, contractExchangeRate} = this.props;
 
     if (typeof contractExchangeRate === 'undefined') {
-      return formatCurrency(fiatTransactionTotal, currentCurrency)
+      return formatCurrency(fiatTransactionTotal, currentCurrency);
     } else {
-      const fiatTransactionAmount = this.getFiatTransactionAmount()
-      const fiatTotal = addFiat(fiatTransactionAmount, fiatTransactionTotal)
-      const roundedFiatTotal = roundExponential(fiatTotal)
-      return formatCurrency(roundedFiatTotal, currentCurrency)
+      const fiatTransactionAmount = this.getFiatTransactionAmount();
+      const fiatTotal = addFiat(fiatTransactionAmount, fiatTransactionTotal);
+      const roundedFiatTotal = roundExponential(fiatTotal);
+      return formatCurrency(roundedFiatTotal, currentCurrency);
     }
   }
 
-  render () {
+  render() {
     const {
       toAddress,
       tokenAddress,
       tokenSymbol,
       tokenAmount,
-      ethTransactionTotal,
+      ircTransactionTotal,
       ...restProps
-    } = this.props
+    } = this.props;
 
-    const tokensText = `${tokenAmount} ${tokenSymbol}`
+    const tokensText = `${tokenAmount} ${tokenSymbol}`;
 
     return (
       <ConfirmTransactionBase
@@ -79,10 +79,10 @@ export default class ConfirmTokenTransactionBase extends Component {
         identiconAddress={tokenAddress}
         title={tokensText}
         subtitle={this.getSubtitle()}
-        ethTotalTextOverride={`${tokensText} + \u2666 ${ethTransactionTotal}`}
+        ircTotalTextOverride={`${tokensText} + \u2666 ${ircTransactionTotal}`}
         fiatTotalTextOverride={this.getFiatTotalTextOverride()}
         {...restProps}
       />
-    )
+    );
   }
 }

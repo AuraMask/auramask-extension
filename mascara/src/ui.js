@@ -2,11 +2,11 @@ const injectCss = require('inject-css');
 const SwController = require('sw-controller');
 const SwStream = require('sw-stream');
 const AuraMaskUiCss = require('../../ui/css');
-const MetamascaraPlatform = require('../../app/scripts/platforms/window');
+const AuramascaraPlatform = require('../../app/scripts/platforms/window');
 const startPopup = require('../../app/scripts/popup-core');
 
 // create platform global
-global.platform = new MetamascaraPlatform();
+global.platform = new AuramascaraPlatform();
 
 var css = AuraMaskUiCss();
 injectCss(css);
@@ -26,7 +26,7 @@ const swController = new SwController({
 });
 
 swController.once('updatefound', windowReload);
-swController.once('ready', async () => {
+swController.once('ready', async() => {
   try {
     swController.removeListener('updatefound', windowReload);
     console.log('swController ready');
@@ -43,14 +43,14 @@ console.log('starting service worker');
 swController.startWorker();
 
 // Setup listener for when the service worker is read
-function connectApp () {
+function connectApp() {
   const connectionStream = SwStream({
     serviceWorker: swController.getWorker(),
     context: name,
   });
   return new Promise((resolve, reject) => {
     startPopup({container, connectionStream}, (err, store) => {
-      console.log('hello from MetaMascara ui!');
+      console.log('hello from AuraMascara ui!');
       if (err) reject(err);
       store.subscribe(() => {
         const state = store.getState();

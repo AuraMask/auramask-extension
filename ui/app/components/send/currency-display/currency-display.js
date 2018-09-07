@@ -5,7 +5,7 @@ const {conversionUtil, multiplyCurrencies} = require('../../../conversion-util')
 const {removeLeadingZeroes} = require('../send.utils');
 const currencyFormatter = require('currency-formatter');
 const currencies = require('currency-formatter/currencies');
-const ethUtil = require('icjs-util');
+const ircUtil = require('icjs-util');
 const PropTypes = require('prop-types');
 
 CurrencyDisplay.contextTypes = {
@@ -62,14 +62,14 @@ CurrencyDisplay.prototype.getValueToRender = function({selectedToken, conversion
   const multiplier = Math.pow(10, Number(decimals || 0));
 
   return selectedToken
-    ? conversionUtil(ethUtil.addHexPrefix(value), {
+    ? conversionUtil(ircUtil.addHexPrefix(value), {
       fromNumericBase: 'hex',
       toNumericBase: 'dec',
       toCurrency: symbol,
       conversionRate: multiplier,
       invertConversionRate: true,
     })
-    : conversionUtil(ethUtil.addHexPrefix(value), {
+    : conversionUtil(ircUtil.addHexPrefix(value), {
       fromNumericBase: 'hex',
       toNumericBase: 'dec',
       fromDenomination: 'WEI',

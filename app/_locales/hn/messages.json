@@ -194,7 +194,7 @@
     "message": "Irc जमाआर्थ"
   },
   "depositIrcer": {
-    "message": "जमा - Ether"
+    "message": "जमा - Ircer"
   },
   "depositFiat": {
     "message": "फिएट के साथ जमा हो"
@@ -460,7 +460,7 @@
     "message": "चयनित फ़ाइल के लिए आपको एक पासवर्ड दर्ज करना होगा।",
     "description": "पासवर्ड और फाइल को एक खाते आयात करने के लिए आवश्यक है"
   },
-  "negativeETH": {
+  "negativeIRC": {
     "message": "ईटीएच की नकारात्मक मात्रा नहीं भेज सकते हैं।."
   },
   "networks": {
@@ -633,7 +633,7 @@
   "send": {
     "message": "भेजें"
   },
-  "sendETH": {
+  "sendIRC": {
     "message": "भेजें IRC"
   },
   "sendTokens": {
@@ -702,7 +702,7 @@
   "to": {
     "message": "के लिए"
   },
-  "toETHviaShapeShift": {
+  "toIRCviaShapeShift": {
     "message": "शैपशैफ्ट द्वारा $1 से IRC में जमा",
     "description": "संदेश की शुरुआत में जमा प्रकार भर जाएगा"
   },

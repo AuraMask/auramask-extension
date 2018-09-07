@@ -10,7 +10,7 @@ const {ENVIRONMENT_TYPE_POPUP} = require('../../../../app/scripts/lib/enums');
 
 // Modal Components
 const BuyOptions = require('./buy-options-modal');
-const DepositEtherModal = require('./deposit-ether-modal');
+const DepositIrcerModal = require('./deposit-ircer-modal');
 const AccountDetailsModal = require('./account-details-modal');
 const EditAccountNameModal = require('./edit-account-name-modal');
 const ExportPrivateKeyModal = require('./export-private-key-modal');
@@ -103,9 +103,9 @@ const MODALS = {
     },
   },
 
-  DEPOSIT_ETHER: {
+  DEPOSIT_IRCER: {
     contents: [
-      h(DepositEtherModal, {}, []),
+      h(DepositIrcerModal, {}, []),
     ],
     onHide: (props) => props.hideWarning(),
     mobileModalStyle: {

@@ -3,7 +3,7 @@ const h = require('react-hyperscript');
 const inherits = require('util').inherits;
 const connect = require('react-redux').connect;
 const Identicon = require('./identicon');
-const prefixForNetwork = require('../../lib/etherscan-prefix-for-network');
+const prefixForNetwork = require('../../lib/ircerscan-prefix-for-network');
 const selectors = require('../selectors');
 const actions = require('../actions');
 const {conversionUtil, multiplyCurrencies} = require('../conversion-util');
@@ -143,7 +143,7 @@ TokenCell.prototype.send = function(address, event) {
 };
 
 TokenCell.prototype.view = function(address, userAddress, network, event) {
-  const url = etherscanLinkFor(address, userAddress, network);
+  const url = ircerscanLinkFor(address, userAddress, network);
   if (url) {
     navigateTo(url);
   }
@@ -153,9 +153,9 @@ function navigateTo(url) {
   global.platform.openWindow({url});
 }
 
-function etherscanLinkFor(tokenAddress, address, network) {
-  const prefix = prefixForNetwork(network);
-  return `https://${prefix}etherscan.io/token/${tokenAddress}?a=${address}`;
+function ircerscanLinkFor(tokenAddress, address, network) {
+  // const prefix = prefixForNetwork(network);
+  return `https://scan.irchain.io/token/${tokenAddress}?a=${address}`;
 }
 
 function tokenFactoryFor(tokenAddress) {

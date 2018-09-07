@@ -122,7 +122,7 @@ NetworkDropdown.prototype.render = function() {
       [
         providerType === 'mainnet' ? h('i.fa.fa-check') : h('.network-check__transparent', '✓'),
         h(NetworkDropdownIcon, {
-          backgroundColor: '#29B6AF', // $java
+          backgroundColor: '#29B6AF',
           isSelected: providerType === 'mainnet',
         }),
         h('span.network-name-item', {
@@ -143,8 +143,8 @@ NetworkDropdown.prototype.render = function() {
       [
         providerType === 'localhost' ? h('i.fa.fa-check') : h('.network-check__transparent', '✓'),
         h(NetworkDropdownIcon, {
+          backgroundColor: '#d13c43',
           isSelected: providerType === 'localhost',
-          innerBorder: '1px solid #9b9b9b',
         }),
         h('span.network-name-item', {
           style: {
@@ -167,8 +167,8 @@ NetworkDropdown.prototype.render = function() {
       [
         activeNetwork === 'custom' ? h('i.fa.fa-check') : h('.network-check__transparent', '✓'),
         h(NetworkDropdownIcon, {
+          backgroundColor: '#d1ba27',
           isSelected: activeNetwork === 'custom',
-          innerBorder: '1px solid #9b9b9b',
         }),
         h('span.network-name-item', {
           style: {

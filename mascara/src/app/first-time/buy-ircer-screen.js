@@ -6,9 +6,9 @@ import {qrcode} from 'qrcode-npm';
 import copyToClipboard from 'copy-to-clipboard';
 import ShapeShiftForm from '../shapeshift-form';
 import Identicon from '../../../../ui/app/components/identicon';
-import {buyEth, showAccountDetail} from '../../../../ui/app/actions';
+import {buyIrc, showAccountDetail} from '../../../../ui/app/actions';
 
-class BuyEtherScreen extends Component {
+class BuyIrcerScreen extends Component {
   static OPTION_VALUES = {
     COINBASE: 'coinbase',
     SHAPESHIFT: 'shapeshift',
@@ -18,15 +18,15 @@ class BuyEtherScreen extends Component {
   static OPTIONS = [
     {
       name: 'Direct Deposit',
-      value: BuyEtherScreen.OPTION_VALUES.QR_CODE,
+      value: BuyIrcerScreen.OPTION_VALUES.QR_CODE,
     },
     {
       name: 'Buy with Dollars',
-      value: BuyEtherScreen.OPTION_VALUES.COINBASE,
+      value: BuyIrcerScreen.OPTION_VALUES.COINBASE,
     },
     {
       name: 'Buy with Cryptos',
-      value: BuyEtherScreen.OPTION_VALUES.SHAPESHIFT,
+      value: BuyIrcerScreen.OPTION_VALUES.SHAPESHIFT,
     },
   ];
 
@@ -37,7 +37,7 @@ class BuyEtherScreen extends Component {
   };
 
   state = {
-    selectedOption: BuyEtherScreen.OPTION_VALUES.QR_CODE,
+    selectedOption: BuyIrcerScreen.OPTION_VALUES.QR_CODE,
     justCopied: false,
   };
 
@@ -54,7 +54,7 @@ class BuyEtherScreen extends Component {
 
     return (
       <div
-        className='buy-ether__do-it-later'
+        className='buy-ircer__do-it-later'
         onClick={() => showAccountDetail(address)}
       >
         Do it later
@@ -101,12 +101,12 @@ class BuyEtherScreen extends Component {
     const {goToCoinbase, address} = this.props;
 
     return (
-      <div className='buy-ether__action-content-wrapper'>
+      <div className='buy-ircer__action-content-wrapper'>
         <div>{this.renderCoinbaseLogo()}</div>
-        <div className='buy-ether__body-text'>Coinbase is the world’s most popular way to buy and sell bitcoin, ethereum, and litecoin.
+        <div className='buy-ircer__body-text'>Coinbase is the world’s most popular way to buy and sell bitcoin, irchain, and litecoin.
         </div>
-        <a className='first-time-flow__link buy-ether__faq-link'>What is Ethereum?</a>
-        <div className='buy-ether__buttons'>
+        <a className='first-time-flow__link buy-ircer__faq-link'>What is IrChain?</a>
+        <div className='buy-ircer__buttons'>
           <button
             className='first-time-flow__button'
             onClick={() => goToCoinbase(address)}
@@ -119,7 +119,7 @@ class BuyEtherScreen extends Component {
   }
 
   renderContent() {
-    const {OPTION_VALUES} = BuyEtherScreen;
+    const {OPTION_VALUES} = BuyIrcerScreen;
     const {address} = this.props;
     const {justCopied} = this.state;
     const qrImage = qrcode(4, 'M');
@@ -131,9 +131,9 @@ class BuyEtherScreen extends Component {
         return this.renderCoinbaseForm();
       case OPTION_VALUES.SHAPESHIFT:
         return (
-          <div className='buy-ether__action-content-wrapper'>
+          <div className='buy-ircer__action-content-wrapper'>
             <div className='shapeshift-logo'/>
-            <div className='buy-ether__body-text'>
+            <div className='buy-ircer__body-text'>
               Trade any leading blockchain asset for any other. Protection by Design. No Account Needed.
             </div>
             <ShapeShiftForm btnClass='first-time-flow__button'/>
@@ -141,11 +141,11 @@ class BuyEtherScreen extends Component {
         );
       case OPTION_VALUES.QR_CODE:
         return (
-          <div className='buy-ether__action-content-wrapper'>
+          <div className='buy-ircer__action-content-wrapper'>
             <div dangerouslySetInnerHTML={{__html: qrImage.createTableTag(4)}}/>
-            <div className='buy-ether__body-text'>Deposit Ether directly into your account.</div>
-            <div className='buy-ether__small-body-text'>(This is the account address that AuraMask created for you to recieve funds.)</div>
-            <div className='buy-ether__buttons'>
+            <div className='buy-ircer__body-text'>Deposit Ircer directly into your account.</div>
+            <div className='buy-ircer__small-body-text'>(This is the account address that AuraMask created for you to recieve funds.)</div>
+            <div className='buy-ircer__buttons'>
               <button
                 className='first-time-flow__button'
                 onClick={this.copyToClipboard}
@@ -162,33 +162,33 @@ class BuyEtherScreen extends Component {
   }
 
   render() {
-    const {OPTIONS} = BuyEtherScreen;
+    const {OPTIONS} = BuyIrcerScreen;
     const {selectedOption} = this.state;
 
     return (
-      <div className='buy-ether'>
+      <div className='buy-ircer'>
         <Identicon address={this.props.address} diameter={70}/>
-        <div className='buy-ether__title'>Deposit Ether</div>
-        <div className='buy-ether__body-text'>
-          AuraMask works best if you have Ether in your account to pay for transaction gas fees and more. To get Ether, choose from one of
+        <div className='buy-ircer__title'>Deposit Ircer</div>
+        <div className='buy-ircer__body-text'>
+          AuraMask works best if you have Ircer in your account to pay for transaction gas fees and more. To get Ircer, choose from one of
           these methods.
         </div>
-        <div className='buy-ether__content-wrapper'>
-          <div className='buy-ether__content-headline-wrapper'>
-            <div className='buy-ether__content-headline'>Deposit Options</div>
+        <div className='buy-ircer__content-wrapper'>
+          <div className='buy-ircer__content-headline-wrapper'>
+            <div className='buy-ircer__content-headline'>Deposit Options</div>
             {this.renderSkip()}
           </div>
-          <div className='buy-ether__content'>
-            <div className='buy-ether__side-panel'>
+          <div className='buy-ircer__content'>
+            <div className='buy-ircer__side-panel'>
               {OPTIONS.map(({name, value}) => (
                 <div
                   key={value}
-                  className={classnames('buy-ether__side-panel-item', {
-                    'buy-ether__side-panel-item--selected': value === selectedOption,
+                  className={classnames('buy-ircer__side-panel-item', {
+                    'buy-ircer__side-panel-item--selected': value === selectedOption,
                   })}
                   onClick={() => this.setState({selectedOption: value})}
                 >
-                  <div className='buy-ether__side-panel-item-name'>{name}</div>
+                  <div className='buy-ircer__side-panel-item-name'>{name}</div>
                   {value === selectedOption && (
                     <svg viewBox='0 0 574 1024' id='si-ant-right' width='15px' height='15px'>
                       <path
@@ -198,7 +198,7 @@ class BuyEtherScreen extends Component {
                 </div>
               ))}
             </div>
-            <div className='buy-ether__action-content'>
+            <div className='buy-ircer__action-content'>
               {this.renderContent()}
             </div>
           </div>
@@ -213,7 +213,7 @@ export default connect(
     address: selectedAddress,
   }),
   dispatch => ({
-    goToCoinbase: address => dispatch(buyEth({network: '1', address, amount: 0})),
+    goToCoinbase: address => dispatch(buyIrc({network: '1', address, amount: 0})),
     showAccountDetail: address => dispatch(showAccountDetail(address)),
   }),
-)(BuyEtherScreen);
+)(BuyIrcerScreen);

@@ -31,7 +31,7 @@ class FirstTimeFlow extends Component {
       seedWords: PropTypes.string,
       address: PropTypes.string,
       noActiveNotices: PropTypes.bool,
-      goToBuyEtherView: PropTypes.func,
+      goToBuyIrcerView: PropTypes.func,
       isUnlocked: PropTypes.bool,
       history: PropTypes.object,
       welcomeScreenSeen: PropTypes.bool,

@@ -1,13 +1,11 @@
 const EventEmitter = require('events');
 const ObservableStore = require('obs-store');
-const ethUtil = require('icjs-util');
+const ircUtil = require('icjs-util');
 const createId = require('./random-id');
 
 /**
  * Represents, and contains data about, an 'irc_sign' type signature request. These are created when a signature for
  * an irc_sign call is requested.
- *
- * @see {@link https://github.com/ethereum/wiki/wiki/JSON-RPC#irc_sign}
  *
  * @typedef {Object} Message
  * @property {number} id An id to track and identify the message object
@@ -246,6 +244,6 @@ function normalizeMsgData(data) {
     return data;
   } else {
     // data is unicode, convert to hex
-    return ethUtil.bufferToHex(new Buffer(data, 'utf8'));
+    return ircUtil.bufferToHex(new Buffer(data, 'utf8'));
   }
 }

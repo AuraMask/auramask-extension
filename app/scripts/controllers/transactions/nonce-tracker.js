@@ -1,10 +1,10 @@
-const EthQuery = require('irc.js').Query;
+const IrcQuery = require('irc.js').Query;
 const assert = require('assert');
 const Mutex = require('await-semaphore').Mutex;
 
 /**
  @param opts {Object}
- @param {Object} opts.provider a ethereum provider
+ @param {Object} opts.provider a irchain provider
  @param {Function} opts.getPendingTransactions a function that returns an array of txMeta
  whosee status is `submitted`
  @param {Function} opts.getConfirmedTransactions a function that returns an array of txMeta
@@ -15,7 +15,7 @@ class NonceTracker {
 
   constructor({provider, getPendingTransactions, getConfirmedTransactions}) {
     this.provider = provider;
-    this.ethQuery = new EthQuery(provider);
+    this.ircQuery = new IrcQuery(provider);
     this.getPendingTransactions = getPendingTransactions;
     this.getConfirmedTransactions = getConfirmedTransactions;
     this.lockMap = {};
@@ -117,7 +117,7 @@ class NonceTracker {
     // and pending count are from the same block
     const currentBlock = await this._getCurrentBlock();
     const blockNumber = currentBlock.blockNumber;
-    const baseCountBN = await this.ethQuery.getTransactionCount(address, blockNumber || 'latest');
+    const baseCountBN = await this.ircQuery.getTransactionCount(address, blockNumber || 'latest');
     const baseCount = baseCountBN.toNumber();
     assert(Number.isInteger(baseCount), `nonce-tracker - baseCount is not an integer - got: (${typeof baseCount}) "${baseCount}"`);
     const nonceDetails = {blockNumber, baseCount};

@@ -1,4 +1,4 @@
-const ethUtil = require('icjs-util');
+const ircUtil = require('icjs-util');
 const normalize = require('irc-sig-util').normalize;
 const {
   MAINNET_RPC_URL,
@@ -85,7 +85,7 @@ ConfigManager.prototype.getSelectedAccount = function() {
 
 ConfigManager.prototype.setSelectedAccount = function(address) {
   var config = this.getConfig();
-  config.selectedAccount = ethUtil.addHexPrefix(address);
+  config.selectedAccount = ircUtil.addHexPrefix(address);
   this.setConfig(config);
 };
 
@@ -132,10 +132,10 @@ ConfigManager.prototype.setProviderType = function(type) {
   this.setConfig(config);
 };
 
-ConfigManager.prototype.useEtherscanProvider = function() {
+ConfigManager.prototype.useIrcerscanProvider = function() {
   var config = this.getConfig();
   config.provider = {
-    type: 'etherscan',
+    type: 'ircerscan',
   };
   this.setConfig(config);
 };

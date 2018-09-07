@@ -12,7 +12,7 @@ const mapStateToProps = (state, ownProps) => {
     txData: { txParams: { to: tokenAddress } = {} } = {},
     tokenProps: { tokenSymbol } = {},
     fiatTransactionTotal,
-    ethTransactionTotal,
+    ircTransactionTotal,
   } = confirmTransaction;
 
   const { tokenAmount, toAddress } = tokenAmountAndToAddressSelector(state);
@@ -27,7 +27,7 @@ const mapStateToProps = (state, ownProps) => {
     conversionRate,
     contractExchangeRate,
     fiatTransactionTotal,
-    ethTransactionTotal,
+    ircTransactionTotal,
   };
 };
 

@@ -11,7 +11,7 @@ import {
   getTransactionFee,
   getHexGasTotal,
   addFiat,
-  addEth,
+  addIrc,
   increaseLastGasPrice,
   hexGreaterThan,
 } from '../helpers/confirm-transaction/util';
@@ -50,9 +50,9 @@ const initState = {
   fiatTransactionAmount: '',
   fiatTransactionFee: '',
   fiatTransactionTotal: '',
-  ethTransactionAmount: '',
-  ethTransactionFee: '',
-  ethTransactionTotal: '',
+  ircTransactionAmount: '',
+  ircTransactionFee: '',
+  ircTransactionTotal: '',
   hexGasTotal: '',
   nonce: '',
   fetchingMethodData: false,
@@ -98,25 +98,25 @@ export default function reducer({ confirmTransaction: confirmState = initState }
         methodData: {},
       };
     case UPDATE_TRANSACTION_AMOUNTS:
-      const { fiatTransactionAmount, ethTransactionAmount } = action.payload;
+      const { fiatTransactionAmount, ircTransactionAmount } = action.payload;
       return {
         ...confirmState,
         fiatTransactionAmount: fiatTransactionAmount || confirmState.fiatTransactionAmount,
-        ethTransactionAmount: ethTransactionAmount || confirmState.ethTransactionAmount,
+        ircTransactionAmount: ircTransactionAmount || confirmState.ircTransactionAmount,
       };
     case UPDATE_TRANSACTION_FEES:
-      const { fiatTransactionFee, ethTransactionFee } = action.payload;
+      const { fiatTransactionFee, ircTransactionFee } = action.payload;
       return {
         ...confirmState,
         fiatTransactionFee: fiatTransactionFee || confirmState.fiatTransactionFee,
-        ethTransactionFee: ethTransactionFee || confirmState.ethTransactionFee,
+        ircTransactionFee: ircTransactionFee || confirmState.ircTransactionFee,
       };
     case UPDATE_TRANSACTION_TOTALS:
-      const { fiatTransactionTotal, ethTransactionTotal } = action.payload;
+      const { fiatTransactionTotal, ircTransactionTotal } = action.payload;
       return {
         ...confirmState,
         fiatTransactionTotal: fiatTransactionTotal || confirmState.fiatTransactionTotal,
-        ethTransactionTotal: ethTransactionTotal || confirmState.ethTransactionTotal,
+        ircTransactionTotal: ircTransactionTotal || confirmState.ircTransactionTotal,
       };
     case UPDATE_HEX_GAS_TOTAL:
       return {
@@ -289,11 +289,11 @@ export function updateTxDataAndCalculate(txData) {
     const fiatTransactionAmount = getTransactionAmount({
       value, toCurrency: currentCurrency, conversionRate, numberOfDecimals: 2,
     });
-    const ethTransactionAmount = getTransactionAmount({
-      value, toCurrency: 'ETH', conversionRate, numberOfDecimals: 6,
+    const ircTransactionAmount = getTransactionAmount({
+      value, toCurrency: 'IRC', conversionRate, numberOfDecimals: 6,
     });
 
-    dispatch(updateTransactionAmounts({ fiatTransactionAmount, ethTransactionAmount }));
+    dispatch(updateTransactionAmounts({ fiatTransactionAmount, ircTransactionAmount: ircTransactionAmount }));
 
     const hexGasTotal = getHexGasTotal({ gasLimit, gasPrice });
 
@@ -305,19 +305,19 @@ export function updateTxDataAndCalculate(txData) {
       numberOfDecimals: 2,
       conversionRate,
     });
-    const ethTransactionFee = getTransactionFee({
+    const ircTransactionFee = getTransactionFee({
       value: hexGasTotal,
-      toCurrency: 'ETH',
+      toCurrency: 'IRC',
       numberOfDecimals: 6,
       conversionRate,
     });
 
-    dispatch(updateTransactionFees({ fiatTransactionFee, ethTransactionFee }));
+    dispatch(updateTransactionFees({ fiatTransactionFee, ircTransactionFee }));
 
     const fiatTransactionTotal = addFiat(fiatTransactionFee, fiatTransactionAmount);
-    const ethTransactionTotal = addEth(ethTransactionFee, ethTransactionAmount);
+    const ircTransactionTotal = addIrc(ircTransactionFee, ircTransactionAmount);
 
-    dispatch(updateTransactionTotals({ fiatTransactionTotal, ethTransactionTotal }));
+    dispatch(updateTransactionTotals({ fiatTransactionTotal, ircTransactionTotal }));
   };
 }
 

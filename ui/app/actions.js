@@ -1,6 +1,6 @@
 const abi = require('human-standard-token-abi');
 const pify = require('pify');
-const getBuyEthUrl = require('../../app/scripts/lib/buy-eth-url');
+const getBuyIrcUrl = require('../../app/scripts/lib/buy-irc-url');
 const {getTokenAddressFromTokenObject} = require('./util');
 const {
   calcGasTotal,
@@ -15,7 +15,7 @@ const {hasUnconfirmedTransactions} = require('./helpers/confirm-transaction/util
 const WebcamUtils = require('../lib/webcam-utils');
 
 var actions = {
-  _setBackgroundConnection: _setBackgroundConnection,
+  _setBackgroundConnection,
 
   GO_HOME: 'GO_HOME',
   goHome: goHome,
@@ -233,22 +233,22 @@ var actions = {
   removeToken,
   updateTokens,
   UPDATE_TOKENS: 'UPDATE_TOKENS',
-  setRpcTarget: setRpcTarget,
-  setProviderType: setProviderType,
+  setRpcTarget,
+  setProviderType,
   updateProviderType,
   // loading overlay
   SHOW_LOADING: 'SHOW_LOADING_INDICATION',
   HIDE_LOADING: 'HIDE_LOADING_INDICATION',
   showLoadingIndication: showLoadingIndication,
   hideLoadingIndication: hideLoadingIndication,
-  // buy Eth with coinbase
-  onboardingBuyEthView,
-  ONBOARDING_BUY_ETH_VIEW: 'ONBOARDING_BUY_ETH_VIEW',
-  BUY_ETH: 'BUY_ETH',
-  buyEth: buyEth,
-  buyEthView: buyEthView,
+  // buy Irc with coinbase
+  onboardingBuyIrcView,
+  ONBOARDING_BUY_IRC_VIEW: 'ONBOARDING_BUY_IRC_VIEW',
+  BUY_IRC: 'BUY_IRC',
+  buyIrc,
+  buyIrcView,
   buyWithShapeShift,
-  BUY_ETH_VIEW: 'BUY_ETH_VIEW',
+  BUY_IRC_VIEW: 'BUY_IRC_VIEW',
   COINBASE_SUBVIEW: 'COINBASE_SUBVIEW',
   coinBaseSubview: coinBaseSubview,
   SHAPESHIFT_SUBVIEW: 'SHAPESHIFT_SUBVIEW',
@@ -281,7 +281,7 @@ var actions = {
   TOGGLE_ACCOUNT_MENU: 'TOGGLE_ACCOUNT_MENU',
   toggleAccountMenu,
 
-  useEtherscanProvider,
+  useIrcerscanProvider,
 
   SET_USE_BLOCKIE: 'SET_USE_BLOCKIE',
   setUseBlockie,
@@ -1776,11 +1776,11 @@ function addToAddressBook(recipient, nickname = '') {
   };
 }
 
-function useEtherscanProvider() {
-  log.debug(`background.useEtherscanProvider`);
-  background.useEtherscanProvider();
+function useIrcerscanProvider() {
+  log.debug(`background.useIrcerscanProvider`);
+  background.useIrcerscanProvider();
   return {
-    type: actions.USE_ETHERSCAN_PROVIDER,
+    type: actions.USE_IRCERSCAN_PROVIDER,
   };
 }
 
@@ -1976,26 +1976,26 @@ function showSendTokenPage() {
   };
 }
 
-function buyEth(opts) {
+function buyIrc(opts) {
   return (dispatch) => {
-    const url = getBuyEthUrl(opts);
+    const url = getBuyIrcUrl(opts);
     global.platform.openWindow({url});
     dispatch({
-      type: actions.BUY_ETH,
+      type: actions.BUY_IRC,
     });
   };
 }
 
-function onboardingBuyEthView(address) {
+function onboardingBuyIrcView(address) {
   return {
-    type: actions.ONBOARDING_BUY_ETH_VIEW,
+    type: actions.ONBOARDING_BUY_IRC_VIEW,
     value: address,
   };
 }
 
-function buyEthView(address) {
+function buyIrcView(address) {
   return {
-    type: actions.BUY_ETH_VIEW,
+    type: actions.BUY_IRC_VIEW,
     value: address,
   };
 }
@@ -2010,7 +2010,7 @@ function pairUpdate(coin) {
   return (dispatch) => {
     dispatch(actions.showSubLoadingIndication());
     dispatch(actions.hideWarning());
-    shapeShiftRequest('marketinfo', {pair: `${coin.toLowerCase()}_eth`}, (mktResponse) => {
+    shapeShiftRequest('marketinfo', {pair: `${coin.toLowerCase()}_irc`}, (mktResponse) => {
       dispatch(actions.hideSubLoadingIndication());
       if (mktResponse.error) return dispatch(actions.displayWarning(mktResponse.error));
       dispatch({
@@ -2024,7 +2024,7 @@ function pairUpdate(coin) {
 }
 
 function shapeShiftSubview(network) {
-  var pair = 'btc_eth';
+  var pair = 'btc_irc';
   return (dispatch) => {
     dispatch(actions.showSubLoadingIndication());
     shapeShiftRequest('marketinfo', {pair}, (mktResponse) => {
@@ -2083,7 +2083,7 @@ function showQrView(data, message) {
 function reshowQrCode(data, coin) {
   return (dispatch) => {
     dispatch(actions.showLoadingIndication());
-    shapeShiftRequest('marketinfo', {pair: `${coin.toLowerCase()}_eth`}, (mktResponse) => {
+    shapeShiftRequest('marketinfo', {pair: `${coin.toLowerCase()}_irc`}, (mktResponse) => {
       if (mktResponse.error) return dispatch(actions.displayWarning(mktResponse.error));
 
       var message = [

@@ -13,8 +13,8 @@ const urlUtil = require('url');
 const {
   MAINNET,
   LOCALHOST,
+  LOCALHOST_RPC_URL,
 } = require('./enums');
-const LOCALHOST_RPC_URL = 'http://localhost:8545';
 const INFURA_PROVIDER_TYPES = [MAINNET];
 
 const env = process.env.AURAMASK_ENV;
@@ -83,18 +83,16 @@ module.exports = class NetworkController extends EventEmitter {
   }
 
   setRpcTarget(rpcTarget) {
-    const providerConfig = {
+    this.providerConfig = {
       type: 'rpc',
       rpcTarget,
     };
-    this.providerConfig = providerConfig;
   }
 
   async setProviderType(type) {
     assert.notEqual(type, 'rpc', `NetworkController - cannot call "setProviderType" with type 'rpc'. use "setRpcTarget"`);
     assert(INFURA_PROVIDER_TYPES.includes(type) || type === LOCALHOST, `NetworkController - Unknown rpc type "${type}"`);
-    const providerConfig = {type};
-    this.providerConfig = providerConfig;
+    this.providerConfig = {type};
   }
 
   resetConnection() {

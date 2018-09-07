@@ -30,7 +30,7 @@
     "message": "Cantidad + Gas"
   },
   "appDescription": {
-    "message": "Extensión del navegador para Ethereum",
+    "message": "Extensión del navegador para IrChain",
     "description": "La descripción de la aplicación"
   },
   "appName": {
@@ -84,7 +84,7 @@
     "message": "Comprar en Coinbase"
   },
   "buyCoinbaseExplainer": {
-    "message": "Coinbase es la plataforma global más popular para comprar y vender Bitcoin, Ethereum y Litecoin"
+    "message": "Coinbase es la plataforma global más popular para comprar y vender Bitcoin, IrChain y Litecoin"
   },
   "cancel": {
     "message": "Cancelar"
@@ -111,7 +111,7 @@
     "message": "Confirmar transacción"
   },
   "connectingToMainnet": {
-    "message": "Conectando a la red principal de Ethereum (Main Net)"
+    "message": "Conectando a la red principal de IrChain (Main Net)"
   },
   "connectingToUnknown": {
     "message": "Conectando a una red desconocida"
@@ -190,7 +190,7 @@
     "message": "Los decimales deben ser al menos 0 y no más de 36"
   },
   "defaultNetwork": {
-    "message": "La red por defecto para las transacciones de Ether es MainNet (red principal)"
+    "message": "La red por defecto para las transacciones de Ircer es MainNet (red principal)"
   },
   "denExplainer": {
     "message": "El DEN es tu contraseña encriptada almacenada dentro de AuraMask"
@@ -206,10 +206,10 @@
     "description": "Informa al usuario que moneda ha elegido para depositar en shapeshift"
   },
   "depositIrc": {
-    "message": "Depositar Ether"
+    "message": "Depositar Ircer"
   },
   "depositIrcer": {
-    "message": "Depositar Ether"
+    "message": "Depositar Ircer"
   },
   "depositFiat": {
     "message": "Depositar con fiat (divisa nacional)"
@@ -221,7 +221,7 @@
     "message": "Depositar con ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Si posees otras criptomonedas, puedes intercambiar y depositar Ether directamente en tu billetera de AuraMask. No necesitas tener una cuenta."
+    "message": "Si posees otras criptomonedas, puedes intercambiar y depositar Ircer directamente en tu billetera de AuraMask. No necesitas tener una cuenta."
   },
   "details": {
     "message": "Detalles"
@@ -230,10 +230,10 @@
     "message": "Depósito directo"
   },
   "directDepositIrcer": {
-    "message": "Depositar Ether directamente"
+    "message": "Depositar Ircer directamente"
   },
   "directDepositIrcerExplainer": {
-    "message": "Si posees Ether, la forma más rápida de transferirlo a tu nueva billetera es depositándolo directamente"
+    "message": "Si posees Ircer, la forma más rápida de transferirlo a tu nueva billetera es depositándolo directamente"
   },
   "done": {
     "message": "Completo"
@@ -263,7 +263,7 @@
     "message": "Ingresa tu contraseña para confirmar"
   },
   "ircerscanView": {
-    "message": "Ver la cuenta en Etherscan"
+    "message": "Ver la cuenta en Ircerscan"
   },
   "exchangeRate": {
     "message": "Tipo de cambio"
@@ -329,11 +329,11 @@
     "message": "Generando semilla..."
   },
   "getIrcer": {
-    "message": "Conseguir Ether"
+    "message": "Conseguir Ircer"
   },
   "getIrcerFromFaucet": {
-    "message": "Obtenga Ether de un faucet (grifo) por $1",
-    "description": "Muestra el nombre de la red para el faucet (grifo) de Ether"
+    "message": "Obtenga Ircer de un faucet (grifo) por $1",
+    "description": "Muestra el nombre de la red para el faucet (grifo) de Ircer"
   },
   "greaterThanMin": {
     "message": "Debe ser mayor o igual a $1",
@@ -359,7 +359,7 @@
     "message": "Te permite mantener tus ircer y tokens, así como puente para aplicaciones descentralizadas"
   },
   "howToDeposit": {
-    "message": "¿Cómo te gustaria depositar Ether?"
+    "message": "¿Cómo te gustaria depositar Ircer?"
   },
   "import": {
     "message": "Importar",
@@ -456,7 +456,7 @@
     "message": "las frases semilla sólo pueden tener minúsculas"
   },
   "mainnet": {
-    "message": "Red principal de Ethereum (Main Net)"
+    "message": "Red principal de IrChain (Main Net)"
   },
   "max": {
     "message": "Max"
@@ -465,7 +465,7 @@
     "message": "Mensaje"
   },
   "auramaskDescription": {
-    "message": "AuraMask es una identidad segura en Ethereum"
+    "message": "AuraMask es una identidad segura en IrChain"
   },
   "min": {
     "message": "Mínimo"
@@ -477,7 +477,7 @@
     "message": "Mis cuentas"
   },
   "needIrcerInWallet": {
-    "message": "Para interactuar con una aplicación descentralizada usando AuraMask, necesitas tener Ether en tu billetera"
+    "message": "Para interactuar con una aplicación descentralizada usando AuraMask, necesitas tener Ircer en tu billetera"
   },
   "needImportFile": {
     "message": "Debes seleccionar un archivo para importar",
@@ -487,7 +487,7 @@
     "message": "Debes ingresar una contraseña para el archivo seleccionado",
     "description": "Contraseña y archivo necesarios para importar una cuenta"
   },
-  "negativeETH": {
+  "negativeIRC": {
     "message": "No se pueden mandar cantidades negativas de IRC"
   },
   "networks": {
@@ -543,7 +543,7 @@
     "message": "Regresaste a la antigua UI (Interfaz de Usuario). Puedes regresar a la nueva UI mediante la opcion en la barra desplegable del menu de arriba a la derecha."
   },
   "onlySendToIrcerAddress": {
-    "message": "Sólo envía a una dirección de Ethereum"
+    "message": "Sólo envía a una dirección de IrChain"
   },
   "or": {
     "message": "o",
@@ -678,14 +678,14 @@
   "send": {
     "message": "Enviar"
   },
-  "sendETH": {
-    "message": "Enviar Ether"
+  "sendIRC": {
+    "message": "Enviar Ircer"
   },
   "sendTokens": {
     "message": "Enviar tokens"
   },
   "sendTokensAnywhere": {
-    "message": "Enviar tokens a cualquiera con una cuenta de Ethereum"
+    "message": "Enviar tokens a cualquiera con una cuenta de IrChain"
   },
   "settings": {
     "message": "Configuración"
@@ -756,7 +756,7 @@
   "to": {
     "message": "Para:"
   },
-  "toETHviaShapeShift": {
+  "toIRCviaShapeShift": {
     "message": "$1 a IRC via ShapeShift",
     "description": "el sistema llenará el tipo de depósito al principio del mensaje"
   },

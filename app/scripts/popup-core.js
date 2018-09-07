@@ -1,8 +1,8 @@
 const EventEmitter = require('events').EventEmitter;
 const async = require('async');
-const Dnode = require('dnode');
-const Eth = require('irc.js');
-const EthQuery = require('irc-query');
+const dnode = require('dnode');
+const Irc = require('irc.js');
+const IrcQuery = require('irc-query');
 const launchAuramaskUi = require('../../ui');
 const StreamProvider = require('web3-stream-provider');
 const setupMultiplex = require('./lib/stream-utils.js').setupMultiplex;
@@ -34,8 +34,8 @@ function connectToAccountManager(connectionStream, cb) {
   // setup multiplexing
   var mx = setupMultiplex(connectionStream);
   // connect features
-  setupControllerConnection(mx.createStream('controller'), cb);
   setupWebuConnection(mx.createStream('provider'));
+  setupControllerConnection(mx.createStream('controller'), cb);
 }
 
 /**
@@ -49,8 +49,8 @@ function setupWebuConnection(connectionStream) {
   connectionStream.on('error', console.error.bind(console));
   providerStream.on('error', console.error.bind(console));
   global.irchainProvider = providerStream;
-  global.ircQuery = new EthQuery(providerStream);
-  global.irc = new Eth(providerStream, {});
+  global.ircQuery = new IrcQuery(providerStream);
+  global.irc = new Irc(providerStream, {});
 }
 
 /**
@@ -63,13 +63,13 @@ function setupControllerConnection(connectionStream, cb) {
   // this is a really sneaky way of adding EventEmitter api
   // to a bi-directional dnode instance
   var eventEmitter = new EventEmitter();
-  var accountManagerDnode = Dnode({
-    sendUpdate: function(state) {
+  var accountManagerDnode = dnode({
+    sendUpdate: state => {
       eventEmitter.emit('update', state);
     },
   });
   connectionStream.pipe(accountManagerDnode).pipe(connectionStream);
-  accountManagerDnode.once('remote', function(accountManager) {
+  accountManagerDnode.once('remote', accountManager => {
     // setup push events
     accountManager.on = eventEmitter.on.bind(eventEmitter);
     cb(null, accountManager);

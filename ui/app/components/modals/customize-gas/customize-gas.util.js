@@ -1,4 +1,4 @@
-import ethUtil from 'icjs-util';
+import ircUtil from 'icjs-util';
 import { conversionUtil } from '../../../conversion-util';
 
 export function getDecimalGasLimit(hexGasLimit) {
@@ -18,14 +18,14 @@ export function getDecimalGasPrice(hexGasPrice) {
 }
 
 export function getPrefixedHexGasLimit(gasLimit) {
-  return ethUtil.addHexPrefix(conversionUtil(gasLimit, {
+  return ircUtil.addHexPrefix(conversionUtil(gasLimit, {
     fromNumericBase: 'dec',
     toNumericBase: 'hex',
   }));
 }
 
 export function getPrefixedHexGasPrice(gasPrice) {
-  return ethUtil.addHexPrefix(conversionUtil(gasPrice, {
+  return ircUtil.addHexPrefix(conversionUtil(gasPrice, {
     fromNumericBase: 'dec',
     toNumericBase: 'hex',
     fromDenomination: 'GWEI',

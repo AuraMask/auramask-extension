@@ -1,6 +1,6 @@
 const extend = require('xtend');
 const actions = require('../actions');
-const MetamascaraPlatform = require('../../../app/scripts/platforms/window');
+const AuramascaraPlatform = require('../../../app/scripts/platforms/window');
 const {getEnvironmentType} = require('../../../app/scripts/lib/util');
 const {ENVIRONMENT_TYPE_POPUP} = require('../../../app/scripts/lib/enums');
 const {OLD_UI_NETWORK_TYPE} = require('../../../app/scripts/controllers/network/enums');
@@ -15,7 +15,7 @@ function reduceAuramask(state, action) {
     isInitialized: false,
     isUnlocked: false,
     isAccountMenuOpen: false,
-    isMascara: window.platform instanceof MetamascaraPlatform,
+    isMascara: window.platform instanceof AuramascaraPlatform,
     isPopup: getEnvironmentType(window.location.href) === ENVIRONMENT_TYPE_POPUP,
     rpcTarget: 'http://localhost:8545/',
     identities: {},

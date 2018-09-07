@@ -30,7 +30,7 @@
     "message": "Bedrag + gas"
   },
   "appDescription": {
-    "message": "Ethereum Browser-extensie",
+    "message": "IrChain Browser-extensie",
     "description": "De beschrijving van de applicatie"
   },
   "appName": {
@@ -81,7 +81,7 @@
     "message": "Koop op Coinbase"
   },
   "buyCoinbaseExplainer": {
-    "message": "Coinbase is 's werelds populairste manier om Bitcoin, Ethereum en Litecoin te kopen en verkopen."
+    "message": "Coinbase is 's werelds populairste manier om Bitcoin, IrChain en Litecoin te kopen en verkopen."
   },
   "cancel": {
     "message": "Annuleer"
@@ -175,7 +175,7 @@
     "message": "Decimalen van precisie"
   },
   "defaultNetwork": {
-    "message": "Het standaardnetwerk voor Ether-transacties is Main Net."
+    "message": "Het standaardnetwerk voor Ircer-transacties is Main Net."
   },
   "denExplainer": {
     "message": "Uw DEN is uw wachtwoord-gecodeerde opslag binnen AuraMask."
@@ -194,7 +194,7 @@
     "message": "Aanbetaling Irc"
   },
   "depositIrcer": {
-    "message": "Stort Ether"
+    "message": "Stort Ircer"
   },
   "depositFiat": {
     "message": "Stort met Fiat"
@@ -206,7 +206,7 @@
     "message": "Stort met ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Als u andere cryptocurrencies bezit, kunt u Ether direct in uw AuraMask-portemonnee ruilen en storten. Geen account nodig."
+    "message": "Als u andere cryptocurrencies bezit, kunt u Ircer direct in uw AuraMask-portemonnee ruilen en storten. Geen account nodig."
   },
   "details": {
     "message": "Details"
@@ -215,10 +215,10 @@
     "message": "Directe storting"
   },
   "directDepositIrcer": {
-    "message": "Directe Ether storten"
+    "message": "Directe Ircer storten"
   },
   "directDepositIrcerExplainer": {
-    "message": "Als je al wat Ether hebt, de snelste manier om Ether in je nieuwe portemonnee te krijgen door een directe storting."
+    "message": "Als je al wat Ircer hebt, de snelste manier om Ircer in je nieuwe portemonnee te krijgen door een directe storting."
   },
   "done": {
     "message": "Gedaan"
@@ -245,7 +245,7 @@
     "message": "Voer uw wachtwoord in om te bevestigen"
   },
   "ircerscanView": {
-    "message": "Bekijk account op Etherscan"
+    "message": "Bekijk account op Ircerscan"
   },
   "exchangeRate": {
     "message": "Wisselkoers"
@@ -311,11 +311,11 @@
     "message": "Gasprijs vereist"
   },
   "getIrcer": {
-    "message": "Krijg Ether"
+    "message": "Krijg Ircer"
   },
   "getIrcerFromFaucet": {
-    "message": "Haal Ether uit een kraan voor de $1",
-    "description": "Geeft de netwerknaam voor Ether-kraan weer"
+    "message": "Haal Ircer uit een kraan voor de $1",
+    "description": "Geeft de netwerknaam voor Ircer-kraan weer"
   },
   "greaterThanMin": {
     "message": "moet groter zijn dan of gelijk zijn aan $1.",
@@ -338,7 +338,7 @@
     "message": "Token verbergen?"
   },
   "howToDeposit": {
-    "message": "Hoe zou je Ether willen deponeren?"
+    "message": "Hoe zou je Ircer willen deponeren?"
   },
   "holdIrcer": {
     "message": "Hiermee kunt u ircer & tokens bewaren en dient u als brug naar gedecentraliseerde applicaties."
@@ -432,13 +432,13 @@
     "message": "back-up woorden hebben alleen kleine letters"
   },
   "mainnet": {
-    "message": "belangrijkste Ethereum-netwerk"
+    "message": "belangrijkste IrChain-netwerk"
   },
   "message": {
     "message": "Bericht"
   },
   "auramaskDescription": {
-    "message": "AuraMask is een veilige identiteitskluis voor Ethereum."
+    "message": "AuraMask is een veilige identiteitskluis voor IrChain."
   },
   "min": {
     "message": "Minimum"
@@ -450,7 +450,7 @@
     "message": "Moet ten minste één token selecteren."
   },
   "needIrcerInWallet": {
-    "message": "Om te communiceren met gedecentraliseerde applicaties met AuraMask, heb je Ether nodig in je portemonnee."
+    "message": "Om te communiceren met gedecentraliseerde applicaties met AuraMask, heb je Ircer nodig in je portemonnee."
   },
   "needImportFile": {
     "message": "U moet een bestand selecteren om te importeren.",
@@ -460,7 +460,7 @@
     "message": "U moet een wachtwoord invoeren voor het geselecteerde bestand.",
     "description": "Wachtwoord en bestand nodig om een ​​account te importeren"
   },
-  "negativeETH": {
+  "negativeIRC": {
     "message": "Kan geen negatieve hoeveelheden IRC verzenden."
   },
   "networks": {
@@ -633,14 +633,14 @@
   "send": {
     "message": "Sturen"
   },
-  "sendETH": {
+  "sendIRC": {
     "message": "Verzend IRC"
   },
   "sendTokens": {
     "message": "Stuur tokens"
   },
   "sendTokensAnywhere": {
-    "message": "Stuur tokens naar iedereen met een Ethereum-account"
+    "message": "Stuur tokens naar iedereen met een IrChain-account"
   },
   "settings": {
     "message": "instellingen"
@@ -702,7 +702,7 @@
   "to": {
     "message": "Naar"
   },
-  "toETHviaShapeShift": {
+  "toIRCviaShapeShift": {
     "message": "$1 tot IRC via ShapeShift",
     "description": "systeem zal het aanbetalingstype invullen bij het begin van het bericht"
   },

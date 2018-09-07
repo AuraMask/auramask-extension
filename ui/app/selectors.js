@@ -14,8 +14,8 @@ const selectors = {
   getTokenExchangeRate,
   conversionRateSelector,
   transactionsSelector,
-  accountsWithSendEtherInfoSelector,
-  getCurrentAccountWithSendEtherInfo,
+  accountsWithSendIrcerInfoSelector,
+  getCurrentAccountWithSendIrcerInfo,
   getGasIsLoading,
   getForceGasMin,
   getAddressBook,
@@ -81,22 +81,20 @@ function getAddressBook(state) {
   return state.auramask.addressBook;
 }
 
-function accountsWithSendEtherInfoSelector(state) {
+function accountsWithSendIrcerInfoSelector(state) {
   const {
     accounts,
     identities,
   } = state.auramask;
 
-  const accountsWithSendEtherInfo = Object.entries(accounts).map(([key, account]) => {
+  return Object.entries(accounts).map(([key, account]) => {
     return Object.assign({}, account, identities[key]);
   });
-
-  return accountsWithSendEtherInfo;
 }
 
-function getCurrentAccountWithSendEtherInfo(state) {
+function getCurrentAccountWithSendIrcerInfo(state) {
   const currentAddress = getSelectedAddress(state);
-  const accounts = accountsWithSendEtherInfoSelector(state);
+  const accounts = accountsWithSendIrcerInfoSelector(state);
 
   return accounts.find(({address}) => address === currentAddress);
 }

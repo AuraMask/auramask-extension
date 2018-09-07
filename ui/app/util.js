@@ -1,10 +1,10 @@
 const abi = require('human-standard-token-abi');
-const ethUtil = require('icjs-util');
+const ircUtil = require('icjs-util');
 const hexToBn = require('../../app/scripts/lib/hex-to-bn');
 const vreme = new (require('vreme'))();
 
-const MIN_GAS_PRICE_GWEI_BN = new ethUtil.BN(1);
-const GWEI_FACTOR = new ethUtil.BN(1e9);
+const MIN_GAS_PRICE_GWEI_BN = new ircUtil.BN(1);
+const GWEI_FACTOR = new ircUtil.BN(1e9);
 const MIN_GAS_PRICE_BN = MIN_GAS_PRICE_GWEI_BN.mul(GWEI_FACTOR);
 
 // formatData :: ( date: <Unix Timestamp> ) -> String
@@ -24,37 +24,42 @@ var valueTable = {
   mether: '0.000001',
   gether: '0.000000001',
   tether: '0.000000000001',
+  ircer: '1',
+  kircer: '0.001',
+  mircer: '0.000001',
+  gircer: '0.000000001',
+  tircer: '0.000000000001',
 };
 var bnTable = {};
 for (var currency in valueTable) {
-  bnTable[currency] = new ethUtil.BN(valueTable[currency], 10);
+  bnTable[currency] = new ircUtil.BN(valueTable[currency], 10);
 }
 
 module.exports = {
-  valuesFor: valuesFor,
-  addressSummary: addressSummary,
-  miniAddressSummary: miniAddressSummary,
-  isAllOneCase: isAllOneCase,
-  isValidAddress: isValidAddress,
+  valuesFor,
+  addressSummary,
+  miniAddressSummary,
+  isAllOneCase,
+  isValidAddress,
   isValidENSAddress,
-  numericBalance: numericBalance,
-  parseBalance: parseBalance,
-  formatBalance: formatBalance,
-  generateBalanceObject: generateBalanceObject,
-  dataSize: dataSize,
-  readableDate: readableDate,
-  normalizeToWei: normalizeToWei,
-  normalizeEthStringToWei: normalizeEthStringToWei,
-  normalizeNumberToWei: normalizeNumberToWei,
-  valueTable: valueTable,
-  bnTable: bnTable,
-  isHex: isHex,
+  numericBalance,
+  parseBalance,
+  formatBalance,
+  generateBalanceObject,
+  dataSize,
+  readableDate,
+  normalizeToWei,
+  normalizeIrcStringToWei,
+  normalizeNumberToWei,
+  valueTable,
+  bnTable,
+  isHex,
   formatDate,
   bnMultiplyByFraction,
   getTxFeeBn,
   shortenBalance,
   getContractAtAddress,
-  exportAsFile: exportAsFile,
+  exportAsFile,
   isInvalidChecksumAddress,
   allNull,
   getTokenAddressFromTokenObject,
@@ -72,7 +77,7 @@ function addressSummary(address, firstSegLength = 10, lastSegLength = 4, include
   if (!address) return '';
   let checked = checksumAddress(address);
   if (!includeHex) {
-    checked = ethUtil.stripHexPrefix(checked);
+    checked = ircUtil.stripHexPrefix(checked);
   }
   return checked ? checked.slice(0, firstSegLength) + '...' + checked.slice(checked.length - lastSegLength) : '...';
 }
@@ -84,19 +89,19 @@ function miniAddressSummary(address) {
 }
 
 function isValidAddress(address) {
-  var prefixed = ethUtil.addHexPrefix(address);
+  var prefixed = ircUtil.addHexPrefix(address);
   if (address === '0x0000000000000000000000000000000000000000') return false;
-  return (isAllOneCase(prefixed) && ethUtil.isValidAddress(prefixed)) || ethUtil.isValidChecksumAddress(prefixed);
+  return (isAllOneCase(prefixed) && ircUtil.isValidAddress(prefixed)) || ircUtil.isValidChecksumAddress(prefixed);
 }
 
 function isValidENSAddress(address) {
-  return address.match(/^.{7,}\.(eth|test)$/);
+  return address.match(/^.{7,}\.(irc|test)$/);
 }
 
 function isInvalidChecksumAddress(address) {
-  var prefixed = ethUtil.addHexPrefix(address);
+  var prefixed = ircUtil.addHexPrefix(address);
   if (address === '0x0000000000000000000000000000000000000000') return false;
-  return !isAllOneCase(prefixed) && !ethUtil.isValidChecksumAddress(prefixed) && ethUtil.isValidAddress(prefixed);
+  return !isAllOneCase(prefixed) && !ircUtil.isValidChecksumAddress(prefixed) && ircUtil.isValidAddress(prefixed);
 }
 
 function isAllOneCase(address) {
@@ -108,9 +113,9 @@ function isAllOneCase(address) {
 
 // Takes wei Hex, returns wei BN, even if input is null
 function numericBalance(balance) {
-  if (!balance) return new ethUtil.BN(0, 16);
-  var stripped = ethUtil.stripHexPrefix(balance);
-  return new ethUtil.BN(stripped, 16);
+  if (!balance) return new ircUtil.BN(0, 16);
+  var stripped = ircUtil.stripHexPrefix(balance);
+  return new ircUtil.BN(stripped, 16);
 }
 
 // Takes  hex, returns [beforeDecimal, afterDecimal]
@@ -138,14 +143,14 @@ function formatBalance(balance, decimalsToKeep, needsParse = true) {
       if (afterDecimal !== '0') {
         var sigFigs = afterDecimal.match(/^0*(.{2})/); // default: grabs 2 most significant digits
         if (sigFigs) { afterDecimal = sigFigs[0]; }
-        formatted = '0.' + afterDecimal + ' ETH';
+        formatted = '0.' + afterDecimal + ' IRC';
       }
     } else {
-      formatted = beforeDecimal + '.' + afterDecimal.slice(0, 3) + ' ETH';
+      formatted = beforeDecimal + '.' + afterDecimal.slice(0, 3) + ' IRC';
     }
   } else {
     afterDecimal += Array(decimalsToKeep).join('0');
-    formatted = beforeDecimal + '.' + afterDecimal.slice(0, decimalsToKeep) + ' ETH';
+    formatted = beforeDecimal + '.' + afterDecimal.slice(0, decimalsToKeep) + ' IRC';
   }
   return formatted;
 }
@@ -197,11 +202,11 @@ function shortenBalance(balance, decimalsToKeep = 1) {
 }
 
 function dataSize(data) {
-  var size = data ? ethUtil.stripHexPrefix(data).length : 0;
+  var size = data ? ircUtil.stripHexPrefix(data).length : 0;
   return size + ' bytes';
 }
 
-// Takes a BN and an ethereum currency name,
+// Takes a BN and an irchain currency name,
 // returns a BN in wei
 function normalizeToWei(amount, currency) {
   try {
@@ -210,9 +215,9 @@ function normalizeToWei(amount, currency) {
   return amount;
 }
 
-function normalizeEthStringToWei(str) {
+function normalizeIrcStringToWei(str) {
   const parts = str.split('.');
-  let eth = new ethUtil.BN(parts[0], 10).mul(bnTable.wei);
+  let irc = new ircUtil.BN(parts[0], 10).mul(bnTable.wei);
   if (parts[1]) {
     var decimal = parts[1];
     while (decimal.length < 18) {
@@ -221,17 +226,17 @@ function normalizeEthStringToWei(str) {
     if (decimal.length > 18) {
       decimal = decimal.slice(0, 18);
     }
-    const decimalBN = new ethUtil.BN(decimal, 10);
-    eth = eth.add(decimalBN);
+    const decimalBN = new ircUtil.BN(decimal, 10);
+    irc = irc.add(decimalBN);
   }
-  return eth;
+  return irc;
 }
 
-var multiple = new ethUtil.BN('10000', 10);
+var multiple = new ircUtil.BN('10000', 10);
 
 function normalizeNumberToWei(n, currency) {
   var enlarged = n * 10000;
-  var amount = new ethUtil.BN(String(enlarged), 10);
+  var amount = new ircUtil.BN(String(enlarged), 10);
   return normalizeToWei(amount, currency).div(multiple);
 }
 
@@ -254,8 +259,8 @@ function isHex(str) {
 }
 
 function bnMultiplyByFraction(targetBN, numerator, denominator) {
-  const numBN = new ethUtil.BN(numerator);
-  const denomBN = new ethUtil.BN(denominator);
+  const numBN = new ircUtil.BN(numerator);
+  const denomBN = new ircUtil.BN(denominator);
   return targetBN.mul(numBN).div(denomBN);
 }
 
@@ -302,7 +307,7 @@ function getTokenAddressFromTokenObject(token) {
  * @returns {String} - checksummed address
  */
 function checksumAddress(address) {
-  return address ? ethUtil.toChecksumAddress(address) : '';
+  return address ? ircUtil.toChecksumAddress(address) : '';
 }
 
 function addressSlicer(address = '') {

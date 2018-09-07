@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import SendEther from './send.component';
+import SendIrcer from './send.component';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import {
@@ -46,7 +46,7 @@ import {
 module.exports = compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps)
-)(SendEther);
+)(SendIrcer);
 
 function mapStateToProps(state) {
   return {

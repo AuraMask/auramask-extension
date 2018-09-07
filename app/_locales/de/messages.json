@@ -30,7 +30,7 @@
     "message": "Betrag + Gas"
   },
   "appDescription": {
-    "message": "Ethereum Browsererweiterung",
+    "message": "IrChain Browsererweiterung",
     "description": "Die Beschreibung der Erweiterung"
   },
   "appName": {
@@ -84,7 +84,7 @@
     "message": "Auf Coinbase kaufen"
   },
   "buyCoinbaseExplainer": {
-    "message": "Coinbase ist die weltweit bekannteste Art und Weise um Bitcoin, Ethereum und Litecoin zu kaufen und verkaufen."
+    "message": "Coinbase ist die weltweit bekannteste Art und Weise um Bitcoin, IrChain und Litecoin zu kaufen und verkaufen."
   },
   "ok": {
     "message": "Ok"
@@ -184,7 +184,7 @@
     "message": "Dezimalangabe der Präzision"
   },
   "defaultNetwork": {
-    "message": "Das Standardnetzwerk für Ether Transaktionen ist das Main Net."
+    "message": "Das Standardnetzwerk für Ircer Transaktionen ist das Main Net."
   },
   "denExplainer": {
     "message": "Dein DEN ist dein passwortverschlüsselter Speicher innerhalb von AuraMask."
@@ -203,7 +203,7 @@
     "message": "Irc kaufen"
   },
   "depositIrcer": {
-    "message": "Ether einzahlen"
+    "message": "Ircer einzahlen"
   },
   "depositFiat": {
     "message": "Fiat einzahlen"
@@ -224,10 +224,10 @@
     "message": "Sofortige Einzahlung"
   },
   "directDepositIrcer": {
-    "message": "Sofort Ether einzahlen"
+    "message": "Sofort Ircer einzahlen"
   },
   "directDepositIrcerExplainer": {
-    "message": "Wenn du bereits Ether besitzt, ist die sofortige Einzahlung die schnellste Methode Ether in deine neue Wallet zu bekommen."
+    "message": "Wenn du bereits Ircer besitzt, ist die sofortige Einzahlung die schnellste Methode Ircer in deine neue Wallet zu bekommen."
   },
   "done": {
     "message": "Fertig"
@@ -263,7 +263,7 @@
     "message": "Passwörter stimmen nicht überein"
   },
   "ircerscanView": {
-    "message": "Account auf Etherscan anschauen"
+    "message": "Account auf Ircerscan anschauen"
   },
   "exchangeRate": {
     "message": "Wechselrate"
@@ -329,11 +329,11 @@
     "message": "Gaspreis benötigt"
   },
   "getIrcer": {
-    "message": "Ether holen"
+    "message": "Ircer holen"
   },
   "getIrcerFromFaucet": {
-    "message": "Ether für $1 vom Faucet holen",
-    "description": "Zeigt den Netzwerknamen für den Ether Faucet an"
+    "message": "Ircer für $1 vom Faucet holen",
+    "description": "Zeigt den Netzwerknamen für den Ircer Faucet an"
   },
   "greaterThanMin": {
     "message": "Muss größer oder gleich $1 sein.",
@@ -356,7 +356,7 @@
     "message": "Token ausblenden?"
   },
   "howToDeposit": {
-    "message": "Wie möchtest du Ether einzahlen?"
+    "message": "Wie möchtest du Ircer einzahlen?"
   },
   "holdIrcer": {
     "message": "Es erlaubt dir ircer & Token zu halten und dient dir als Verbindung zu dezentralisierten Applikationen."
@@ -456,13 +456,13 @@
     "message": "Die Wörter der Seed-Wörterfolgen sind alle kleingeschrieben"
   },
   "mainnet": {
-    "message": "Ethereum Main Net"
+    "message": "IrChain Main Net"
   },
   "message": {
     "message": "Nachricht"
   },
   "auramaskDescription": {
-    "message": "AuraMask ist ein sicherer Identitätssafe für Ethereum."
+    "message": "AuraMask ist ein sicherer Identitätssafe für IrChain."
   },
   "min": {
     "message": "Minimum"
@@ -474,7 +474,7 @@
     "message": "Du musst mindestens 1 Token auswählen."
   },
   "needIrcerInWallet": {
-    "message": "Um dezentralisierte Applikationen mit AuraMask verwenden zu können, benötigst du Ether in deiner Wallet."
+    "message": "Um dezentralisierte Applikationen mit AuraMask verwenden zu können, benötigst du Ircer in deiner Wallet."
   },
   "needImportFile": {
     "message": "Für den Import musst du eine Datei auswählen.",
@@ -484,7 +484,7 @@
     "message": "Für die ausgewählte Datei muss ein Passwort eingegeben werden.",
     "description": "Passwort und Datei sind notwendig um einen Account zu importieren"
   },
-  "negativeETH": {
+  "negativeIRC": {
     "message": "Negative IRC Beträge können nicht versendet werden."
   },
   "networks": {
@@ -629,7 +629,7 @@
     "message": "Aktueller RPC"
   },
   "connectingToMainnet": {
-    "message": "Verbinde zum Ethereum Main Net"
+    "message": "Verbinde zum IrChain Main Net"
   },
   "connectingToUnknown": {
     "message": "Verbinde zu einem unbekanntem Netzwerk"
@@ -675,17 +675,17 @@
   "send": {
     "message": "Senden"
   },
-  "sendETH": {
+  "sendIRC": {
     "message": "IRC senden"
   },
   "sendTokens": {
     "message": "Token senden"
   },
   "onlySendToIrcerAddress": {
-    "message": "IRC unbedingt nur zu einer Ethereum Adresse senden."
+    "message": "IRC unbedingt nur zu einer IrChain Adresse senden."
   },
   "sendTokensAnywhere": {
-    "message": "Token zu einer beliebigen Person mit einem Ethereumaccount senden"
+    "message": "Token zu einer beliebigen Person mit einem IrChainaccount senden"
   },
   "settings": {
     "message": "Einstellungen"
@@ -759,7 +759,7 @@
   "to": {
     "message": "An:"
   },
-  "toETHviaShapeShift": {
+  "toIRCviaShapeShift": {
     "message": "$1 an IRC via ShapeShift",
     "description": "Das System wird den Einzahlungstyp im Beginn der Nachricht eintragen"
   },

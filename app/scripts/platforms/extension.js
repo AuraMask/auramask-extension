@@ -65,7 +65,7 @@ class ExtensionPlatform {
     const nonce = parseInt(txMeta.txParams.nonce, 16);
 
     const title = 'Confirmed transaction';
-    const message = `Transaction ${nonce} confirmed! View on EtherScan`;
+    const message = `Transaction ${nonce} confirmed! View on IRCerScan`;
     this._showNotification(title, message, url);
   }
 
@@ -89,12 +89,12 @@ class ExtensionPlatform {
   }
 
   _subscribeToNotificationClicked() {
-    if (!extension.notifications.onClicked.hasListener(this._viewOnEtherScan)) {
-      extension.notifications.onClicked.addListener(this._viewOnEtherScan);
+    if (!extension.notifications.onClicked.hasListener(this._viewOnIrcerScan)) {
+      extension.notifications.onClicked.addListener(this._viewOnIrcerScan);
     }
   }
 
-  _viewOnEtherScan(txId) {
+  _viewOnIrcerScan(txId) {
     if (txId.startsWith('http://')) {
       global.auramaskController.platform.openWindow({url: txId});
     }

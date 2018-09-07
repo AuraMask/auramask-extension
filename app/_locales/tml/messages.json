@@ -266,7 +266,7 @@
     "message": "கடவுச்சொற்கள் பொருந்தாதே"
   },
   "ircerscanView": {
-    "message": "Etherscan கணக்கைப் பார்க்கவும்"
+    "message": "Ircerscan கணக்கைப் பார்க்கவும்"
   },
   "exchangeRate": {
     "message": "மாற்று விகிதம்"
@@ -493,7 +493,7 @@
     "message": "நீங்கள் தேர்ந்தெடுத்த கோப்புக்கு ஒரு கடவுச்சொல்லை உள்ளிட வேண்டும்.",
     "description": "ஒரு கணக்கை இறக்குமதி செய்ய கடவுச்சொல் மற்றும் கோப்பு தேவை"
   },
-  "negativeETH": {
+  "negativeIRC": {
     "message": "IRC எதிர்மறை அளவுகளை அனுப்ப முடியாது."
   },
   "networks": {
@@ -693,7 +693,7 @@
   "send": {
     "message": "அனுப்பு"
   },
-  "sendETH": {
+  "sendIRC": {
     "message": "IRC ஐ அனுப்பு"
   },
   "sendTokens": {
@@ -780,7 +780,7 @@
   "to": {
     "message": "பெறுநர்: "
   },
-  "toETHviaShapeShift": {
+  "toIRCviaShapeShift": {
     "message": "$ 1 முதல் IRC வரை வடிவம்",
     "description": "செய்தி தொடக்கத்தில் வைப்பு வகைகளில் நிரப்பப்படும்"
   },

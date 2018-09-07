@@ -83,7 +83,7 @@ TxView.prototype.renderButtons = function() {
       h('div.flex-row.flex-center.hero-balance-buttons', [
         h('button.btn-primary.hero-balance-button', {
           onClick: () => showModal({
-            name: 'DEPOSIT_ETHER',
+            name: 'DEPOSIT_IRCER',
           }),
         }, this.context.t('deposit')),
 

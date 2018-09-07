@@ -30,7 +30,7 @@
     "message": "Znesek + Gas"
   },
   "appDescription": {
-    "message": "Denarnica za Ethereum v brskalniku",
+    "message": "Denarnica za IrChain v brskalniku",
     "description": "The description of the application"
   },
   "appName": {
@@ -81,7 +81,7 @@
     "message": "Kupi na Coinbase"
   },
   "buyCoinbaseExplainer": {
-    "message": "Coinbase je najpopularnejši načun za kupovanje in prodajo bitcoinov, ethereuma, in litecoina."
+    "message": "Coinbase je najpopularnejši načun za kupovanje in prodajo bitcoinov, irchaina, in litecoina."
   },
   "cancel": {
     "message": "Prekliči"
@@ -194,7 +194,7 @@
     "message": "Vplačilo IRC"
   },
   "depositIrcer": {
-    "message": "Vplačilo ether"
+    "message": "Vplačilo ircer"
   },
   "depositFiat": {
     "message": "Vplačilo s klasičnimi valutami"
@@ -218,7 +218,7 @@
     "message": "Direktno vplačilo ehera"
   },
   "directDepositIrcerExplainer": {
-    "message": "Če že imate ether, ga lahko najhitreje dobite v AuraMask z direktnim vplačilom."
+    "message": "Če že imate ircer, ga lahko najhitreje dobite v AuraMask z direktnim vplačilom."
   },
   "done": {
     "message": "Končano"
@@ -245,7 +245,7 @@
     "message": "Potrdite geslo"
   },
   "ircerscanView": {
-    "message": "Poglejte račun na Etherscan"
+    "message": "Poglejte račun na Ircerscan"
   },
   "exchangeRate": {
     "message": "Menjalni tečaj"
@@ -311,11 +311,11 @@
     "message": "Gas price je zahtevan"
   },
   "getIrcer": {
-    "message": "Pridobite ether"
+    "message": "Pridobite ircer"
   },
   "getIrcerFromFaucet": {
     "message": "Pridobite ircer iz fauceta za $1",
-    "description": "Displays network name for Ether faucet"
+    "description": "Displays network name for Ircer faucet"
   },
   "greaterThanMin": {
     "message": "mora biti višji ali enak $1.",
@@ -338,7 +338,7 @@
     "message": "Skrijem žeton?"
   },
   "howToDeposit": {
-    "message": "Kako želite vplačati ether?"
+    "message": "Kako želite vplačati ircer?"
   },
   "holdIrcer": {
     "message": "Omogoča vam, da imate eter in žetone in služi kot most za decentralizirane aplikacije."
@@ -438,7 +438,7 @@
     "message": "Sporočilo"
   },
   "auramaskDescription": {
-    "message": "AuraMask je varen identitetni sklad za Ethereum."
+    "message": "AuraMask je varen identitetni sklad za IrChain."
   },
   "min": {
     "message": "Najmanj"
@@ -460,7 +460,7 @@
     "message": "Za izbrano datoteko morate vnesti geslo.",
     "description": "Password and file needed to import an account"
   },
-  "negativeETH": {
+  "negativeIRC": {
     "message": "Ni mogoče poslati negativne vsote IRC."
   },
   "networks": {
@@ -633,14 +633,14 @@
   "send": {
     "message": "Pošlji"
   },
-  "sendETH": {
+  "sendIRC": {
     "message": "Pošlji IRC"
   },
   "sendTokens": {
     "message": "Pošlji žetone"
   },
   "sendTokensAnywhere": {
-    "message": "Pošljite žetone vsem, ki imajo Ethereum račun"
+    "message": "Pošljite žetone vsem, ki imajo IrChain račun"
   },
   "settings": {
     "message": "Nastavitve"
@@ -702,7 +702,7 @@
   "to": {
     "message": "Za"
   },
-  "toETHviaShapeShift": {
+  "toIRCviaShapeShift": {
     "message": "$1 v IRC prek ShapeShift",
     "description": "system will fill in deposit type in start of message"
   },

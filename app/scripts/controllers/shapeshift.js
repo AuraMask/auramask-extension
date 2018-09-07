@@ -29,7 +29,7 @@ class ShapeshiftController {
   /**
    * Represents, and contains data about, a single shapeshift transaction.
    * @typedef {Object} ShapeShiftTx
-   * @property {string} depositAddress - An address at which to send a crypto deposit, so that eth can be sent to the
+   * @property {string} depositAddress - An address at which to send a crypto deposit, so that irc can be sent to the
    * user's Auramask account
    * @property {string} depositType - An abbreviation of the type of crypto currency to be deposited.
    * @property {string} key - The 'shapeshift' key differentiates this from other types of txs in Auramask
@@ -148,7 +148,7 @@ class ShapeshiftController {
   /**
    * Creates a new ShapeShiftTx, adds it to the shapeShiftTxList, and initiates a new poll for updates of pending txs
    *
-   * @param {string} depositAddress - An address at which to send a crypto deposit, so that eth can be sent to the
+   * @param {string} depositAddress - An address at which to send a crypto deposit, so that irc can be sent to the
    * user's Auramask account
    * @param {string} depositType - An abbreviation of the type of crypto currency to be deposited.
    *

@@ -6,7 +6,7 @@ const ConfirmDetailRow = props => {
   const {
     label,
     fiatText,
-    ethText,
+    ircText,
     onHeaderClick,
     fiatTextColor,
     headerText,
@@ -31,8 +31,8 @@ const ConfirmDetailRow = props => {
         >
           { fiatText }
         </div>
-        <div className="confirm-detail-row__eth">
-          { ethText }
+        <div className="confirm-detail-row__irc">
+          { ircText }
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@ const ConfirmDetailRow = props => {
 ConfirmDetailRow.propTypes = {
   label: PropTypes.string,
   fiatText: PropTypes.string,
-  ethText: PropTypes.string,
+  ircText: PropTypes.string,
   fiatTextColor: PropTypes.string,
   onHeaderClick: PropTypes.func,
   headerText: PropTypes.string,

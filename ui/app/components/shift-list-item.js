@@ -9,7 +9,7 @@ const actions = require('../actions');
 const addressSummary = require('../util').addressSummary;
 
 const CopyButton = require('./copyButton');
-const EthBalance = require('./eth-balance');
+const IrcBalance = require('./irc-balance');
 const Tooltip = require('./tooltip');
 
 ShiftListItem.contextTypes = {
@@ -101,7 +101,7 @@ ShiftListItem.prototype.renderUtilComponents = function() {
         h(CopyButton, {
           value: this.props.response.transaction,
         }),
-        h(EthBalance, {
+        h(IrcBalance, {
           value: `${props.response.outgoingCoin}`,
           conversionRate,
           currentCurrency,
@@ -139,7 +139,7 @@ ShiftListItem.prototype.renderInfo = function() {
             color: '#ABA9AA',
             width: '100%',
           },
-        }, this.context.t('toETHviaShapeShift', [props.depositType])),
+        }, this.context.t('toIRCviaShapeShift', [props.depositType])),
         h('div', this.context.t('noDeposits')),
         h('div', {
           style: {
@@ -162,7 +162,7 @@ ShiftListItem.prototype.renderInfo = function() {
             color: '#ABA9AA',
             width: '100%',
           },
-        }, this.context.t('toETHviaShapeShift', [props.depositType])),
+        }, this.context.t('toIRCviaShapeShift', [props.depositType])),
         h('div', this.context.t('conversionProgress')),
         h('div', {
           style: {

@@ -245,7 +245,7 @@
     "message": "ใส่รหัสผ่านอีกครั้งเพื่อยืนยัน"
   },
   "ircerscanView": {
-    "message": "ดูบัญชีบน Etherscan"
+    "message": "ดูบัญชีบน Ircerscan"
   },
   "exchangeRate": {
     "message": "อัตราแลกเปลี่ยน"
@@ -315,7 +315,7 @@
   },
   "getIrcerFromFaucet": {
     "message": "รับอีเธอร์ที่ปล่อยจาก $1",
-    "description": "Displays network name for Ether faucet"
+    "description": "Displays network name for Ircer faucet"
   },
   "greaterThanMin": {
     "message": "ต้องมากกว่าหรือเท่ากับ $1.",
@@ -460,7 +460,7 @@
     "message": "คุณต้องป้อนรหัสผ่านสำหรับไฟล์ที่เลือก",
     "description": "Password and file needed to import an account"
   },
-  "negativeETH": {
+  "negativeIRC": {
     "message": "ไม่สามารถส่งอีเธอร์เป็นจำนวนติดลบได้"
   },
   "networks": {
@@ -633,7 +633,7 @@
   "send": {
     "message": "ส่ง"
   },
-  "sendETH": {
+  "sendIRC": {
     "message": "ส่งอีเธอร์"
   },
   "sendTokens": {
@@ -702,7 +702,7 @@
   "to": {
     "message": "ถึง"
   },
-  "toETHviaShapeShift": {
+  "toIRCviaShapeShift": {
     "message": "$1 เป็นอีเธอร์โดย ShapeShift",
     "description": "system will fill in deposit type in start of message"
   },

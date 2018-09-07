@@ -1,6 +1,6 @@
 const Raven = require('raven-js');
 const AURAMASK_DEBUG = process.env.AURAMASK_DEBUG;
-const extractEthjsErrorMessage = require('./extractEthjsErrorMessage');
+const extractIrcjsErrorMessage = require('./extractIrcjsErrorMessage');
 const PROD = 'https://3567c198f8a8412082d32655da2961d0@sentry.io/273505';
 const DEV = 'https://f59f3dd640d2429d9d0e2445a87ea8e1@sentry.io/273496';
 
@@ -30,7 +30,7 @@ function setupRaven(opts) {
       try {
         // handle error-like non-error exceptions
         rewriteErrorLikeExceptions(report);
-        // simplify certain complex error messages (e.g. Ethjs)
+        // simplify certain complex error messages (e.g. Ircjs)
         simplifyErrorMessages(report);
         // modify report urls
         rewriteReportUrls(report);
@@ -58,7 +58,7 @@ function rewriteErrorLikeExceptions(report) {
 function simplifyErrorMessages(report) {
   rewriteErrorMessages(report, (errorMessage) => {
     // simplify ethjs error messages
-    errorMessage = extractEthjsErrorMessage(errorMessage);
+    errorMessage = extractIrcjsErrorMessage(errorMessage);
     // simplify 'Transaction Failed: known transaction'
     if (errorMessage.indexOf('Transaction Failed: known transaction') === 0) {
       // cut the hash from the error message

@@ -10,7 +10,7 @@ const log = require('loglevel');
 // init
 const NewKeyChainScreen = require('../../new-keychain');
 // mascara
-const MascaraBuyEtherScreen = require('../../../../mascara/src/app/first-time/buy-ether-screen').default;
+const MascaraBuyIrcerScreen = require('../../../../mascara/src/app/first-time/buy-ircer-screen').default;
 
 // accounts
 const MainContainer = require('../../main-container');
@@ -92,13 +92,13 @@ class Home extends Component {
         log.debug('rendering new keychain screen');
         return h(NewKeyChainScreen, {key: 'new-keychain'});
 
-      case 'buyEth':
+      case 'buyIrc':
         log.debug('rendering buy ircer screen');
-        return h(BuyView, {key: 'buyEthView'});
+        return h(BuyView, {key: 'buyIrcView'});
 
-      case 'onboardingBuyEth':
+      case 'onboardingBuyIrc':
         log.debug('rendering onboarding buy ircer screen');
-        return h(MascaraBuyEtherScreen, {key: 'buyEthView'});
+        return h(MascaraBuyIrcerScreen, {key: 'buyIrcView'});
 
       case 'qr':
         log.debug('rendering show qr screen');

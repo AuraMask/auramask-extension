@@ -8,13 +8,13 @@ const {
 } = require('./send.utils');
 
 const selectors = {
-  accountsWithSendEtherInfoSelector,
+  accountsWithSendIrcerInfoSelector,
   // autoAddToBetaUI,
   getAddressBook,
   getAmountConversionRate,
   getBlockGasLimit,
   getConversionRate,
-  getCurrentAccountWithSendEtherInfo,
+  getCurrentAccountWithSendIrcerInfo,
   getCurrentCurrency,
   getCurrentNetwork,
   getCurrentViewContext,
@@ -51,17 +51,17 @@ const selectors = {
 
 module.exports = selectors;
 
-function accountsWithSendEtherInfoSelector(state) {
+function accountsWithSendIrcerInfoSelector(state) {
   const {
     accounts,
     identities,
   } = state.auramask;
 
-  const accountsWithSendEtherInfo = Object.entries(accounts).map(([key, account]) => {
+  const accountsWithSendIrcerInfo = Object.entries(accounts).map(([key, account]) => {
     return Object.assign({}, account, identities[key]);
   });
 
-  return accountsWithSendEtherInfo;
+  return accountsWithSendIrcerInfo;
 }
 
 // function autoAddToBetaUI (state) {
@@ -99,9 +99,9 @@ function getConversionRate(state) {
   return state.auramask.conversionRate;
 }
 
-function getCurrentAccountWithSendEtherInfo(state) {
+function getCurrentAccountWithSendIrcerInfo(state) {
   const currentAddress = getSelectedAddress(state);
-  const accounts = accountsWithSendEtherInfoSelector(state);
+  const accounts = accountsWithSendIrcerInfoSelector(state);
 
   return accounts.find(({address}) => address === currentAddress);
 }
@@ -189,7 +189,7 @@ function getSelectedTokenExchangeRate(state) {
   const tokenExchangeRates = state.auramask.tokenExchangeRates;
   const selectedToken = getSelectedToken(state) || {};
   const {symbol = ''} = selectedToken;
-  const pair = `${symbol.toLowerCase()}_eth`;
+  const pair = `${symbol.toLowerCase()}_irc`;
   const {rate: tokenExchangeRate = 0} = tokenExchangeRates && tokenExchangeRates[pair] || {};
 
   return tokenExchangeRate;
@@ -199,13 +199,11 @@ function getSelectedTokenToFiatRate(state) {
   const selectedTokenExchangeRate = getSelectedTokenExchangeRate(state);
   const conversionRate = getConversionRate(state);
 
-  const tokenToFiatRate = multiplyCurrencies(
+  return multiplyCurrencies(
     conversionRate,
     selectedTokenExchangeRate,
     {toNumericBase: 'dec'},
   );
-
-  return tokenToFiatRate;
 }
 
 function getSendAmount(state) {
@@ -234,7 +232,7 @@ function getSendFromBalance(state) {
 }
 
 function getSendFromObject(state) {
-  return getSendFrom(state) || getCurrentAccountWithSendEtherInfo(state);
+  return getSendFrom(state) || getCurrentAccountWithSendIrcerInfo(state);
 }
 
 function getSendMaxModeState(state) {
@@ -246,7 +244,7 @@ function getSendTo(state) {
 }
 
 function getSendToAccounts(state) {
-  const fromAccounts = accountsWithSendEtherInfoSelector(state);
+  const fromAccounts = accountsWithSendIrcerInfoSelector(state);
   const addressBookAccounts = getAddressBook(state);
   const allAccounts = [...fromAccounts, ...addressBookAccounts];
   // TODO: figure out exactly what the below returns and put a descriptive variable name on it
@@ -258,7 +256,7 @@ function getTokenBalance(state) {
 }
 
 function getTokenExchangeRate(state, tokenSymbol) {
-  const pair = `${tokenSymbol.toLowerCase()}_eth`;
+  const pair = `${tokenSymbol.toLowerCase()}_irc`;
   const tokenExchangeRates = state.auramask.tokenExchangeRates;
   const {rate: tokenExchangeRate = 0} = tokenExchangeRates[pair] || {};
 

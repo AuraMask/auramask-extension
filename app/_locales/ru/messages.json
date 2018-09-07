@@ -30,7 +30,7 @@
     "message": "Сумма + газ"
   },
   "appDescription": {
-    "message": "Расширение браузера для Ethereum",
+    "message": "Расширение браузера для IrChain",
     "description": "The description of the application"
   },
   "appName": {
@@ -84,7 +84,7 @@
     "message": "Купить на Coinbase"
   },
   "buyCoinbaseExplainer": {
-    "message": "Биржа Coinbase – это наиболее популярный способ купить или продать Bitcoin, Ethereum и Litecoin."
+    "message": "Биржа Coinbase – это наиболее популярный способ купить или продать Bitcoin, IrChain и Litecoin."
   },
   "ok": {
     "message": "ОК"
@@ -187,7 +187,7 @@
     "message": "Количество десятичных разрядов"
   },
   "defaultNetwork": {
-    "message": "Основная сеть Ethereum – это сеть по умолчанию для Ether транзакций."
+    "message": "Основная сеть IrChain – это сеть по умолчанию для Ircer транзакций."
   },
   "denExplainer": {
     "message": "DEN – это зашифрованное паролем хранилище внутри AuraMask."
@@ -206,7 +206,7 @@
     "message": "Пополнить Irc"
   },
   "depositIrcer": {
-    "message": "Пополнить Ether"
+    "message": "Пополнить Ircer"
   },
   "depositFiat": {
     "message": "Пополнить деньгами"
@@ -218,7 +218,7 @@
     "message": "Пополнить через ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Если у вас есть другие криптовалюты, вы можете торговать и пополнять Ether напрямую в ваш AuraMask кошелек. Нет необходимости в счете."
+    "message": "Если у вас есть другие криптовалюты, вы можете торговать и пополнять Ircer напрямую в ваш AuraMask кошелек. Нет необходимости в счете."
   },
   "details": {
     "message": "Детали"
@@ -227,10 +227,10 @@
     "message": "Прямое пополнение"
   },
   "directDepositIrcer": {
-    "message": "Прямое пополнение Ether"
+    "message": "Прямое пополнение Ircer"
   },
   "directDepositIrcerExplainer": {
-    "message": "Если у вас уже есть Ether, то самый быстрый способ получить Ether в ваш новый кошелек – это прямое пополнение."
+    "message": "Если у вас уже есть Ircer, то самый быстрый способ получить Ircer в ваш новый кошелек – это прямое пополнение."
   },
   "done": {
     "message": "Готово"
@@ -260,7 +260,7 @@
     "message": "Введите ваш пароль для подтверждения"
   },
   "ircerscanView": {
-    "message": "Просмотреть счет на Etherscan"
+    "message": "Просмотреть счет на Ircerscan"
   },
   "exchangeRate": {
     "message": "Обменный курс"
@@ -326,11 +326,11 @@
     "message": "Установите стоимость газа"
   },
   "getIrcer": {
-    "message": "Получить Ether"
+    "message": "Получить Ircer"
   },
   "getIrcerFromFaucet": {
-    "message": "Получить Ether из крана для $1",
-    "description": "Displays network name for Ether faucet"
+    "message": "Получить Ircer из крана для $1",
+    "description": "Displays network name for Ircer faucet"
   },
   "greaterThanMin": {
     "message": "должно быть больше или равно $1.",
@@ -353,7 +353,7 @@
     "message": "Скрыть токен?"
   },
   "howToDeposit": {
-    "message": "Как бы вы хотели пополнить Ether?"
+    "message": "Как бы вы хотели пополнить Ircer?"
   },
   "holdIrcer": {
     "message": "Позволяет вам хранить ircer и токены и служит в качестве моста в децентрализированные приложения."
@@ -459,13 +459,13 @@
     "message": "ключевая фраза может содержать только символы нижнего регистра"
   },
   "mainnet": {
-    "message": "Основная сеть Ethereum"
+    "message": "Основная сеть IrChain"
   },
   "message": {
     "message": "Сообщение"
   },
   "auramaskDescription": {
-    "message": "AuraMask – безопасный кошелек для Ethereum."
+    "message": "AuraMask – безопасный кошелек для IrChain."
   },
   "min": {
     "message": "Минимум"
@@ -477,7 +477,7 @@
     "message": "Необходимо выбрать как минимум 1 токен."
   },
   "needIrcerInWallet": {
-    "message": "Для взаимодействия с децентрализованными приложениями с помощью AuraMask нужен Ether в вашем кошельке."
+    "message": "Для взаимодействия с децентрализованными приложениями с помощью AuraMask нужен Ircer в вашем кошельке."
   },
   "needImportFile": {
     "message": "Вы должны выбрать файл для импорта.",
@@ -487,7 +487,7 @@
     "message": "Вы должны ввести пароль для выбранного файла.",
     "description": "Password and file needed to import an account"
   },
-  "negativeETH": {
+  "negativeIRC": {
     "message": "Невозможно отправить отрицательную сумму IRC."
   },
   "networks": {
@@ -635,7 +635,7 @@
     "message": "Current RPC"
   },
   "connectingToMainnet": {
-    "message": "Соединение с основной сетью Ethereum"
+    "message": "Соединение с основной сетью IrChain"
   },
   "connectingToUnknown": {
     "message": "Соединение с неизвестной сетью"
@@ -681,20 +681,20 @@
   "send": {
     "message": "Отправить"
   },
-  "sendETH": {
+  "sendIRC": {
     "message": "Отправить IRC"
   },
   "sendTokens": {
     "message": "Отправить токены"
   },
   "onlySendToIrcerAddress": {
-    "message": "Отправляйте IRC только на Ethereum адреса."
+    "message": "Отправляйте IRC только на IrChain адреса."
   },
   "searchTokens": {
     "message": "Поиск токенов"
   },
   "sendTokensAnywhere": {
-    "message": "Отправить токены любому, у кого есть счет Ethereum"
+    "message": "Отправить токены любому, у кого есть счет IrChain"
   },
   "settings": {
     "message": "Настройки"
@@ -768,7 +768,7 @@
   "to": {
     "message": "Получатель: "
   },
-  "toETHviaShapeShift": {
+  "toIRCviaShapeShift": {
     "message": "$1 в IRC через ShapeShift",
     "description": "system will fill in deposit type in start of message"
   },

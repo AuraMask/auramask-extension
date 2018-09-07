@@ -16,7 +16,7 @@ class CurrencyController {
    * currentCurrency, conversionRate and conversionDate properties
    * @property {string} currentCurrency A 2-4 character shorthand that describes a specific currency, currently
    * selected by the user
-   * @property {number} conversionRate The conversion rate from ETH to the selected currency.
+   * @property {number} conversionRate The conversion rate from IRC to the selected currency.
    * @property {string} conversionDate The date at which the conversion rate was set. Expressed in in milliseconds
    * since midnight of January 1, 1970
    * @property {number} conversionInterval The id of the interval created by the scheduleConversionInterval method.
@@ -59,7 +59,7 @@ class CurrencyController {
   /**
    * A getter for the conversionRate property
    *
-   * @returns {string} The conversion rate from ETH to the selected currency.
+   * @returns {string} The conversion rate from IRC to the selected currency.
    *
    */
   getConversionRate() {
@@ -107,7 +107,7 @@ class CurrencyController {
     let currentCurrency;
     try {
       currentCurrency = this.getCurrentCurrency();
-      const response = await fetch(`https://api.infura.io/v1/ticker/eth${currentCurrency.toLowerCase()}`);
+      const response = await fetch(`https://api.infura.io/v1/ticker/irc${currentCurrency.toLowerCase()}`);
       const parsedResponse = await response.json();
       this.setConversionRate(Number(parsedResponse.bid));
       this.setConversionDate(Number(parsedResponse.timestamp));

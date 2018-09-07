@@ -8,7 +8,7 @@
  */
 
 const async = require('async');
-const EthQuery = require('irc-query');
+const IrcQuery = require('irc-query');
 const ObservableStore = require('obs-store');
 const EventEmitter = require('events').EventEmitter;
 
@@ -27,8 +27,8 @@ class AccountTracker extends EventEmitter {
    * @property {Object} store The stored object containing all accounts to track, as well as the current block's gas limit.
    * @property {Object} store.accounts The accounts currently stored in this AccountTracker
    * @property {string} store.currentBlockGasLimit A hex string indicating the gas limit of the current block
-   * @property {Object} _provider A provider needed to create the EthQuery instance used within this AccountTracker.
-   * @property {EthQuery} _query An EthQuery instance used to access account information from the blockchain
+   * @property {Object} _provider A provider needed to create the IrcQuery instance used within this AccountTracker.
+   * @property {IrcQuery} _query An IrcQuery instance used to access account information from the blockchain
    * @property {BlockTracker} _blockTracker A BlockTracker instance. Needed to ensure that accounts and their info updates
    * when a new block is created.
    * @property {Object} _currentBlockNumber Reference to a property on the _blockTracker: the number (i.e. an id) of the the current block
@@ -44,7 +44,7 @@ class AccountTracker extends EventEmitter {
     this.store = new ObservableStore(initState);
 
     this._provider = opts.provider;
-    this._query = new EthQuery(this._provider);
+    this._query = new IrcQuery(this._provider);
     this._blockTracker = opts.blockTracker;
     // subscribe to latest block
     this._blockTracker.on('latest', this._updateForBlock.bind(this));
@@ -57,7 +57,7 @@ class AccountTracker extends EventEmitter {
    * AccountTracker.
    *
    * Once this AccountTracker's accounts are up to date with those referenced by the passed addresses, each
-   * of these accounts are given an updated balance via EthQuery.
+   * of these accounts are given an updated balance via IrcQuery.
    *
    * @param {array} address The array of hex addresses for accounts with which this AccountTracker's accounts should be
    * in sync
@@ -115,7 +115,7 @@ class AccountTracker extends EventEmitter {
 
   /**
    * Given a block, updates this AccountTracker's currentBlockGasLimit, and then updates each local account's balance
-   * via EthQuery
+   * via IrcQuery
    *
    * @private
    * @param {object} block Data about the block that contains the data to update to.
@@ -171,7 +171,7 @@ class AccountTracker extends EventEmitter {
   }
 
   /**
-   * Gets the current balance of an account via EthQuery.
+   * Gets the current balance of an account via IrcQuery.
    *
    * @private
    * @param {string} address A hex address of a the account to query

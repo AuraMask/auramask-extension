@@ -8,15 +8,15 @@ const {
 const Tooltip = require('./tooltip.js');
 const FiatValue = require('./fiat-value.js');
 
-module.exports = EthBalanceComponent;
+module.exports = IrcBalanceComponent;
 
-inherits(EthBalanceComponent, Component);
+inherits(IrcBalanceComponent, Component);
 
-function EthBalanceComponent() {
+function IrcBalanceComponent() {
   Component.call(this);
 }
 
-EthBalanceComponent.prototype.render = function() {
+IrcBalanceComponent.prototype.render = function() {
   const props = this.props;
   const {value, style, width, needsParse = true} = props;
 
@@ -24,7 +24,7 @@ EthBalanceComponent.prototype.render = function() {
 
   return (
 
-    h('.ether-balance.ether-balance-amount', {
+    h('.ircer-balance.ircer-balance-amount', {
       style,
     }, [
       h('div', {
@@ -37,7 +37,7 @@ EthBalanceComponent.prototype.render = function() {
 
   );
 };
-EthBalanceComponent.prototype.renderBalance = function(value) {
+IrcBalanceComponent.prototype.renderBalance = function(value) {
   if (value === 'None') return value;
   if (value === '...') return value;
 
@@ -55,10 +55,10 @@ EthBalanceComponent.prototype.renderBalance = function(value) {
   const {shortBalance, balance, label} = generateBalanceObject(value, shorten ? 1 : 3);
   const balanceToRender = shorten ? shortBalance : balance;
 
-  const [ethNumber, ethSuffix] = value.split(' ');
+  const [ircNumber, ircSuffix] = value.split(' ');
   const containerProps = hideTooltip ? {} : {
     position: 'bottom',
-    title: `${ethNumber} ${ethSuffix}`,
+    title: `${ircNumber} ${ircSuffix}`,
   };
 
   return (

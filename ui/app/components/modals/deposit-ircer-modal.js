@@ -25,7 +25,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     toCoinbase: (address) => {
-      dispatch(actions.buyEth({network: '1', address, amount: 0}));
+      dispatch(actions.buyIrc({network: '1', address, amount: 0}));
     },
     hideModal: () => {
       dispatch(actions.hideModal());
@@ -36,13 +36,13 @@ function mapDispatchToProps(dispatch) {
     showAccountDetailModal: () => {
       dispatch(actions.showModal({name: 'ACCOUNT_DETAILS'}));
     },
-    toFaucet: network => dispatch(actions.buyEth({network})),
+    toFaucet: network => dispatch(actions.buyIrc({network})),
   };
 }
 
-inherits(DepositEtherModal, Component);
+inherits(DepositIrcerModal, Component);
 
-function DepositEtherModal(props, context) {
+function DepositIrcerModal(props, context) {
   Component.call(this);
 
   // need to set after i18n locale has loaded
@@ -59,17 +59,17 @@ function DepositEtherModal(props, context) {
   };
 }
 
-DepositEtherModal.contextTypes = {
+DepositIrcerModal.contextTypes = {
   t: PropTypes.func,
 };
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(DepositEtherModal);
+module.exports = connect(mapStateToProps, mapDispatchToProps)(DepositIrcerModal);
 
-DepositEtherModal.prototype.facuetRowText = function(networkName) {
+DepositIrcerModal.prototype.facuetRowText = function(networkName) {
   return this.context.t('getIrcerFromFaucet', [networkName]);
 };
 
-DepositEtherModal.prototype.renderRow = function({
+DepositIrcerModal.prototype.renderRow = function({
   logo,
   title,
   text,
@@ -87,10 +87,10 @@ DepositEtherModal.prototype.renderRow = function({
   }
 
   return h('div', {
-    className: className || 'deposit-ether-modal__buy-row',
+    className: className || 'deposit-ircer-modal__buy-row',
   }, [
 
-    onBackClick && showBackButton && h('div.deposit-ether-modal__buy-row__back', {
+    onBackClick && showBackButton && h('div.deposit-ircer-modal__buy-row__back', {
       onClick: onBackClick,
     }, [
 
@@ -98,18 +98,18 @@ DepositEtherModal.prototype.renderRow = function({
 
     ]),
 
-    h('div.deposit-ether-modal__buy-row__logo-container', [logo]),
+    h('div.deposit-ircer-modal__buy-row__logo-container', [logo]),
 
-    h('div.deposit-ether-modal__buy-row__description', [
+    h('div.deposit-ircer-modal__buy-row__description', [
 
-      !hideTitle && h('div.deposit-ether-modal__buy-row__description__title', [title]),
+      !hideTitle && h('div.deposit-ircer-modal__buy-row__description__title', [title]),
 
-      h('div.deposit-ether-modal__buy-row__description__text', [text]),
+      h('div.deposit-ircer-modal__buy-row__description__text', [text]),
 
     ]),
 
-    !hideButton && h('div.deposit-ether-modal__buy-row__button', [
-      h('button.btn-primary.btn--large.deposit-ether-modal__deposit-button', {
+    !hideButton && h('div.deposit-ircer-modal__buy-row__button', [
+      h('button.btn-primary.btn--large.deposit-ircer-modal__deposit-button', {
         onClick: onButtonClick,
       }, [buttonLabel]),
     ]),
@@ -117,7 +117,7 @@ DepositEtherModal.prototype.renderRow = function({
   ]);
 };
 
-DepositEtherModal.prototype.render = function() {
+DepositIrcerModal.prototype.render = function() {
   const {network, toCoinbase, address, toFaucet} = this.props;
   const {buyingWithShapeshift} = this.state;
 
@@ -146,11 +146,11 @@ DepositEtherModal.prototype.render = function() {
 
     h('.page-container__content', {}, [
 
-      h('div.deposit-ether-modal__buy-rows', [
+      h('div.deposit-ircer-modal__buy-rows', [
 
         this.renderRow({
-          logo: h('img.deposit-ether-modal__logo', {
-            src: './images/deposit-eth.svg',
+          logo: h('img.deposit-ircer-modal__logo', {
+            src: './images/deposit-irc.svg',
           }),
           title: DIRECT_DEPOSIT_ROW_TITLE,
           text: DIRECT_DEPOSIT_ROW_TEXT,
@@ -169,7 +169,7 @@ DepositEtherModal.prototype.render = function() {
         }),
 
         this.renderRow({
-          logo: h('div.deposit-ether-modal__logo', {
+          logo: h('div.deposit-ircer-modal__logo', {
             style: {
               backgroundImage: 'url(\'./images/coinbase logo.png\')',
               height: '40px',
@@ -183,7 +183,7 @@ DepositEtherModal.prototype.render = function() {
         }),
 
         this.renderRow({
-          logo: h('div.deposit-ether-modal__logo', {
+          logo: h('div.deposit-ircer-modal__logo', {
             style: {
               backgroundImage: 'url(\'./images/shapeshift logo.png\')',
             },
@@ -197,7 +197,7 @@ DepositEtherModal.prototype.render = function() {
           hideTitle: buyingWithShapeshift,
           onBackClick: () => this.setState({buyingWithShapeshift: false}),
           showBackButton: this.state.buyingWithShapeshift,
-          className: buyingWithShapeshift && 'deposit-ether-modal__buy-row__shapeshift-buy',
+          className: buyingWithShapeshift && 'deposit-ircer-modal__buy-row__shapeshift-buy',
         }),
 
         buyingWithShapeshift && h(ShapeshiftForm),
@@ -208,7 +208,7 @@ DepositEtherModal.prototype.render = function() {
   ]);
 };
 
-DepositEtherModal.prototype.goToAccountDetailsModal = function() {
+DepositIrcerModal.prototype.goToAccountDetailsModal = function() {
   this.props.hideWarning();
   this.props.hideModal();
   this.props.showAccountDetailModal();

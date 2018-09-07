@@ -30,7 +30,7 @@
     "message": "Tutar + Gas"
   },
   "appDescription": {
-    "message": "Ethereum Tarayıcı Uzantısı",
+    "message": "IrChain Tarayıcı Uzantısı",
     "description": "Uygulama açıklaması"
   },
   "appName": {
@@ -84,7 +84,7 @@
     "message": "Coinbase'de satın al"
   },
   "buyCoinbaseExplainer": {
-    "message": "Coinbase Bitcoin, Ethereum, and Litecoin alıp satmanın dünyadaki en popüler yolu"
+    "message": "Coinbase Bitcoin, IrChain, and Litecoin alıp satmanın dünyadaki en popüler yolu"
   },
   "ok": {
     "message": "Tamam"
@@ -187,7 +187,7 @@
     "message": "Ondalık hassasiyeti"
   },
   "defaultNetwork": {
-    "message": "Ether işlemleri için varsayılan ağ Main Net."
+    "message": "Ircer işlemleri için varsayılan ağ Main Net."
   },
   "denExplainer": {
     "message": "DEN'iniz AuraMask içersinde parola-şifrelenmiş deponuzdur."
@@ -206,7 +206,7 @@
     "message": "Irc yatır"
   },
   "depositIrcer": {
-    "message": "Ether yatır"
+    "message": "Ircer yatır"
   },
   "depositFiat": {
     "message": "Para yatır"
@@ -218,7 +218,7 @@
     "message": "ShapeShift ile yatır"
   },
   "depositShapeShiftExplainer": {
-    "message": "Eğer başka kripto paralara sahipseniz, AuraMask cüzdanınıza direk olarak Ether yatırabilirsiniz. Hesaba gerek yoktur."
+    "message": "Eğer başka kripto paralara sahipseniz, AuraMask cüzdanınıza direk olarak Ircer yatırabilirsiniz. Hesaba gerek yoktur."
   },
   "details": {
     "message": "Ayrıntılar"
@@ -227,10 +227,10 @@
     "message": "Direk Yatırma"
   },
   "directDepositIrcer": {
-    "message": "Direk Ether Yatırma"
+    "message": "Direk Ircer Yatırma"
   },
   "directDepositIrcerExplainer": {
-    "message": "Eğer çoktan Etheriniz varsa, yeni hesabınıza Ether aktarmanın en kolay yolu direk yatırmadır."
+    "message": "Eğer çoktan Irceriniz varsa, yeni hesabınıza Ircer aktarmanın en kolay yolu direk yatırmadır."
   },
   "done": {
     "message": "Bitti"
@@ -266,7 +266,7 @@
     "message": "Parolalar eşleşmiyor"
   },
   "ircerscanView": {
-    "message": "Hesabı Etherscan üzerinde izle"
+    "message": "Hesabı Ircerscan üzerinde izle"
   },
   "exchangeRate": {
     "message": "Döviz kuru"
@@ -332,11 +332,11 @@
     "message": "Gas Fiyatı Gereklidir"
   },
   "getIrcer": {
-    "message": "Ether Al"
+    "message": "Ircer Al"
   },
   "getIrcerFromFaucet": {
-    "message": "Musluktan $1 karşılığı Ether alın",
-    "description": "Ether musluğunun ağ ismini gösterir"
+    "message": "Musluktan $1 karşılığı Ircer alın",
+    "description": "Ircer musluğunun ağ ismini gösterir"
   },
   "greaterThanMin": {
     "message": "must be greater than or equal to $1.",
@@ -359,10 +359,10 @@
     "message": "Jetonu gizle?"
   },
   "howToDeposit": {
-    "message": "Ether'i nasıl yatırmak istersiniz?"
+    "message": "Ircer'i nasıl yatırmak istersiniz?"
   },
   "holdIrcer": {
-    "message": "Ether ve jeton tutmanızı sağlar ve merkezi olmayan uygulamalar ve sizin aranızda köprü vazifesi görür."
+    "message": "Ircer ve jeton tutmanızı sağlar ve merkezi olmayan uygulamalar ve sizin aranızda köprü vazifesi görür."
   },
   "import": {
     "message": "Al",
@@ -465,13 +465,13 @@
     "message": "kaynak kelimeleri sadece küçük harflerden oluşabilir."
   },
   "mainnet": {
-    "message": "Main Ethereum Ağı"
+    "message": "Main IrChain Ağı"
   },
   "message": {
     "message": "Mesaj"
   },
   "auramaskDescription": {
-    "message": "AuraMask Ethereum için güvenli bir kimlik kasasıdır."
+    "message": "AuraMask IrChain için güvenli bir kimlik kasasıdır."
   },
   "min": {
     "message": "Minimum"
@@ -483,7 +483,7 @@
     "message": "En az bir jeton seçilmeli"
   },
   "needIrcerInWallet": {
-    "message": "AuraMask kullanarak merkezi olamayan uygulamalarla etkileşmek için cüzdanınızda Ether bulunmalıdır."
+    "message": "AuraMask kullanarak merkezi olamayan uygulamalarla etkileşmek için cüzdanınızda Ircer bulunmalıdır."
   },
   "needImportFile": {
     "message": "Almak için bir dosya seçmelisiniz.",
@@ -493,7 +493,7 @@
     "message": "Seçilen dosya için bir parola girmelisiniz.",
     "description": "Hesap almak için parola ve dosya gerekiyor."
   },
-  "negativeETH": {
+  "negativeIRC": {
     "message": "Negatif IRC miktarları gönderilemez."
   },
   "networks": {
@@ -641,7 +641,7 @@
     "message": "Geçerli RPC"
   },
   "connectingToMainnet": {
-    "message": "Main Ethereum Ağına bağlanıyor"
+    "message": "Main IrChain Ağına bağlanıyor"
   },
   "connectingToUnknown": {
     "message": "Bilinmeyen Ağa bağlanıyor"
@@ -693,20 +693,20 @@
   "send": {
     "message": "Gönder"
   },
-  "sendETH": {
+  "sendIRC": {
     "message": "IRC Gönder"
   },
   "sendTokens": {
     "message": "Jeton Gönder"
   },
   "onlySendToIrcerAddress": {
-    "message": "Ethereum adresine sadece IRC gönder."
+    "message": "IrChain adresine sadece IRC gönder."
   },
   "searchTokens": {
     "message": "Jeton ara"
   },
   "sendTokensAnywhere": {
-    "message": "Ethereum hesabı olan birine Jeton gönder"
+    "message": "IrChain hesabı olan birine Jeton gönder"
   },
   "settings": {
     "message": "Ayarlar"
@@ -780,7 +780,7 @@
   "to": {
     "message": "Kime: "
   },
-  "toETHviaShapeShift": {
+  "toIRCviaShapeShift": {
     "message": "ShapeShift üstünden $1'dan IRC'e",
     "description": "system will fill in deposit type in start of message"
   },

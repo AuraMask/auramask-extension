@@ -1,19 +1,23 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import ethUtil from 'icjs-util'
-import ConfirmTransactionBase from '../confirm-transaction-base'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import ircUtil from 'icjs-util';
+import ConfirmTransactionBase from '../confirm-transaction-base';
 
 export default class ConfirmDeployContract extends Component {
-  static contextTypes = {
-    t: PropTypes.func,
-  }
+  static get contextTypes() {
+    return {
+      t: PropTypes.func,
+    };
+  };
 
-  static propTypes = {
-    txData: PropTypes.object,
-  }
+  static get propTypes() {
+    return {
+      txData: PropTypes.object,
+    };
+  };
 
-  renderData () {
-    const { t } = this.context
+  renderData() {
+    const {t} = this.context;
     const {
       txData: {
         origin,
@@ -21,44 +25,44 @@ export default class ConfirmDeployContract extends Component {
           data,
         } = {},
       } = {},
-    } = this.props
+    } = this.props;
 
     return (
       <div className="confirm-page-container-content__data">
         <div className="confirm-page-container-content__data-box">
           <div className="confirm-page-container-content__data-field">
             <div className="confirm-page-container-content__data-field-label">
-              { `${t('origin')}:` }
+              {`${t('origin')}:`}
             </div>
             <div>
-              { origin }
+              {origin}
             </div>
           </div>
           <div className="confirm-page-container-content__data-field">
             <div className="confirm-page-container-content__data-field-label">
-              { `${t('bytes')}:` }
+              {`${t('bytes')}:`}
             </div>
             <div>
-              { ethUtil.toBuffer(data).length }
+              {ircUtil.toBuffer(data).length}
             </div>
           </div>
         </div>
         <div className="confirm-page-container-content__data-box-label">
-          { `${t('hexData')}:` }
+          {`${t('hexData')}:`}
         </div>
         <div className="confirm-page-container-content__data-box">
-          { data }
+          {data}
         </div>
       </div>
-    )
+    );
   }
 
-  render () {
+  render() {
     return (
       <ConfirmTransactionBase
         action={this.context.t('contractDeployment')}
         dataComponent={this.renderData()}
       />
-    )
+    );
   }
 }

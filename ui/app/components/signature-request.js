@@ -4,7 +4,7 @@ const h = require('react-hyperscript');
 const inherits = require('util').inherits;
 const Identicon = require('./identicon');
 const connect = require('react-redux').connect;
-const ethUtil = require('icjs-util');
+const ircUtil = require('icjs-util');
 const classnames = require('classnames');
 const {compose} = require('recompose');
 const {withRouter} = require('react-router-dom');
@@ -16,9 +16,9 @@ const {conversionUtil} = require('../conversion-util');
 
 const {
   getSelectedAccount,
-  getCurrentAccountWithSendEtherInfo,
+  getCurrentAccountWithSendIrcerInfo,
   getSelectedAddress,
-  accountsWithSendEtherInfoSelector,
+  accountsWithSendIrcerInfoSelector,
   conversionRateSelector,
 } = require('../selectors.js');
 
@@ -29,11 +29,11 @@ const {DEFAULT_ROUTE} = require('../routes');
 function mapStateToProps(state) {
   return {
     balance: getSelectedAccount(state).balance,
-    selectedAccount: getCurrentAccountWithSendEtherInfo(state),
+    selectedAccount: getCurrentAccountWithSendIrcerInfo(state),
     selectedAddress: getSelectedAddress(state),
     requester: null,
     requesterAddress: null,
-    accounts: accountsWithSendEtherInfoSelector(state),
+    accounts: accountsWithSendIrcerInfoSelector(state),
     conversionRate: conversionRateSelector(state),
   };
 }
@@ -108,7 +108,7 @@ SignatureRequest.prototype.renderAccountDropdown = function() {
 SignatureRequest.prototype.renderBalance = function() {
   const {balance, conversionRate} = this.props;
 
-  const balanceInEther = conversionUtil(balance, {
+  const balanceInIrcer = conversionUtil(balance, {
     fromNumericBase: 'hex',
     toNumericBase: 'dec',
     fromDenomination: 'WEI',
@@ -120,7 +120,7 @@ SignatureRequest.prototype.renderBalance = function() {
 
     h('div.request-signature__balance-text', `${this.context.t('balance')}:`),
 
-    h('div.request-signature__balance-value', `${balanceInEther} ETH`),
+    h('div.request-signature__balance-value', `${balanceInIrcer} IRC`),
 
   ]);
 };
@@ -160,7 +160,7 @@ SignatureRequest.prototype.renderRequestInfo = function() {
 
 SignatureRequest.prototype.msgHexToText = function(hex) {
   try {
-    const stripped = ethUtil.stripHexPrefix(hex);
+    const stripped = ircUtil.stripHexPrefix(hex);
     const buff = Buffer.from(stripped, 'hex');
     return buff.toString('utf8');
   } catch (e) {

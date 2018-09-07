@@ -6,7 +6,7 @@ const connect = require('react-redux').connect;
 const actions = require('../../actions');
 const GasModalCard = require('./gas-modal-card');
 
-const ethUtil = require('icjs-util');
+const ircUtil = require('icjs-util');
 
 import {
   updateSendErrors,
@@ -37,7 +37,7 @@ const {
   getSendAmount,
   getSelectedToken,
   getSendFrom,
-  getCurrentAccountWithSendEtherInfo,
+  getCurrentAccountWithSendIrcerInfo,
   getSelectedTokenToFiatRate,
   getSendMaxModeState,
 } = require('../../selectors');
@@ -49,7 +49,7 @@ const {
 
 function mapStateToProps(state) {
   const selectedToken = getSelectedToken(state);
-  const currentAccount = getSendFrom(state) || getCurrentAccountWithSendEtherInfo(state);
+  const currentAccount = getSendFrom(state) || getCurrentAccountWithSendIrcerInfo(state);
   const conversionRate = conversionRateSelector(state);
 
   return {
@@ -162,16 +162,16 @@ CustomizeGasModal.prototype.save = function(gasPrice, gasLimit, gasTotal) {
 
   if (maxModeOn && !selectedToken) {
     const maxAmount = subtractCurrencies(
-      ethUtil.addHexPrefix(balance),
-      ethUtil.addHexPrefix(gasTotal),
+      ircUtil.addHexPrefix(balance),
+      ircUtil.addHexPrefix(gasTotal),
       {toNumericBase: 'hex'},
     );
     updateSendAmount(maxAmount);
   }
 
-  setGasPrice(ethUtil.addHexPrefix(gasPrice));
-  setGasLimit(ethUtil.addHexPrefix(gasLimit));
-  setGasTotal(ethUtil.addHexPrefix(gasTotal));
+  setGasPrice(ircUtil.addHexPrefix(gasPrice));
+  setGasLimit(ircUtil.addHexPrefix(gasLimit));
+  setGasTotal(ircUtil.addHexPrefix(gasTotal));
   updateSendErrors({insufficientFunds: false});
   hideModal();
 };

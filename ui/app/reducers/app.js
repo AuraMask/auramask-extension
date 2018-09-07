@@ -597,11 +597,11 @@ function reduceApp(state, action) {
         },
       });
 
-    case actions.BUY_ETH_VIEW:
+    case actions.BUY_IRC_VIEW:
       return extend(appState, {
         transForward: true,
         currentView: {
-          name: 'buyEth',
+          name: 'buyIrc',
           context: appState.currentView.name,
         },
         identity: state.auramask.identities[action.value],
@@ -616,11 +616,11 @@ function reduceApp(state, action) {
         },
       });
 
-    case actions.ONBOARDING_BUY_ETH_VIEW:
+    case actions.ONBOARDING_BUY_IRC_VIEW:
       return extend(appState, {
         transForward: true,
         currentView: {
-          name: 'onboardingBuyEth',
+          name: 'onboardingBuyIrc',
           context: appState.currentView.name,
         },
         identity: state.auramask.identities[action.value],

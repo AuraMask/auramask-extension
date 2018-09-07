@@ -329,7 +329,7 @@ describe('send utils', () => {
       global.eth.getCode.resetHistory();
     });
 
-    it('should call ethQuery.estimateGas with the expected params', async() => {
+    it('should call ircQuery.estimateGas with the expected params', async() => {
       const result = await sendUtils.estimateGas(baseMockParams);
       assert.equal(baseMockParams.estimateGasMethod.callCount, 1);
       assert.deepEqual(
@@ -339,7 +339,7 @@ describe('send utils', () => {
       assert.equal(result, '0xabc16');
     });
 
-    it('should call ethQuery.estimateGas with the expected params when initialGasLimitHex is lower than the upperGasLimit', async() => {
+    it('should call ircQuery.estimateGas with the expected params when initialGasLimitHex is lower than the upperGasLimit', async() => {
       const result = await estimateGas(Object.assign({}, baseMockParams, { blockGasLimit: '0xbcd' }));
       assert.equal(baseMockParams.estimateGasMethod.callCount, 1);
       assert.deepEqual(
@@ -349,7 +349,7 @@ describe('send utils', () => {
       assert.equal(result, '0xabc16x1.5');
     });
 
-    it('should call ethQuery.estimateGas with a value of 0x0 and the expected data and to if passed a selectedToken', async() => {
+    it('should call ircQuery.estimateGas with a value of 0x0 and the expected data and to if passed a selectedToken', async() => {
       const result = await estimateGas(Object.assign({ data: 'mockData', selectedToken: { address: 'mockAddress' } }, baseMockParams));
       assert.equal(baseMockParams.estimateGasMethod.callCount, 1);
       assert.deepEqual(

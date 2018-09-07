@@ -1,11 +1,11 @@
 const express = require('express');
 const path = require('path');
-const createMetamascaraServer = require('../server/');
+const createAuramascaraServer = require('../server/');
 const createBundle = require('../server/util').createBundle;
 const serveBundle = require('../server/util').serveBundle;
 
 // Iframe Server
-const mascaraServer = createMetamascaraServer();
+const mascaraServer = createAuramascaraServer();
 
 // start the server
 const mascaraPort = 9001;

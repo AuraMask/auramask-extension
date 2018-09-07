@@ -1,4 +1,4 @@
-const ethUtil = require('icjs-util');
+const ircUtil = require('icjs-util');
 const assert = require('assert');
 const BN = require('bn.js');
 const {
@@ -66,13 +66,13 @@ const getPlatform = _ => {
 };
 
 /**
- * Checks whether a given balance of ETH, represented as a hex string, is sufficient to pay a value plus a gas fee
+ * Checks whether a given balance of IRC, represented as a hex string, is sufficient to pay a value plus a gas fee
  *
  * @param {object} txParams Contains data about a transaction
  * @param {string} txParams.gas The gas for a transaction
  * @param {string} txParams.gasPrice The price per gas for the transaction
- * @param {string} txParams.value The value of ETH to send
- * @param {string} hexBalance A balance of ETH represented as a hex string
+ * @param {string} txParams.value The value of IRC to send
+ * @param {string} hexBalance A balance of IRC represented as a hex string
  * @returns {boolean} Whether the balance is greater than or equal to the value plus the value of gas times gasPrice
  *
  */
@@ -98,7 +98,7 @@ function sufficientBalance(txParams, hexBalance) {
  *
  */
 function bnToHex(inputBn) {
-  return ethUtil.addHexPrefix(inputBn.toString(16));
+  return ircUtil.addHexPrefix(inputBn.toString(16));
 }
 
 /**
@@ -109,7 +109,7 @@ function bnToHex(inputBn) {
  *
  */
 function hexToBn(inputHex) {
-  return new BN(ethUtil.stripHexPrefix(inputHex), 16);
+  return new BN(ircUtil.stripHexPrefix(inputHex), 16);
 }
 
 /**

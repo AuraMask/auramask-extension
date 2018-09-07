@@ -23,7 +23,7 @@ export default class GasFeeDisplay extends Component {
       conversionRate,
       gasTotal,
       onClick,
-      primaryCurrency = 'ETH',
+      primaryCurrency = 'IRC',
       convertedCurrency,
       gasLoadingError,
     } = this.props

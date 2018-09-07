@@ -34,14 +34,12 @@ const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const NetworkDropdown = require('./components/dropdowns/network-dropdown');
 const AccountMenu = require('./components/account-menu');
 
-// Global Modals
+// Global
 const Modal = require('./components/modals/index').Modal;
-// Global Alert
 const Alert = require('./components/alert');
 
 const AppHeader = require('./components/app-header');
-
-import UnlockPage from './components/pages/unlock-page';
+const UnlockPage = require('./components/pages/unlock-page');
 
 // Routes
 const {
@@ -67,34 +65,30 @@ class App extends Component {
     }
   }
 
-  renderRoutes() {
+  static renderRoutes() {
     const exact = true;
 
-    return (
-      h(Switch, [
-        h(Route, {path: INITIALIZE_ROUTE, component: InitializeScreen}),
-        h(Initialized, {path: UNLOCK_ROUTE, exact, component: UnlockPage}),
-        h(Initialized, {path: RESTORE_VAULT_ROUTE, exact, component: RestoreVaultPage}),
-        h(Authenticated, {path: REVEAL_SEED_ROUTE, exact, component: RevealSeedConfirmation}),
-        h(Authenticated, {path: SETTINGS_ROUTE, component: Settings}),
-        h(Authenticated, {path: NOTICE_ROUTE, exact, component: NoticeScreen}),
-        h(Authenticated, {
-          path: `${CONFIRM_TRANSACTION_ROUTE}/:id?`,
-          component: ConfirmTransaction,
-        }),
-        h(Authenticated, {path: SEND_ROUTE, exact, component: SendTransactionScreen}),
-        h(Authenticated, {path: ADD_TOKEN_ROUTE, exact, component: AddTokenPage}),
-        h(Authenticated, {path: CONFIRM_ADD_TOKEN_ROUTE, exact, component: ConfirmAddTokenPage}),
-        h(Authenticated, {path: NEW_ACCOUNT_ROUTE, component: CreateAccountPage}),
-        h(Authenticated, {path: DEFAULT_ROUTE, exact, component: Home}),
-      ])
-    );
+    return h(Switch, [
+      h(Route, {path: INITIALIZE_ROUTE, component: InitializeScreen}),
+      h(Initialized, {path: UNLOCK_ROUTE, exact, component: UnlockPage}),
+      h(Initialized, {path: RESTORE_VAULT_ROUTE, exact, component: RestoreVaultPage}),
+      h(Authenticated, {path: REVEAL_SEED_ROUTE, exact, component: RevealSeedConfirmation}),
+      h(Authenticated, {path: SETTINGS_ROUTE, component: Settings}),
+      h(Authenticated, {path: NOTICE_ROUTE, exact, component: NoticeScreen}),
+      h(Authenticated, {path: CONFIRM_TRANSACTION_ROUTE + '/:id?', component: ConfirmTransaction}),
+      h(Authenticated, {path: SEND_ROUTE, exact, component: SendTransactionScreen}),
+      h(Authenticated, {path: ADD_TOKEN_ROUTE, exact, component: AddTokenPage}),
+      h(Authenticated, {path: CONFIRM_ADD_TOKEN_ROUTE, exact, component: ConfirmAddTokenPage}),
+      h(Authenticated, {path: NEW_ACCOUNT_ROUTE, component: CreateAccountPage}),
+      h(Authenticated, {path: DEFAULT_ROUTE, exact, component: Home}),
+    ]);
   }
 
   render() {
     const {
       isLoading,
-      alertMessage, loadingMessage,
+      alertMessage,
+      loadingMessage,
       network,
       isMouseUser,
       provider,
@@ -146,7 +140,7 @@ class App extends Component {
         (isLoading || isLoadingNetwork) && h(Loading, {loadingMessage: loadMessage}),
 
         // content
-        this.renderRoutes(),
+        App.renderRoutes(),
       ])
     );
   }
@@ -290,7 +284,8 @@ function mapStateToProps(state) {
     networkDropdownOpen,
     sidebarOpen,
     alertOpen,
-    alertMessage, isLoading,
+    alertMessage,
+    isLoading,
     loadingMessage,
   } = appState;
 

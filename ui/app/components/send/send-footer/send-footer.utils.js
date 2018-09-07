@@ -1,10 +1,10 @@
-const ethAbi = require('icjs-abi');
-const ethUtil = require('icjs-util');
+const ircAbi = require('icjs-abi');
+const ircUtil = require('icjs-util');
 const { TOKEN_TRANSFER_FUNCTION_SIGNATURE } = require('../send.constants');
 
 function addHexPrefixToObjectValues(obj) {
   return Object.keys(obj).reduce((newObj, key) => {
-    return { ...newObj, [key]: ethUtil.addHexPrefix(obj[key]) };
+    return { ...newObj, [key]: ircUtil.addHexPrefix(obj[key]) };
   }, {});
 }
 
@@ -55,7 +55,7 @@ function constructUpdatedTx({
 
   if (selectedToken) {
     const data = TOKEN_TRANSFER_FUNCTION_SIGNATURE + Array.prototype.map.call(
-      ethAbi.rawEncode(['address', 'uint256'], [to, ethUtil.addHexPrefix(amount)]),
+      ircAbi.rawEncode(['address', 'uint256'], [to, ircUtil.addHexPrefix(amount)]),
       x => ('00' + x.toString(16)).slice(-2)
     ).join('');
 

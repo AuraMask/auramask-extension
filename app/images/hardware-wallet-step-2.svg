@@ -25,8 +25,8 @@
                             <text id="OXz3…T3A4" font-family="Roboto-Regular, Roboto" font-size="12" font-weight="normal" fill="#ABB4BB">
                                 <tspan x="50" y="19">OXz3…T3A4</tspan>
                             </text>
-                            <text id="0.020000-ETH" font-family="Roboto-Regular, Roboto" font-size="12" font-weight="normal" fill="#ABB4BB">
-                                <tspan x="142" y="19">0.020000 ETH</tspan>
+                            <text id="0.020000-IRC" font-family="Roboto-Regular, Roboto" font-size="12" font-weight="normal" fill="#ABB4BB">
+                                <tspan x="142" y="19">0.020000 IRC</tspan>
                             </text>
                             <circle id="Oval-Copy" stroke="#AFDFFF" stroke-width="2" cx="16.5" cy="14.5" r="6.5"></circle>
                         </g>
@@ -38,8 +38,8 @@
                             <text id="OXa4…s0a2" font-family="Roboto-Regular, Roboto" font-size="12" font-weight="normal" fill="#ABB4BB">
                                 <tspan x="50" y="19">OXa4…s0a2</tspan>
                             </text>
-                            <text id="0.01500-ETH" font-family="Roboto-Regular, Roboto" font-size="12" font-weight="normal" fill="#ABB4BB">
-                                <tspan x="142" y="19">0.01500 ETH</tspan>
+                            <text id="0.01500-IRC" font-family="Roboto-Regular, Roboto" font-size="12" font-weight="normal" fill="#ABB4BB">
+                                <tspan x="142" y="19">0.01500 IRC</tspan>
                             </text>
                             <circle id="Oval-Copy" stroke="#AFDFFF" stroke-width="2" cx="16.5" cy="14.5" r="6.5"></circle>
                         </g>
@@ -51,8 +51,8 @@
                             <text id="OXd2…D0V4" font-family="Roboto-Regular, Roboto" font-size="12" font-weight="normal" fill="#ABB4BB">
                                 <tspan x="50" y="18">OXd2…D0V4</tspan>
                             </text>
-                            <text id="0.030000-ETH" font-family="Roboto-Regular, Roboto" font-size="12" font-weight="normal" fill="#ABB4BB">
-                                <tspan x="142" y="18">0.030000 ETH</tspan>
+                            <text id="0.030000-IRC" font-family="Roboto-Regular, Roboto" font-size="12" font-weight="normal" fill="#ABB4BB">
+                                <tspan x="142" y="18">0.030000 IRC</tspan>
                             </text>
                             <circle id="Oval-Copy-2" stroke="#AFDFFF" stroke-width="2" cx="16.5" cy="13.5" r="6.5"></circle>
                         </g>
@@ -68,8 +68,8 @@
                         <text id="OXe7…B0a1" font-family="Roboto-Regular, Roboto" font-size="16" font-weight="normal" fill="#4A4A4A">
                             <tspan x="58" y="22">OXe7…B0a1</tspan>
                         </text>
-                        <text id="0.041000-ETH" font-family="Roboto-Regular, Roboto" font-size="16" font-weight="normal" fill="#4A4A4A">
-                            <tspan x="166" y="22">0.041000 ETH</tspan>
+                        <text id="0.041000-IRC" font-family="Roboto-Regular, Roboto" font-size="16" font-weight="normal" fill="#4A4A4A">
+                            <tspan x="166" y="22">0.041000 IRC</tspan>
                         </text>
                         <circle id="Oval" stroke="#3098DC" stroke-width="2" cx="19.5" cy="16.5" r="7.5"></circle>
                         <polyline id="Path-5" stroke="#3098DC" stroke-width="2" points="15 17 17.5495098 19.5495098 24 13.9042921"></polyline>

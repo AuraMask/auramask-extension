@@ -4,7 +4,7 @@ const SwStream = require('sw-stream/lib/sw-stream.js');
 
 const keepAliveDelay = Math.floor(Math.random() * (30000 - 1000)) + 1000;
 const background = new SwController({
-  fileName: './scripts/background.js',
+  fileName: './background.js',
   keepAlive: true,
   keepAliveInterval: 30000,
   keepAliveDelay,

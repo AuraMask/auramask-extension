@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import {
-    accountsWithSendEtherInfoSelector,
+    accountsWithSendIrcerInfoSelector,
     getConversionRate,
     getSelectedTokenContract,
     getSendFromObject,
@@ -25,7 +25,7 @@ function mapStateToProps(state) {
   return {
     conversionRate: getConversionRate(state),
     from: getSendFromObject(state),
-    fromAccounts: accountsWithSendEtherInfoSelector(state),
+    fromAccounts: accountsWithSendIrcerInfoSelector(state),
     fromDropdownOpen: getFromDropdownOpen(state),
     tokenContract: getSelectedTokenContract(state),
   };

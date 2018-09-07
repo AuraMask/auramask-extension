@@ -25,7 +25,7 @@
   },
   "appDescription": {
     "description": "Mô tả phần mềm",
-    "message": "Tính năng Ethereum cho trình duyệt"
+    "message": "Tính năng IrChain cho trình duyệt"
   },
   "appName": {
     "description": "Tên phần mềm",
@@ -63,7 +63,7 @@
     "message": "Mua trên Coinbase"
   },
   "buyCoinbaseExplainer": {
-    "message": "Coinbase là dịch vụ ví điện tử thông dụng nhất thế giới để mua bán Bitcoin, Ethereum, và Litecoin"
+    "message": "Coinbase là dịch vụ ví điện tử thông dụng nhất thế giới để mua bán Bitcoin, IrChain, và Litecoin"
   },
   "cancel": {
     "message": "Hủy"
@@ -136,7 +136,7 @@
     "message": "Tùy chỉnh"
   },
   "defaultNetwork": {
-    "message": "Mạng lưới mặc định dùng cho các giao dịch Ether là Main Net (tiền IRC thật)."
+    "message": "Mạng lưới mặc định dùng cho các giao dịch Ircer là Main Net (tiền IRC thật)."
   },
   "denExplainer": {
     "message": "Số DEN của bạn là mật khẩu đã được mã hóa và lưu trữ trong AuraMask"
@@ -155,7 +155,7 @@
     "message": "Ký gửi Irc"
   },
   "depositIrcer": {
-    "message": "Ký gửi Ether"
+    "message": "Ký gửi Ircer"
   },
   "depositFiat": {
     "message": "Ký gửi bằng tiền Fiat (USD, GBP, ...)"
@@ -167,7 +167,7 @@
     "message": "Ký gửi với ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Nếu bạn sở hữu các đồng tiền điện tử khác, bạn có thể giao dịch và ký gửi Ether trực tiếp vào ví AuraMask của bạn. Không cần tạo thêm tài khoản."
+    "message": "Nếu bạn sở hữu các đồng tiền điện tử khác, bạn có thể giao dịch và ký gửi Ircer trực tiếp vào ví AuraMask của bạn. Không cần tạo thêm tài khoản."
   },
   "details": {
     "message": "Chi tiết"
@@ -176,10 +176,10 @@
     "message": "Ký gửi trực tiếp"
   },
   "directDepositIrcer": {
-    "message": "Ký gửi Ether trực tiếp"
+    "message": "Ký gửi Ircer trực tiếp"
   },
   "directDepositIrcerExplainer": {
-    "message": "Nếu bạn đã có sẵn vài Ether, cách nhanh nhất để thêm Ether vào ví tiền mới của bạn là bằng ký gửi trực tiếp."
+    "message": "Nếu bạn đã có sẵn vài Ircer, cách nhanh nhất để thêm Ircer vào ví tiền mới của bạn là bằng ký gửi trực tiếp."
   },
   "done": {
     "message": "Hoàn tất"
@@ -197,7 +197,7 @@
     "message": "Nhập mật khẩu"
   },
   "ircerscanView": {
-    "message": "Xem tài khoản trên Etherscan"
+    "message": "Xem tài khoản trên Ircerscan"
   },
   "exchangeRate": {
     "message": "Tỷ giá"
@@ -254,11 +254,11 @@
     "message": "Giá ga được yêu cầu"
   },
   "getIrcer": {
-    "message": "Lấy Ether"
+    "message": "Lấy Ircer"
   },
   "getIrcerFromFaucet": {
-    "description": "Hiển thị tên mạng cho vòi Ether",
-    "message": "Lấy Ether từ vòi với giá $1"
+    "description": "Hiển thị tên mạng cho vòi Ircer",
+    "message": "Lấy Ircer từ vòi với giá $1"
   },
   "greaterThanMin": {
     "description": "trợ giúp để nhập hex dưới dạng số thập phân",
@@ -278,7 +278,7 @@
     "message": "Ẩn mã token?"
   },
   "howToDeposit": {
-    "message": "Bạn muốn ký gửi Ether bằng cách nào?"
+    "message": "Bạn muốn ký gửi Ircer bằng cách nào?"
   },
   "import": {
     "description": "Nút để nhập tài khoản từ một tập tin đã chọn",
@@ -339,7 +339,7 @@
     "message": "Nới lỏng"
   },
   "mainnet": {
-    "message": "Mạng Ethereum MainNet (tiền IRC thật)"
+    "message": "Mạng IrChain MainNet (tiền IRC thật)"
   },
   "message": {
     "message": "Tin nhắn"
@@ -351,7 +351,7 @@
     "message": "Tài khoản của tôi"
   },
   "needIrcerInWallet": {
-    "message": "Để tương tác với các ứng dụng phân tán bằng AuraMask, bạn sẽ phải cần có Ether trong ví của bạn."
+    "message": "Để tương tác với các ứng dụng phân tán bằng AuraMask, bạn sẽ phải cần có Ircer trong ví của bạn."
   },
   "needImportFile": {
     "description": "Người dùng đang nhập một tài khoản và cần thêm tập tin để tiếp tục",
@@ -487,7 +487,7 @@
     "message": "Gửi mã token"
   },
   "sendTokensAnywhere": {
-    "message": "Gửi mã token đến bất kỳ ai có tài khoản Ethereum"
+    "message": "Gửi mã token đến bất kỳ ai có tài khoản IrChain"
   },
   "settings": {
     "message": "Cài đặt"
@@ -531,7 +531,7 @@
   "to": {
     "message": "Đến"
   },
-  "toETHviaShapeShift": {
+  "toIRCviaShapeShift": {
     "description": "hệ thống sẽ điền vào loại tiền gửi khi bắt đầu tin nhắn",
     "message": "$1 thành IRC qua ShapeShift"
   },

@@ -59,9 +59,9 @@ describe('Confirm Transaction Duck', () => {
         fiatTransactionAmount: '469.26',
         fiatTransactionFee: '0.01',
         fiatTransactionTotal: '1.000021',
-        ethTransactionAmount: '1',
-        ethTransactionFee: '0.000021',
-        ethTransactionTotal: '469.27',
+        ircTransactionAmount: '1',
+        ircTransactionFee: '0.000021',
+        ircTransactionTotal: '469.27',
         hexGasTotal: '0x1319718a5000',
         nonce: '0x0',
         fetchingMethodData: false,
@@ -181,13 +181,13 @@ describe('Confirm Transaction Duck', () => {
           type: UPDATE_TRANSACTION_AMOUNTS,
           payload: {
             fiatTransactionAmount: '123.45',
-            ethTransactionAmount: '.5',
+            ircTransactionAmount: '.5',
           },
         }),
         {
           ...mockState.confirmTransaction,
           fiatTransactionAmount: '123.45',
-          ethTransactionAmount: '.5',
+          ircTransactionAmount: '.5',
         }
       );
     });
@@ -198,13 +198,13 @@ describe('Confirm Transaction Duck', () => {
           type: UPDATE_TRANSACTION_FEES,
           payload: {
             fiatTransactionFee: '123.45',
-            ethTransactionFee: '.5',
+            ircTransactionFee: '.5',
           },
         }),
         {
           ...mockState.confirmTransaction,
           fiatTransactionFee: '123.45',
-          ethTransactionFee: '.5',
+          ircTransactionFee: '.5',
         }
       );
     });
@@ -215,13 +215,13 @@ describe('Confirm Transaction Duck', () => {
           type: UPDATE_TRANSACTION_TOTALS,
           payload: {
             fiatTransactionTotal: '123.45',
-            ethTransactionTotal: '.5',
+            ircTransactionTotal: '.5',
           },
         }),
         {
           ...mockState.confirmTransaction,
           fiatTransactionTotal: '123.45',
-          ethTransactionTotal: '.5',
+          ircTransactionTotal: '.5',
         }
       );
     });
@@ -502,9 +502,9 @@ describe('Confirm Transaction Duck', () => {
           currentCurrency: 'usd',
         },
         confirmTransaction: {
-          ethTransactionAmount: '1',
-          ethTransactionFee: '0.000021',
-          ethTransactionTotal: '1.000021',
+          ircTransactionAmount: '1',
+          ircTransactionFee: '0.000021',
+          ircTransactionTotal: '1.000021',
           fetchingMethodData: false,
           fiatTransactionAmount: '469.26',
           fiatTransactionFee: '0.01',
@@ -578,9 +578,9 @@ describe('Confirm Transaction Duck', () => {
           currentCurrency: 'usd',
         },
         confirmTransaction: {
-          ethTransactionAmount: '1',
-          ethTransactionFee: '0.000021',
-          ethTransactionTotal: '1.000021',
+          ircTransactionAmount: '1',
+          ircTransactionFee: '0.000021',
+          ircTransactionTotal: '1.000021',
           fetchingMethodData: false,
           fiatTransactionAmount: '469.26',
           fiatTransactionFee: '0.01',

@@ -39,7 +39,7 @@ const DetectTokensController = require('./controllers/detect-tokens');
 const ConfigManager = require('./lib/config-manager');
 const nodeify = require('./lib/nodeify');
 const accountImporter = require('./account-import-strategies');
-const getBuyEthUrl = require('./lib/buy-eth-url');
+const getBuyIrcUrl = require('./lib/buy-irc-url');
 const Mutex = require('await-semaphore').Mutex;
 const version = require('../manifest.json').version;
 const BN = require('bn.js');
@@ -358,7 +358,7 @@ module.exports = class AuramaskController extends EventEmitter {
       getGasPrice: (cb) => cb(null, this.getGasPrice()),
 
       // coinbase
-      buyEth: this.buyEth.bind(this),
+      buyIrc: this.buyIrc.bind(this),
       // shapeshift
       createShapeShiftTx: this.createShapeShiftTx.bind(this),
 
@@ -779,7 +779,7 @@ module.exports = class AuramaskController extends EventEmitter {
   /**
    * Imports an account with the specified import strategy.
    * These are defined in app/scripts/account-import-strategies
-   * Each strategy represents a different way of serializing an Ethereum key pair.
+   * Each strategy represents a different way of serializing an IrChain key pair.
    *
    * @param  {string} strategy - A unique identifier for an account import strategy.
    * @param  {any} args - The data required by that strategy to import an account.
@@ -1218,7 +1218,7 @@ module.exports = class AuramaskController extends EventEmitter {
   }
 
   /**
-   * A method for serving our ethereum provider over a given stream.
+   * A method for serving our irchain provider over a given stream.
    * @param {*} outStream - The stream to provide over.
    * @param {string} origin - The URI of the requesting resource.
    */
@@ -1342,22 +1342,23 @@ module.exports = class AuramaskController extends EventEmitter {
   }
 
   /**
-   * A method for forwarding the user to the easiest way to obtain ether,
+   * A method for forwarding the user to the easiest way to obtain ircer,
    * or the network "gas" currency, for the current selected network.
    *
    * @param {string} address - The address to fund.
    * @param {string} amount - The amount of ircer desired, as a base 10 string.
    */
-  buyEth(address, amount) {
+  buyIrc(address, amount) {
     if (!amount) amount = '5';
     const network = this.networkController.getNetworkState();
-    const url = getBuyEthUrl({network, address, amount});
+    const url = getBuyIrcUrl({network, address, amount});
     if (url) this.platform.openWindow({url});
   }
 
   /**
    * A method for triggering a shapeshift currency transfer.
    * @param {string} depositAddress - The address to deposit to.
+   * @param {string} depositType - The type of deposit
    * @property {string} depositType - An abbreviation of the type of crypto currency to be deposited.
    */
   createShapeShiftTx(depositAddress, depositType) {
@@ -1367,8 +1368,8 @@ module.exports = class AuramaskController extends EventEmitter {
   // network
 
   /**
-   * A method for selecting a custom URL for an ethereum RPC provider.
-   * @param {string} rpcTarget - A URL for a valid Ethereum RPC API.
+   * A method for selecting a custom URL for an irchain RPC provider.
+   * @param {string} rpcTarget - A URL for a valid irchain RPC API.
    * @returns {Promise<String>} - The RPC Target URL confirmed.
    */
   async setCustomRpc(rpcTarget) {

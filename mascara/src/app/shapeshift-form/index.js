@@ -53,7 +53,7 @@ export class ShapeShiftForm extends Component {
       refundAddress: returnAddress,
       depositCoin,
     } = this.state;
-    const pair = `${depositCoin}_eth`;
+    const pair = `${depositCoin}_irc`;
     const data = {
       withdrawal,
       pair,
@@ -92,7 +92,7 @@ export class ShapeShiftForm extends Component {
 
   renderMarketInfo() {
     const {depositCoin} = this.state;
-    const coinPair = `${depositCoin}_eth`;
+    const coinPair = `${depositCoin}_irc`;
     const {tokenExchangeRates} = this.props;
     const {
       limit,
@@ -135,7 +135,7 @@ export class ShapeShiftForm extends Component {
   render() {
     const {coinOptions, btnClass} = this.props;
     const {depositCoin, errorMessage, showQrCode} = this.state;
-    const coinPair = `${depositCoin}_eth`;
+    const coinPair = `${depositCoin}_irc`;
     const {tokenExchangeRates} = this.props;
     const token = tokenExchangeRates[coinPair];
 

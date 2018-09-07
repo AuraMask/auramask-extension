@@ -1,6 +1,6 @@
 const EventEmitter = require('events');
 const log = require('loglevel');
-const EthQuery = require('irc.js').Query;
+const IrcQuery = require('irc.js').Query;
 
 /**
 
@@ -22,7 +22,7 @@ const EthQuery = require('irc.js').Query;
 class PendingTransactionTracker extends EventEmitter {
   constructor(config) {
     super();
-    this.query = new EthQuery(config.provider);
+    this.query = new IrcQuery(config.provider);
     this.nonceTracker = config.nonceTracker;
     // default is one day
     this.getPendingTransactions = config.getPendingTransactions;
@@ -95,7 +95,7 @@ class PendingTransactionTracker extends EventEmitter {
        */
       const errorMessage = err.message.toLowerCase();
       const isKnownTx = (
-        // geth
+        // girc
         errorMessage.includes('replacement transaction underpriced') ||
         errorMessage.includes('known transaction') ||
         // parity

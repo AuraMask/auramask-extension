@@ -3,7 +3,7 @@ import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import { updateSend } from '../../../actions';
 import { clearConfirmTransaction } from '../../../ducks/confirm-transaction.duck';
-import ConfirmSendEther from './confirm-send-ether.component';
+import ConfirmSendIrcer from './confirm-send-ircer.component';
 
 const mapStateToProps = state => {
   const { confirmTransaction: { txData: { txParams } = {} } } = state;
@@ -42,4 +42,4 @@ const mapDispatchToProps = dispatch => {
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps)
-)(ConfirmSendEther);
+)(ConfirmSendIrcer);

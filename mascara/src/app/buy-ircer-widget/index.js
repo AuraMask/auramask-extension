@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {qrcode} from 'qrcode-npm';
 import copyToClipboard from 'copy-to-clipboard';
 import ShapeShiftForm from '../shapeshift-form';
-import {buyEth, showAccountDetail} from '../../../../ui/app/actions';
+import {buyIrc, showAccountDetail} from '../../../../ui/app/actions';
 
 const OPTION_VALUES = {
   COINBASE: 'coinbase',
@@ -28,27 +28,33 @@ const OPTIONS = [
   },
 ];
 
-class BuyEtherWidget extends Component {
+class BuyIrcerWidget extends Component {
 
-  static propTypes = {
-    address: PropTypes.string,
-    skipText: PropTypes.string,
-    className: PropTypes.string,
-    onSkip: PropTypes.func,
-    goToCoinbase: PropTypes.func,
-    showAccountDetail: PropTypes.func,
+  static get propTypes() {
+    return {
+      address: PropTypes.string,
+      skipText: PropTypes.string,
+      className: PropTypes.string,
+      onSkip: PropTypes.func,
+      goToCoinbase: PropTypes.func,
+      showAccountDetail: PropTypes.func,
+    };
   };
 
-  state = {
-    selectedOption: OPTION_VALUES.QR_CODE,
+  get state() {
+    return {
+      selectedOption: OPTION_VALUES.QR_CODE,
+    };
   };
 
-  copyToClipboard = () => {
-    const {address} = this.props;
+  get copyToClipboard() {
+    return () => {
+      const {address} = this.props;
 
-    this.setState({justCopied: true}, () => copyToClipboard(address));
+      this.setState({justCopied: true}, () => copyToClipboard(address));
 
-    setTimeout(() => this.setState({justCopied: false}), 1000);
+      setTimeout(() => this.setState({justCopied: false}), 1000);
+    };
   };
 
   renderSkip() {
@@ -56,7 +62,7 @@ class BuyEtherWidget extends Component {
 
     return (
       <div
-        className="buy-ether__do-it-later"
+        className="buy-ircer__do-it-later"
         onClick={() => {
           if (onSkip) return onSkip();
           showAccountDetail(address);
@@ -106,12 +112,12 @@ class BuyEtherWidget extends Component {
     const {goToCoinbase, address} = this.props;
 
     return (
-      <div className="buy-ether__action-content-wrapper">
+      <div className="buy-ircer__action-content-wrapper">
         <div>{this.renderCoinbaseLogo()}</div>
-        <div className="buy-ether__body-text">Coinbase is the world’s most popular way to buy and sell bitcoin, ethereum, and litecoin.
+        <div className="buy-ircer__body-text">Coinbase is the world’s most popular way to buy and sell bitcoin, IrChain, and litecoin.
         </div>
-        <a className="first-time-flow__link buy-ether__faq-link">What is Ethereum?</a>
-        <div className="buy-ether__buttons">
+        <a className="first-time-flow__link buy-ircer__faq-link">What is IrChain?</a>
+        <div className="buy-ircer__buttons">
           <button
             className="first-time-flow__button"
             onClick={() => goToCoinbase(address)}
@@ -135,9 +141,9 @@ class BuyEtherWidget extends Component {
         return this.renderCoinbaseForm();
       case OPTION_VALUES.SHAPESHIFT:
         return (
-          <div className="buy-ether__action-content-wrapper">
+          <div className="buy-ircer__action-content-wrapper">
             <div className="shapeshift-logo"/>
-            <div className="buy-ether__body-text">
+            <div className="buy-ircer__body-text">
               Trade any leading blockchain asset for any other. Protection by Design. No Account Needed.
             </div>
             <ShapeShiftForm btnClass="first-time-flow__button"/>
@@ -145,11 +151,11 @@ class BuyEtherWidget extends Component {
         );
       case OPTION_VALUES.QR_CODE:
         return (
-          <div className="buy-ether__action-content-wrapper">
+          <div className="buy-ircer__action-content-wrapper">
             <div dangerouslySetInnerHTML={{__html: qrImage.createTableTag(4)}}/>
-            <div className="buy-ether__body-text">Deposit Ether directly into your account.</div>
-            <div className="buy-ether__small-body-text">(This is the account address that AuraMask created for you to recieve funds.)</div>
-            <div className="buy-ether__buttons">
+            <div className="buy-ircer__body-text">Deposit Ircer directly into your account.</div>
+            <div className="buy-ircer__small-body-text">(This is the account address that AuraMask created for you to recieve funds.)</div>
+            <div className="buy-ircer__buttons">
               <button
                 className="first-time-flow__button"
                 onClick={this.copyToClipboard}
@@ -170,22 +176,22 @@ class BuyEtherWidget extends Component {
     const {selectedOption} = this.state;
 
     return (
-      <div className={`${className} buy-ether__content-wrapper`}>
-        <div className="buy-ether__content-headline-wrapper">
-          <div className="buy-ether__content-headline">Deposit Options</div>
+      <div className={`${className} buy-ircer__content-wrapper`}>
+        <div className="buy-ircer__content-headline-wrapper">
+          <div className="buy-ircer__content-headline">Deposit Options</div>
           {this.renderSkip()}
         </div>
-        <div className="buy-ether__content">
-          <div className="buy-ether__side-panel">
+        <div className="buy-ircer__content">
+          <div className="buy-ircer__side-panel">
             {OPTIONS.map(({name, value}) => (
               <div
                 key={value}
-                className={classnames('buy-ether__side-panel-item', {
-                  'buy-ether__side-panel-item--selected': value === selectedOption,
+                className={classnames('buy-ircer__side-panel-item', {
+                  'buy-ircer__side-panel-item--selected': value === selectedOption,
                 })}
                 onClick={() => this.setState({selectedOption: value})}
               >
-                <div className="buy-ether__side-panel-item-name">{name}</div>
+                <div className="buy-ircer__side-panel-item-name">{name}</div>
                 {value === selectedOption && (
                   <svg viewBox="0 0 574 1024" id="si-ant-right" width="15px" height="15px">
                     <path
@@ -195,7 +201,7 @@ class BuyEtherWidget extends Component {
               </div>
             ))}
           </div>
-          <div className="buy-ether__action-content">
+          <div className="buy-ircer__action-content">
             {this.renderContent()}
           </div>
         </div>
@@ -209,7 +215,7 @@ export default connect(
     address: selectedAddress,
   }),
   dispatch => ({
-    goToCoinbase: address => dispatch(buyEth({network: '1', address, amount: 0})),
+    goToCoinbase: address => dispatch(buyIrc({network: '1', address, amount: 0})),
     showAccountDetail: address => dispatch(showAccountDetail(address)),
   }),
-)(BuyEtherWidget);
+)(BuyIrcerWidget);

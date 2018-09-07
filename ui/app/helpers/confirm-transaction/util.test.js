@@ -60,17 +60,17 @@ describe('Confirm Transaction utils', () => {
     });
   });
 
-  describe('addEth', () => {
+  describe('addIrc', () => {
     it('should add two values together rounding to 6 decimal places', () => {
       assert.equal(
-        utils.addEth('0.12345678', '0'),
+        utils.addIrc('0.12345678', '0'),
         '0.123457'
       );
     });
 
     it('should add any number of values together rounding to 6 decimal places', () => {
       assert.equal(
-        utils.addEth('0.1', '0.02', '0.003', '0.0004', '0.00005', '0.000006', '0.0000007'),
+        utils.addIrc('0.1', '0.02', '0.003', '0.0004', '0.00005', '0.000006', '0.0000007'),
         '0.123457'
       );
     });
@@ -94,11 +94,11 @@ describe('Confirm Transaction utils', () => {
 
   describe('getTransactionAmount', () => {
     it('should get the transaction amount in ETH', () => {
-      const ethTransactionAmount = utils.getTransactionAmount({
+      const ircTransactionAmount = utils.getTransactionAmount({
         value: '0xde0b6b3a7640000', toCurrency: 'ETH', conversionRate: 468.58, numberOfDecimals: 6,
       });
 
-      assert.equal(ethTransactionAmount, '1');
+      assert.equal(ircTransactionAmount, '1');
     });
 
     it('should get the transaction amount in fiat', () => {
@@ -112,11 +112,11 @@ describe('Confirm Transaction utils', () => {
 
   describe('getTransactionFee', () => {
     it('should get the transaction fee in ETH', () => {
-      const ethTransactionFee = utils.getTransactionFee({
+      const ircTransactionFee = utils.getTransactionFee({
         value: '0x1319718a5000', toCurrency: 'ETH', conversionRate: 468.58, numberOfDecimals: 6,
       });
 
-      assert.equal(ethTransactionFee, '0.000021');
+      assert.equal(ircTransactionFee, '0.000021');
     });
 
     it('should get the transaction fee in fiat', () => {

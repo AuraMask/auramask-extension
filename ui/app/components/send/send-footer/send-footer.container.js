@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import ethUtil from 'icjs-util';
+import ircUtil from 'icjs-util';
 import {
   addToAddressBook,
   clearSend,
@@ -95,7 +95,7 @@ function mapDispatchToProps(dispatch) {
       return dispatch(updateTransaction(editingTx));
     },
     addToAddressBookIfNew: (newAddress, toAccounts, nickname = '') => {
-      const hexPrefixedAddress = ethUtil.addHexPrefix(newAddress);
+      const hexPrefixedAddress = ircUtil.addHexPrefix(newAddress);
       if (addressIsNew(toAccounts)) {
         // TODO: nickname, i.e. addToAddressBook(recipient, nickname)
         dispatch(addToAddressBook(hexPrefixedAddress, nickname));

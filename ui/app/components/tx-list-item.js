@@ -69,7 +69,7 @@ TxListItem.prototype.componentDidMount = async function() {
 
   const {total, fiatTotal} = isTokenTx
     ? await this.getSendTokenTotal()
-    : this.getSendEtherTotal();
+    : this.getSendIrcerTotal();
 
   if (this.unmounted) {
     return;
@@ -107,7 +107,7 @@ TxListItem.prototype.getAddressText = function() {
   return addressText;
 };
 
-TxListItem.prototype.getSendEtherTotal = function() {
+TxListItem.prototype.getSendIrcerTotal = function() {
   const {
     transactionAmount,
     conversionRate,
@@ -122,24 +122,24 @@ TxListItem.prototype.getSendEtherTotal = function() {
   const totalInFiat = conversionUtil(transactionAmount, {
     fromNumericBase: 'hex',
     toNumericBase: 'dec',
-    fromCurrency: 'ETH',
+    fromCurrency: 'IRC',
     toCurrency: currentCurrency,
     fromDenomination: 'WEI',
     numberOfDecimals: 2,
     conversionRate,
   });
-  const totalInETH = conversionUtil(transactionAmount, {
+  const totalInIRC = conversionUtil(transactionAmount, {
     fromNumericBase: 'hex',
     toNumericBase: 'dec',
-    fromCurrency: 'ETH',
-    toCurrency: 'ETH',
+    fromCurrency: 'IRC',
+    toCurrency: 'IRC',
     fromDenomination: 'WEI',
     conversionRate,
     numberOfDecimals: 6,
   });
 
   return {
-    total: `${totalInETH} ETH`,
+    total: `${totalInIRC} IRC`,
     fiatTotal: `${totalInFiat} ${currentCurrency.toUpperCase()}`,
   };
 };

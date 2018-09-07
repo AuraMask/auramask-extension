@@ -13,13 +13,13 @@ const {
   BASE_TOKEN_GAS_COST,
   INSUFFICIENT_FUNDS_ERROR,
   INSUFFICIENT_TOKENS_ERROR,
-  NEGATIVE_ETH_ERROR,
+  NEGATIVE_IRC_ERROR,
   ONE_GWEI_IN_WEI_HEX,
   SIMPLE_GAS_COST,
   TOKEN_TRANSFER_FUNCTION_SIGNATURE,
 } = require('./send.constants');
 const abi = require('icjs-abi');
-const ethUtil = require('icjs-util');
+const ircUtil = require('icjs-util');
 
 module.exports = {
   addGasBuffer,
@@ -144,7 +144,7 @@ function getAmountErrorObject({
   } else if (inSufficientTokens) {
     amountError = INSUFFICIENT_TOKENS_ERROR;
   } else if (amountLessThanZero) {
-    amountError = NEGATIVE_ETH_ERROR;
+    amountError = NEGATIVE_IRC_ERROR;
   }
 
   return {amount: amountError};
@@ -221,7 +221,7 @@ async function estimateGas({selectedAddress, selectedToken, blockGasLimit, to, v
   paramsForGasEstimate.to = selectedToken ? selectedToken.address : to;
 
   // if not, fall back to block gasLimit
-  paramsForGasEstimate.gas = ethUtil.addHexPrefix(multiplyCurrencies(blockGasLimit, 0.95, {
+  paramsForGasEstimate.gas = ircUtil.addHexPrefix(multiplyCurrencies(blockGasLimit, 0.95, {
     multiplicandBase: 16,
     multiplierBase: 10,
     roundDown: '0',
@@ -237,13 +237,13 @@ async function estimateGas({selectedAddress, selectedToken, blockGasLimit, to, v
         );
         if (simulationFailed) {
           const estimateWithBuffer = addGasBuffer(paramsForGasEstimate.gas, blockGasLimit, 1.5);
-          return resolve(ethUtil.addHexPrefix(estimateWithBuffer));
+          return resolve(ircUtil.addHexPrefix(estimateWithBuffer));
         } else {
           return reject(err);
         }
       }
       const estimateWithBuffer = addGasBuffer(estimatedGas.toString(16), blockGasLimit, 1.5);
-      return resolve(ethUtil.addHexPrefix(estimateWithBuffer));
+      return resolve(ircUtil.addHexPrefix(estimateWithBuffer));
     });
   });
 }
@@ -283,7 +283,7 @@ function addGasBuffer(initialGasLimitHex, blockGasLimitHex, bufferMultiplier = 1
 function generateTokenTransferData({toAddress = '0x0', amount = '0x0', selectedToken}) {
   if (!selectedToken) return;
   return TOKEN_TRANSFER_FUNCTION_SIGNATURE + Array.prototype.map.call(
-    abi.rawEncode(['address', 'uint256'], [toAddress, ethUtil.addHexPrefix(amount)]),
+    abi.rawEncode(['address', 'uint256'], [toAddress, ircUtil.addHexPrefix(amount)]),
     x => ('00' + x.toString(16)).slice(-2),
   ).join('');
 }

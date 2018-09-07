@@ -26,9 +26,9 @@ export default class ConfirmTransactionBase extends Component {
     conversionRate: PropTypes.number,
     currentCurrency: PropTypes.string,
     editTransaction: PropTypes.func,
-    ethTransactionAmount: PropTypes.string,
-    ethTransactionFee: PropTypes.string,
-    ethTransactionTotal: PropTypes.string,
+    ircTransactionAmount: PropTypes.string,
+    ircTransactionFee: PropTypes.string,
+    ircTransactionTotal: PropTypes.string,
     fiatTransactionAmount: PropTypes.string,
     fiatTransactionFee: PropTypes.string,
     fiatTransactionTotal: PropTypes.string,
@@ -54,7 +54,7 @@ export default class ConfirmTransactionBase extends Component {
     detailsComponent: PropTypes.node,
     errorKey: PropTypes.string,
     errorMessage: PropTypes.string,
-    ethTotalTextOverride: PropTypes.string,
+    ircTotalTextOverride: PropTypes.string,
     fiatTotalTextOverride: PropTypes.string,
     hideData: PropTypes.bool,
     hideDetails: PropTypes.bool,
@@ -148,12 +148,12 @@ export default class ConfirmTransactionBase extends Component {
     const {
       detailsComponent,
       fiatTransactionFee,
-      ethTransactionFee,
+      ircTransactionFee,
       currentCurrency,
       fiatTransactionTotal,
-      ethTransactionTotal,
+      ircTransactionTotal,
       fiatTotalTextOverride,
-      ethTotalTextOverride,
+      ircTotalTextOverride,
       hideDetails,
     } = this.props
 
@@ -170,7 +170,7 @@ export default class ConfirmTransactionBase extends Component {
             <ConfirmDetailRow
               label="Gas Fee"
               fiatText={formatCurrency(fiatTransactionFee, currentCurrency)}
-              ethText={`\u2666 ${ethTransactionFee}`}
+              ircText={`\u2666 ${ircTransactionFee}`}
               headerText="Edit"
               headerTextClassName="confirm-detail-row__header-text--edit"
               onHeaderClick={() => this.handleEditGas()}
@@ -180,7 +180,7 @@ export default class ConfirmTransactionBase extends Component {
             <ConfirmDetailRow
               label="Total"
               fiatText={fiatTotalTextOverride || formattedCurrency}
-              ethText={ethTotalTextOverride || `\u2666 ${ethTransactionTotal}`}
+              ircText={ircTotalTextOverride || `\u2666 ${ircTransactionTotal}`}
               headerText="Amount + Gas Fee"
               headerTextClassName="confirm-detail-row__header-text--total"
               fiatTextColor="#2f9ae0"
@@ -292,7 +292,7 @@ export default class ConfirmTransactionBase extends Component {
       toName,
       toAddress,
       methodData,
-      ethTransactionAmount,
+      ircTransactionAmount,
       fiatTransactionAmount,
       valid: propsValid = true,
       errorMessage,
@@ -324,7 +324,7 @@ export default class ConfirmTransactionBase extends Component {
         showEdit={onEdit && !isTxReprice}
         action={action || name || this.context.t('unknownFunction')}
         title={title || `${fiatConvertedAmount} ${currentCurrency.toUpperCase()}`}
-        subtitle={subtitle || `\u2666 ${ethTransactionAmount}`}
+        subtitle={subtitle || `\u2666 ${ircTransactionAmount}`}
         hideSubtitle={hideSubtitle}
         summaryComponent={summaryComponent}
         detailsComponent={this.renderDetails()}

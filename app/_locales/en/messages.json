@@ -39,7 +39,7 @@
     "message": "Amount + Gas"
   },
   "appDescription": {
-    "message": "Ethereum Browser Extension",
+    "message": "IrChain Browser Extension",
     "description": "The description of the application"
   },
   "appName": {
@@ -99,7 +99,7 @@
     "message": "Buy on Coinbase"
   },
   "buyCoinbaseExplainer": {
-    "message": "Coinbase is the world’s most popular way to buy and sell Bitcoin, Ethereum, and Litecoin."
+    "message": "Coinbase is the world’s most popular way to buy and sell Bitcoin, IrChain, and Litecoin."
   },
   "bytes": {
     "message": "Bytes"
@@ -150,7 +150,7 @@
     "message": "Connect to Trezor"
   },
   "connectToTrezorHelp": {
-    "message": "AuraMask is able to access your TREZOR Ethereum accounts. First make sure your device is connected and unlocked."
+    "message": "AuraMask is able to access your TREZOR IrChain accounts. First make sure your device is connected and unlocked."
   },
   "connectToTrezorTrouble": {
     "message": "If you are having trouble, please make sure you are using the latest version of the TREZOR firmware."
@@ -235,7 +235,7 @@
     "message": "Decimals of Precision"
   },
   "defaultNetwork": {
-    "message": "The default network for Ether transactions is Main Net."
+    "message": "The default network for Ircer transactions is Main Net."
   },
   "denExplainer": {
     "message": "Your DEN is your password-encrypted storage within AuraMask."
@@ -254,7 +254,7 @@
     "message": "Deposit Irc"
   },
   "depositIrcer": {
-    "message": "Deposit Ether"
+    "message": "Deposit Ircer"
   },
   "depositFiat": {
     "message": "Deposit with Fiat"
@@ -266,7 +266,7 @@
     "message": "Deposit with ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "If you own other cryptocurrencies, you can trade and deposit Ether directly into your AuraMask wallet. No Account Needed."
+    "message": "If you own other cryptocurrencies, you can trade and deposit Ircer directly into your AuraMask wallet. No Account Needed."
   },
   "details": {
     "message": "Details"
@@ -275,10 +275,10 @@
     "message": "Direct Deposit"
   },
   "directDepositIrcer": {
-    "message": "Directly Deposit Ether"
+    "message": "Directly Deposit Ircer"
   },
   "directDepositIrcerExplainer": {
-    "message": "If you already have some Ether, the quickest way to get Ether in your new wallet by direct deposit."
+    "message": "If you already have some Ircer, the quickest way to get Ircer in your new wallet by direct deposit."
   },
   "done": {
     "message": "Done"
@@ -332,7 +332,7 @@
     "message": "Passwords Don't Match"
   },
   "ircerscanView": {
-    "message": "View account on Etherscan"
+    "message": "View account on Ircerscan"
   },
   "exchangeRate": {
     "message": "Exchange Rate"
@@ -407,11 +407,11 @@
     "message": "Generating transaction"
   },
   "getIrcer": {
-    "message": "Get Ether"
+    "message": "Get Ircer"
   },
   "getIrcerFromFaucet": {
-    "message": "Get Ether from a faucet for the $1",
-    "description": "Displays network name for Ether faucet"
+    "message": "Get Ircer from a faucet for the $1",
+    "description": "Displays network name for Ircer faucet"
   },
   "getHelp": {
     "message": "Get Help."
@@ -455,7 +455,7 @@
     "message": "Hide Token?"
   },
   "howToDeposit": {
-    "message": "How would you like to deposit Ether?"
+    "message": "How would you like to deposit Ircer?"
   },
   "holdIrcer": {
     "message": "It allows you to hold ircer & tokens, and serves as your bridge to decentralized applications."
@@ -570,7 +570,7 @@
     "message": "seed words only have lowercase characters"
   },
   "mainnet": {
-    "message": "Main Ethereum Network"
+    "message": "Main IrChain Network"
   },
   "menu": {
     "message": "Menu"
@@ -579,7 +579,7 @@
     "message": "Message"
   },
   "auramaskDescription": {
-    "message": "AuraMask is a secure identity vault for Ethereum."
+    "message": "AuraMask is a secure identity vault for IrChain."
   },
   "auramaskSeedWords": {
     "message": "AuraMask Seed Words"
@@ -594,7 +594,7 @@
     "message": "Must select at least 1 token."
   },
   "needIrcerInWallet": {
-    "message": "To interact with decentralized applications using AuraMask, you’ll need Ether in your wallet."
+    "message": "To interact with decentralized applications using AuraMask, you’ll need Ircer in your wallet."
   },
   "needImportFile": {
     "message": "You must select a file to import.",
@@ -604,7 +604,7 @@
     "message": "You must enter a password for the selected file.",
     "description": "Password and file needed to import an account"
   },
-  "negativeETH": {
+  "negativeIRC": {
     "message": "Can not send negative amounts of IRC."
   },
   "networks": {
@@ -815,7 +815,7 @@
     "message": "Current RPC"
   },
   "connectingToMainnet": {
-    "message": "Connecting to Main Ethereum Network"
+    "message": "Connecting to Main IrChain Network"
   },
   "connectingToUnknown": {
     "message": "Connecting to Unknown Network"
@@ -873,7 +873,7 @@
   "send": {
     "message": "Send"
   },
-  "sendETH": {
+  "sendIRC": {
     "message": "Send IRC"
   },
   "sendTokens": {
@@ -883,10 +883,10 @@
     "message": "Separate each word with a single space"
   },
   "onlySendToIrcerAddress": {
-    "message": "Only send IRC to an Ethereum address."
+    "message": "Only send IRC to an IrChain address."
   },
   "onlySendTokensToAccountAddress": {
-    "message": "Only send $1 to an Ethereum account address.",
+    "message": "Only send $1 to an IrChain account address.",
     "description": "displays token symbol"
   },
   "orderOneHere": {
@@ -905,7 +905,7 @@
     "message": "These are the accounts available in your hardware wallet. Select the one you’d like to use in AuraMask."
   },
   "sendTokensAnywhere": {
-    "message": "Send Tokens to anyone with an Ethereum account"
+    "message": "Send Tokens to anyone with an IrChain account"
   },
   "settings": {
     "message": "Settings"
@@ -926,7 +926,7 @@
     "message": "3. Start using dApps and more!"
   },
   "step3HardwareWalletMsg": {
-    "message": "Use your hardware account like you would with any Ethereum account. Log in to dApps, send Irc, buy and store ERC20 tokens and Non-Fungible tokens like CryptoKitties."
+    "message": "Use your hardware account like you would with any IrChain account. Log in to dApps, send Irc, buy and store ERC20 tokens and Non-Fungible tokens like CryptoKitties."
   },
   "info": {
     "message": "Info"
@@ -1003,7 +1003,7 @@
   "to": {
     "message": "To: "
   },
-  "toETHviaShapeShift": {
+  "toIRCviaShapeShift": {
     "message": "$1 to IRC via ShapeShift",
     "description": "system will fill in deposit type in start of message"
   },
@@ -1127,7 +1127,7 @@
     "message": "View Account"
   },
   "viewOnIrcerscan": {
-    "message": "View on Etherscan"
+    "message": "View on Ircerscan"
   },
   "visitWebSite": {
     "message": "Visit our web site"

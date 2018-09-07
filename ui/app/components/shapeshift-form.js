@@ -56,7 +56,7 @@ function ShapeshiftForm() {
 }
 
 ShapeshiftForm.prototype.getCoinPair = function() {
-  return `${this.state.depositCoin.toUpperCase()}_ETH`;
+  return `${this.state.depositCoin.toUpperCase()}_IRC`;
 };
 
 ShapeshiftForm.prototype.componentWillMount = function() {
@@ -85,7 +85,7 @@ ShapeshiftForm.prototype.onBuyWithShapeShift = function() {
     refundAddress: returnAddress,
     depositCoin,
   } = this.state;
-  const pair = `${depositCoin}_eth`;
+  const pair = `${depositCoin}_irc`;
   const data = {
     withdrawal,
     pair,
@@ -208,7 +208,7 @@ ShapeshiftForm.prototype.render = function() {
               this.context.t('receive'),
             ]),
 
-            h('div.shapeshift-form__selector-input', ['ETH']),
+            h('div.shapeshift-form__selector-input', ['IRC']),
 
           ]),
 

@@ -2,7 +2,7 @@ const {
   multiplyCurrencies,
   subtractCurrencies,
 } = require('../../../../../conversion-util');
-const ethUtil = require('icjs-util');
+const ircUtil = require('icjs-util');
 
 function calcMaxAmount({ balance, gasTotal, selectedToken, tokenBalance }) {
     const { decimals } = selectedToken || {};
@@ -11,8 +11,8 @@ function calcMaxAmount({ balance, gasTotal, selectedToken, tokenBalance }) {
     return selectedToken
       ? multiplyCurrencies(tokenBalance, multiplier, {toNumericBase: 'hex'})
       : subtractCurrencies(
-        ethUtil.addHexPrefix(balance),
-        ethUtil.addHexPrefix(gasTotal),
+        ircUtil.addHexPrefix(balance),
+        ircUtil.addHexPrefix(gasTotal),
         { toNumericBase: 'hex' }
       );
 }

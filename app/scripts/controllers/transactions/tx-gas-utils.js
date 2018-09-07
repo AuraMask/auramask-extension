@@ -1,4 +1,4 @@
-const EthQuery = require('irc.js').Query;
+const IrcQuery = require('irc.js').Query;
 const {
   hexToBn,
   BnMultiplyByFraction,
@@ -9,7 +9,7 @@ const SIMPLE_GAS_COST = '0x5208'; // Hex for 21000, cost of a simple send.
 
 /**
  tx-gas-utils are gas utility methods for Transaction manager
- its passed ethquery
+ its passed IrcQuery
  and used to do things like calculate gas of a tx.
  @param {Object} provider - A network provider.
  */
@@ -17,7 +17,7 @@ const SIMPLE_GAS_COST = '0x5208'; // Hex for 21000, cost of a simple send.
 class TxGasUtil {
 
   constructor(provider) {
-    this.query = new EthQuery(provider);
+    this.query = new IrcQuery(provider);
   }
 
   /**

@@ -30,9 +30,9 @@ const mapStateToProps = (state, props) => {
   const {toAddress: propsToAddress} = props;
   const {confirmTransaction, auramask} = state;
   const {
-    ethTransactionAmount,
-    ethTransactionFee,
-    ethTransactionTotal,
+    ircTransactionAmount,
+    ircTransactionFee,
+    ircTransactionTotal,
     fiatTransactionAmount,
     fiatTransactionFee,
     fiatTransactionTotal,
@@ -72,9 +72,9 @@ const mapStateToProps = (state, props) => {
     fromName,
     toAddress,
     toName,
-    ethTransactionAmount,
-    ethTransactionFee,
-    ethTransactionTotal,
+    ircTransactionAmount,
+    ircTransactionFee,
+    ircTransactionTotal,
     fiatTransactionAmount,
     fiatTransactionFee,
     fiatTransactionTotal,

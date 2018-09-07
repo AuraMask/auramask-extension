@@ -1,15 +1,15 @@
 const namehash = require('irc.js').ENS.namehash;
 const multihash = require('multihashes');
 const HttpProvider = require('irc.js').HttpProvider;
-const Eth = require('irc.js').Query;
-const EthContract = require('irc.js').Contract;
+const IrcQuery = require('irc.js').Query;
+const IrcContract = require('irc.js').Contract;
 const registrarAbi = require('./contracts/registrar');
 const resolverAbi = require('./contracts/resolver');
 
 function ens(name, provider) {
-  const eth = new Eth(new HttpProvider(getProvider(provider.type)));
+  const ircQuery = new IrcQuery(new HttpProvider(getProvider(provider.type)));
   const hash = namehash.hash(name);
-  const contract = new EthContract(eth);
+  const contract = new IrcContract(ircQuery);
   const Registrar = contract(registrarAbi).at(getRegistrar(provider.type));
   return new Promise((resolve, reject) => {
     if (provider.type === 'mainnet') {
@@ -57,7 +57,7 @@ function getRegistrar(type) {
 module.exports.resolve = function(name, provider) {
   const path = name.split('.');
   const topLevelDomain = path[path.length - 1];
-  if (topLevelDomain === 'eth' || topLevelDomain === 'test') {
+  if (topLevelDomain === 'irc' || topLevelDomain === 'test') {
     return ens(name, provider);
   } else {
     return new Promise((resolve, reject) => {

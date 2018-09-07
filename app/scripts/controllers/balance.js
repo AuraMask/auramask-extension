@@ -16,8 +16,8 @@ class BalanceController {
    * @property {TransactionController} txController Stores, tracks and manages transactions. Here used to create a listener for
    * transaction updates.
    * @property {BlockTracker} blockTracker Tracks updates to blocks. On new blocks, this BalanceController updates its balance
-   * @property {Object} store The store for the ethBalance
-   * @property {string} store.ethBalance A base 16 hex string. The balance for the current account.
+   * @property {Object} store The store for the ircBalance
+   * @property {string} store.ircBalance A base 16 hex string. The balance for the current account.
    * @property {PendingBalanceCalculator} balanceCalc Used to calculate the accounts balance with possible pending
    * transaction costs taken into account.
    *
@@ -32,7 +32,7 @@ class BalanceController {
     this.blockTracker = blockTracker;
 
     const initState = {
-      ethBalance: undefined,
+      ircBalance: undefined,
     };
     this.store = new ObservableStore(initState);
 
@@ -45,19 +45,19 @@ class BalanceController {
   }
 
   /**
-   * Updates the ethBalance property to the current pending balance
+   * Updates the ircBalance property to the current pending balance
    *
    * @returns {Promise<void>} Promises undefined
    */
   async updateBalance() {
     const balance = await this.balanceCalc.getBalance();
     this.store.updateState({
-      ethBalance: balance,
+      ircBalance: balance,
     });
   }
 
   /**
-   * Sets up listeners and subscriptions which should trigger an update of ethBalance. These updates include:
+   * Sets up listeners and subscriptions which should trigger an update of ircBalance. These updates include:
    * - when a transaction changes state to 'submitted', 'confirmed' or 'failed'
    * - when the current account changes (i.e. a new account is selected)
    * - when there is a block update
@@ -107,12 +107,11 @@ class BalanceController {
    *
    */
   async _getPendingTransactions() {
-    const pending = this.txController.getFilteredTxList({
+    return this.txController.getFilteredTxList({
       from: this.address,
       status: 'submitted',
       err: undefined,
     });
-    return pending;
   }
 
   /**

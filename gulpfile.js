@@ -11,7 +11,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const jsoneditor = require('gulp-json-editor');
 const zip = require('gulp-zip');
 const assign = require('lodash.assign');
-const gulpreload = require('gulp-livereload');
+const livereload = require('gulp-livereload');
 const del = require('del');
 const fs = require('fs');
 const path = require('path');
@@ -26,16 +26,22 @@ const pify = require('pify');
 const endOfStream = pify(require('end-of-stream'));
 
 const browserPlatforms = [
-  'firefox',
   'chrome',
-  'edge',
-  'opera',
+  // 'firefox',
+  // 'edge',
+  // 'opera',
+];
+const commonPlatforms = [
+  // browser webapp
+  'mascara',
+  // browser extensions
+  ...browserPlatforms,
 ];
 
 // browser reload
 
 gulp.task('dev:reload', function() {
-  gulpreload.listen({
+  livereload.listen({
     port: 35729,
   });
 });
@@ -47,30 +53,30 @@ const copyDevTaskNames = [];
 
 createCopyTasks('locales', {
   source: './app/_locales/',
-  destinations: browserPlatforms.map(platform => `./dist/${platform}/_locales`),
+  destinations: commonPlatforms.map(platform => `./dist/${platform}/_locales`),
 });
 createCopyTasks('images', {
   source: './app/images/',
-  destinations: browserPlatforms.map(platform => `./dist/${platform}/images`),
+  destinations: commonPlatforms.map(platform => `./dist/${platform}/images`),
 });
 createCopyTasks('contractImages', {
   source: './node_modules/irc-contract-metadata/images/',
-  destinations: browserPlatforms.map(platform => `./dist/${platform}/images/contract`),
+  destinations: commonPlatforms.map(platform => `./dist/${platform}/images/contract`),
 });
 createCopyTasks('fonts', {
   source: './app/fonts/',
-  destinations: browserPlatforms.map(platform => `./dist/${platform}/fonts`),
+  destinations: commonPlatforms.map(platform => `./dist/${platform}/fonts`),
 });
 createCopyTasks('reload', {
   devOnly: true,
-  source: './node_modules/livereload-js/dist/',
+  source: './app/scripts/',
   pattern: '/livereload.js',
-  destinations: browserPlatforms.map(platform => `./dist/${platform}`),
+  destinations: commonPlatforms.map(platform => `./dist/${platform}`),
 });
 createCopyTasks('html', {
   source: './app/',
   pattern: '/*.html',
-  destinations: browserPlatforms.map(platform => `./dist/${platform}`),
+  destinations: commonPlatforms.map(platform => `./dist/${platform}`),
 });
 
 // copy extension
@@ -79,6 +85,14 @@ createCopyTasks('manifest', {
   source: './app/',
   pattern: '/*.json',
   destinations: browserPlatforms.map(platform => `./dist/${platform}`),
+});
+
+// copy mascara
+
+createCopyTasks('html:mascara', {
+  source: './mascara/',
+  pattern: 'proxy/index.html',
+  destinations: [`./dist/mascara/`],
 });
 
 function createCopyTasks(label, opts) {
@@ -102,7 +116,7 @@ function copyTask(taskName, opts) {
   return gulp.task(taskName, function() {
     if (devMode) {
       watch(source + pattern, (event) => {
-        gulpreload.changed(event.path);
+        livereload.changed(event.path);
         performCopy();
       });
     }
@@ -135,29 +149,29 @@ gulp.task('manifest:chrome', function() {
     .pipe(gulp.dest('./dist/chrome', {overwrite: true}));
 });
 
-gulp.task('manifest:opera', function() {
-  return gulp
-    .src('./dist/opera/manifest.json')
-    .pipe(jsoneditor(function(json) {
-      json.permissions = [
-        'storage',
-        'tabs',
-        'clipboardWrite',
-        'clipboardRead',
-        'http://localhost:8545/',
-      ];
-      return json;
-    }))
-    .pipe(gulp.dest('./dist/opera', {overwrite: true}));
-});
+// gulp.task('manifest:opera', function() {
+//   return gulp
+//     .src('./dist/opera/manifest.json')
+//     .pipe(jsoneditor(function(json) {
+//       json.permissions = [
+//         'storage',
+//         'tabs',
+//         'clipboardWrite',
+//         'clipboardRead',
+//         'http://localhost:8545/',
+//       ];
+//       return json;
+//     }))
+//     .pipe(gulp.dest('./dist/opera', {overwrite: true}));
+// });
 
 gulp.task('manifest:production', function() {
   return gulp
     .src([
-      './dist/firefox/manifest.json',
       './dist/chrome/manifest.json',
-      './dist/edge/manifest.json',
-      './dist/opera/manifest.json',
+      // './dist/firefox/manifest.json',
+      // './dist/edge/manifest.json',
+      // './dist/opera/manifest.json',
     ], {base: './dist/'})
 
     // Exclude livereload script in production:
@@ -177,7 +191,7 @@ gulp.task(
     gulp.parallel(...copyTaskNames),
     'manifest:production',
     'manifest:chrome',
-    'manifest:opera',
+    // 'manifest:opera',
   ),
 );
 
@@ -186,13 +200,13 @@ gulp.task(
   gulp.series(
     gulp.parallel(...copyDevTaskNames),
     'manifest:chrome',
-    'manifest:opera',
+    // 'manifest:opera',
   ),
 );
 
 // scss compilation and autoprefixing tasks
 
-gulp.task('dist:scss', createScssBuildTask({
+gulp.task('build:scss', createScssBuildTask({
   src: 'ui/app/css/index.scss',
   dest: 'ui/app/css/output',
   devMode: false,
@@ -211,7 +225,7 @@ function createScssBuildTask({src, dest, devMode, pattern}) {
       watch(pattern, async(event) => {
         const stream = buildScss();
         await endOfStream(stream);
-        gulpreload.changed(event.path);
+        livereload.changed(event.path);
       });
     }
     return buildScss();
@@ -256,35 +270,61 @@ const buildJsFiles = [
 ];
 
 // bundle tasks
-createTasksForBuildJsExtension('dev:extension:js', true);
-createTasksForBuildJsExtension('dist:extension:js');
+createTasksForBuildJsExtension({buildJsFiles, taskPrefix: 'dev:extension:js', devMode: true});
+createTasksForBuildJsExtension({buildJsFiles, taskPrefix: 'build:extension:js'});
+createTasksForBuildJsMascara({taskPrefix: 'build:mascara:js'});
+createTasksForBuildJsMascara({taskPrefix: 'dev:mascara:js', devMode: true});
 
-function createTasksForBuildJsExtension(taskPrefix, devMode) {
+function createTasksForBuildJsExtension({buildJsFiles, taskPrefix, devMode, bundleTaskOpts = {}}) {
   // inpage must be built before all other scripts:
   const rootDir = './app/scripts';
+  const nonInpageFiles = buildJsFiles.filter(file => file !== 'inpage');
   const buildPhase1 = ['inpage'];
-  const buildPhase2 = buildJsFiles.filter(file => file !== 'inpage');
+  const buildPhase2 = nonInpageFiles;
   const destinations = browserPlatforms.map(platform => `./dist/${platform}`);
+  bundleTaskOpts = Object.assign({
+    buildSourceMaps: true,
+    sourceMapDir: devMode ? './' : '../sourcemaps',
+    minifyBuild: !devMode,
+    buildWithFullPaths: devMode,
+    watch: devMode,
+    devMode,
+  }, bundleTaskOpts);
+  createTasksForBuildJs({rootDir, taskPrefix, bundleTaskOpts, destinations, buildPhase1, buildPhase2});
+}
 
+function createTasksForBuildJsMascara({taskPrefix, devMode, bundleTaskOpts = {}}) {
+  // inpage must be built before all other scripts:
+  const rootDir = './mascara/src/';
+  const buildPhase1 = ['ui', 'proxy', 'background', 'auramascara'];
+  const destinations = ['./dist/mascara'];
+  bundleTaskOpts = Object.assign({
+    buildSourceMaps: true,
+    sourceMapDir: './',
+    minifyBuild: !devMode,
+    buildWithFullPaths: devMode,
+    watch: devMode,
+    devMode,
+  }, bundleTaskOpts);
+  createTasksForBuildJs({rootDir, taskPrefix, bundleTaskOpts, destinations, buildPhase1});
+}
+
+function createTasksForBuildJs({rootDir, taskPrefix, bundleTaskOpts, destinations, buildPhase1 = [], buildPhase2 = []}) {
   // bundle task for each file
-  buildJsFiles.forEach((jsFile) => {
-    gulp.task(`${taskPrefix}:${jsFile}`, bundleTask({
-      buildSourceMaps: true,
-      sourceMapDir: devMode ? './' : '../sourcemaps',
-      minifyBuild: !devMode,
-      buildWithFullPaths: devMode,
-      watch: devMode,
-      devMode,
+  const jsFiles = [].concat(buildPhase1, buildPhase2);
+  jsFiles.forEach((jsFile) => {
+    gulp.task(`${taskPrefix}:${jsFile}`, bundleTask(Object.assign({
       label: jsFile,
       filename: `${jsFile}.js`,
       filepath: `${rootDir}/${jsFile}.js`,
       destinations,
-    }));
+    }, bundleTaskOpts)));
   });
   // compose into larger task
   const subtasks = [];
   subtasks.push(gulp.parallel(buildPhase1.map(file => `${taskPrefix}:${file}`)));
-  subtasks.push(gulp.parallel(buildPhase2.map(file => `${taskPrefix}:${file}`)));
+  if (buildPhase2.length) subtasks.push(gulp.parallel(buildPhase2.map(file => `${taskPrefix}:${file}`)));
+
   gulp.task(taskPrefix, gulp.series(subtasks));
 }
 
@@ -304,15 +344,29 @@ gulp.task('clean', function clean() {
 
 // zip tasks for distribution
 gulp.task('zip:chrome', zipTask('chrome'));
-gulp.task('zip:firefox', zipTask('firefox'));
-gulp.task('zip:edge', zipTask('edge'));
-gulp.task('zip:opera', zipTask('opera'));
-gulp.task('zip', gulp.parallel('zip:chrome', 'zip:firefox', 'zip:edge', 'zip:opera'));
+// gulp.task('zip:firefox', zipTask('firefox'));
+// gulp.task('zip:edge', zipTask('edge'));
+// gulp.task('zip:opera', zipTask('opera'));
+gulp.task('zip', gulp.parallel('zip:chrome'));
 
 // high level tasks
 
 gulp.task(
   'dev',
+  gulp.series(
+    'clean',
+    'dev:scss',
+    gulp.parallel(
+      'dev:extension:js',
+      'dev:mascara:js',
+      'dev:copy',
+      'dev:reload',
+    ),
+  ),
+);
+
+gulp.task(
+  'dev:extension',
   gulp.series(
     'clean',
     'dev:scss',
@@ -325,18 +379,62 @@ gulp.task(
 );
 
 gulp.task(
-  'dist',
+  'dev:mascara',
   gulp.series(
     'clean',
-    'dist:scss',
+    'dev:scss',
     gulp.parallel(
-      'dist:extension:js',
-      'copy',
+      'dev:mascara:js',
+      'dev:copy',
+      'dev:reload',
     ),
-    'zip',
   ),
 );
 
+gulp.task(
+  'build',
+  gulp.series(
+    'clean',
+    'build:scss',
+    gulp.parallel(
+      'build:extension:js',
+      // 'build:mascara:js',
+      'copy',
+    ),
+  ),
+);
+
+gulp.task(
+  'build:extension',
+  gulp.series(
+    'clean',
+    'build:scss',
+    gulp.parallel(
+      'build:extension:js',
+      'copy',
+    ),
+  ),
+);
+
+gulp.task(
+  'build:mascara',
+  gulp.series(
+    'clean',
+    'build:scss',
+    gulp.parallel(
+      'build:mascara:js',
+      'copy',
+    ),
+  ),
+);
+
+gulp.task(
+  'dist',
+  gulp.series(
+    'build',
+    'zip',
+  ),
+);
 
 // task generators
 
@@ -371,7 +469,7 @@ function generateBundler(opts, performBundle) {
     bundler.on('update', async(ids) => {
       const stream = performBundle();
       await endOfStream(stream);
-      gulpreload.changed(`${ids}`);
+      livereload.changed(`${ids}`);
     });
   }
 
@@ -395,12 +493,10 @@ function discTask(opts) {
     mkdirp.sync(discDir);
     const discPath = path.join(discDir, `${opts.label}.html`);
 
-    return (
-      bundler
-        .bundle()
-        .pipe(disc())
-        .pipe(fs.createWriteStream(discPath))
-    );
+    return bundler
+      .bundle()
+      .pipe(disc())
+      .pipe(fs.createWriteStream(discPath));
   }
 }
 

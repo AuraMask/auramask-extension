@@ -67,7 +67,7 @@ TokenList.prototype.render = function() {
         },
         onClick: () => {
           global.platform.openWindow({
-            url: `https://ethplorer.io/address/${userAddress}`,
+            url: `https://scan.irchain.io/address/${userAddress}`,
           });
         },
       }, this.context.t('here')),

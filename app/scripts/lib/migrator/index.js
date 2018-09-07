@@ -31,53 +31,27 @@ class Migrator extends EventEmitter {
 
   // run all pending migrations on meta in place
   async migrateData(versionedData = this.generateInitialState()) {
-    // get all migrations that have not yet been run
-    const pendingMigrations = this.migrations.filter(migrationIsPending);
+    const pendingMigrations = this.migrations.filter(migration =>
+      migration.version > versionedData.meta.version,
+    );
 
-    // perform each migration
-    for (const index in pendingMigrations) {
-      const migration = pendingMigrations[index];
-      try {
-        // attempt migration and validate
-        const migratedData = await migration.migrate(versionedData);
-        if (!migratedData.data) throw new Error('Migrator - migration returned empty data');
-        if (migratedData.version !== undefined && migratedData.meta.version !== migration.version) {
- throw new Error(
-          'Migrator - Migration did not update version number correctly');
-}
-        // accept the migration as good
-        versionedData = migratedData;
-      } catch (err) {
-        // rewrite error message to add context without clobbering stack
-        const originalErrorMessage = err.message;
-        err.message = `AuraMask Migration Error #${migration.version}: ${originalErrorMessage}`;
-        console.warn(err.stack);
-        // emit error instead of throw so as to not break the run (gracefully fail)
-        this.emit('error', err);
-        // stop migrating and use state as is
+    for (const i in pendingMigrations) {
+      const migration = pendingMigrations[i];
+      const migratedData = await migration.migrate(versionedData);
+      migratedData.meta.version = migration.version;
+      if (!migratedData.data) {
+        this.emit('error', new Error('Migrator - migration returned empty data'));
         return versionedData;
       }
+      versionedData = migratedData;
     }
-
     return versionedData;
-
-    /**
-     * Returns whether or not the migration is pending
-     *
-     * A migration is considered "pending" if it has a higher
-     * version number than the current version.
-     * @param {Migration} migration
-     * @returns {boolean}
-     */
-    function migrationIsPending(migration) {
-      return migration.version > versionedData.meta.version;
-    }
   }
 
   /**
    * Returns the initial state for the migrator
    * @param {object} [data] - The data for the initial state
-   * @returns {{meta: {version: number}, data: any}}
+   * @returns {{meta: {version: (number|*)}, data: Object}}
    */
   generateInitialState(data) {
     return {

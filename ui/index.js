@@ -15,34 +15,24 @@ function launchAuramaskUi(opts, cb) {
   var accountManager = opts.accountManager;
   actions._setBackgroundConnection(accountManager);
   // check if we are unlocked first
-  accountManager.getState(function(err, auramaskState) {
+  accountManager.getState((err, state) => {
     if (err) return cb(err);
-    startApp(auramaskState, accountManager, opts)
-      .then((store) => {
-        cb(null, store);
-      });
+    startApp(state, accountManager, opts).then(store => cb(null, store));
   });
 }
 
-async function startApp(auramaskState, accountManager, opts) {
+async function startApp(state, accountManager, opts) {
   // parse opts
-  if (!auramaskState.featureFlags) auramaskState.featureFlags = {};
+  if (!state.featureFlags) state.featureFlags = {};
 
-  const currentLocaleMessages = auramaskState.currentLocale
-    ? await fetchLocale(auramaskState.currentLocale)
-    : {};
+  const currLocale = state.currentLocale ? await fetchLocale(state.currentLocale) : {};
   const enLocaleMessages = await fetchLocale('en');
 
   const store = configureStore({
-
-    // auramaskState represents the cross-tab state
-    auramask: auramaskState,
-
-    // appState represents the current tab's popup state
+    auramask: state,
     appState: {},
-
     localeMessages: {
-      current: currentLocaleMessages,
+      current: currLocale,
       en: enLocaleMessages,
     },
 
@@ -52,11 +42,11 @@ async function startApp(auramaskState, accountManager, opts) {
 
   // if unconfirmed txs, start on txConf page
   const unapprovedTxsAll = txHelper(
-    auramaskState.unapprovedTxs,
-    auramaskState.unapprovedMsgs,
-    auramaskState.unapprovedPersonalMsgs,
-    auramaskState.unapprovedTypedMessages,
-    auramaskState.network);
+    state.unapprovedTxs,
+    state.unapprovedMsgs,
+    state.unapprovedPersonalMsgs,
+    state.unapprovedTypedMessages,
+    state.network);
   const numberOfUnapprivedTx = unapprovedTxsAll.length;
   if (numberOfUnapprivedTx > 0) {
     store.dispatch(actions.showConfTxPage({

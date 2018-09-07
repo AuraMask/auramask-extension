@@ -21,16 +21,11 @@ function Network() {
 Network.prototype.render = function() {
   const props = this.props;
   const context = this.context;
-  const networkNumber = props.network;
-  let providerName;
-  try {
-    providerName = props.provider.type;
-  } catch (e) {
-    providerName = null;
-  }
+  const network = props.network;
+  const providerName = props.provider ? props.provider.type : null;
   let iconName, hoverText;
 
-  if (networkNumber === 'loading') {
+  if (network === 'loading') {
     return h('span.pointer.network-indicator', {
       style: {
         display: 'flex',
@@ -41,9 +36,7 @@ Network.prototype.render = function() {
     }, [
       h('img', {
         title: context.t('attemptingConnect'),
-        style: {
-          width: '27px',
-        },
+        style: {width: '27px'},
         src: 'images/loading.svg',
       }),
     ]);
@@ -55,43 +48,32 @@ Network.prototype.render = function() {
     iconName = 'unknown-private-network';
   }
 
-  return (
-    h('div.network-component.pointer', {
-      className: classnames({
-        'network-component--disabled': this.props.disabled,
-        'irchain-network': providerName === 'mainnet',
-      }),
-      title: hoverText,
-      onClick: (event) => {
-        if (!this.props.disabled) {
-          this.props.onClick(event);
-        }
-      },
-    }, [
-      (function() {
-        switch (iconName) {
-          case 'irchain-network':
-            return h('.network-indicator', [
-              h(NetworkDropdownIcon, {
-                backgroundColor: '#038789', // $blue-lagoon
-                nonSelectBackgroundColor: '#15afb2',
-              }),
-              h('.network-name', context.t('mainnet')),
-              h('i.fa.fa-chevron-down.fa-lg.network-caret'),
-            ]);
-          default:
-            return h('.network-indicator', [
-              h('i.fa.fa-question-circle.fa-lg', {
-                style: {
-                  margin: '10px',
-                  color: '#7d8082',
-                },
-              }),
-              h('.network-name', context.t('privateNetwork')),
-              h('i.fa.fa-chevron-down.fa-lg.network-caret'),
-            ]);
-        }
-      })(),
-    ])
-  );
+  return h('div.network-component.pointer', {
+    className: classnames({
+      'network-component--disabled': this.props.disabled,
+      'irchain-network': providerName === 'mainnet',
+    }),
+    title: hoverText,
+    onClick: (event) => {
+      if (!this.props.disabled) {
+        this.props.onClick(event);
+      }
+    },
+  }, [
+    iconName === 'irchain-network'
+      ? h('.network-indicator', [
+        h(NetworkDropdownIcon, {
+          backgroundColor: '#038789',
+          nonSelectBackgroundColor: '#15afb2',
+        }),
+        h('.network-name', context.t('mainnet')),
+        h('i.fa.fa-chevron-down.fa-lg.network-caret')])
+      : h('.network-indicator', [
+        h('i.fa.fa-question-circle.fa-lg', {
+          style: {margin: '10px', color: '#d13c43'},
+        }),
+        h('.network-name', context.t('privateNetwork')),
+        h('i.fa.fa-chevron-down.fa-lg.network-caret'),
+      ]),
+  ]);
 };

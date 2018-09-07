@@ -1,8 +1,8 @@
 import currencyFormatter from 'currency-formatter';
 import currencies from 'currency-formatter/currencies';
-import abi from 'human-standard-token-abi';
+// import abi from 'human-standard-token-abi';
 import abiDecoder from 'irc.js/src/abi';
-import ethUtil from 'icjs-util';
+import ircUtil from 'icjs-util';
 import BigNumber from 'bignumber.js';
 
 // abiDecoder.addABI(abi);
@@ -25,7 +25,7 @@ export function getTokenData(data = {}) {
 }
 
 export async function getMethodData(data = {}) {
-  const prefixedData = ethUtil.addHexPrefix(data);
+  const prefixedData = ircUtil.addHexPrefix(data);
   const fourBytePrefix = prefixedData.slice(0, 10);
   const sig = await registry.lookup(fourBytePrefix);
   const parsedResult = registry.parse(sig);
@@ -37,7 +37,7 @@ export async function getMethodData(data = {}) {
 }
 
 export function increaseLastGasPrice(lastGasPrice) {
-  return ethUtil.addHexPrefix(multiplyCurrencies(lastGasPrice, 1.1, {
+  return ircUtil.addHexPrefix(multiplyCurrencies(lastGasPrice, 1.1, {
     multiplicandBase: 16,
     multiplierBase: 10,
     toNumericBase: 'hex',
@@ -52,14 +52,14 @@ export function hexGreaterThan(a, b) {
 }
 
 export function getHexGasTotal({gasLimit, gasPrice}) {
-  return ethUtil.addHexPrefix(multiplyCurrencies(gasLimit, gasPrice, {
+  return ircUtil.addHexPrefix(multiplyCurrencies(gasLimit, gasPrice, {
     toNumericBase: 'hex',
     multiplicandBase: 16,
     multiplierBase: 16,
   }));
 }
 
-export function addEth(...args) {
+export function addIrc(...args) {
   return args.reduce((acc, base) => {
     return addCurrencies(acc, base, {
       toNumericBase: 'dec',
@@ -86,7 +86,7 @@ export function getTransactionAmount({
   return conversionUtil(value, {
     fromNumericBase: 'hex',
     toNumericBase: 'dec',
-    fromCurrency: 'ETH',
+    fromCurrency: 'IRC',
     toCurrency,
     numberOfDecimals,
     fromDenomination: 'WEI',
@@ -104,7 +104,7 @@ export function getTransactionFee({
     fromNumericBase: 'BN',
     toNumericBase: 'dec',
     fromDenomination: 'WEI',
-    fromCurrency: 'ETH',
+    fromCurrency: 'IRC',
     toCurrency,
     numberOfDecimals,
     conversionRate,

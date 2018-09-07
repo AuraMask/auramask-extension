@@ -16,14 +16,12 @@ module.exports = {
     const versionedData = clone(originalVersionedData);
     versionedData.meta.version = version;
     const state = versionedData.data;
-    const newState = transformState(state);
-    versionedData.data = newState;
+    versionedData.data = transformState(state);
     return versionedData;
   },
 };
 
 function transformState(state) {
-  const newState = state;
   // transform state here
-  return newState;
+  return state;
 }

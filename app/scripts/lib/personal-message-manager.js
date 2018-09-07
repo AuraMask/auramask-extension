@@ -1,6 +1,6 @@
 const EventEmitter = require('events');
 const ObservableStore = require('obs-store');
-const ethUtil = require('icjs-util');
+const ircUtil = require('icjs-util');
 const createId = require('./random-id');
 const hexRe = /^[0-9A-Fa-f]+$/g;
 const log = require('loglevel');
@@ -8,8 +8,6 @@ const log = require('loglevel');
 /**
  * Represents, and contains data about, an 'personal_sign' type signature request. These are created when a
  * signature for an personal_sign call is requested.
- *
- * @see {@link https://webujs.readthedocs.io/en/1.0/webu-eth-personal.html#sign}
  *
  * @typedef {Object} PersonalMessage
  * @property {number} id An id to track and identify the message object
@@ -248,15 +246,15 @@ module.exports = class PersonalMessageManager extends EventEmitter {
    */
   normalizeMsgData(data) {
     try {
-      const stripped = ethUtil.stripHexPrefix(data);
+      const stripped = ircUtil.stripHexPrefix(data);
       if (stripped.match(hexRe)) {
-        return ethUtil.addHexPrefix(stripped);
+        return ircUtil.addHexPrefix(stripped);
       }
     } catch (e) {
       log.debug(`Message was not hex encoded, interpreting as utf8.`);
     }
 
-    return ethUtil.bufferToHex(new Buffer(data, 'utf8'));
+    return ircUtil.bufferToHex(new Buffer(data, 'utf8'));
   }
 
 };
