@@ -461,12 +461,6 @@
   "notStarted": {
     "message": "スタートしていません。"
   },
-  "oldUI": {
-    "message": "旧UI"
-  },
-  "oldUIMessage": {
-    "message": "旧UIを表示しています。右上のドロップダウンメニューのオプションより、新UIへ切り替えが可能です。"
-  },
   "openInTab": {
     "message": "タブを開く"
   },
@@ -726,9 +720,6 @@
   },
   "usedByClients": {
     "message": "様々なクライアントによって使用されています。"
-  },
-  "useOldUI": {
-    "message": "旧UIに切り替え"
   },
   "viewAccount": {
     "message": "アカウントを見る"

@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import SendRowWrapper from '../send-row-wrapper/'
-import FromDropdown from './from-dropdown/'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import SendRowWrapper from '../send-row-wrapper/';
+import FromDropdown from './from-dropdown/';
 
 export default class SendFromRow extends Component {
 
@@ -21,21 +21,21 @@ export default class SendFromRow extends Component {
     t: PropTypes.func,
   };
 
-  async handleFromChange (newFrom) {
+  async handleFromChange(newFrom) {
     const {
       updateSendFrom,
       tokenContract,
       setSendTokenBalance,
-    } = this.props
+    } = this.props;
 
     if (tokenContract) {
-      const usersToken = await tokenContract.balanceOf(newFrom.address)
-      setSendTokenBalance(usersToken)
+      const usersToken = await tokenContract.balanceOf(newFrom.address);
+      setSendTokenBalance(usersToken);
     }
-    updateSendFrom(newFrom)
+    updateSendFrom(newFrom);
   }
 
-  render () {
+  render() {
     const {
       closeFromDropdown,
       conversionRate,
@@ -43,7 +43,7 @@ export default class SendFromRow extends Component {
       fromAccounts,
       fromDropdownOpen,
       openFromDropdown,
-    } = this.props
+    } = this.props;
 
     return (
       <SendRowWrapper label={`${this.context.t('from')}:`}>
@@ -57,7 +57,7 @@ export default class SendFromRow extends Component {
           selectedAccount={from}
         />
       </SendRowWrapper>
-    )
+    );
   }
 
 }

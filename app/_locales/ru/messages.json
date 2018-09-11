@@ -530,12 +530,6 @@
   "notStarted": {
     "message": "Не запущен"
   },
-  "oldUI": {
-    "message": "Старая версия интерфейса"
-  },
-  "oldUIMessage": {
-    "message": "Вы вернулись к старой версии интерфейса пользователя. Вы можете переключиться на новую с помощью опции выпадающего меню в правом верхнем углу."
-  },
   "or": {
     "message": "или",
     "description": "choice between creating or importing a new account"
@@ -845,9 +839,6 @@
   },
   "usedByClients": {
     "message": "Используется различными клиентами"
-  },
-  "useOldUI": {
-    "message": "Использовать старый интерфейс пользователя"
   },
   "validFileImport": {
     "message": "Вам нужно выбрать правильный файл для импорта."

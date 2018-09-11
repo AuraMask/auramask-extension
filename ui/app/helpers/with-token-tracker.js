@@ -4,9 +4,11 @@ import TokenTracker from 'irc-token-tracker';
 
 const withTokenTracker = WrappedComponent => {
   return class TokenTrackerWrappedComponent extends Component {
-    static propTypes = {
-      userAddress: PropTypes.string.isRequired,
-      token: PropTypes.object.isRequired,
+    static get propTypes() {
+      return {
+        userAddress: PropTypes.string.isRequired,
+        token: PropTypes.object.isRequired,
+      };
     };
 
     constructor(props) {

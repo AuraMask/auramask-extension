@@ -1,4 +1,4 @@
-const abi = require('human-standard-token-abi');
+const abi = require('irc.js').abi.stdTokenAbi;
 const pify = require('pify');
 const getBuyIrcUrl = require('../../app/scripts/lib/buy-irc-url');
 const {getTokenAddressFromTokenObject} = require('./util');

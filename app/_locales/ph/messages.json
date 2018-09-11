@@ -398,12 +398,6 @@
   "notStarted": {
     "message": "Hindi Sinimulan"
   },
-  "oldUI": {
-    "message": "Lumang UI"
-  },
-  "oldUIMessage": {
-    "message": "Ikaw ay bumalik sa lumang UI. Maaari kang bumalik sa bagong UI mula sa isang opsyon sa dropdown menu na matatagpuan sa bandang taas at kanan."
-  },
   "or": {
     "message": "o",
     "description": "Pagpili sa pagitan ng paggawa of pag-import ng bagong account"

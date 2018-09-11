@@ -503,12 +503,6 @@
   "notStarted": {
     "message": "ยังไม่เริ่ม"
   },
-  "oldUI": {
-    "message": "หน้าตาแบบเก่า"
-  },
-  "oldUIMessage": {
-    "message": "คุณได้เปลี่ยนเป็นหน้าตาแบบเก่าแล้ว คุณสามารถเปลี่ยนเป็นหน้าตาแบบใหม่ได้โดยไปที่ตัวเลือกตรงเมนูมุมขวาบน"
-  },
   "or": {
     "message": "หรือ",
     "description": "choice between creating or importing a new account"
@@ -776,9 +770,6 @@
   },
   "usedByClients": {
     "message": "ถูกใช้งานโดยหลายไคลเอนท์"
-  },
-  "useOldUI": {
-    "message": "ใช้หน้าตาเก่า"
   },
   "validFileImport": {
     "message": "คุณต้องเลือกไฟล์ที่ถูกต้องเพื่อนำเข้า"

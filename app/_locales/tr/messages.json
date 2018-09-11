@@ -536,12 +536,6 @@
   "notStarted": {
     "message": "Başlamadı"
   },
-  "oldUI": {
-    "message": "Eski UI"
-  },
-  "oldUIMessage": {
-    "message": "Eski UI'a döndünüz. Yeni UI'a üst sağ sekme menüsündeki seçenek ile dönebilirsiniz."
-  },
   "or": {
     "message": "veya",
     "description": "Yeni bir hesap yaratmak veya almak arasındaki seçim"
@@ -860,9 +854,6 @@
   },
   "usedByClients": {
     "message": "Farklı istemciler tarafından kullanılmakta"
-  },
-  "useOldUI": {
-    "message": "Eski UI kullan"
   },
   "validFileImport": {
     "message": "Almak için geçerli bir dosya seçmelisiniz"

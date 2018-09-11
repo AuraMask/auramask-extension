@@ -536,12 +536,6 @@
   "notStarted": {
     "message": "尚未開始"
   },
-  "oldUI": {
-    "message": "舊版界面"
-  },
-  "oldUIMessage": {
-    "message": "你已經切換到舊版界面。可以通過右上方下拉選單中的選項切換回新的使用者界面。"
-  },
   "or": {
     "message": "或",
     "description": "choice between creating or importing a new account"
@@ -851,9 +845,6 @@
   },
   "usedByClients": {
     "message": "可用於各種不同的客戶端"
-  },
-  "useOldUI": {
-    "message": "使用舊版界面"
   },
   "validFileImport": {
     "message": "您必須選擇一個合法的檔案來導入."

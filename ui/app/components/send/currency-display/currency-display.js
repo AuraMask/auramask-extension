@@ -144,20 +144,21 @@ CurrencyDisplay.prototype.render = function() {
 
   const convertedValueToRender = this.getConvertedValueToRender(valueToRender);
 
+  console.log(
+    'currency-display render: ------------------------ ',
+    valueToRender,
+    '\n',
+    convertedValueToRender,
+    '\n',
+    this.props);
+
   return h('div', {
     className,
-    style: {
-      borderColor: inError ? 'red' : null,
-    },
-    onClick: () => {
-      this.currencyInput && this.currencyInput.focus();
-    },
+    style: {borderColor: inError ? 'red' : null},
+    onClick: () => { this.currencyInput && this.currencyInput.focus(); },
   }, [
-
     h('div.currency-display__primary-row', [
-
       h('div.currency-display__input-wrapper', [
-
         h('input', {
           className: primaryBalanceClassName,
           value: `${valueToRender}`,
@@ -169,19 +170,12 @@ CurrencyDisplay.prototype.render = function() {
             onBlur: () => onBlur(this.getAmount(valueToRender)),
           } : {}),
           ref: input => { this.currencyInput = input; },
-          style: {
-            width: this.getInputWidth(valueToRender, readOnly),
-          },
+          style: {width: this.getInputWidth(valueToRender, readOnly)},
           min: 0,
           step,
         }),
-
-        h('span.currency-display__currency-symbol', primaryCurrency),
-
-      ]),
-
-    ]), this.onlyRenderConversions(convertedValueToRender),
-
+        h('span.currency-display__currency-symbol', primaryCurrency)])]),
+    // this.onlyRenderConversions(convertedValueToRender),
   ]);
 
 };

@@ -1,1 +1,3 @@
-export { default } from './currency-display.js';
+import CurrencyDisplay from './currency-display';
+
+export default CurrencyDisplay;

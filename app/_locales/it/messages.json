@@ -503,12 +503,6 @@
   "notStarted": {
     "message": "Non Iniziato"
   },
-  "oldUI": {
-    "message": "Vecchia interfaccia"
-  },
-  "oldUIMessage": {
-    "message": "Sei ritornato alla vecchia interfaccia. Puoi ritornare alla nuova interfaccia tramite l'opzione nel menu a discesa in alto a destra."
-  },
   "or": {
     "message": "o",
     "description": "scelta tra creare o importare un nuovo account"
@@ -776,9 +770,6 @@
   },
   "usedByClients": {
     "message": "Usato da una varietà di clients diversi"
-  },
-  "useOldUI": {
-    "message": "Use la vecchia UI"
   },
   "validFileImport": {
     "message": "Devi selezionare un file valido da importare."

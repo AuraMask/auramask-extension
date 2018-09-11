@@ -119,19 +119,6 @@ class InitializeMenuScreen extends Component {
             },
           }, this.context.t('importDen')),
         ]),
-
-        h('.flex-row.flex-center.flex-grow', [
-          h('p.pointer', {
-            onClick: this.showOldUI.bind(this),
-            style: {
-              fontSize: '0.8em',
-              color: '#aeaeae',
-              textDecoration: 'underline',
-              marginTop: '32px',
-            },
-          }, this.context.t('classicInterface')),
-        ]),
-
       ])
     );
   }
@@ -184,10 +171,6 @@ class InitializeMenuScreen extends Component {
     }
 
     this.props.history.push(RESTORE_VAULT_ROUTE);
-  }
-
-  showOldUI() {
-    this.props.dispatch(actions.setFeatureFlag('betaUI', false, 'OLD_UI_NOTIFICATION_MODAL'));
   }
 }
 

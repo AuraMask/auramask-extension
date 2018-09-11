@@ -542,7 +542,7 @@
   }
 
   &__form-row {
-    margin: 14.5px 18px 0px;
+    margin: 14.5px 18px 0;
     position: relative;
     display: flex;
     flex-flow: row;
@@ -664,6 +664,7 @@
     color: $curious-blue;
     font-family: Roboto;
     font-size: 12px;
+    line-height: 0;
     left: 8px;
     border: none;
     cursor: pointer;

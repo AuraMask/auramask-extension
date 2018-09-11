@@ -527,12 +527,6 @@
   "notStarted": {
     "message": "Nicht gestartet"
   },
-  "oldUI": {
-    "message": "Alte Oberfläche"
-  },
-  "oldUIMessage": {
-    "message": "Du bist zur alten Oberfläche zurückgewechselt. Du kannst mit Hilfe der Option im oberen rechten Dropdown Menü zur neuen Oberfläche zurückwechseln."
-  },
   "or": {
     "message": "oder",
     "description": "Wahl zwischen erstellen oder importieren eines Accounts."
@@ -836,9 +830,6 @@
   },
   "usedByClients": {
     "message": "Verwendet von einer Reihe verschiedenen Kunden"
-  },
-  "useOldUI": {
-    "message": "Alte Oberfläche verwenden"
   },
   "validFileImport": {
     "message": "Du musst eine gültige Datei für den Import auswählen."

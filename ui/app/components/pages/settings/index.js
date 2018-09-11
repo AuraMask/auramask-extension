@@ -26,28 +26,23 @@ class Config extends Component {
   render() {
     const {history} = this.props;
 
-    return (
-      h('.main-container.settings', {}, [
-        h('.settings__header', [
-          h('div.settings__close-button', {
-            onClick: () => history.push(DEFAULT_ROUTE),
-          }),
-          this.renderTabs(),
-        ]),
-        h(Switch, [
-          h(Route, {
-            exact: true,
-            path: INFO_ROUTE,
-            component: Info,
-          }),
-          h(Route, {
-            exact: true,
-            path: SETTINGS_ROUTE,
-            component: Settings,
-          }),
-        ]),
-      ])
-    );
+    return h('.main-container.settings', {}, [
+      h('.settings__header', [
+        h('div.settings__close-button', {onClick: () => history.push(DEFAULT_ROUTE)}),
+        this.renderTabs()]),
+      h(Switch, [
+        h(Route, {
+          exact: true,
+          path: INFO_ROUTE,
+          component: Info,
+        }),
+        h(Route, {
+          exact: true,
+          path: SETTINGS_ROUTE,
+          component: Settings,
+        }),
+      ]),
+    ]);
   }
 }
 

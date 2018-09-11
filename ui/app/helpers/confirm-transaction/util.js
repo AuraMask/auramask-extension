@@ -1,11 +1,8 @@
 import currencyFormatter from 'currency-formatter';
 import currencies from 'currency-formatter/currencies';
-// import abi from 'human-standard-token-abi';
 import abiDecoder from 'irc.js/src/abi';
 import ircUtil from 'icjs-util';
 import BigNumber from 'bignumber.js';
-
-// abiDecoder.addABI(abi);
 
 import MethodRegistry from 'irc.js/src/registry';
 

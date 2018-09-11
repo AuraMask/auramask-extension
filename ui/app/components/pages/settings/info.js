@@ -11,7 +11,7 @@ class Info extends Component {
     };
   }
 
-  renderLogo() {
+  static renderLogo() {
     return (
       h('div.settings__info-logo-wrapper', [
         h('img.settings__info-logo', {src: 'images/info-logo.png'}),
@@ -66,8 +66,7 @@ class Info extends Component {
         ]),
         h('div.settings__info-link-item', [
           h('a', {
-            target: '_blank',
-            href: 'mailto:help@auramask.io?subject=Feedback',
+            href: 'mailto:contact@irchain.io?subject=Feedback',
           }, [
             h('span.settings__info-link', this.context.t('emailUs')),
           ]),
@@ -81,7 +80,7 @@ class Info extends Component {
       h('div.settings__content', [
         h('div.settings__content-row', [
           h('div.settings__content-item.settings__content-item--without-height', [
-            this.renderLogo(),
+            Info.renderLogo(),
             h('div.settings__info-item', [
               h('div.settings__info-version-header', 'AuraMask Version'),
               h('div.settings__info-version-number', this.state.version),

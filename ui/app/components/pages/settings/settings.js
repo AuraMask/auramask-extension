@@ -235,26 +235,6 @@ class Settings extends Component {
     );
   }
 
-  renderOldUI() {
-    const {setFeatureFlagToBeta} = this.props;
-
-    return (
-      h('div.settings__content-row', [
-        h('div.settings__content-item', this.context.t('useOldUI')),
-        h('div.settings__content-item', [
-          h('div.settings__content-item-col', [
-            h('button.btn-primary.btn--large.settings__button--orange', {
-              onClick(event) {
-                event.preventDefault();
-                setFeatureFlagToBeta();
-              },
-            }, this.context.t('useOldUI')),
-          ]),
-        ]),
-      ])
-    );
-  }
-
   renderResetAccount() {
     const {showResetAccountConfirmationModal} = this.props;
 
@@ -274,18 +254,16 @@ class Settings extends Component {
   }
 
   render() {
-    const {warning, isMascara} = this.props;
+    const {warning} = this.props;
 
     return (
       h('div.settings__content', [
         warning && h('div.settings__error', warning),
         this.renderCurrentConversion(),
         this.renderCurrentLocale(),
-        // this.renderCurrentProvider(),
         this.renderNewRpcUrl(),
         this.renderStateLogs(),
         this.renderSeedWords(),
-        !isMascara && this.renderOldUI(),
         this.renderResetAccount(),
         this.renderBlockieOptIn(),
       ])
@@ -327,9 +305,6 @@ const mapDispatchToProps = dispatch => {
     revealSeedConfirmation: () => dispatch(actions.revealSeedConfirmation()),
     setUseBlockie: value => dispatch(actions.setUseBlockie(value)),
     updateCurrentLocale: key => dispatch(actions.updateCurrentLocale(key)),
-    setFeatureFlagToBeta: () => {
-      return dispatch(actions.setFeatureFlag('betaUI', false, 'OLD_UI_NOTIFICATION_MODAL'));
-    },
     showResetAccountConfirmationModal: () => {
       return dispatch(actions.showModal({name: 'CONFIRM_RESET_ACCOUNT'}));
     },

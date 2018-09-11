@@ -503,12 +503,6 @@
   "notStarted": {
     "message": "Niet begonnen"
   },
-  "oldUI": {
-    "message": "Oude gebruikersinterface"
-  },
-  "oldUIMessage": {
-    "message": "U bent teruggekeerd naar de oude gebruikersinterface. U kunt terugschakelen naar de nieuwe gebruikersinterface via de optie in het vervolgkeuzemenu in de rechterbovenhoek."
-  },
   "or": {
     "message": "of",
     "description": "keuze tussen het maken of importeren van een nieuw account"
@@ -776,9 +770,6 @@
   },
   "usedByClients": {
     "message": "Gebruikt door verschillende klanten"
-  },
-  "useOldUI": {
-    "message": "Gebruik de oude gebruikersinterface"
   },
   "validFileImport": {
     "message": "U moet een geldig bestand selecteren om te importeren."

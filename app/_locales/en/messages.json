@@ -662,12 +662,6 @@
   "noWebcamFound": {
     "message": "Your computer's webcam was not found. Please try again."
   },
-  "oldUI": {
-    "message": "Old UI"
-  },
-  "oldUIMessage": {
-    "message": "You have returned to the old UI. You can switch back to the New UI through the option in the top right dropdown menu."
-  },
   "openInTab": {
     "message": "Open in tab"
   },
@@ -1113,9 +1107,6 @@
   },
   "usedByClients": {
     "message": "Used by a variety of different clients"
-  },
-  "useOldUI": {
-    "message": "Use old UI"
   },
   "validFileImport": {
     "message": "You must select a valid file to import."

@@ -536,12 +536,6 @@
   "notStarted": {
     "message": "Nezačalo"
   },
-  "oldUI": {
-    "message": "Staré rozhraní"
-  },
-  "oldUIMessage": {
-    "message": "Vrátili jste se ke starému rozhraní. Můžete přepnout na nové rozhraní v nastavení v pravém horním menu."
-  },
   "or": {
     "message": "nebo",
     "description": "choice between creating or importing a new account"
@@ -860,9 +854,6 @@
   },
   "usedByClients": {
     "message": "Používána různými klienty"
-  },
-  "useOldUI": {
-    "message": "Použijte staré rozhraní"
   },
   "validFileImport": {
     "message": "Musíte vybrat validní soubor k importu."

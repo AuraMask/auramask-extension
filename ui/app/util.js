@@ -1,4 +1,4 @@
-const abi = require('human-standard-token-abi');
+const abi = require('irc.js').abi.stdTokenAbi;
 const ircUtil = require('icjs-util');
 const hexToBn = require('../../app/scripts/lib/hex-to-bn');
 const vreme = new (require('vreme'))();

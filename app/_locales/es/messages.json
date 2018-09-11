@@ -536,12 +536,6 @@
   "ok": {
     "message": "Ok"
   },
-  "oldUI": {
-    "message": "Antigua UI (Interfaz de Usuario)"
-  },
-  "oldUIMessage": {
-    "message": "Regresaste a la antigua UI (Interfaz de Usuario). Puedes regresar a la nueva UI mediante la opcion en la barra desplegable del menu de arriba a la derecha."
-  },
   "onlySendToIrcerAddress": {
     "message": "Sólo envía a una dirección de IrChain"
   },
@@ -830,9 +824,6 @@
   "usaOnly": {
     "message": "Sólo USA (Estados Unidos)",
     "description": "El uso de este exchange (casa de cambio) está limitado a las personas dentro de los Estados Unidos de América"
-  },
-  "useOldUI": {
-    "message": "Usar UI antigua"
   },
   "usedByClients": {
     "message": "Utilizado por una variedad de clientes diferentes"

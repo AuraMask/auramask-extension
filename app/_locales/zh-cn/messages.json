@@ -548,12 +548,6 @@
   "notStarted": {
     "message": "未开始"
   },
-  "oldUI": {
-    "message": "旧版界面"
-  },
-  "oldUIMessage": {
-     "message": "你已经切换到旧版界面。 你可以通过右上方下拉菜单中的选项切换回新的用户界面。"
-  },
   "or": {
     "message": "或",
     "description": "choice between creating or importing a new account"
@@ -887,9 +881,6 @@
   },
   "usedByClients": {
     "message": "可用于各种不同的客户端"
-  },
-  "useOldUI": {
-    "message": "使用旧版 UI"
   },
   "validFileImport": {
     "message": "您必须选择一个有效的文件进行导入."

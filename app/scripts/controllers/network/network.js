@@ -90,7 +90,7 @@ module.exports = class NetworkController extends EventEmitter {
   }
 
   async setProviderType(type) {
-    assert.notEqual(type, 'rpc', `NetworkController - cannot call "setProviderType" with type 'rpc'. use "setRpcTarget"`);
+    assert.notStrictEqual(type, 'rpc', `NetworkController - cannot call "setProviderType" with type 'rpc'. use "setRpcTarget"`);
     assert(INFURA_PROVIDER_TYPES.includes(type) || type === LOCALHOST, `NetworkController - Unknown rpc type "${type}"`);
     this.providerConfig = {type};
   }
@@ -108,9 +108,7 @@ module.exports = class NetworkController extends EventEmitter {
     return this.providerStore.getState();
   }
 
-  //
   // Private
-  //
 
   _switchNetwork(opts) {
     this.setNetworkState('loading');

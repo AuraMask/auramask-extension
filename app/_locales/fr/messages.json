@@ -398,12 +398,6 @@
   "notStarted": {
     "message": "Pas démarré"
   },
-  "oldUI": {
-    "message": "Ancienne interface utilisateur"
-  },
-  "oldUIMessage": {
-    "message": "Vous êtes revenu à l'ancienne interface utilisateur.Vous pouvez revenir à la nouvelle interface via l'option dans le menu déroulant en haut à droite."
-  },
   "or": {
     "message": "ou",
     "description": "choix entre la création ou l'importation d'un nouveau compte"

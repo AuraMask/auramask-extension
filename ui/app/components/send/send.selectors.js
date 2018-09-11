@@ -1,5 +1,5 @@
 const {valuesFor} = require('../../util');
-const abi = require('human-standard-token-abi');
+const abi = require('irc.js').abi.stdTokenAbi;
 const {
   multiplyCurrencies,
 } = require('../../conversion-util');

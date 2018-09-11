@@ -398,12 +398,6 @@
   "notStarted": {
     "message": "Chưa bắt đầu"
   },
-  "oldUI": {
-    "message": "Giao diện cũ"
-  },
-  "oldUIMessage": {
-    "message": "Bạn vừa quay về giao diện cũ. Bạn có thể chuyển đổi sang giao diện mới bằng tùy chọn trong menu ở góc phải trên cùng."
-  },
   "or": {
     "description": "lựa chọn giữa tạo hay nhập một tài khoản mới",
     "message": "hoặc"

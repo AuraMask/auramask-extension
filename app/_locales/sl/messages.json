@@ -503,12 +503,6 @@
   "notStarted": {
     "message": "Ni se začelo"
   },
-  "oldUI": {
-    "message": "Star UI"
-  },
-  "oldUIMessage": {
-    "message": "Vrnili ste se v star uporabniški vmesnik. V novega se lahko vrnete z možnostjo v spustnem meniju v zgornjem desnem kotu."
-  },
   "or": {
     "message": "ali",
     "description": "choice between creating or importing a new account"
@@ -776,9 +770,6 @@
   },
   "usedByClients": {
     "message": "Uporablja jih več različnih odjemalcev"
-  },
-  "useOldUI": {
-    "message": "Uporabi star uporabniški vmesnik"
   },
   "validFileImport": {
     "message": "Za uvoz morate izbrati pravilno datoteko."
