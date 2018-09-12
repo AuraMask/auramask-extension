@@ -47,7 +47,7 @@ class Settings extends Component {
   }
 
   renderBlockieOptIn() {
-    const {auramask: {useBlockie}, setUseBlockie} = this.props;
+    const {irmeta: {useBlockie}, setUseBlockie} = this.props;
 
     return h('div.settings__content-row', [
       h('div.settings__content-item', [
@@ -67,7 +67,7 @@ class Settings extends Component {
   }
 
   renderCurrentConversion() {
-    const {auramask: {currentCurrency, conversionDate}, setCurrentCurrency} = this.props;
+    const {irmeta: {currentCurrency, conversionDate}, setCurrentCurrency} = this.props;
 
     return h('div.settings__content-row', [
       h('div.settings__content-item', [
@@ -113,7 +113,7 @@ class Settings extends Component {
   }
 
   renderCurrentProvider() {
-    const {auramask: {provider = {}}} = this.props;
+    const {irmeta: {provider = {}}} = this.props;
     let title, value, color;
 
     switch (provider.type) {
@@ -204,7 +204,7 @@ class Settings extends Component {
                   if (err) {
                     this.state.dispatch(actions.displayWarning(this.context.t('stateLogError')));
                   } else {
-                    exportAsFile('AuraMask State Logs.json', result);
+                    exportAsFile('IrMeta State Logs.json', result);
                   }
                 });
               },
@@ -272,7 +272,7 @@ class Settings extends Component {
 }
 
 Settings.propTypes = {
-  auramask: PropTypes.object,
+  irmeta: PropTypes.object,
   setUseBlockie: PropTypes.func,
   setCurrentCurrency: PropTypes.func,
   setRpcTarget: PropTypes.func,
@@ -290,10 +290,10 @@ Settings.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    auramask: state.auramask,
+    irmeta: state.irmeta,
     warning: state.appState.warning,
-    isMascara: state.auramask.isMascara,
-    currentLocale: state.auramask.currentLocale,
+    isMascara: state.irmeta.isMascara,
+    currentLocale: state.irmeta.currentLocale,
   };
 };
 

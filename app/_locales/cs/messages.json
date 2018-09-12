@@ -34,7 +34,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "AuraMask",
+    "message": "IrMeta",
     "description": "The name of the application"
   },
   "approved": {
@@ -75,7 +75,7 @@
     "message": "Pújčit si přes Dharma (Beta)"
   },
   "builtInCalifornia": {
-    "message": "AuraMask je navržen a vytvořen v Kalifornii."
+    "message": "IrMeta je navržen a vytvořen v Kalifornii."
   },
   "buy": {
     "message": "Koupit"
@@ -190,7 +190,7 @@
     "message": "Výchozí síť pro Ircerové transakce je Main Net."
   },
   "denExplainer": {
-    "message": "Váš DEN je heslem šifrované uložiště v AuraMasku."
+    "message": "Váš DEN je heslem šifrované uložiště v IrMetau."
   },
   "deposit": {
     "message": "Vklad"
@@ -218,7 +218,7 @@
     "message": "Vklad přes ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Pokud vlastníte jiné kryptoměny, můžete je směnit Ircer a vložit ho přímo do peněženky AuraMask. Bez založení účtu."
+    "message": "Pokud vlastníte jiné kryptoměny, můžete je směnit Ircer a vložit ho přímo do peněženky IrMeta. Bez založení účtu."
   },
   "details": {
     "message": "Podrobnosti"
@@ -372,7 +372,7 @@
     "message": "Import účtu"
   },
   "importAccountMsg": {
-    "message": "Importované účty nebudou spojeny s vaší původní AuraMaskovou klíčovou frází. Zjistěte více o importovaných účtech "
+    "message": "Importované účty nebudou spojeny s vaší původní IrMetaovou klíčovou frází. Zjistěte více o importovaných účtech "
   },
   "importAnAccount": {
     "message": "Import účtu"
@@ -419,7 +419,7 @@
     "description": "format for importing an account"
   },
   "keepTrackTokens": {
-    "message": "Udržujte si záznamy o tokenech, které jste koupili s účtem v AuraMasku."
+    "message": "Udržujte si záznamy o tokenech, které jste koupili s účtem v IrMetau."
   },
   "knowledgeDataBase": {
     "message": "Navštivte naši Knowledge Base"
@@ -470,8 +470,8 @@
   "message": {
     "message": "Zpráva"
   },
-  "auramaskDescription": {
-    "message": "AuraMask je bezpečný osobní trezor pro IrChain."
+  "irmetaDescription": {
+    "message": "IrMeta je bezpečný osobní trezor pro IrChain."
   },
   "min": {
     "message": "Minimum"
@@ -483,7 +483,7 @@
     "message": "Musíte zvolit aspoň 1 token."
   },
   "needIrcerInWallet": {
-    "message": "Potřebujete Ircer v peněžence, abyste mohli pomocí AuraMasku interagovat s decentralizovanými aplikacemi."
+    "message": "Potřebujete Ircer v peněžence, abyste mohli pomocí IrMetau interagovat s decentralizovanými aplikacemi."
   },
   "needImportFile": {
     "message": "Musíte zvolit soubor k importu.",
@@ -794,7 +794,7 @@
     "message": "Symbol tokenu"
   },
   "tokenWarning1": {
-    "message": "Mějte přehled o tokenech, které jste koupili s účtem AuraMasku. Pokud jste koupili tokeny s jiným účtem, tyto tokeny se zde nezobrazí."
+    "message": "Mějte přehled o tokenech, které jste koupili s účtem IrMetau. Pokud jste koupili tokeny s jiným účtem, tyto tokeny se zde nezobrazí."
   },
   "total": {
     "message": "Celkem"
@@ -819,7 +819,7 @@
     "description": "Followed by a link (here) to view token balances"
   },
   "twelveWords": {
-    "message": "Těchto 12 slov je jedinou možností, jak obnovit AuraMask účet. \nUložte je na bezpečné a neveřejné místo."
+    "message": "Těchto 12 slov je jedinou možností, jak obnovit IrMeta účet. \nUložte je na bezpečné a neveřejné místo."
   },
   "typePassword": {
     "message": "Zadejte své heslo"
@@ -828,7 +828,7 @@
     "message": "Vítejte v novém rozhraní (Beta)"
   },
   "uiWelcomeMessage": {
-    "message": "Používáte nyní nové rozhraní AuraMasku. Rozhlédněte se kolem, vyzkoušejte nové funkce, jako jsou zasílání tokenů, a dejte nám vědět, pokud narazíte na problém."
+    "message": "Používáte nyní nové rozhraní IrMetau. Rozhlédněte se kolem, vyzkoušejte nové funkce, jako jsou zasílání tokenů, a dejte nám vědět, pokud narazíte na problém."
   },
   "unapproved": {
     "message": "Neschváleno"
@@ -871,7 +871,7 @@
     "message": "Varování"
   },
   "welcomeBeta": {
-    "message": "Vítejte v AuraMask Beta"
+    "message": "Vítejte v IrMeta Beta"
   },
   "whatsThis": {
     "message": "Co to je?"

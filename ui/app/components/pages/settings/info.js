@@ -25,7 +25,7 @@ class Info extends Component {
         h('div.settings__info-link-header', this.context.t('links')),
         h('div.settings__info-link-item', [
           h('a', {
-            href: 'https://auramask.io/privacy.html',
+            href: 'https://irmeta.io/privacy.html',
             target: '_blank',
           }, [
             h('span.settings__info-link', this.context.t('privacyMsg')),
@@ -33,7 +33,7 @@ class Info extends Component {
         ]),
         h('div.settings__info-link-item', [
           h('a', {
-            href: 'https://auramask.io/terms.html',
+            href: 'https://irmeta.io/terms.html',
             target: '_blank',
           }, [
             h('span.settings__info-link', this.context.t('terms')),
@@ -41,7 +41,7 @@ class Info extends Component {
         ]),
         h('div.settings__info-link-item', [
           h('a', {
-            href: 'https://auramask.io/attributions.html',
+            href: 'https://irmeta.io/attributions.html',
             target: '_blank',
           }, [
             h('span.settings__info-link', this.context.t('attributions')),
@@ -50,7 +50,7 @@ class Info extends Component {
         h('hr.settings__info-separator'),
         h('div.settings__info-link-item', [
           h('a', {
-            href: 'https://support.auramask.io',
+            href: 'https://support.irmeta.io',
             target: '_blank',
           }, [
             h('span.settings__info-link', this.context.t('supportCenter')),
@@ -58,7 +58,7 @@ class Info extends Component {
         ]),
         h('div.settings__info-link-item', [
           h('a', {
-            href: 'https://auramask.io/',
+            href: 'https://irmeta.io/',
             target: '_blank',
           }, [
             h('span.settings__info-link', this.context.t('visitWebSite')),
@@ -82,7 +82,7 @@ class Info extends Component {
           h('div.settings__content-item.settings__content-item--without-height', [
             Info.renderLogo(),
             h('div.settings__info-item', [
-              h('div.settings__info-version-header', 'AuraMask Version'),
+              h('div.settings__info-version-header', 'IrMeta Version'),
               h('div.settings__info-version-number', this.state.version),
             ]),
             h('div.settings__info-item', [
@@ -101,7 +101,7 @@ class Info extends Component {
 
 Info.propTypes = {
   tab: PropTypes.string,
-  auramask: PropTypes.object,
+  irmeta: PropTypes.object,
   setCurrentCurrency: PropTypes.func,
   setRpcTarget: PropTypes.func,
   displayWarning: PropTypes.func,

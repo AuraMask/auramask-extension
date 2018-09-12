@@ -61,7 +61,7 @@ class ExtensionPlatform {
 
     this._subscribeToNotificationClicked();
 
-    const url = explorerLink(txMeta.hash, parseInt(txMeta.auramaskNetworkId));
+    const url = explorerLink(txMeta.hash, parseInt(txMeta.irmetaNetworkId));
     const nonce = parseInt(txMeta.txParams.nonce, 16);
 
     const title = 'Confirmed transaction';
@@ -96,7 +96,7 @@ class ExtensionPlatform {
 
   _viewOnIrcerScan(txId) {
     if (txId.startsWith('http://')) {
-      global.auramaskController.platform.openWindow({url: txId});
+      global.irmetaController.platform.openWindow({url: txId});
     }
   }
 }

@@ -1,6 +1,6 @@
-AuraMask is beta software. 
+IrMeta is beta software. 
 
-When you log in to AuraMask, your current account's address is visible to every new site you visit. This can be used to look up your account balances of Ircer and other tokens.
+When you log in to IrMeta, your current account's address is visible to every new site you visit. This can be used to look up your account balances of Ircer and other tokens.
 
-For your privacy, for now, please sign out of AuraMask when you're done using a site.
+For your privacy, for now, please sign out of IrMeta when you're done using a site.
 

@@ -4,12 +4,12 @@ const thunkMiddleware = require('redux-thunk').default;
 const rootReducer = require('./reducers');
 const createLogger = require('redux-logger').createLogger;
 
-global.AURAMASK_DEBUG = process.env.AURAMASK_DEBUG;
+global.IRMETA_DEBUG = process.env.IRMETA_DEBUG;
 
 module.exports = configureStore;
 
 const loggerMiddleware = createLogger({
-  predicate: () => global.AURAMASK_DEBUG,
+  predicate: () => global.IRMETA_DEBUG,
 });
 
 const middlewares = [thunkMiddleware, loggerMiddleware];

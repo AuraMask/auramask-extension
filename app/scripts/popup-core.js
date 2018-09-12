@@ -3,14 +3,14 @@ const async = require('async');
 const dnode = require('dnode');
 const Irc = require('irc.js');
 const IrcQuery = require('irc-query');
-const launchAuramaskUi = require('../../ui');
+const launchIrmetaUi = require('../../ui');
 const StreamProvider = require('web3-stream-provider');
 const setupMultiplex = require('./lib/stream-utils.js').setupMultiplex;
 
 module.exports = initializePopup;
 
 /**
- * Asynchronously initializes the AuraMask popup UI
+ * Asynchronously initializes the IrMeta popup UI
  *
  * @param {{ container: Element, connectionStream: * }} config Popup configuration object
  * @param {Function} cb Called when initialization is complete
@@ -19,7 +19,7 @@ function initializePopup({container, connectionStream}, cb) {
   // setup app
   async.waterfall([
     (cb) => connectToAccountManager(connectionStream, cb),
-    (accountManager, cb) => launchAuramaskUi({container, accountManager}, cb),
+    (accountManager, cb) => launchIrmetaUi({container, accountManager}, cb),
   ], cb);
 }
 

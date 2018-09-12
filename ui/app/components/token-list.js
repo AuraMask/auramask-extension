@@ -10,8 +10,8 @@ const log = require('loglevel');
 
 function mapStateToProps(state) {
   return {
-    network: state.auramask.network,
-    tokens: state.auramask.tokens,
+    network: state.irmeta.network,
+    tokens: state.irmeta.tokens,
     userAddress: selectors.getSelectedAddress(state),
   };
 }

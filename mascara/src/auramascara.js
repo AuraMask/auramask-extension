@@ -1,1 +1,1 @@
-global.auramask = require('auramascara');
+global.irmeta = require('auramascara');

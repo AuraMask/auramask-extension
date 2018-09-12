@@ -70,7 +70,7 @@ NewAccountCreateForm.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const {auramask: {network, selectedAddress, identities = {}}} = state;
+  const {irmeta: {network, selectedAddress, identities = {}}} = state;
   const numberOfExistingAccounts = Object.keys(identities).length;
 
   return {

@@ -34,7 +34,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "AuraMask",
+    "message": "IrMeta",
     "description": "The name of the application"
   },
   "attemptingConnect": {
@@ -169,7 +169,7 @@
     "message": "デフォルトのIrcer送受信ネットワークはメインネットです。"
   },
   "denExplainer": {
-    "message": "DENとは、あなたのパスワードが暗号化されたAuraMask内のストレージです。"
+    "message": "DENとは、あなたのパスワードが暗号化されたIrMeta内のストレージです。"
   },
   "deposit": {
     "message": "振込"
@@ -197,7 +197,7 @@
     "message": "ShapeShiftで交換"
   },
   "depositShapeShiftExplainer": {
-    "message": "他の暗号通貨とIrcerを交換して、AuraMaskのウォレットへ入金できます。アカウント作成は不要です。"
+    "message": "他の暗号通貨とIrcerを交換して、IrMetaのウォレットへ入金できます。アカウント作成は不要です。"
   },
   "details": {
     "message": "詳細"
@@ -209,7 +209,7 @@
     "message": "Ircerを直接入金"
   },
   "directDepositIrcerExplainer": {
-    "message": "既にIrcerをお持ちなら、AuraMaskの新しいウォレットにIrcerを送信することができます。"
+    "message": "既にIrcerをお持ちなら、IrMetaの新しいウォレットにIrcerを送信することができます。"
   },
   "done": {
     "message": "完了"
@@ -318,7 +318,7 @@
     "message": "アカウントのインポート"
   },
   "importAccountMsg": {
-    "message": "追加したアカウントはAuraMaskのアカウントパスフレーズとは関連付けられません。インポートしたアカウントについての詳細は"
+    "message": "追加したアカウントはIrMetaのアカウントパスフレーズとは関連付けられません。インポートしたアカウントについての詳細は"
   },
   "importAnAccount": {
     "message": "アカウントをインポート"
@@ -353,7 +353,7 @@
     "description": "format for importing an account"
   },
   "keepTrackTokens": {
-    "message": "AuraMaskアカウントで入手したトークンを検索できます。"
+    "message": "IrMetaアカウントで入手したトークンを検索できます。"
   },
   "learnMore": {
     "message": "詳細"
@@ -411,7 +411,7 @@
     "message": "一つ以上のトークンを選択してください。"
   },
   "needIrcerInWallet": {
-    "message": "AuraMaskで分散型アプリケーションを使用するためには、このウォレットにIrcerが必要です。"
+    "message": "IrMetaで分散型アプリケーションを使用するためには、このウォレットにIrcerが必要です。"
   },
   "needImportFile": {
     "message": "インポートするファイルを選択してください。",
@@ -672,7 +672,7 @@
     "message": "トークンシンボル"
   },
   "tokenWarning1": {
-    "message": "AuraMaskのアカウントで取得したアカウントのみ追加できます。他のアカウントを使用して取得したトークンは、カスタムトークンを使用してください。"
+    "message": "IrMetaのアカウントで取得したアカウントのみ追加できます。他のアカウントを使用して取得したトークンは、カスタムトークンを使用してください。"
   },
   "total": {
     "message": "合計"
@@ -700,7 +700,7 @@
     "message": "新UIへようこそ! (ベータ版)"
   },
   "uiWelcomeMessage": {
-    "message": "現在、AuraMask の新しいUIをお使いになっています。トークン送信など、新たな機能を試してみましょう! 何か問題があればご報告ください。"
+    "message": "現在、IrMeta の新しいUIをお使いになっています。トークン送信など、新たな機能を試してみましょう! 何か問題があればご報告ください。"
   },
   "unavailable": {
     "message": "有効ではありません。"
@@ -734,7 +734,7 @@
     "message": "おかえりなさい!"
   },
   "welcomeBeta": {
-    "message": "AuraMask ベータ版へようこそ!"
+    "message": "IrMeta ベータ版へようこそ!"
   },
   "whatsThis": {
     "message": "この機能について"

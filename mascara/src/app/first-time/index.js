@@ -71,7 +71,7 @@ class FirstTimeFlow extends Component {
   }
 }
 
-const mapStateToProps = ({auramask}) => {
+const mapStateToProps = ({irmeta}) => {
   const {
     isInitialized,
     seedWords,
@@ -82,7 +82,7 @@ const mapStateToProps = ({auramask}) => {
     isUnlocked,
     welcomeScreenSeen,
     isPopup,
-  } = auramask;
+  } = irmeta;
 
   return {
     isMascara,

@@ -1,5 +1,5 @@
 {
-  "name": "auramask-crx",
+  "name": "irmeta-crx",
   "version": "0.0.0",
   "public": false,
   "private": true,
@@ -100,7 +100,7 @@
     "irc-keyring": "^0.1.1",
     "irc-query": "^0.0.1",
     "irc-sig-util": "^0.0.2",
-    "irc-token-tracker": "^0.1.4",
+    "irc-token-tracker": "^0.1.5",
     "irc.js": "git+https://github.com/ldcc/ircjs.git",
     "jazzicon": "^1.2.0",
     "json-rpc-engine": "^3.6.1",

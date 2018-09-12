@@ -207,7 +207,7 @@ export class ShapeShiftForm extends Component {
 }
 
 export default connect(
-  ({auramask: {coinOptions, tokenExchangeRates, selectedAddress}}) => ({
+  ({irmeta: {coinOptions, tokenExchangeRates, selectedAddress}}) => ({
     coinOptions, tokenExchangeRates, selectedAddress,
   }),
   dispatch => ({

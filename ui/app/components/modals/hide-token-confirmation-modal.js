@@ -8,7 +8,7 @@ const Identicon = require('../identicon');
 
 function mapStateToProps(state) {
   return {
-    network: state.auramask.network,
+    network: state.irmeta.network,
     token: state.appState.modal.modalState.props.token,
   };
 }

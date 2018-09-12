@@ -1,12 +1,12 @@
 import extend from 'xtend';
 
 // Actions
-const OPEN_FROM_DROPDOWN = 'auramask/send/OPEN_FROM_DROPDOWN';
-const CLOSE_FROM_DROPDOWN = 'auramask/send/CLOSE_FROM_DROPDOWN';
-const OPEN_TO_DROPDOWN = 'auramask/send/OPEN_TO_DROPDOWN';
-const CLOSE_TO_DROPDOWN = 'auramask/send/CLOSE_TO_DROPDOWN';
-const UPDATE_SEND_ERRORS = 'auramask/send/UPDATE_SEND_ERRORS';
-const RESET_SEND_STATE = 'auramask/send/RESET_SEND_STATE';
+const OPEN_FROM_DROPDOWN = 'irmeta/send/OPEN_FROM_DROPDOWN';
+const CLOSE_FROM_DROPDOWN = 'irmeta/send/CLOSE_FROM_DROPDOWN';
+const OPEN_TO_DROPDOWN = 'irmeta/send/OPEN_TO_DROPDOWN';
+const CLOSE_TO_DROPDOWN = 'irmeta/send/CLOSE_TO_DROPDOWN';
+const UPDATE_SEND_ERRORS = 'irmeta/send/UPDATE_SEND_ERRORS';
+const RESET_SEND_STATE = 'irmeta/send/RESET_SEND_STATE';
 
 // TODO: determine if this approach to initState is consistent with conventional ducks pattern
 const initState = {

@@ -149,7 +149,7 @@ class ConfirmSeedScreen extends Component {
 export default compose(
   withRouter,
   connect(
-    ({auramask: {selectedAddress, seedWords}, appState: {isLoading}}) => ({
+    ({irmeta: {selectedAddress, seedWords}, appState: {isLoading}}) => ({
       seedWords,
       isLoading,
       address: selectedAddress,

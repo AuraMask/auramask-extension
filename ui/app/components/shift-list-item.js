@@ -20,9 +20,9 @@ module.exports = connect(mapStateToProps)(ShiftListItem);
 
 function mapStateToProps(state) {
   return {
-    selectedAddress: state.auramask.selectedAddress,
-    conversionRate: state.auramask.conversionRate,
-    currentCurrency: state.auramask.currentCurrency,
+    selectedAddress: state.irmeta.selectedAddress,
+    conversionRate: state.irmeta.conversionRate,
+    currentCurrency: state.irmeta.currentCurrency,
   };
 }
 

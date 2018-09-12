@@ -3,11 +3,11 @@ import txHelper from '../../lib/tx-helper';
 import { calcTokenAmount } from '../token-util';
 import { roundExponential } from '../helpers/confirm-transaction/util';
 
-const unapprovedTxsSelector = state => state.auramask.unapprovedTxs;
-const unapprovedMsgsSelector = state => state.auramask.unapprovedMsgs;
-const unapprovedPersonalMsgsSelector = state => state.auramask.unapprovedPersonalMsgs;
-const unapprovedTypedMessagesSelector = state => state.auramask.unapprovedTypedMessages;
-const networkSelector = state => state.auramask.network;
+const unapprovedTxsSelector = state => state.irmeta.unapprovedTxs;
+const unapprovedMsgsSelector = state => state.irmeta.unapprovedMsgs;
+const unapprovedPersonalMsgsSelector = state => state.irmeta.unapprovedPersonalMsgs;
+const unapprovedTypedMessagesSelector = state => state.irmeta.unapprovedTypedMessages;
+const networkSelector = state => state.irmeta.network;
 
 export const unconfirmedTransactionsListSelector = createSelector(
   unapprovedTxsSelector,
@@ -44,10 +44,10 @@ export const unconfirmedTransactionsHashSelector = createSelector(
     network
   ) => {
     const filteredUnapprovedTxs = Object.keys(unapprovedTxs).reduce((acc, address) => {
-      const { auramaskNetworkId } = unapprovedTxs[address];
+      const { irmetaNetworkId } = unapprovedTxs[address];
       const transactions = { ...acc };
 
-      if (auramaskNetworkId === network) {
+      if (irmetaNetworkId === network) {
         transactions[address] = unapprovedTxs[address];
       }
 
@@ -63,9 +63,9 @@ export const unconfirmedTransactionsHashSelector = createSelector(
   }
 );
 
-const unapprovedMsgCountSelector = state => state.auramask.unapprovedMsgCount;
-const unapprovedPersonalMsgCountSelector = state => state.auramask.unapprovedPersonalMsgCount;
-const unapprovedTypedMessagesCountSelector = state => state.auramask.unapprovedTypedMessagesCount;
+const unapprovedMsgCountSelector = state => state.irmeta.unapprovedMsgCount;
+const unapprovedPersonalMsgCountSelector = state => state.irmeta.unapprovedPersonalMsgCount;
+const unapprovedTypedMessagesCountSelector = state => state.irmeta.unapprovedTypedMessagesCount;
 
 export const unconfirmedTransactionsCountSelector = createSelector(
   unapprovedTxsSelector,
@@ -81,8 +81,8 @@ export const unconfirmedTransactionsCountSelector = createSelector(
     network
   ) => {
     const filteredUnapprovedTxIds = Object.keys(unapprovedTxs).filter(txId => {
-      const { auramaskNetworkId } = unapprovedTxs[txId];
-      return auramaskNetworkId === network;
+      const { irmetaNetworkId } = unapprovedTxs[txId];
+      return irmetaNetworkId === network;
     });
 
     return filteredUnapprovedTxIds.length + unapprovedTypedMessagesCount + unapprovedMsgCount +
@@ -91,14 +91,14 @@ export const unconfirmedTransactionsCountSelector = createSelector(
 );
 
 
-export const currentCurrencySelector = state => state.auramask.currentCurrency;
-export const conversionRateSelector = state => state.auramask.conversionRate;
+export const currentCurrencySelector = state => state.irmeta.currentCurrency;
+export const conversionRateSelector = state => state.irmeta.conversionRate;
 
 const txDataSelector = state => state.confirmTransaction.txData;
 const tokenDataSelector = state => state.confirmTransaction.tokenData;
 const tokenPropsSelector = state => state.confirmTransaction.tokenProps;
 
-const contractExchangeRatesSelector = state => state.auramask.contractExchangeRates;
+const contractExchangeRatesSelector = state => state.irmeta.contractExchangeRates;
 
 const tokenDecimalsSelector = createSelector(
   tokenPropsSelector,

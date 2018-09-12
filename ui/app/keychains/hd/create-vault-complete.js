@@ -16,7 +16,7 @@ function CreateVaultCompleteScreen() {
 function mapStateToProps(state) {
   return {
     seed: state.appState.currentView.seedWords,
-    cachedSeed: state.auramask.seedWords,
+    cachedSeed: state.irmeta.seedWords,
   };
 }
 
@@ -54,7 +54,7 @@ CreateVaultCompleteScreen.prototype.render = function() {
           textAlign: 'center',
         },
       }, [
-        h('span.error', 'These 12 words are the only way to restore your AuraMask accounts.\nSave them somewhere safe and secret.'),
+        h('span.error', 'These 12 words are the only way to restore your IrMeta accounts.\nSave them somewhere safe and secret.'),
       ]),
 
       h('textarea.twelve-word-phrase', {
@@ -73,7 +73,7 @@ CreateVaultCompleteScreen.prototype.render = function() {
       }, 'I\'ve copied it somewhere safe'),
 
       h('button.primary', {
-        onClick: () => exportAsFile(`AuraMask Seed Words`, seed),
+        onClick: () => exportAsFile(`IrMeta Seed Words`, seed),
         style: {
           margin: '10px',
           fontSize: '0.9em',

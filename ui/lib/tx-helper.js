@@ -5,7 +5,7 @@ module.exports = function(unapprovedTxs, unapprovedMsgs, personalMsgs, typedMess
   log.debug('tx-helper called with params:');
   log.debug({unapprovedTxs, unapprovedMsgs, personalMsgs, typedMessages, network});
 
-  const txValues = network ? valuesFor(unapprovedTxs).filter(txMeta => txMeta.auramaskNetworkId === network) : valuesFor(unapprovedTxs);
+  const txValues = network ? valuesFor(unapprovedTxs).filter(txMeta => txMeta.irmetaNetworkId === network) : valuesFor(unapprovedTxs);
   log.debug(`tx helper found ${txValues.length} unapproved txs`);
 
   const msgValues = valuesFor(unapprovedMsgs);

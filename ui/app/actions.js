@@ -49,8 +49,8 @@ var actions = {
   transitionForward,
   transitionBackward,
   // remote state
-  UPDATE_AURAMASK_STATE: 'UPDATE_AURAMASK_STATE',
-  updateAuramaskState: updateAuramaskState,
+  UPDATE_IRMETA_STATE: 'UPDATE_IRMETA_STATE',
+  updateIrmetaState: updateIrmetaState,
   // notices
   MARK_NOTICE_READ: 'MARK_NOTICE_READ',
   markNoticeRead: markNoticeRead,
@@ -73,7 +73,7 @@ var actions = {
   SHOW_IMPORT_PAGE: 'SHOW_IMPORT_PAGE',
   SHOW_NEW_ACCOUNT_PAGE: 'SHOW_NEW_ACCOUNT_PAGE',
   SET_NEW_ACCOUNT_FORM: 'SET_NEW_ACCOUNT_FORM',
-  unlockAuramask: unlockAuramask,
+  unlockIrmeta: unlockIrmeta,
   unlockFailed: unlockFailed,
   unlockSucceeded,
   showCreateVault: showCreateVault,
@@ -109,10 +109,10 @@ var actions = {
   UNLOCK_IN_PROGRESS: 'UNLOCK_IN_PROGRESS',
   UNLOCK_FAILED: 'UNLOCK_FAILED',
   UNLOCK_SUCCEEDED: 'UNLOCK_SUCCEEDED',
-  UNLOCK_AURAMASK: 'UNLOCK_AURAMASK',
-  LOCK_AURAMASK: 'LOCK_AURAMASK',
-  tryUnlockAuramask: tryUnlockAuramask,
-  lockAuramask: lockAuramask,
+  UNLOCK_IRMETA: 'UNLOCK_IRMETA',
+  LOCK_IRMETA: 'LOCK_IRMETA',
+  tryUnlockIrmeta: tryUnlockIrmeta,
+  lockIrmeta: lockIrmeta,
   unlockInProgress: unlockInProgress,
   // error handling
   displayWarning: displayWarning,
@@ -276,7 +276,7 @@ var actions = {
   showNewKeychain: showNewKeychain,
 
   callBackgroundThenUpdate,
-  forceUpdateAuramaskState,
+  forceUpdateIrmetaState,
 
   TOGGLE_ACCOUNT_MENU: 'TOGGLE_ACCOUNT_MENU',
   toggleAccountMenu,
@@ -328,7 +328,7 @@ function goHome() {
 
 // async actions
 
-function tryUnlockAuramask(password) {
+function tryUnlockIrmeta(password) {
   return dispatch => {
     dispatch(actions.showLoadingIndication());
     dispatch(actions.unlockInProgress());
@@ -345,7 +345,7 @@ function tryUnlockAuramask(password) {
     })
       .then(() => {
         dispatch(actions.unlockSucceeded());
-        return forceUpdateAuramaskState(dispatch);
+        return forceUpdateIrmetaState(dispatch);
       })
       .then(() => {
         return new Promise((resolve, reject) => {
@@ -453,7 +453,7 @@ function createNewVaultAndKeychain(password) {
         });
       });
     })
-      .then(() => forceUpdateAuramaskState(dispatch))
+      .then(() => forceUpdateIrmetaState(dispatch))
       .then(() => dispatch(actions.hideLoadingIndication()))
       .catch(() => dispatch(actions.hideLoadingIndication()));
   };
@@ -601,7 +601,7 @@ function importNewAccount(strategy, args) {
       throw err;
     }
     dispatch(actions.hideLoadingIndication());
-    dispatch(actions.updateAuramaskState(newState));
+    dispatch(actions.updateIrmetaState(newState));
     if (newState.selectedAddress) {
       dispatch({
         type: actions.SHOW_ACCOUNT_DETAIL,
@@ -621,7 +621,7 @@ function navigateToNewAccountScreen() {
 function addNewAccount() {
   log.debug(`background.addNewAccount`);
   return (dispatch, getState) => {
-    const oldIdentities = getState().auramask.identities;
+    const oldIdentities = getState().irmeta.identities;
     dispatch(actions.showLoadingIndication());
     return new Promise((resolve, reject) => {
       background.addNewAccount((err, {identities: newIdentities}) => {
@@ -633,7 +633,7 @@ function addNewAccount() {
 
         dispatch(actions.hideLoadingIndication());
 
-        forceUpdateAuramaskState(dispatch);
+        forceUpdateIrmetaState(dispatch);
         return resolve(newAccountAddress);
       });
     });
@@ -654,7 +654,7 @@ function checkHardwareStatus(deviceName) {
 
         dispatch(actions.hideLoadingIndication());
 
-        forceUpdateAuramaskState(dispatch);
+        forceUpdateIrmetaState(dispatch);
         return resolve(unlocked);
       });
     });
@@ -675,7 +675,7 @@ function forgetDevice(deviceName) {
 
         dispatch(actions.hideLoadingIndication());
 
-        forceUpdateAuramaskState(dispatch);
+        forceUpdateIrmetaState(dispatch);
         return resolve();
       });
     });
@@ -696,7 +696,7 @@ function connectHardware(deviceName, page) {
 
         dispatch(actions.hideLoadingIndication());
 
-        forceUpdateAuramaskState(dispatch);
+        forceUpdateIrmetaState(dispatch);
         return resolve(accounts);
       });
     });
@@ -781,7 +781,7 @@ function signMsg(msgData) {
       log.debug(`actions calling background.signMessage`);
       background.signMessage(msgData, (err, newState) => {
         log.debug('signMessage called back');
-        dispatch(actions.updateAuramaskState(newState));
+        dispatch(actions.updateIrmetaState(newState));
         dispatch(actions.hideLoadingIndication());
 
         if (err) {
@@ -790,9 +790,9 @@ function signMsg(msgData) {
           return reject(err);
         }
 
-        dispatch(actions.completedTx(msgData.auramaskId));
+        dispatch(actions.completedTx(msgData.irmetaId));
 
-        if (global.AURAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+        if (global.IRMETA_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
           !hasUnconfirmedTransactions(getState())) {
           return global.platform.closeCurrentWindow();
         }
@@ -812,7 +812,7 @@ function signPersonalMsg(msgData) {
       log.debug(`actions calling background.signPersonalMessage`);
       background.signPersonalMessage(msgData, (err, newState) => {
         log.debug('signPersonalMessage called back');
-        dispatch(actions.updateAuramaskState(newState));
+        dispatch(actions.updateIrmetaState(newState));
         dispatch(actions.hideLoadingIndication());
 
         if (err) {
@@ -821,9 +821,9 @@ function signPersonalMsg(msgData) {
           return reject(err);
         }
 
-        dispatch(actions.completedTx(msgData.auramaskId));
+        dispatch(actions.completedTx(msgData.irmetaId));
 
-        if (global.AURAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+        if (global.IRMETA_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
           !hasUnconfirmedTransactions(getState())) {
           return global.platform.closeCurrentWindow();
         }
@@ -843,7 +843,7 @@ function signTypedMsg(msgData) {
       log.debug(`actions calling background.signTypedMessage`);
       background.signTypedMessage(msgData, (err, newState) => {
         log.debug('signTypedMessage called back');
-        dispatch(actions.updateAuramaskState(newState));
+        dispatch(actions.updateIrmetaState(newState));
         dispatch(actions.hideLoadingIndication());
 
         if (err) {
@@ -852,9 +852,9 @@ function signTypedMsg(msgData) {
           return reject(err);
         }
 
-        dispatch(actions.completedTx(msgData.auramaskId));
+        dispatch(actions.completedTx(msgData.irmetaId));
 
-        if (global.AURAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+        if (global.IRMETA_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
           !hasUnconfirmedTransactions(getState())) {
           return global.platform.closeCurrentWindow();
         }
@@ -1060,7 +1060,7 @@ function sendTx(txData) {
       }
       dispatch(actions.completedTx(txData.id));
 
-      if (global.AURAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+      if (global.IRMETA_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
         !hasUnconfirmedTransactions(getState())) {
         return global.platform.closeCurrentWindow();
       }
@@ -1100,8 +1100,8 @@ function updateTransaction(txData) {
         resolve(txData);
       });
     })
-      .then(() => updateAuramaskStateFromBackground())
-      .then(newState => dispatch(actions.updateAuramaskState(newState)))
+      .then(() => updateIrmetaStateFromBackground())
+      .then(newState => dispatch(actions.updateIrmetaState(newState)))
       .then(() => {
         dispatch(actions.showConfTxPage({id: txData.id}));
         dispatch(actions.hideLoadingIndication());
@@ -1131,14 +1131,14 @@ function updateAndApproveTx(txData) {
         resolve(txData);
       });
     })
-      .then(() => updateAuramaskStateFromBackground())
-      .then(newState => dispatch(actions.updateAuramaskState(newState)))
+      .then(() => updateIrmetaStateFromBackground())
+      .then(newState => dispatch(actions.updateIrmetaState(newState)))
       .then(() => {
         dispatch(actions.clearSend());
         dispatch(actions.completedTx(txData.id));
         dispatch(actions.hideLoadingIndication());
 
-        if (global.AURAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+        if (global.IRMETA_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
           !hasUnconfirmedTransactions(getState())) {
           return global.platform.closeCurrentWindow();
         }
@@ -1177,7 +1177,7 @@ function cancelMsg(msgData) {
     return new Promise((resolve, reject) => {
       log.debug(`background.cancelMessage`);
       background.cancelMessage(msgData.id, (err, newState) => {
-        dispatch(actions.updateAuramaskState(newState));
+        dispatch(actions.updateIrmetaState(newState));
         dispatch(actions.hideLoadingIndication());
 
         if (err) {
@@ -1186,7 +1186,7 @@ function cancelMsg(msgData) {
 
         dispatch(actions.completedTx(msgData.id));
 
-        if (global.AURAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+        if (global.IRMETA_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
           !hasUnconfirmedTransactions(getState())) {
           return global.platform.closeCurrentWindow();
         }
@@ -1204,7 +1204,7 @@ function cancelPersonalMsg(msgData) {
     return new Promise((resolve, reject) => {
       const id = msgData.id;
       background.cancelPersonalMessage(id, (err, newState) => {
-        dispatch(actions.updateAuramaskState(newState));
+        dispatch(actions.updateIrmetaState(newState));
         dispatch(actions.hideLoadingIndication());
 
         if (err) {
@@ -1213,7 +1213,7 @@ function cancelPersonalMsg(msgData) {
 
         dispatch(actions.completedTx(id));
 
-        if (global.AURAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+        if (global.IRMETA_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
           !hasUnconfirmedTransactions(getState())) {
           return global.platform.closeCurrentWindow();
         }
@@ -1231,7 +1231,7 @@ function cancelTypedMsg(msgData) {
     return new Promise((resolve, reject) => {
       const id = msgData.id;
       background.cancelTypedMessage(id, (err, newState) => {
-        dispatch(actions.updateAuramaskState(newState));
+        dispatch(actions.updateIrmetaState(newState));
         dispatch(actions.hideLoadingIndication());
 
         if (err) {
@@ -1240,7 +1240,7 @@ function cancelTypedMsg(msgData) {
 
         dispatch(actions.completedTx(id));
 
-        if (global.AURAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+        if (global.IRMETA_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
           !hasUnconfirmedTransactions(getState())) {
           return global.platform.closeCurrentWindow();
         }
@@ -1265,14 +1265,14 @@ function cancelTx(txData) {
         resolve();
       });
     })
-      .then(() => updateAuramaskStateFromBackground())
-      .then(newState => dispatch(actions.updateAuramaskState(newState)))
+      .then(() => updateIrmetaStateFromBackground())
+      .then(newState => dispatch(actions.updateIrmetaState(newState)))
       .then(() => {
         dispatch(actions.clearSend());
         dispatch(actions.completedTx(txData.id));
         dispatch(actions.hideLoadingIndication());
 
-        if (global.AURAMASK_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
+        if (global.IRMETA_UI_TYPE === ENVIRONMENT_TYPE_NOTIFICATION &&
           !hasUnconfirmedTransactions(getState())) {
           return global.platform.closeCurrentWindow();
         }
@@ -1314,7 +1314,7 @@ function markPasswordForgotten() {
     return background.markPasswordForgotten(() => {
       dispatch(actions.hideLoadingIndication());
       dispatch(actions.forgotPassword());
-      forceUpdateAuramaskState(dispatch);
+      forceUpdateIrmetaState(dispatch);
     });
   };
 }
@@ -1327,7 +1327,7 @@ function unMarkPasswordForgotten() {
         resolve();
       });
     })
-      .then(() => forceUpdateAuramaskState(dispatch));
+      .then(() => forceUpdateIrmetaState(dispatch));
   };
 }
 
@@ -1419,16 +1419,16 @@ function unlockSucceeded(message) {
   };
 }
 
-function unlockAuramask(account) {
+function unlockIrmeta(account) {
   return {
-    type: actions.UNLOCK_AURAMASK,
+    type: actions.UNLOCK_IRMETA,
     value: account,
   };
 }
 
-function updateAuramaskState(newState) {
+function updateIrmetaState(newState) {
   return {
-    type: actions.UPDATE_AURAMASK_STATE,
+    type: actions.UPDATE_IRMETA_STATE,
     value: newState,
   };
 }
@@ -1445,7 +1445,7 @@ const backgroundSetLocked = () => {
   });
 };
 
-const updateAuramaskStateFromBackground = () => {
+const updateIrmetaStateFromBackground = () => {
   log.debug(`background.getState`);
 
   return new Promise((resolve, reject) => {
@@ -1459,26 +1459,26 @@ const updateAuramaskStateFromBackground = () => {
   });
 };
 
-function lockAuramask() {
+function lockIrmeta() {
   log.debug(`background.setLocked`);
 
   return dispatch => {
     dispatch(actions.showLoadingIndication());
 
     return backgroundSetLocked()
-      .then(() => updateAuramaskStateFromBackground())
+      .then(() => updateIrmetaStateFromBackground())
       .catch(error => {
         dispatch(actions.displayWarning(error.message));
         return Promise.reject(error);
       })
       .then(newState => {
-        dispatch(actions.updateAuramaskState(newState));
+        dispatch(actions.updateIrmetaState(newState));
         dispatch(actions.hideLoadingIndication());
-        dispatch({type: actions.LOCK_AURAMASK});
+        dispatch({type: actions.LOCK_IRMETA});
       })
       .catch(() => {
         dispatch(actions.hideLoadingIndication());
-        dispatch({type: actions.LOCK_AURAMASK});
+        dispatch({type: actions.LOCK_IRMETA});
       });
   };
 }
@@ -1719,7 +1719,7 @@ function retryTransaction(txId) {
         resolve(newState);
       });
     })
-      .then(newState => dispatch(actions.updateAuramaskState(newState)))
+      .then(newState => dispatch(actions.updateIrmetaState(newState)))
       .then(() => newTxId);
   };
 }
@@ -2195,7 +2195,7 @@ function callBackgroundThenUpdateNoSpinner(method, ...args) {
       if (err) {
         return dispatch(actions.displayWarning(err.message));
       }
-      forceUpdateAuramaskState(dispatch);
+      forceUpdateIrmetaState(dispatch);
     });
   };
 }
@@ -2208,12 +2208,12 @@ function callBackgroundThenUpdate(method, ...args) {
       if (err) {
         return dispatch(actions.displayWarning(err.message));
       }
-      forceUpdateAuramaskState(dispatch);
+      forceUpdateIrmetaState(dispatch);
     });
   };
 }
 
-function forceUpdateAuramaskState(dispatch) {
+function forceUpdateIrmetaState(dispatch) {
   log.debug(`background.getState`);
   return new Promise((resolve, reject) => {
     background.getState((err, newState) => {
@@ -2222,7 +2222,7 @@ function forceUpdateAuramaskState(dispatch) {
         return reject(err);
       }
 
-      dispatch(actions.updateAuramaskState(newState));
+      dispatch(actions.updateIrmetaState(newState));
       resolve(newState);
     });
   });

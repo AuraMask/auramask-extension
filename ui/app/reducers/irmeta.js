@@ -4,13 +4,13 @@ const AuramascaraPlatform = require('../../../app/scripts/platforms/window');
 const {getEnvironmentType} = require('../../../app/scripts/lib/util');
 const {ENVIRONMENT_TYPE_POPUP} = require('../../../app/scripts/lib/enums');
 
-module.exports = reduceAuramask;
+module.exports = reduceIrmeta;
 
-function reduceAuramask(state, action) {
+function reduceIrmeta(state, action) {
   let newState;
 
   // clone + defaults
-  var auramaskState = extend({
+  var irmetaState = extend({
     isInitialized: false,
     isUnlocked: false,
     isAccountMenuOpen: false,
@@ -49,50 +49,50 @@ function reduceAuramask(state, action) {
     isRevealingSeedWords: false,
     welcomeScreenSeen: false,
     currentLocale: '',
-  }, state.auramask);
+  }, state.irmeta);
 
   switch (action.type) {
 
     case actions.SHOW_ACCOUNTS_PAGE:
-      newState = extend(auramaskState, {
+      newState = extend(irmetaState, {
         isRevealingSeedWords: false,
       });
       delete newState.seedWords;
       return newState;
 
     case actions.SHOW_NOTICE:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         noActiveNotices: false,
         nextUnreadNotice: action.value,
       });
 
     case actions.CLEAR_NOTICES:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         noActiveNotices: true,
       });
 
-    case actions.UPDATE_AURAMASK_STATE:
-      return extend(auramaskState, action.value);
+    case actions.UPDATE_IRMETA_STATE:
+      return extend(irmetaState, action.value);
 
-    case actions.UNLOCK_AURAMASK:
-      return extend(auramaskState, {
+    case actions.UNLOCK_IRMETA:
+      return extend(irmetaState, {
         isUnlocked: true,
         isInitialized: true,
         selectedAddress: action.value,
       });
 
-    case actions.LOCK_AURAMASK:
-      return extend(auramaskState, {
+    case actions.LOCK_IRMETA:
+      return extend(irmetaState, {
         isUnlocked: false,
       });
 
     case actions.SET_RPC_LIST:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         frequentRpcList: action.value,
       });
 
     case actions.SET_RPC_TARGET:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         provider: {
           type: 'rpc',
           rpcTarget: action.value,
@@ -100,7 +100,7 @@ function reduceAuramask(state, action) {
       });
 
     case actions.SET_PROVIDER_TYPE:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         provider: {
           type: action.value,
         },
@@ -108,38 +108,38 @@ function reduceAuramask(state, action) {
 
     case actions.COMPLETED_TX:
       var stringId = String(action.id);
-      newState = extend(auramaskState, {
+      newState = extend(irmetaState, {
         unapprovedTxs: {},
         unapprovedMsgs: {},
       });
-      for (const id in auramaskState.unapprovedTxs) {
+      for (const id in irmetaState.unapprovedTxs) {
         if (id !== stringId) {
-          newState.unapprovedTxs[id] = auramaskState.unapprovedTxs[id];
+          newState.unapprovedTxs[id] = irmetaState.unapprovedTxs[id];
         }
       }
-      for (const id in auramaskState.unapprovedMsgs) {
+      for (const id in irmetaState.unapprovedMsgs) {
         if (id !== stringId) {
-          newState.unapprovedMsgs[id] = auramaskState.unapprovedMsgs[id];
+          newState.unapprovedMsgs[id] = irmetaState.unapprovedMsgs[id];
         }
       }
       return newState;
 
     case actions.EDIT_TX:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         send: {
-          ...auramaskState.send,
+          ...irmetaState.send,
           editingTransactionId: action.value,
         },
       });
 
     case actions.SHOW_NEW_VAULT_SEED:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         isRevealingSeedWords: true,
         seedWords: action.value,
       });
 
     case actions.CLEAR_SEED_WORD_CACHE:
-      newState = extend(auramaskState, {
+      newState = extend(irmetaState, {
         isUnlocked: true,
         isInitialized: true,
         selectedAddress: action.value,
@@ -148,7 +148,7 @@ function reduceAuramask(state, action) {
       return newState;
 
     case actions.SHOW_ACCOUNT_DETAIL:
-      newState = extend(auramaskState, {
+      newState = extend(irmetaState, {
         isUnlocked: true,
         isInitialized: true,
         selectedAddress: action.value,
@@ -157,7 +157,7 @@ function reduceAuramask(state, action) {
       return newState;
 
     case actions.SET_SELECTED_TOKEN:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         selectedTokenAddress: action.value,
       });
 
@@ -165,119 +165,119 @@ function reduceAuramask(state, action) {
       const account = action.value.account;
       const name = action.value.label;
       const id = {};
-      id[account] = extend(auramaskState.identities[account], {name});
-      const identities = extend(auramaskState.identities, id);
-      return extend(auramaskState, {identities});
+      id[account] = extend(irmetaState.identities[account], {name});
+      const identities = extend(irmetaState.identities, id);
+      return extend(irmetaState, {identities});
 
     case actions.SET_CURRENT_FIAT:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         currentCurrency: action.value.currentCurrency,
         conversionRate: action.value.conversionRate,
         conversionDate: action.value.conversionDate,
       });
 
     case actions.UPDATE_TOKENS:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         tokens: action.newTokens,
       });
 
-    // auramask.send
+    // irmeta.send
     case actions.UPDATE_GAS_LIMIT:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         send: {
-          ...auramaskState.send,
+          ...irmetaState.send,
           gasLimit: action.value,
         },
       });
 
     case actions.UPDATE_GAS_PRICE:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         send: {
-          ...auramaskState.send,
+          ...irmetaState.send,
           gasPrice: action.value,
         },
       });
 
     case actions.TOGGLE_ACCOUNT_MENU:
-      return extend(auramaskState, {
-        isAccountMenuOpen: !auramaskState.isAccountMenuOpen,
+      return extend(irmetaState, {
+        isAccountMenuOpen: !irmetaState.isAccountMenuOpen,
       });
 
     case actions.UPDATE_GAS_TOTAL:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         send: {
-          ...auramaskState.send,
+          ...irmetaState.send,
           gasTotal: action.value,
         },
       });
 
     case actions.UPDATE_SEND_TOKEN_BALANCE:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         send: {
-          ...auramaskState.send,
+          ...irmetaState.send,
           tokenBalance: action.value,
         },
       });
 
     case actions.UPDATE_SEND_HEX_DATA:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         send: {
-          ...auramaskState.send,
+          ...irmetaState.send,
           data: action.value,
         },
       });
 
     case actions.UPDATE_SEND_FROM:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         send: {
-          ...auramaskState.send,
+          ...irmetaState.send,
           from: action.value,
         },
       });
 
     case actions.UPDATE_SEND_TO:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         send: {
-          ...auramaskState.send,
+          ...irmetaState.send,
           to: action.value.to,
           toNickname: action.value.nickname,
         },
       });
 
     case actions.UPDATE_SEND_AMOUNT:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         send: {
-          ...auramaskState.send,
+          ...irmetaState.send,
           amount: action.value,
         },
       });
 
     case actions.UPDATE_SEND_MEMO:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         send: {
-          ...auramaskState.send,
+          ...irmetaState.send,
           memo: action.value,
         },
       });
 
     case actions.UPDATE_MAX_MODE:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         send: {
-          ...auramaskState.send,
+          ...irmetaState.send,
           maxModeOn: action.value,
         },
       });
 
     case actions.UPDATE_SEND:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         send: {
-          ...auramaskState.send,
+          ...irmetaState.send,
           ...action.value,
         },
       });
 
     case actions.CLEAR_SEND:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         send: {
           gasLimit: null,
           gasPrice: null,
@@ -295,7 +295,7 @@ function reduceAuramask(state, action) {
 
     case actions.UPDATE_TRANSACTION_PARAMS:
       const {id: txId, value} = action;
-      let {selectedAddressTxList} = auramaskState;
+      let {selectedAddressTxList} = irmetaState;
       selectedAddressTxList = selectedAddressTxList.map(tx => {
         if (tx.id === txId) {
           tx.txParams = value;
@@ -303,67 +303,67 @@ function reduceAuramask(state, action) {
         return tx;
       });
 
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         selectedAddressTxList,
       });
 
     case actions.PAIR_UPDATE:
       const {value: {marketinfo: pairMarketInfo}} = action;
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         tokenExchangeRates: {
-          ...auramaskState.tokenExchangeRates,
+          ...irmetaState.tokenExchangeRates,
           [pairMarketInfo.pair]: pairMarketInfo,
         },
       });
 
     case actions.SHAPESHIFT_SUBVIEW:
       const {value: {marketinfo: ssMarketInfo, coinOptions}} = action;
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         tokenExchangeRates: {
-          ...auramaskState.tokenExchangeRates,
+          ...irmetaState.tokenExchangeRates,
           [ssMarketInfo.pair]: ssMarketInfo,
         },
         coinOptions,
       });
 
     case actions.SET_USE_BLOCKIE:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         useBlockie: action.value,
       });
 
     case actions.UPDATE_FEATURE_FLAGS:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         featureFlags: action.value,
       });
 
     case actions.UPDATE_NETWORK_ENDPOINT_TYPE:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         networkEndpointType: action.value,
       });
 
     case actions.CLOSE_WELCOME_SCREEN:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         welcomeScreenSeen: true,
       });
 
     case actions.SET_CURRENT_LOCALE:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         currentLocale: action.value,
       });
 
     case actions.SET_PENDING_TOKENS:
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         pendingTokens: {...action.payload},
       });
 
     case actions.CLEAR_PENDING_TOKENS: {
-      return extend(auramaskState, {
+      return extend(irmetaState, {
         pendingTokens: {},
       });
     }
 
     default:
-      return auramaskState;
+      return irmetaState;
 
   }
 }

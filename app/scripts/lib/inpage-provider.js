@@ -7,9 +7,9 @@ const LocalStorageStore = require('obs-store');
 const asStream = require('obs-store/lib/asStream');
 const ObjectMultiplex = require('obj-multiplex');
 
-module.exports = AuramaskInpageProvider;
+module.exports = IrmetaInpageProvider;
 
-function AuramaskInpageProvider(connectionStream) {
+function IrmetaInpageProvider(connectionStream) {
   const self = this;
 
   // setup connectionStream multiplexing
@@ -18,16 +18,16 @@ function AuramaskInpageProvider(connectionStream) {
     connectionStream,
     mux,
     connectionStream,
-    (err) => logStreamDisconnectWarning('AuraMask', err),
+    (err) => logStreamDisconnectWarning('IrMeta', err),
   );
 
-  // subscribe to auramask public config (one-way)
-  self.publicConfigStore = new LocalStorageStore({storageKey: 'AuraMask-Config'});
+  // subscribe to irmeta public config (one-way)
+  self.publicConfigStore = new LocalStorageStore({storageKey: 'IrMeta-Config'});
 
   pump(
     mux.createStream('publicConfig'),
     asStream(self.publicConfigStore),
-    (err) => logStreamDisconnectWarning('AuraMask PublicConfigStore', err),
+    (err) => logStreamDisconnectWarning('IrMeta PublicConfigStore', err),
   );
 
   // ignore phishing warning message (handled elsewhere)
@@ -39,7 +39,7 @@ function AuramaskInpageProvider(connectionStream) {
     streamMiddleware.stream,
     mux.createStream('provider'),
     streamMiddleware.stream,
-    (err) => logStreamDisconnectWarning('AuraMask RpcProvider', err),
+    (err) => logStreamDisconnectWarning('IrMeta RpcProvider', err),
   );
 
   // handle sendAsync requests via dapp-side rpc engine
@@ -52,19 +52,19 @@ function AuramaskInpageProvider(connectionStream) {
 
 // handle sendAsync requests via asyncProvider
 // also remap ids inbound and outbound
-AuramaskInpageProvider.prototype.sendAsync = function(payload, cb) {
+IrmetaInpageProvider.prototype.sendAsync = function(payload, cb) {
   const self = this;
 
   if (payload.method === 'irc_signTypedData') {
     console.warn(
-      'AuraMask: This experimental version of irc_signTypedData will be deprecated in the next release in favor of the standard as defined in EIP-712. See https://git.io/fNzPl for more information on the new standard.');
+      'IrMeta: This experimental version of irc_signTypedData will be deprecated in the next release in favor of the standard as defined in EIP-712. See https://git.io/fNzPl for more information on the new standard.');
   }
 
   self.rpcEngine.handle(payload, cb);
 };
 
 
-AuramaskInpageProvider.prototype.send = function(payload) {
+IrmetaInpageProvider.prototype.send = function(payload) {
   const self = this;
 
   let selectedAddress;
@@ -95,8 +95,8 @@ AuramaskInpageProvider.prototype.send = function(payload) {
 
     // throw not-supported Error
     default:
-      var link = 'https://github.com/AuraMask/faq/blob/master/DEVELOPERS.md#dizzy-all-async---think-of-auramask-as-a-light-client';
-      var message = `The AuraMask webu object does not support synchronous methods like ${payload.method} without a callback parameter. See ${link} for details.`;
+      var link = 'https://github.com/IrMeta/faq/blob/master/DEVELOPERS.md#dizzy-all-async---think-of-irmeta-as-a-light-client';
+      var message = `The IrMeta webu object does not support synchronous methods like ${payload.method} without a callback parameter. See ${link} for details.`;
       throw new Error(message);
 
   }
@@ -109,16 +109,16 @@ AuramaskInpageProvider.prototype.send = function(payload) {
   };
 };
 
-AuramaskInpageProvider.prototype.isConnected = function() {
+IrmetaInpageProvider.prototype.isConnected = function() {
   return true;
 };
 
-AuramaskInpageProvider.prototype.isAuraMask = true;
+IrmetaInpageProvider.prototype.isIrMeta = true;
 
 // util
 
 function logStreamDisconnectWarning(remoteLabel, err) {
-  let warningMsg = `AuramaskInpageProvider - lost connection to ${remoteLabel}`;
+  let warningMsg = `IrmetaInpageProvider - lost connection to ${remoteLabel}`;
   if (err) warningMsg += '\n' + err.stack;
   console.warn(warningMsg);
 }

@@ -12,12 +12,12 @@ const TokenMenuDropdown = require('./dropdowns/token-menu-dropdown.js');
 
 function mapStateToProps(state) {
   return {
-    network: state.auramask.network,
-    currentCurrency: state.auramask.currentCurrency,
-    selectedTokenAddress: state.auramask.selectedTokenAddress,
+    network: state.irmeta.network,
+    currentCurrency: state.irmeta.currentCurrency,
+    selectedTokenAddress: state.irmeta.selectedTokenAddress,
     userAddress: selectors.getSelectedAddress(state),
-    contractExchangeRates: state.auramask.contractExchangeRates,
-    conversionRate: state.auramask.conversionRate,
+    contractExchangeRates: state.irmeta.contractExchangeRates,
+    conversionRate: state.irmeta.conversionRate,
     sidebarOpen: state.appState.sidebarOpen,
   };
 }

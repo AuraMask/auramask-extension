@@ -10,7 +10,7 @@ const createId = require('./random-id');
  * @typedef {Object} Message
  * @property {number} id An id to track and identify the message object
  * @property {Object} msgParams The parameters to pass to the irc_sign method once the signature request is approved.
- * @property {Object} msgParams.auramaskId Added to msgParams for tracking and identification within AuraMask.
+ * @property {Object} msgParams.irmetaId Added to msgParams for tracking and identification within IrMeta.
  * @property {string} msgParams.data A hex string conversion of the raw buffer data of the signature request
  * @property {number} time The epoch time at which the this message was created
  * @property {string} status Indicates whether the signature request is 'unapproved', 'approved', 'signed' or 'rejected'
@@ -119,13 +119,13 @@ module.exports = class MessageManager extends EventEmitter {
    * Approves a Message. Sets the message status via a call to this.setMsgStatusApproved, and returns a promise with
    * any the message params modified for proper signing.
    *
-   * @param {Object} msgParams The msgParams to be used when irc_sign is called, plus data added by AuraMask.
-   * @param {Object} msgParams.auramaskId Added to msgParams for tracking and identification within AuraMask.
-   * @returns {Promise<object>} Promises the msgParams object with auramaskId removed.
+   * @param {Object} msgParams The msgParams to be used when irc_sign is called, plus data added by IrMeta.
+   * @param {Object} msgParams.irmetaId Added to msgParams for tracking and identification within IrMeta.
+   * @returns {Promise<object>} Promises the msgParams object with irmetaId removed.
    *
    */
   approveMessage(msgParams) {
-    this.setMsgStatusApproved(msgParams.auramaskId);
+    this.setMsgStatusApproved(msgParams.irmetaId);
     return this.prepMsgForSigning(msgParams);
   }
 
@@ -155,14 +155,14 @@ module.exports = class MessageManager extends EventEmitter {
   }
 
   /**
-   * Removes the auramaskId property from passed msgParams and returns a promise which resolves the updated msgParams
+   * Removes the irmetaId property from passed msgParams and returns a promise which resolves the updated msgParams
    *
    * @param {Object} msgParams The msgParams to modify
-   * @returns {Promise<object>} Promises the msgParams with the auramaskId property removed
+   * @returns {Promise<object>} Promises the msgParams with the irmetaId property removed
    *
    */
   prepMsgForSigning(msgParams) {
-    delete msgParams.auramaskId;
+    delete msgParams.irmetaId;
     return Promise.resolve(msgParams);
   }
 

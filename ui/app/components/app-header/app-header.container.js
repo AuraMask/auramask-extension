@@ -6,14 +6,14 @@ import AppHeader from './app-header.component';
 const actions = require('../../actions');
 
 const mapStateToProps = state => {
-  const { appState, auramask } = state;
+  const { appState, irmeta } = state;
   const { networkDropdownOpen } = appState;
   const {
     network,
     provider,
     selectedAddress,
     isUnlocked,
-  } = auramask;
+  } = irmeta;
 
   return {
     networkDropdownOpen,

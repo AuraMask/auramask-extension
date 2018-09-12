@@ -12,7 +12,7 @@ const EditableLabel = require('../editable-label');
 
 function mapStateToProps(state) {
   return {
-    network: state.auramask.network,
+    network: state.irmeta.network,
     selectedIdentity: getSelectedIdentity(state),
   };
 }

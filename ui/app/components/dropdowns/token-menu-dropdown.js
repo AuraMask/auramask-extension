@@ -16,7 +16,7 @@ module.exports = connect(mapStateToProps, mapDispatchToProps)(TokenMenuDropdown)
 
 function mapStateToProps(state) {
   return {
-    network: state.auramask.network,
+    network: state.irmeta.network,
   };
 }
 

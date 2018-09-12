@@ -188,7 +188,7 @@ InitializeMenuScreen.contextTypes = {
 };
 
 const mapStateToProps = state => {
-  const {auramask: {isInitialized, isUnlocked}} = state;
+  const {irmeta: {isInitialized, isUnlocked}} = state;
 
   return {
     isInitialized,

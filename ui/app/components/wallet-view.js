@@ -29,15 +29,15 @@ WalletView.contextTypes = {
 function mapStateToProps(state) {
 
   return {
-    network: state.auramask.network,
+    network: state.irmeta.network,
     sidebarOpen: state.appState.sidebarOpen,
-    identities: state.auramask.identities,
-    accounts: state.auramask.accounts,
-    tokens: state.auramask.tokens,
-    keyrings: state.auramask.keyrings,
+    identities: state.irmeta.identities,
+    accounts: state.irmeta.accounts,
+    tokens: state.irmeta.tokens,
+    keyrings: state.irmeta.keyrings,
     selectedAddress: selectors.getSelectedAddress(state),
     selectedAccount: selectors.getSelectedAccount(state),
-    selectedTokenAddress: state.auramask.selectedTokenAddress,
+    selectedTokenAddress: state.irmeta.selectedTokenAddress,
   };
 }
 

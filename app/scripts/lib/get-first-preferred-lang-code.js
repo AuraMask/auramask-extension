@@ -28,7 +28,7 @@ async function getFirstPreferredLangCode() {
   }
 
   // safeguard for Brave Browser until they implement chrome.i18n.getAcceptLanguages
-  // https://github.com/AuraMask/auramask-extension/issues/4270
+  // https://github.com/IrMeta/irmeta-extension/issues/4270
   if (!userPreferredLocaleCodes) {
     userPreferredLocaleCodes = [];
   }

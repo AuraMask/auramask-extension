@@ -16,7 +16,7 @@ export default class UnlockPage extends Component {
 
   static propTypes = {
     forgotPassword: PropTypes.func,
-    tryUnlockAuramask: PropTypes.func,
+    tryUnlockIrmeta: PropTypes.func,
     markPasswordForgotten: PropTypes.func,
     history: PropTypes.object,
     isUnlocked: PropTypes.bool,
@@ -48,7 +48,7 @@ export default class UnlockPage extends Component {
     event.stopPropagation()
 
     const { password } = this.state
-    const { tryUnlockAuramask, history } = this.props
+    const { tryUnlockIrmeta, history } = this.props
 
     if (password === '' || this.submitting) {
       return
@@ -58,7 +58,7 @@ export default class UnlockPage extends Component {
     this.submitting = true
 
     try {
-      await tryUnlockAuramask(password)
+      await tryUnlockIrmeta(password)
       this.submitting = false
       history.push(DEFAULT_ROUTE)
     } catch ({ message }) {

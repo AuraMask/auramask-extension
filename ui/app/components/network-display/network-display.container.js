@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import NetworkDisplay from './network-display.component';
 
-const mapStateToProps = ({ auramask: { network, provider } }) => {
+const mapStateToProps = ({ irmeta: { network, provider } }) => {
   return {
     network,
     provider,

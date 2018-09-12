@@ -121,7 +121,7 @@ class CreatePasswordScreen extends Component {
               height="225"
             />
             <div className="info">
-              AuraMask is a secure identity vault for IrChain.
+              IrMeta is a secure identity vault for IrChain.
             </div>
             <div className="info">
               It allows you to hold ircer & tokens, and interact with decentralized applications.
@@ -195,8 +195,8 @@ class CreatePasswordScreen extends Component {
   }
 }
 
-const mapStateToProps = ({auramask, appState}) => {
-  const {isInitialized, isUnlocked, isMascara, noActiveNotices} = auramask;
+const mapStateToProps = ({irmeta, appState}) => {
+  const {isInitialized, isUnlocked, isMascara, noActiveNotices} = irmeta;
   const {isLoading} = appState;
 
   return {

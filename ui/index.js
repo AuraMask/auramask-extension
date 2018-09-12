@@ -7,11 +7,11 @@ const txHelper = require('./lib/tx-helper');
 const {fetchLocale} = require('./i18n-helper');
 const log = require('loglevel');
 
-module.exports = launchAuramaskUi;
+module.exports = launchIrmetaUi;
 
-log.setLevel(global.AURAMASK_DEBUG ? 'debug' : 'warn');
+log.setLevel(global.IRMETA_DEBUG ? 'debug' : 'warn');
 
-function launchAuramaskUi(opts, cb) {
+function launchIrmetaUi(opts, cb) {
   var accountManager = opts.accountManager;
   actions._setBackgroundConnection(accountManager);
   // check if we are unlocked first
@@ -29,7 +29,7 @@ async function startApp(state, accountManager, opts) {
   const enLocaleMessages = await fetchLocale('en');
 
   const store = configureStore({
-    auramask: state,
+    irmeta: state,
     appState: {},
     localeMessages: {
       current: currLocale,
@@ -54,12 +54,12 @@ async function startApp(state, accountManager, opts) {
     }));
   }
 
-  accountManager.on('update', function(auramaskState) {
-    store.dispatch(actions.updateAuramaskState(auramaskState));
+  accountManager.on('update', function(irmetaState) {
+    store.dispatch(actions.updateIrmetaState(irmetaState));
   });
 
-  // global auramask api - used by tooling
-  global.auramask = {
+  // global irmeta api - used by tooling
+  global.irmeta = {
     updateCurrentLocale: (code) => {
       store.dispatch(actions.updateCurrentLocale(code));
     },

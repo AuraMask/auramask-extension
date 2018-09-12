@@ -12,16 +12,16 @@ const {formatBalance, generateBalanceObject} = require('../util');
 module.exports = connect(mapStateToProps)(BalanceComponent);
 
 function mapStateToProps(state) {
-  const accounts = state.auramask.accounts;
-  const network = state.auramask.network;
-  const selectedAddress = state.auramask.selectedAddress || Object.keys(accounts)[0];
+  const accounts = state.irmeta.accounts;
+  const network = state.irmeta.network;
+  const selectedAddress = state.irmeta.selectedAddress || Object.keys(accounts)[0];
   const account = accounts[selectedAddress];
 
   return {
     account,
     network,
-    conversionRate: state.auramask.conversionRate,
-    currentCurrency: state.auramask.currentCurrency,
+    conversionRate: state.irmeta.conversionRate,
+    currentCurrency: state.irmeta.currentCurrency,
   };
 }
 

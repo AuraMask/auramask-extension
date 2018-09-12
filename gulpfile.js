@@ -420,7 +420,7 @@ function zipTask(target) {
   return () => {
     return gulp
       .src(`dist/${target}/**`)
-      .pipe(zip(`auramask-${target}-${manifest.version}.zip`))
+      .pipe(zip(`irmeta-${target}-${manifest.version}.zip`))
       .pipe(gulp.dest('builds'));
   };
 }
@@ -437,7 +437,7 @@ function generateBundler(opts, performBundle) {
 
   // inject variables into bundle
   bundler.transform(envify({
-    AURAMASK_DEBUG: opts.devMode,
+    IRMETA_DEBUG: opts.devMode,
     NODE_ENV: opts.devMode ? 'development' : 'production',
   }));
 
@@ -518,7 +518,7 @@ function bundleTask(opts) {
       buildStream = buildStream
         .pipe(uglify({
           mangle: {
-            reserved: ['AuramaskInpageProvider'],
+            reserved: ['IrmetaInpageProvider'],
           },
         }));
     }

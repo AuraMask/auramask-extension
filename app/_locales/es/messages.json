@@ -34,7 +34,7 @@
     "description": "La descripción de la aplicación"
   },
   "appName": {
-    "message": "AuraMask",
+    "message": "IrMeta",
     "description": "El nombre de la aplicación"
   },
   "approved": {
@@ -75,7 +75,7 @@
     "message": "Pedir prestado con Dharma (Beta)"
   },
   "builtInCalifornia": {
-    "message": "AuraMask fue diseñado y construido en California"
+    "message": "IrMeta fue diseñado y construido en California"
   },
   "buy": {
     "message": "Comprar"
@@ -193,7 +193,7 @@
     "message": "La red por defecto para las transacciones de Ircer es MainNet (red principal)"
   },
   "denExplainer": {
-    "message": "El DEN es tu contraseña encriptada almacenada dentro de AuraMask"
+    "message": "El DEN es tu contraseña encriptada almacenada dentro de IrMeta"
   },
   "deposit": {
     "message": "Depositar"
@@ -221,7 +221,7 @@
     "message": "Depositar con ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Si posees otras criptomonedas, puedes intercambiar y depositar Ircer directamente en tu billetera de AuraMask. No necesitas tener una cuenta."
+    "message": "Si posees otras criptomonedas, puedes intercambiar y depositar Ircer directamente en tu billetera de IrMeta. No necesitas tener una cuenta."
   },
   "details": {
     "message": "Detalles"
@@ -379,7 +379,7 @@
     "description": "Estado que muestra que una cuenta ha sido completamente cargada en el llavero"
   },
   "importAccountMsg": {
-    "message": "Las cuentas importadas no serán asociadas con tu cuenta original creada con tu AuraMask. Aprende más acerca de importar cuentas."
+    "message": "Las cuentas importadas no serán asociadas con tu cuenta original creada con tu IrMeta. Aprende más acerca de importar cuentas."
   },
   "info": {
     "message": "Información"
@@ -464,8 +464,8 @@
   "message": {
     "message": "Mensaje"
   },
-  "auramaskDescription": {
-    "message": "AuraMask es una identidad segura en IrChain"
+  "irmetaDescription": {
+    "message": "IrMeta es una identidad segura en IrChain"
   },
   "min": {
     "message": "Mínimo"
@@ -477,7 +477,7 @@
     "message": "Mis cuentas"
   },
   "needIrcerInWallet": {
-    "message": "Para interactuar con una aplicación descentralizada usando AuraMask, necesitas tener Ircer en tu billetera"
+    "message": "Para interactuar con una aplicación descentralizada usando IrMeta, necesitas tener Ircer en tu billetera"
   },
   "needImportFile": {
     "message": "Debes seleccionar un archivo para importar",
@@ -770,7 +770,7 @@
     "message": "Símbolo del token"
   },
   "tokenWarning1": {
-    "message": "Mantén un registro de los tokens que has comprado con tu cuenta de AuraMask. Si compraste tokens usando una cuenta diferente, esos tokens no aparecerán aquí."
+    "message": "Mantén un registro de los tokens que has comprado con tu cuenta de IrMeta. Si compraste tokens usando una cuenta diferente, esos tokens no aparecerán aquí."
   },
   "total": {
     "message": "Total"
@@ -792,7 +792,7 @@
     "description": "Seguidos por un enlace (aquí) para ver los saldos de token"
   },
   "twelveWords": {
-    "message": "Estas 12 palabras son la única forma de restablecer tus cuentas de AuraMask. \nGuárdalas en un lugar seguro y secreto."
+    "message": "Estas 12 palabras son la única forma de restablecer tus cuentas de IrMeta. \nGuárdalas en un lugar seguro y secreto."
   },
   "typePassword": {
     "message": "Escribe tu contraseña"
@@ -801,7 +801,7 @@
     "message": "Bienvenido a la nueva UI (Beta)"
   },
   "uiWelcomeMessage": {
-    "message": "Estás usando la nueva UI de AuraMask. Echa un vistazo alrededor, prueba las nuevas características, tales como mandar tokens, y háznos saber si tienes algún problema"
+    "message": "Estás usando la nueva UI de IrMeta. Echa un vistazo alrededor, prueba las nuevas características, tales como mandar tokens, y háznos saber si tienes algún problema"
   },
   "unavailable": {
     "message": "No disponible"
@@ -847,7 +847,7 @@
     "message": "Advertencia"
   },
   "welcomeBeta": {
-    "message": "Bienvenido a AuraMask Beta"
+    "message": "Bienvenido a IrMeta Beta"
   },
   "whatsThis": {
     "message": "¿Qué es esto?"

@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
 const {
-  tryUnlockAuramask,
+  tryUnlockIrmeta,
   forgotPassword,
   markPasswordForgotten,
 } = require('../../../actions');
@@ -11,7 +11,7 @@ const {
 import UnlockPage from './unlock-page.component';
 
 const mapStateToProps = state => {
-  const { auramask: { isUnlocked } } = state;
+  const { irmeta: { isUnlocked } } = state;
   return {
     isUnlocked,
   };
@@ -20,7 +20,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     forgotPassword: () => dispatch(forgotPassword()),
-    tryUnlockAuramask: password => dispatch(tryUnlockAuramask(password)),
+    tryUnlockIrmeta: password => dispatch(tryUnlockIrmeta(password)),
     markPasswordForgotten: () => dispatch(markPasswordForgotten()),
   };
 };

@@ -1,6 +1,6 @@
 const assert = require('assert');
 const EventEmitter = require('events');
-const createAuramaskProvider = require('webu-provider-engine/zero.js');
+const createIrmetaProvider = require('webu-provider-engine/zero.js');
 const SubproviderFromProvider = require('webu-provider-engine/subproviders/provider.js');
 const createInfuraProvider = require('irc-json-rpc-infura/src/createProvider');
 const ObservableStore = require('obs-store');
@@ -17,9 +17,9 @@ const {
 } = require('./enums');
 const INFURA_PROVIDER_TYPES = [MAINNET];
 
-const env = process.env.AURAMASK_ENV;
-const AURAMASK_DEBUG = process.env.AURAMASK_DEBUG;
-const testMode = (AURAMASK_DEBUG || env === 'test');
+const env = process.env.IRMETA_ENV;
+const IRMETA_DEBUG = process.env.IRMETA_DEBUG;
+const testMode = (IRMETA_DEBUG || env === 'test');
 
 const defaultProviderConfig = {
   type: testMode ? LOCALHOST : MAINNET,
@@ -144,7 +144,7 @@ module.exports = class NetworkController extends EventEmitter {
       },
       dataSubprovider: infuraSubprovider,
     });
-    const provider = createAuramaskProvider(providerParams);
+    const provider = createIrmetaProvider(providerParams);
     this._setProvider(provider);
   }
 
@@ -157,7 +157,7 @@ module.exports = class NetworkController extends EventEmitter {
         pollingInterval: 8000,
       },
     });
-    const provider = createAuramaskProvider(providerParams);
+    const provider = createIrmetaProvider(providerParams);
     this._setProvider(provider);
   }
 

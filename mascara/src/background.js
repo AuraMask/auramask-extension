@@ -7,19 +7,19 @@ const setupMultiplex = require('../../app/scripts/lib/stream-utils.js').setupMul
 const DbController = require('idb-global');
 
 const SwPlatform = require('../../app/scripts/platforms/sw');
-const AuramaskController = require('../../app/scripts/auramask-controller');
+const IrmetaController = require('../../app/scripts/irmeta-controller');
 
 const Migrator = require('../../app/scripts/lib/migrator/');
 const migrations = require('../../app/scripts/migrations/');
 const firstTimeState = require('../../app/scripts/first-time-state');
 
-const STORAGE_KEY = 'auramask-config';
-const AURAMASK_DEBUG = process.env.AURAMASK_DEBUG;
-global.auramaskPopupIsOpen = false;
+const STORAGE_KEY = 'irmeta-config';
+const IRMETA_DEBUG = process.env.IRMETA_DEBUG;
+global.irmetaPopupIsOpen = false;
 
 const log = require('loglevel');
 global.log = log;
-log.setDefaultLevel(AURAMASK_DEBUG ? 'debug' : 'warn');
+log.setDefaultLevel(IRMETA_DEBUG ? 'debug' : 'warn');
 
 global.addEventListener('install', function(event) {
   event.waitUntil(global.skipWaiting());
@@ -38,10 +38,10 @@ const dbController = new DbController({
 start().catch(log.error);
 
 async function start() {
-  log.debug('AuraMask initializing...');
+  log.debug('IrMeta initializing...');
   const initState = await loadStateFromPersistence();
   await setupController(initState);
-  log.debug('AuraMask initialization complete.');
+  log.debug('IrMeta initialization complete.');
 }
 
 //
@@ -60,12 +60,12 @@ async function loadStateFromPersistence() {
 async function setupController(initState, client) {
 
   //
-  // AuraMask Controller
+  // IrMeta Controller
   //
 
   const platform = new SwPlatform();
 
-  const controller = new AuramaskController({
+  const controller = new IrmetaController({
     // platform specific implementation
     platform,
     // User confirmation callbacks:
@@ -75,13 +75,13 @@ async function setupController(initState, client) {
     // initial state
     initState,
   });
-  global.auramaskController = controller;
+  global.irmetaController = controller;
 
   controller.store.subscribe(async (state) => {
     try {
       const versionedData = await versionifyData(state);
       await dbController.put(versionedData);
-    } catch (e) { console.error('AURAMASK Error:', e); }
+    } catch (e) { console.error('IRMETA Error:', e); }
   });
 
   async function versionifyData(state) {
@@ -102,11 +102,11 @@ async function setupController(initState, client) {
   });
 
   function connectRemote(connectionStream, context) {
-    var isAuraMaskInternalProcess = (context === 'popup');
-    if (isAuraMaskInternalProcess) {
+    var isIrMetaInternalProcess = (context === 'popup');
+    if (isIrMetaInternalProcess) {
       // communication with popup
-      controller.setupTrustedCommunication(connectionStream, 'AuraMask');
-      global.auramaskPopupIsOpen = true;
+      controller.setupTrustedCommunication(connectionStream, 'IrMeta');
+      global.irmetaPopupIsOpen = true;
     } else {
       // communication with page
       setupUntrustedCommunication(connectionStream, context);

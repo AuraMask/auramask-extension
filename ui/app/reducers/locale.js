@@ -1,9 +1,9 @@
 const extend = require('xtend');
 const actions = require('../actions');
 
-module.exports = reduceAuramask;
+module.exports = reduceIrmeta;
 
-function reduceAuramask(state, action) {
+function reduceIrmeta(state, action) {
   const localeMessagesState = extend({}, state.localeMessages);
 
   switch (action.type) {

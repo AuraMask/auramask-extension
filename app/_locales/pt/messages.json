@@ -34,7 +34,7 @@
     "description": "A descrição da aplicação"
   },
   "appName": {
-    "message": "AuraMask",
+    "message": "IrMeta",
     "description": "Nome da aplicação"
   },
   "attemptingConnect": {
@@ -72,7 +72,7 @@
     "message": "Pedir Empréstimo Com Dharma (Beta)"
   },
   "builtInCalifornia": {
-    "message": "AuraMask é desenhada e construída na California."
+    "message": "IrMeta é desenhada e construída na California."
   },
   "buy": {
     "message": "Comprar"
@@ -178,7 +178,7 @@
     "message": "A rede pré definida para transações em Ircer é a Main Net."
   },
   "denExplainer": {
-    "message": " DEN é o armazenamento encriptado da sua palavra-passe no AuraMask."
+    "message": " DEN é o armazenamento encriptado da sua palavra-passe no IrMeta."
   },
   "deposit": {
     "message": "Depósito"
@@ -206,7 +206,7 @@
     "message": "Depositar com ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Se tem criptomoedas, pode trocar e depositar Ircer diretamente na sua carteira AuraMask. Não precisa de conta."
+    "message": "Se tem criptomoedas, pode trocar e depositar Ircer diretamente na sua carteira IrMeta. Não precisa de conta."
   },
   "details": {
     "message": "Detalhes"
@@ -351,7 +351,7 @@
     "message": "Importar Conta"
   },
   "importAccountMsg": {
-    "message": "Contas importadas não irão ser associadas com a frase seed da conta criada originalmente pelo AuraMask. Saiba mais sobre contas importadas."
+    "message": "Contas importadas não irão ser associadas com a frase seed da conta criada originalmente pelo IrMeta. Saiba mais sobre contas importadas."
   },
   "importAnAccount": {
     "message": "Importar uma conta"
@@ -437,8 +437,8 @@
   "message": {
     "message": "Mensagem"
   },
-  "auramaskDescription": {
-    "message": "O AuraMask é um lugar seguro para guardar a sua identidade em em IrChain."
+  "irmetaDescription": {
+    "message": "O IrMeta é um lugar seguro para guardar a sua identidade em em IrChain."
   },
   "min": {
     "message": "Mínimo"
@@ -450,7 +450,7 @@
     "message": "Deve escolher no mínimo 1 token."
   },
   "needIrcerInWallet": {
-    "message": "Para interagir com applicações descentralizadas usando AuraMask tem de ter Ircer na sua carteira."
+    "message": "Para interagir com applicações descentralizadas usando IrMeta tem de ter Ircer na sua carteira."
   },
   "needImportFile": {
     "message": "Deve selecionar um ficheiro para importar.",
@@ -716,7 +716,7 @@
     "message": "Símbolo do Token"
   },
   "tokenWarning1": {
-    "message": "Registe os tokens que comprou com a sua conta AuraMask. Se comprou tokens utilizando uma conta diferente, esses tokens não irão aparecer aqui."
+    "message": "Registe os tokens que comprou com a sua conta IrMeta. Se comprou tokens utilizando uma conta diferente, esses tokens não irão aparecer aqui."
   },
   "total": {
     "message": "Total"
@@ -738,7 +738,7 @@
     "description": "Seguido de um link (aqui) para ver o balanço dos seus tokens"
   },
   "twelveWords": {
-    "message": "Estas 12 palavras são a única forma de recuperar as suas contas na AuraMask.\nGuarde-as num local seguro e secreto."
+    "message": "Estas 12 palavras são a única forma de recuperar as suas contas na IrMeta.\nGuarde-as num local seguro e secreto."
   },
   "typePassword": {
     "message": "Digite a sua Palavra-passe"
@@ -747,7 +747,7 @@
     "message": "Bem-vindo ao seu Novo UI (Beta)"
   },
   "uiWelcomeMessage": {
-    "message": "Está agora a usar o novo UI da AuraMask. Dê uma vista de olhos, experimenta as novas funcionalidades como enviar tokens e diga-nos se tiver algum problema."
+    "message": "Está agora a usar o novo UI da IrMeta. Dê uma vista de olhos, experimenta as novas funcionalidades como enviar tokens e diga-nos se tiver algum problema."
   },
   "unavailable": {
     "message": "Indisponível"
@@ -787,7 +787,7 @@
     "message": "Aviso"
   },
   "welcomeBeta": {
-    "message": "Bem-vindo ao AuraMask Beta"
+    "message": "Bem-vindo ao IrMeta Beta"
   },
   "whatsThis": {
     "message": "O que é isto?"

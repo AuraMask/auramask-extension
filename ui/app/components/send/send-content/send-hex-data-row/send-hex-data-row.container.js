@@ -8,7 +8,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(SendHexDataRow);
 
 function mapStateToProps(state) {
   return {
-    data: state.auramask.send.data,
+    data: state.irmeta.send.data,
   };
 }
 

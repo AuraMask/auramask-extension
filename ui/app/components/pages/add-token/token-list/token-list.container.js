@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import TokenList from './token-list.component';
 
-const mapStateToProps = ({ auramask }) => {
-  const { tokens } = auramask;
+const mapStateToProps = ({ irmeta }) => {
+  const { tokens } = irmeta;
   return {
     tokens,
   };

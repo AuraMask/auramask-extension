@@ -123,7 +123,7 @@ ExportAccountView.prototype.render = function() {
         style: {
           marginLeft: '10px',
         },
-        onClick: () => exportAsFile(`AuraMask ${nickname} Private Key`, plainKey),
+        onClick: () => exportAsFile(`IrMeta ${nickname} Private Key`, plainKey),
       }, this.context.t('saveAsFile')),
     ]);
   }

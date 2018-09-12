@@ -13,7 +13,7 @@ function createLoggerMiddleware(opts) {
       if (res.error) {
         log.error('Error in RPC response:\n', res);
       }
-      if (req.isAuramaskInternal) return;
+      if (req.isIrmetaInternal) return;
       log.info(`RPC (${opts.origin}):`, req, '->', res);
       cb();
     });

@@ -457,7 +457,7 @@ const mapDispatchToProps = (dispatch) => {
 
 function mapStateToProps(state) {
   return {
-    keyrings: state.auramask.keyrings,
+    keyrings: state.irmeta.keyrings,
     sidebarOpen: state.appState.sidebarOpen,
   };
 }

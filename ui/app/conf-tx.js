@@ -19,34 +19,34 @@ module.exports = compose(
 )(ConfirmTxScreen);
 
 function mapStateToProps(state) {
-  const {auramask} = state;
+  const {irmeta} = state;
   const {
     unapprovedMsgCount,
     unapprovedPersonalMsgCount,
     unapprovedTypedMessagesCount,
-  } = auramask;
+  } = irmeta;
 
   return {
-    identities: state.auramask.identities,
-    accounts: state.auramask.accounts,
-    selectedAddress: state.auramask.selectedAddress,
-    unapprovedTxs: state.auramask.unapprovedTxs,
-    unapprovedMsgs: state.auramask.unapprovedMsgs,
-    unapprovedPersonalMsgs: state.auramask.unapprovedPersonalMsgs,
-    unapprovedTypedMessages: state.auramask.unapprovedTypedMessages,
+    identities: state.irmeta.identities,
+    accounts: state.irmeta.accounts,
+    selectedAddress: state.irmeta.selectedAddress,
+    unapprovedTxs: state.irmeta.unapprovedTxs,
+    unapprovedMsgs: state.irmeta.unapprovedMsgs,
+    unapprovedPersonalMsgs: state.irmeta.unapprovedPersonalMsgs,
+    unapprovedTypedMessages: state.irmeta.unapprovedTypedMessages,
     index: state.appState.currentView.context,
     warning: state.appState.warning,
-    network: state.auramask.network,
-    provider: state.auramask.provider,
-    conversionRate: state.auramask.conversionRate,
-    currentCurrency: state.auramask.currentCurrency,
-    blockGasLimit: state.auramask.currentBlockGasLimit,
-    computedBalances: state.auramask.computedBalances,
+    network: state.irmeta.network,
+    provider: state.irmeta.provider,
+    conversionRate: state.irmeta.conversionRate,
+    currentCurrency: state.irmeta.currentCurrency,
+    blockGasLimit: state.irmeta.currentBlockGasLimit,
+    computedBalances: state.irmeta.computedBalances,
     unapprovedMsgCount,
     unapprovedPersonalMsgCount,
     unapprovedTypedMessagesCount,
-    send: state.auramask.send,
-    selectedAddressTxList: state.auramask.selectedAddressTxList,
+    send: state.irmeta.send,
+    selectedAddressTxList: state.irmeta.selectedAddressTxList,
   };
 }
 
@@ -179,7 +179,7 @@ ConfirmTxScreen.prototype.render = function() {
 ConfirmTxScreen.prototype.signMessage = function(msgData, event) {
   log.info('conf-tx.js: signing message');
   var params = msgData.msgParams;
-  params.auramaskId = msgData.id;
+  params.irmetaId = msgData.id;
   this.stopPropagation(event);
   return this.props.dispatch(actions.signMsg(params));
 };
@@ -193,7 +193,7 @@ ConfirmTxScreen.prototype.stopPropagation = function(event) {
 ConfirmTxScreen.prototype.signPersonalMessage = function(msgData, event) {
   log.info('conf-tx.js: signing personal message');
   var params = msgData.msgParams;
-  params.auramaskId = msgData.id;
+  params.irmetaId = msgData.id;
   this.stopPropagation(event);
   return this.props.dispatch(actions.signPersonalMsg(params));
 };
@@ -201,7 +201,7 @@ ConfirmTxScreen.prototype.signPersonalMessage = function(msgData, event) {
 ConfirmTxScreen.prototype.signTypedMessage = function(msgData, event) {
   log.info('conf-tx.js: signing typed message');
   var params = msgData.msgParams;
-  params.auramaskId = msgData.id;
+  params.irmetaId = msgData.id;
   this.stopPropagation(event);
   return this.props.dispatch(actions.signTypedMsg(params));
 };

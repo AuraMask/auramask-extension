@@ -1,6 +1,6 @@
 {
-  "name": "AuraMask",
-  "short_name": "AuraMask",
+  "name": "IrMeta",
+  "short_name": "IrMeta",
   "version": "0.0.0",
   "manifest_version": 2,
   "author": "ldc",
@@ -32,7 +32,7 @@
       "19": "images/icon-19.png",
       "38": "images/icon-38.png"
     },
-    "default_title": "AuraMask",
+    "default_title": "IrMeta",
     "default_popup": "popup.html"
   },
   "content_scripts": [

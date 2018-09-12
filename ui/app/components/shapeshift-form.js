@@ -14,7 +14,7 @@ function mapStateToProps(state) {
     coinOptions,
     tokenExchangeRates,
     selectedAddress,
-  } = state.auramask;
+  } = state.irmeta;
   const {warning} = state.appState;
 
   return {

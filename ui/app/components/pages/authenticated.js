@@ -2,7 +2,7 @@ const {connect} = require('react-redux');
 const PropTypes = require('prop-types');
 const {Redirect} = require('react-router-dom');
 const h = require('react-hyperscript');
-const AuramaskRoute = require('./auramask-route');
+const IrmetaRoute = require('./irmeta-route');
 const {UNLOCK_ROUTE, INITIALIZE_ROUTE} = require('../../routes');
 
 const Authenticated = props => {
@@ -10,7 +10,7 @@ const Authenticated = props => {
 
   switch (true) {
     case isUnlocked && isInitialized:
-      return h(AuramaskRoute, {...props});
+      return h(IrmetaRoute, {...props});
     case !isInitialized:
       return h(Redirect, {to: {pathname: INITIALIZE_ROUTE}});
     default:
@@ -24,7 +24,7 @@ Authenticated.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const {auramask: {isUnlocked, isInitialized}} = state;
+  const {irmeta: {isUnlocked, isInitialized}} = state;
   return {
     isUnlocked,
     isInitialized,

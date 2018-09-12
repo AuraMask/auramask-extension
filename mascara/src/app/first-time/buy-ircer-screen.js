@@ -144,7 +144,7 @@ class BuyIrcerScreen extends Component {
           <div className='buy-ircer__action-content-wrapper'>
             <div dangerouslySetInnerHTML={{__html: qrImage.createTableTag(4)}}/>
             <div className='buy-ircer__body-text'>Deposit Ircer directly into your account.</div>
-            <div className='buy-ircer__small-body-text'>(This is the account address that AuraMask created for you to recieve funds.)</div>
+            <div className='buy-ircer__small-body-text'>(This is the account address that IrMeta created for you to recieve funds.)</div>
             <div className='buy-ircer__buttons'>
               <button
                 className='first-time-flow__button'
@@ -170,7 +170,7 @@ class BuyIrcerScreen extends Component {
         <Identicon address={this.props.address} diameter={70}/>
         <div className='buy-ircer__title'>Deposit Ircer</div>
         <div className='buy-ircer__body-text'>
-          AuraMask works best if you have Ircer in your account to pay for transaction gas fees and more. To get Ircer, choose from one of
+          IrMeta works best if you have Ircer in your account to pay for transaction gas fees and more. To get Ircer, choose from one of
           these methods.
         </div>
         <div className='buy-ircer__content-wrapper'>
@@ -209,7 +209,7 @@ class BuyIrcerScreen extends Component {
 }
 
 export default connect(
-  ({auramask: {selectedAddress}}) => ({
+  ({irmeta: {selectedAddress}}) => ({
     address: selectedAddress,
   }),
   dispatch => ({

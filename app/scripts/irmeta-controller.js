@@ -1,6 +1,6 @@
 /**
- * @file      The central auramask controller. Aggregates other controllers and exports an api.
- * @copyright Copyright (c) 2018 AuraMask
+ * @file      The central irmeta controller. Aggregates other controllers and exports an api.
+ * @copyright Copyright (c) 2018 IrMeta
  * @license   MIT
  */
 
@@ -50,7 +50,7 @@ const cleanErrorStack = require('./lib/cleanErrorStack');
 const log = require('loglevel');
 const TrezorKeyring = require('irc-keyring/trezor');
 
-module.exports = class AuramaskController extends EventEmitter {
+module.exports = class IrmetaController extends EventEmitter {
 
   /**
    * @constructor
@@ -251,7 +251,7 @@ module.exports = class AuramaskController extends EventEmitter {
     const providerOpts = {
       static: {
         irc_syncing: false,
-        webu_clientVersion: `AuraMask/v${version}`,
+        webu_clientVersion: `IrMeta/v${version}`,
         irc_sendTransaction: (payload, next, end) => {
           const origin = payload.origin;
           const txParams = payload.params[0];
@@ -310,7 +310,7 @@ module.exports = class AuramaskController extends EventEmitter {
 //=============================================================================
 
   /**
-   * The auramask-state of the various controllers, made available to the UI
+   * The irmeta-state of the various controllers, made available to the UI
    *
    * @returns {Object} status
    */
@@ -567,7 +567,7 @@ module.exports = class AuramaskController extends EventEmitter {
         return accounts;
 
       default:
-        throw new Error('AuramaskController:connectHardware - Unknown device');
+        throw new Error('IrmetaController:connectHardware - Unknown device');
     }
   }
 
@@ -589,7 +589,7 @@ module.exports = class AuramaskController extends EventEmitter {
         }
         return keyring.isUnlocked();
       default:
-        throw new Error('AuramaskController:checkHardwareStatus - Unknown device');
+        throw new Error('IrmetaController:checkHardwareStatus - Unknown device');
     }
   }
 
@@ -607,12 +607,12 @@ module.exports = class AuramaskController extends EventEmitter {
           'Trezor Hardware',
         )[0];
         if (!keyring) {
-          throw new Error('AuramaskController:forgetDevice - Trezor Hardware keyring not found');
+          throw new Error('IrmetaController:forgetDevice - Trezor Hardware keyring not found');
         }
         keyring.forgetDevice();
         return true;
       default:
-        throw new Error('AuramaskController:forgetDevice - Unknown device');
+        throw new Error('IrmetaController:forgetDevice - Unknown device');
     }
   }
 
@@ -627,7 +627,7 @@ module.exports = class AuramaskController extends EventEmitter {
       'Trezor Hardware',
     )[0];
     if (!keyring) {
-      throw new Error('AuramaskController - No Trezor Hardware Keyring found');
+      throw new Error('IrmetaController - No Trezor Hardware Keyring found');
     }
 
     keyring.setAccountToUnlock(index);
@@ -659,7 +659,7 @@ module.exports = class AuramaskController extends EventEmitter {
   async addNewAccount() {
     const primaryKeyring = this.keyringController.getKeyringsByType('HD Key Tree')[0];
     if (!primaryKeyring) {
-      throw new Error('AuramaskController - No HD Key Tree found');
+      throw new Error('IrmetaController - No HD Key Tree found');
     }
     const keyringController = this.keyringController;
     const oldAccounts = await keyringController.getAccounts();
@@ -712,7 +712,7 @@ module.exports = class AuramaskController extends EventEmitter {
 
     const primaryKeyring = this.keyringController.getKeyringsByType('HD Key Tree')[0];
     if (!primaryKeyring) {
-      throw new Error('AuramaskController - No HD Key Tree found');
+      throw new Error('IrmetaController - No HD Key Tree found');
     }
 
     const serialized = await primaryKeyring.serialize();
@@ -720,7 +720,7 @@ module.exports = class AuramaskController extends EventEmitter {
 
     const accounts = await primaryKeyring.getAccounts();
     if (accounts.length < 1) {
-      throw new Error('AuramaskController - No accounts found');
+      throw new Error('IrmetaController - No accounts found');
     }
 
     try {
@@ -819,9 +819,9 @@ module.exports = class AuramaskController extends EventEmitter {
         case 'signed':
           return cb(null, data.rawSig);
         case 'rejected':
-          return cb(cleanErrorStack(new Error('AuraMask Message Signature: User denied message signature.')));
+          return cb(cleanErrorStack(new Error('IrMeta Message Signature: User denied message signature.')));
         default:
-          return cb(cleanErrorStack(new Error(`AuraMask Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`)));
+          return cb(cleanErrorStack(new Error(`IrMeta Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`)));
       }
     });
   }
@@ -833,11 +833,11 @@ module.exports = class AuramaskController extends EventEmitter {
    * @returns {Promise<Object>} Full state update.
    */
   signMessage(msgParams) {
-    log.info('AuraMaskController - signMessage');
-    const msgId = msgParams.auramaskId;
+    log.info('IrMetaController - signMessage');
+    const msgId = msgParams.irmetaId;
 
     // sets the status op the message to 'approved'
-    // and removes the auramaskId for signing
+    // and removes the irmetaId for signing
     return this
       .messageManager.approveMessage(msgParams)
       .then((cleanMsgParams) => {
@@ -880,7 +880,7 @@ module.exports = class AuramaskController extends EventEmitter {
    */
   newUnsignedPersonalMessage(msgParams, cb) {
     if (!msgParams.from) {
-      return cb(cleanErrorStack(new Error('AuraMask Message Signature: from field is required.')));
+      return cb(cleanErrorStack(new Error('IrMeta Message Signature: from field is required.')));
     }
 
     const msgId = this.personalMessageManager.addUnapprovedMessage(msgParams);
@@ -891,9 +891,9 @@ module.exports = class AuramaskController extends EventEmitter {
         case 'signed':
           return cb(null, data.rawSig);
         case 'rejected':
-          return cb(cleanErrorStack(new Error('AuraMask Message Signature: User denied message signature.')));
+          return cb(cleanErrorStack(new Error('IrMeta Message Signature: User denied message signature.')));
         default:
-          return cb(cleanErrorStack(new Error(`AuraMask Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`)));
+          return cb(cleanErrorStack(new Error(`IrMeta Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`)));
       }
     });
   }
@@ -906,10 +906,10 @@ module.exports = class AuramaskController extends EventEmitter {
    * @returns {Promise<Object>} - A full state update.
    */
   signPersonalMessage(msgParams) {
-    log.info('AuraMaskController - signPersonalMessage');
-    const msgId = msgParams.auramaskId;
+    log.info('IrMetaController - signPersonalMessage');
+    const msgId = msgParams.irmetaId;
     // sets the status op the message to 'approved'
-    // and removes the auramaskId for signing
+    // and removes the irmetaId for signing
     return this
       .personalMessageManager.approveMessage(msgParams)
       .then((cleanMsgParams) => {
@@ -960,9 +960,9 @@ module.exports = class AuramaskController extends EventEmitter {
         case 'signed':
           return cb(null, data.rawSig);
         case 'rejected':
-          return cb(cleanErrorStack(new Error('AuraMask Message Signature: User denied message signature.')));
+          return cb(cleanErrorStack(new Error('IrMeta Message Signature: User denied message signature.')));
         default:
-          return cb(cleanErrorStack(new Error(`AuraMask Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`)));
+          return cb(cleanErrorStack(new Error(`IrMeta Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`)));
       }
     });
   }
@@ -975,10 +975,10 @@ module.exports = class AuramaskController extends EventEmitter {
    * @returns {Object} Full state update.
    */
   signTypedMessage(msgParams) {
-    log.info('AuraMaskController - signTypedMessage');
-    const msgId = msgParams.auramaskId;
+    log.info('IrMetaController - signTypedMessage');
+    const msgId = msgParams.irmetaId;
     // sets the status op the message to 'approved'
-    // and removes the auramaskId for signing
+    // and removes the irmetaId for signing
     return this
       .typedMessageManager.approveMessage(msgParams)
       .then((cleanMsgParams) => {
@@ -1007,14 +1007,14 @@ module.exports = class AuramaskController extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
-  // AuraMask Version 3 Migration Account Restauration Methods
+  // IrMeta Version 3 Migration Account Restauration Methods
 
   /**
    * A legacy method (probably dead code) that was used when we swapped out our
    * key management library that we depended on.
    *
    * Described in:
-   * https://medium.com/auramask/auramask-3-migration-guide-914b79533cdd
+   * https://medium.com/irmeta/irmeta-3-migration-guide-914b79533cdd
    *
    * @deprecated
    * @param  {} migratorOutput
@@ -1043,7 +1043,7 @@ module.exports = class AuramaskController extends EventEmitter {
    * key management library that we depended on.
    *
    * Described in:
-   * https://medium.com/auramask/auramask-3-migration-guide-914b79533cdd
+   * https://medium.com/irmeta/irmeta-3-migration-guide-914b79533cdd
    *
    * @deprecated
    * @param  {} migratorOutput
@@ -1068,7 +1068,7 @@ module.exports = class AuramaskController extends EventEmitter {
    * Imports a hash of accounts to private keys into the vault.
    *
    * Described in:
-   * https://medium.com/auramask/auramask-3-migration-guide-914b79533cdd
+   * https://medium.com/irmeta/irmeta-3-migration-guide-914b79533cdd
    *
    * Uses the array's private keys to create a new Simple Key Pair keychain
    * and add it to the keyring controller.
@@ -1150,7 +1150,7 @@ module.exports = class AuramaskController extends EventEmitter {
   setupUntrustedCommunication(connectionStream, originDomain) {
     // Check if new connection is blacklisted
     if (this.blacklistController.checkForPhishing(originDomain)) {
-      log.debug('AuraMask - sending phishing warning for', originDomain);
+      log.debug('IrMeta - sending phishing warning for', originDomain);
       this.sendPhishingWarning(connectionStream, originDomain);
       return;
     }
@@ -1272,7 +1272,7 @@ module.exports = class AuramaskController extends EventEmitter {
   }
 
   /**
-   * A method for emitting the full AuraMask state to all registered listeners.
+   * A method for emitting the full IrMeta state to all registered listeners.
    * @private
    */
   privateSendUpdate() {
@@ -1421,7 +1421,7 @@ module.exports = class AuramaskController extends EventEmitter {
   }
 
   /**
-   * A method for recording whether the AuraMask user interface is open or not.
+   * A method for recording whether the IrMeta user interface is open or not.
    * @private
    * @param {boolean} open
    */

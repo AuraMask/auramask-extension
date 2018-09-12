@@ -1,5 +1,5 @@
 const Raven = require('raven-js');
-const AURAMASK_DEBUG = process.env.AURAMASK_DEBUG;
+const IRMETA_DEBUG = process.env.IRMETA_DEBUG;
 const extractIrcjsErrorMessage = require('./extractIrcjsErrorMessage');
 const PROD = 'https://3567c198f8a8412082d32655da2961d0@sentry.io/273505';
 const DEV = 'https://f59f3dd640d2429d9d0e2445a87ea8e1@sentry.io/273496';
@@ -13,7 +13,7 @@ function setupRaven(opts) {
   // detect brave
   const isBrave = Boolean(window.chrome.ipcRenderer);
 
-  if (AURAMASK_DEBUG) {
+  if (IRMETA_DEBUG) {
     console.log('Setting up Sentry Remote Error Reporting: DEV');
     ravenTarget = DEV;
   } else {
@@ -81,20 +81,20 @@ function rewriteErrorMessages(report, rewriteFn) {
 
 function rewriteReportUrls(report) {
   // update request url
-  report.request.url = toAuramaskUrl(report.request.url);
+  report.request.url = toIrmetaUrl(report.request.url);
   // update exception stack trace
   if (report.exception && report.exception.values) {
     report.exception.values.forEach(item => {
       item.stacktrace.frames.forEach(frame => {
-        frame.filename = toAuramaskUrl(frame.filename);
+        frame.filename = toIrmetaUrl(frame.filename);
       });
     });
   }
 }
 
-function toAuramaskUrl(origUrl) {
+function toIrmetaUrl(origUrl) {
   const filePath = origUrl.split(location.origin)[1];
   if (!filePath) return origUrl;
-  const auramaskUrl = `auramask${filePath}`;
-  return auramaskUrl;
+  const irmetaUrl = `irmeta${filePath}`;
+  return irmetaUrl;
 }

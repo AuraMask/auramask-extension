@@ -28,7 +28,7 @@ const casedContractMap = Object.keys(contractMap).reduce((acc, base) => {
 
 const mapStateToProps = (state, props) => {
   const {toAddress: propsToAddress} = props;
-  const {confirmTransaction, auramask} = state;
+  const {confirmTransaction, irmeta} = state;
   const {
     ircTransactionAmount,
     ircTransactionFee,
@@ -52,7 +52,7 @@ const mapStateToProps = (state, props) => {
     accounts,
     selectedAddress,
     selectedAddressTxList,
-  } = auramask;
+  } = irmeta;
 
   const {balance} = accounts[selectedAddress];
   const {name: fromName} = identities[selectedAddress];

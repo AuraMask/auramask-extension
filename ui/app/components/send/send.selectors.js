@@ -55,7 +55,7 @@ function accountsWithSendIrcerInfoSelector(state) {
   const {
     accounts,
     identities,
-  } = state.auramask;
+  } = state.irmeta;
 
   const accountsWithSendIrcerInfo = Object.entries(accounts).map(([key, account]) => {
     return Object.assign({}, account, identities[key]);
@@ -69,20 +69,20 @@ function accountsWithSendIrcerInfoSelector(state) {
 //   const autoAddAccountsThreshold = 2
 //   const autoAddTokensThreshold = 1
 
-//   const numberOfTransactions = state.auramask.selectedAddressTxList.length
-//   const numberOfAccounts = Object.keys(state.auramask.accounts).length
-//   const numberOfTokensAdded = state.auramask.tokens.length
+//   const numberOfTransactions = state.irmeta.selectedAddressTxList.length
+//   const numberOfAccounts = Object.keys(state.irmeta.accounts).length
+//   const numberOfTokensAdded = state.irmeta.tokens.length
 
 //   const userPassesThreshold = (numberOfTransactions > autoAddTransactionThreshold) &&
 //     (numberOfAccounts > autoAddAccountsThreshold) &&
 //     (numberOfTokensAdded > autoAddTokensThreshold)
-//   const userIsNotInBeta = !state.auramask.featureFlags.betaUI
+//   const userIsNotInBeta = !state.irmeta.featureFlags.betaUI
 
 //   return userIsNotInBeta && userPassesThreshold
 // }
 
 function getAddressBook(state) {
-  return state.auramask.addressBook;
+  return state.irmeta.addressBook;
 }
 
 function getAmountConversionRate(state) {
@@ -92,11 +92,11 @@ function getAmountConversionRate(state) {
 }
 
 function getBlockGasLimit(state) {
-  return state.auramask.currentBlockGasLimit;
+  return state.irmeta.currentBlockGasLimit;
 }
 
 function getConversionRate(state) {
-  return state.auramask.conversionRate;
+  return state.irmeta.conversionRate;
 }
 
 function getCurrentAccountWithSendIrcerInfo(state) {
@@ -107,11 +107,11 @@ function getCurrentAccountWithSendIrcerInfo(state) {
 }
 
 function getCurrentCurrency(state) {
-  return state.auramask.currentCurrency;
+  return state.irmeta.currentCurrency;
 }
 
 function getCurrentNetwork(state) {
-  return state.auramask.network;
+  return state.irmeta.network;
 }
 
 function getCurrentViewContext(state) {
@@ -120,23 +120,23 @@ function getCurrentViewContext(state) {
 }
 
 function getForceGasMin(state) {
-  return state.auramask.send.forceGasMin;
+  return state.irmeta.send.forceGasMin;
 }
 
 function getGasLimit(state) {
-  return state.auramask.send.gasLimit;
+  return state.irmeta.send.gasLimit;
 }
 
 function getGasPrice(state) {
-  return state.auramask.send.gasPrice;
+  return state.irmeta.send.gasPrice;
 }
 
 function getGasPriceFromRecentBlocks(state) {
-  return estimateGasPriceFromRecentBlocks(state.auramask.recentBlocks);
+  return estimateGasPriceFromRecentBlocks(state.irmeta.recentBlocks);
 }
 
 function getGasTotal(state) {
-  return state.auramask.send.gasTotal;
+  return state.irmeta.send.gasTotal;
 }
 
 function getPrimaryCurrency(state) {
@@ -145,34 +145,34 @@ function getPrimaryCurrency(state) {
 }
 
 function getRecentBlocks(state) {
-  return state.auramask.recentBlocks;
+  return state.irmeta.recentBlocks;
 }
 
 function getSelectedAccount(state) {
-  const accounts = state.auramask.accounts;
+  const accounts = state.irmeta.accounts;
   const selectedAddress = getSelectedAddress(state);
 
   return accounts[selectedAddress];
 }
 
 function getSelectedAddress(state) {
-  const selectedAddress = state.auramask.selectedAddress || Object.keys(state.auramask.accounts)[0];
+  const selectedAddress = state.irmeta.selectedAddress || Object.keys(state.irmeta.accounts)[0];
 
   return selectedAddress;
 }
 
 function getSelectedIdentity(state) {
   const selectedAddress = getSelectedAddress(state);
-  const identities = state.auramask.identities;
+  const identities = state.irmeta.identities;
 
   return identities[selectedAddress];
 }
 
 function getSelectedToken(state) {
-  const tokens = state.auramask.tokens || [];
-  const selectedTokenAddress = state.auramask.selectedTokenAddress;
+  const tokens = state.irmeta.tokens || [];
+  const selectedTokenAddress = state.irmeta.selectedTokenAddress;
   const selectedToken = tokens.filter(({address}) => address === selectedTokenAddress)[0];
-  const sendToken = state.auramask.send.token;
+  const sendToken = state.irmeta.send.token;
 
   return selectedToken || sendToken || null;
 }
@@ -186,7 +186,7 @@ function getSelectedTokenContract(state) {
 }
 
 function getSelectedTokenExchangeRate(state) {
-  const tokenExchangeRates = state.auramask.tokenExchangeRates;
+  const tokenExchangeRates = state.irmeta.tokenExchangeRates;
   const selectedToken = getSelectedToken(state) || {};
   const {symbol = ''} = selectedToken;
   const pair = `${symbol.toLowerCase()}_irc`;
@@ -207,15 +207,15 @@ function getSelectedTokenToFiatRate(state) {
 }
 
 function getSendAmount(state) {
-  return state.auramask.send.amount;
+  return state.irmeta.send.amount;
 }
 
 function getSendHexData(state) {
-  return state.auramask.send.data;
+  return state.irmeta.send.data;
 }
 
 function getSendEditingTransactionId(state) {
-  return state.auramask.send.editingTransactionId;
+  return state.irmeta.send.editingTransactionId;
 }
 
 function getSendErrors(state) {
@@ -223,7 +223,7 @@ function getSendErrors(state) {
 }
 
 function getSendFrom(state) {
-  return state.auramask.send.from;
+  return state.irmeta.send.from;
 }
 
 function getSendFromBalance(state) {
@@ -236,11 +236,11 @@ function getSendFromObject(state) {
 }
 
 function getSendMaxModeState(state) {
-  return state.auramask.send.maxModeOn;
+  return state.irmeta.send.maxModeOn;
 }
 
 function getSendTo(state) {
-  return state.auramask.send.to;
+  return state.irmeta.send.to;
 }
 
 function getSendToAccounts(state) {
@@ -252,26 +252,26 @@ function getSendToAccounts(state) {
 }
 
 function getTokenBalance(state) {
-  return state.auramask.send.tokenBalance;
+  return state.irmeta.send.tokenBalance;
 }
 
 function getTokenExchangeRate(state, tokenSymbol) {
   const pair = `${tokenSymbol.toLowerCase()}_irc`;
-  const tokenExchangeRates = state.auramask.tokenExchangeRates;
+  const tokenExchangeRates = state.irmeta.tokenExchangeRates;
   const {rate: tokenExchangeRate = 0} = tokenExchangeRates[pair] || {};
 
   return tokenExchangeRate;
 }
 
 function getUnapprovedTxs(state) {
-  return state.auramask.unapprovedTxs;
+  return state.irmeta.unapprovedTxs;
 }
 
 function transactionsSelector(state) {
-  const {network, selectedTokenAddress} = state.auramask;
-  const unapprovedMsgs = valuesFor(state.auramask.unapprovedMsgs);
-  const shapeShiftTxList = (network === '1') ? state.auramask.shapeShiftTxList : undefined;
-  const transactions = state.auramask.selectedAddressTxList || [];
+  const {network, selectedTokenAddress} = state.irmeta;
+  const unapprovedMsgs = valuesFor(state.irmeta.unapprovedMsgs);
+  const shapeShiftTxList = (network === '1') ? state.irmeta.shapeShiftTxList : undefined;
+  const transactions = state.irmeta.selectedAddressTxList || [];
   const txsToRender = !shapeShiftTxList ? transactions.concat(unapprovedMsgs) : transactions.concat(unapprovedMsgs, shapeShiftTxList);
 
   return selectedTokenAddress

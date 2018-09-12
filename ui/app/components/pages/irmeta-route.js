@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 const {Route} = require('react-router-dom');
 const h = require('react-hyperscript');
 
-const AuramaskRoute = ({component, mascaraComponent, isMascara, ...props}) => {
+const IrmetaRoute = ({component, mascaraComponent, isMascara, ...props}) => {
   return (
     h(Route, {
       ...props,
@@ -12,17 +12,17 @@ const AuramaskRoute = ({component, mascaraComponent, isMascara, ...props}) => {
   );
 };
 
-AuramaskRoute.propTypes = {
+IrmetaRoute.propTypes = {
   component: PropTypes.func,
   mascaraComponent: PropTypes.func,
   isMascara: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
-  const {auramask: {isMascara}} = state;
+  const {irmeta: {isMascara}} = state;
   return {
     isMascara,
   };
 };
 
-module.exports = connect(mapStateToProps)(AuramaskRoute);
+module.exports = connect(mapStateToProps)(IrmetaRoute);

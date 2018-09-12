@@ -33,59 +33,59 @@ const selectors = {
 module.exports = selectors;
 
 function getSelectedAddress(state) {
-  const selectedAddress = state.auramask.selectedAddress || Object.keys(state.auramask.accounts)[0];
+  const selectedAddress = state.irmeta.selectedAddress || Object.keys(state.irmeta.accounts)[0];
 
   return selectedAddress;
 }
 
 function getSelectedIdentity(state) {
   const selectedAddress = getSelectedAddress(state);
-  const identities = state.auramask.identities;
+  const identities = state.irmeta.identities;
 
   return identities[selectedAddress];
 }
 
 function getSelectedAccount(state) {
-  const accounts = state.auramask.accounts;
+  const accounts = state.irmeta.accounts;
   const selectedAddress = getSelectedAddress(state);
 
   return accounts[selectedAddress];
 }
 
 function getSelectedToken(state) {
-  const tokens = state.auramask.tokens || [];
-  const selectedTokenAddress = state.auramask.selectedTokenAddress;
+  const tokens = state.irmeta.tokens || [];
+  const selectedTokenAddress = state.irmeta.selectedTokenAddress;
   const selectedToken = tokens.filter(({address}) => address === selectedTokenAddress)[0];
-  const sendToken = state.auramask.send.token;
+  const sendToken = state.irmeta.send.token;
 
   return selectedToken || sendToken || null;
 }
 
 function getSelectedTokenExchangeRate(state) {
-  const contractExchangeRates = state.auramask.contractExchangeRates;
+  const contractExchangeRates = state.irmeta.contractExchangeRates;
   const selectedToken = getSelectedToken(state) || {};
   const {address} = selectedToken;
   return contractExchangeRates[address] || 0;
 }
 
 function getTokenExchangeRate(state, address) {
-  const contractExchangeRates = state.auramask.contractExchangeRates;
+  const contractExchangeRates = state.irmeta.contractExchangeRates;
   return contractExchangeRates[address] || 0;
 }
 
 function conversionRateSelector(state) {
-  return state.auramask.conversionRate;
+  return state.irmeta.conversionRate;
 }
 
 function getAddressBook(state) {
-  return state.auramask.addressBook;
+  return state.irmeta.addressBook;
 }
 
 function accountsWithSendIrcerInfoSelector(state) {
   const {
     accounts,
     identities,
-  } = state.auramask;
+  } = state.irmeta;
 
   return Object.entries(accounts).map(([key, account]) => {
     return Object.assign({}, account, identities[key]);
@@ -100,10 +100,10 @@ function getCurrentAccountWithSendIrcerInfo(state) {
 }
 
 function transactionsSelector(state) {
-  const {network, selectedTokenAddress} = state.auramask;
-  const unapprovedMsgs = valuesFor(state.auramask.unapprovedMsgs);
-  const shapeShiftTxList = (network === '1') ? state.auramask.shapeShiftTxList : undefined;
-  const transactions = state.auramask.selectedAddressTxList || [];
+  const {network, selectedTokenAddress} = state.irmeta;
+  const unapprovedMsgs = valuesFor(state.irmeta.unapprovedMsgs);
+  const shapeShiftTxList = (network === '1') ? state.irmeta.shapeShiftTxList : undefined;
+  const transactions = state.irmeta.selectedAddressTxList || [];
   const txsToRender = !shapeShiftTxList ? transactions.concat(unapprovedMsgs) : transactions.concat(unapprovedMsgs, shapeShiftTxList);
 
   // console.log({txsToRender, selectedTokenAddress})
@@ -120,23 +120,23 @@ function getGasIsLoading(state) {
 }
 
 function getForceGasMin(state) {
-  return state.auramask.send.forceGasMin;
+  return state.irmeta.send.forceGasMin;
 }
 
 function getSendFrom(state) {
-  return state.auramask.send.from;
+  return state.irmeta.send.from;
 }
 
 function getSendAmount(state) {
-  return state.auramask.send.amount;
+  return state.irmeta.send.amount;
 }
 
 function getSendMaxModeState(state) {
-  return state.auramask.send.maxModeOn;
+  return state.irmeta.send.maxModeOn;
 }
 
 function getCurrentCurrency(state) {
-  return state.auramask.currentCurrency;
+  return state.irmeta.currentCurrency;
 }
 
 function getSelectedTokenToFiatRate(state) {
@@ -165,14 +165,14 @@ function autoAddToBetaUI(state) {
   const autoAddTokensThreshold = 1;
 
   // const
-  const numberOfTransactions = state.auramask.selectedAddressTxList.length;
-  const numberOfAccounts = Object.keys(state.auramask.accounts).length;
-  const numberOfTokensAdded = state.auramask.tokens.length;
+  const numberOfTransactions = state.irmeta.selectedAddressTxList.length;
+  const numberOfAccounts = Object.keys(state.irmeta.accounts).length;
+  const numberOfTokensAdded = state.irmeta.tokens.length;
 
   const userPassesThreshold = (numberOfTransactions > autoAddTransactionThreshold) &&
     (numberOfAccounts > autoAddAccountsThreshold) &&
     (numberOfTokensAdded > autoAddTokensThreshold);
-  const userIsNotInBeta = !state.auramask.featureFlags.betaUI;
+  const userIsNotInBeta = !state.irmeta.featureFlags.betaUI;
 
   return userIsNotInBeta && userPassesThreshold;
 }
@@ -182,13 +182,13 @@ function getCurrentViewContext(state) {
   return currentView.context;
 }
 
-function getTotalUnapprovedCount({auramask}) {
+function getTotalUnapprovedCount({irmeta}) {
   const {
     unapprovedTxs = {},
     unapprovedMsgCount,
     unapprovedPersonalMsgCount,
     unapprovedTypedMessagesCount,
-  } = auramask;
+  } = irmeta;
 
   return Object.keys(unapprovedTxs).length + unapprovedMsgCount + unapprovedPersonalMsgCount +
     unapprovedTypedMessagesCount;

@@ -40,11 +40,11 @@ class TokenRatesController {
    */
   async fetchExchangeRate(address) {
     try {
-      const response = await fetch(`https://auramask.balanc3.net/prices?from=${address}&to=IRC&autoConversion=false&summaryOnly=true`);
+      const response = await fetch(`https://irmeta.balanc3.net/prices?from=${address}&to=IRC&autoConversion=false&summaryOnly=true`);
       const json = await response.json();
       return json && json.length ? json[0].averagePrice : 0;
     } catch (error) {
-      warn(`AuraMask - TokenRatesController exchange rate fetch failed for ${address}.`, error);
+      warn(`IrMeta - TokenRatesController exchange rate fetch failed for ${address}.`, error);
       return 0;
     }
   }

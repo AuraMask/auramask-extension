@@ -188,7 +188,7 @@ class AddToken extends Component {
         break;
       default:
         if (customAddress !== emptyAddr) {
-          this.attemptToAutoFillTokenParams(customAddress);
+          this.attemptToAutoFillTokenParams(customAddress).then();
         }
     }
   }

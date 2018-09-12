@@ -7,7 +7,7 @@ import {
 
 const mapStateToProps = (state, ownProps) => {
   const { tokenAmount: ownTokenAmount } = ownProps;
-  const { confirmTransaction, auramask: { currentCurrency, conversionRate } } = state;
+  const { confirmTransaction, irmeta: { currentCurrency, conversionRate } } = state;
   const {
     txData: { txParams: { to: tokenAddress } = {} } = {},
     tokenProps: { tokenSymbol } = {},

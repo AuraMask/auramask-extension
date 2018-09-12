@@ -58,7 +58,7 @@ function createErrorMiddleware({ override = true } = {}) {
       const { error } = res;
       if (!error) { return done(); }
       sanitizeRPCError(error);
-      log.error(`AuraMask - RPC Error: ${error.message}`, error);
+      log.error(`IrMeta - RPC Error: ${error.message}`, error);
       done();
     });
   };

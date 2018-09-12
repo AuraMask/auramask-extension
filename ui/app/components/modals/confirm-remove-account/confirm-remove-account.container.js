@@ -6,7 +6,7 @@ const { hideModal, removeAccount } = require('../../../actions');
 const mapStateToProps = state => {
   return {
     identity: state.appState.modal.modalState.props.identity,
-    network: state.auramask.network,
+    network: state.irmeta.network,
   };
 };
 

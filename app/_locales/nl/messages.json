@@ -34,7 +34,7 @@
     "description": "De beschrijving van de applicatie"
   },
   "appName": {
-    "message": "AuraMask",
+    "message": "IrMeta",
     "description": "De naam van de applicatie"
   },
   "attemptingConnect": {
@@ -72,7 +72,7 @@
     "message": "Lenen met Dharma (Beta)"
   },
   "builtInCalifornia": {
-    "message": "AuraMask is ontworpen en gebouwd in Californië."
+    "message": "IrMeta is ontworpen en gebouwd in Californië."
   },
   "buy": {
     "message": "Kopen"
@@ -178,7 +178,7 @@
     "message": "Het standaardnetwerk voor Ircer-transacties is Main Net."
   },
   "denExplainer": {
-    "message": "Uw DEN is uw wachtwoord-gecodeerde opslag binnen AuraMask."
+    "message": "Uw DEN is uw wachtwoord-gecodeerde opslag binnen IrMeta."
   },
   "deposit": {
     "message": "Storting"
@@ -206,7 +206,7 @@
     "message": "Stort met ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Als u andere cryptocurrencies bezit, kunt u Ircer direct in uw AuraMask-portemonnee ruilen en storten. Geen account nodig."
+    "message": "Als u andere cryptocurrencies bezit, kunt u Ircer direct in uw IrMeta-portemonnee ruilen en storten. Geen account nodig."
   },
   "details": {
     "message": "Details"
@@ -351,7 +351,7 @@
     "message": "Account importeren"
   },
   "importAccountMsg": {
-    "message": " Geïmporteerde accounts worden niet gekoppeld aan de seedphrase van uw oorspronkelijk gemaakte AuraMask-account. Meer informatie over geïmporteerde accounts"
+    "message": " Geïmporteerde accounts worden niet gekoppeld aan de seedphrase van uw oorspronkelijk gemaakte IrMeta-account. Meer informatie over geïmporteerde accounts"
   },
   "importAnAccount": {
     "message": "Importeer een account"
@@ -437,8 +437,8 @@
   "message": {
     "message": "Bericht"
   },
-  "auramaskDescription": {
-    "message": "AuraMask is een veilige identiteitskluis voor IrChain."
+  "irmetaDescription": {
+    "message": "IrMeta is een veilige identiteitskluis voor IrChain."
   },
   "min": {
     "message": "Minimum"
@@ -450,7 +450,7 @@
     "message": "Moet ten minste één token selecteren."
   },
   "needIrcerInWallet": {
-    "message": "Om te communiceren met gedecentraliseerde applicaties met AuraMask, heb je Ircer nodig in je portemonnee."
+    "message": "Om te communiceren met gedecentraliseerde applicaties met IrMeta, heb je Ircer nodig in je portemonnee."
   },
   "needImportFile": {
     "message": "U moet een bestand selecteren om te importeren.",
@@ -716,7 +716,7 @@
     "message": "Token Symbol"
   },
   "tokenWarning1": {
-    "message": "Houd de tokens bij die je hebt gekocht met je AuraMask-account. Als je tokens met een ander account hebt gekocht, worden die tokens hier niet weergegeven."
+    "message": "Houd de tokens bij die je hebt gekocht met je IrMeta-account. Als je tokens met een ander account hebt gekocht, worden die tokens hier niet weergegeven."
   },
   "total": {
     "message": "Totaal"
@@ -738,7 +738,7 @@
     "description": "Gevolgd door een link (hier) om tegensaldi te bekijken"
   },
   "twelveWords": {
-    "message": "Deze 12 woorden zijn de enige manier om uw AuraMask-accounts te herstellen.\nBewaar ze ergens veilig en geheim."
+    "message": "Deze 12 woorden zijn de enige manier om uw IrMeta-accounts te herstellen.\nBewaar ze ergens veilig en geheim."
   },
   "typePassword": {
     "message": "Typ uw wachtwoord"
@@ -747,7 +747,7 @@
     "message": "Welkom bij de nieuwe gebruikersinterface (bèta)"
   },
   "uiWelcomeMessage": {
-    "message": "U gebruikt nu de nieuwe gebruikersinterface van AuraMask. Kijk rond, probeer nieuwe functies uit zoals het verzenden van tokens en laat ons weten of u problemen ondervindt."
+    "message": "U gebruikt nu de nieuwe gebruikersinterface van IrMeta. Kijk rond, probeer nieuwe functies uit zoals het verzenden van tokens en laat ons weten of u problemen ondervindt."
   },
   "unavailable": {
     "message": "Niet beschikbaar"
@@ -787,7 +787,7 @@
     "message": "Waarschuwing"
   },
   "welcomeBeta": {
-    "message": "Welkom bij AuraMask Beta"
+    "message": "Welkom bij IrMeta Beta"
   },
   "whatsThis": {
     "message": "Wat is dit?"

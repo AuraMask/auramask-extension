@@ -20,7 +20,7 @@ module.exports = compose(
 function mapStateToProps(state) {
   return {
     error: state.appState.warning,
-    firstAddress: Object.keys(state.auramask.accounts)[0],
+    firstAddress: Object.keys(state.irmeta.accounts)[0],
   };
 }
 

@@ -154,7 +154,7 @@ class BuyIrcerWidget extends Component {
           <div className="buy-ircer__action-content-wrapper">
             <div dangerouslySetInnerHTML={{__html: qrImage.createTableTag(4)}}/>
             <div className="buy-ircer__body-text">Deposit Ircer directly into your account.</div>
-            <div className="buy-ircer__small-body-text">(This is the account address that AuraMask created for you to recieve funds.)</div>
+            <div className="buy-ircer__small-body-text">(This is the account address that IrMeta created for you to recieve funds.)</div>
             <div className="buy-ircer__buttons">
               <button
                 className="first-time-flow__button"
@@ -211,7 +211,7 @@ class BuyIrcerWidget extends Component {
 }
 
 export default connect(
-  ({auramask: {selectedAddress}}) => ({
+  ({irmeta: {selectedAddress}}) => ({
     address: selectedAddress,
   }),
   dispatch => ({
