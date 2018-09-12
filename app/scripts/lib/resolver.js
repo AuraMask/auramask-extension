@@ -5,6 +5,11 @@ const IrcQuery = require('irc.js').Query;
 const IrcContract = require('irc.js').Contract;
 const registrarAbi = require('./contracts/registrar');
 const resolverAbi = require('./contracts/resolver');
+const {
+  MAINNET,
+  MAINNET_RPC_URL,
+  LOCALHOST_RPC_URL,
+} = require('../controllers/network/enums');
 
 function ens(name, provider) {
   const ircQuery = new IrcQuery(new HttpProvider(getProvider(provider.type)));
@@ -38,10 +43,10 @@ function ens(name, provider) {
 
 function getProvider(type) {
   switch (type) {
-    case 'mainnet':
-      return 'https://mainnet.infura.io/';
+    case MAINNET:
+      return MAINNET_RPC_URL;
     default:
-      return 'http://localhost:8545/';
+      return LOCALHOST_RPC_URL;
   }
 }
 

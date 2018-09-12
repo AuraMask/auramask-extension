@@ -1,33 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="80px" height="78px" viewBox="0 0 80 78" version="1.1" xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink">
-  <!-- Generator: Sketch 49 (51002) - http://www.bohemiancoding.com/sketch -->
-  <title>deposit-eth</title>
+  Generator: Sketch 49 (51002) - http://www.bohemiancoding.com/sketch
+  <title>deposit-irc</title>
   <desc>Created with Sketch.</desc>
   <defs>
-    <circle id="path-1" cx="34" cy="34" r="34"></circle>
-    <circle id="path-2" cx="17" cy="17" r="17"></circle>
+    <circle id="path-1" cx="34" cy="34" r="34"/>
+    <circle id="path-2" cx="17" cy="17" r="17"/>
   </defs>
   <g id="Buy-IRC" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
     <g id="deposit-Ircer" transform="translate(-79.000000, -146.000000)">
       <g id="Group-12" transform="translate(8.000000, 10.000000)">
         <g id="Group-7" transform="translate(71.000000, 122.000000)">
-          <g id="deposit-eth" transform="translate(0.000000, 14.000000)">
+          <g id="deposit-irc" transform="translate(0.000000, 14.000000)">
             <g id="Oval">
-              <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
-              <circle stroke="#38393A" stroke-width="3" cx="34" cy="34" r="32.5"></circle>
+              <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"/>
+              <circle stroke="#38393A" stroke-width="3" cx="34" cy="34" r="32.5"/>
             </g>
-            <path
-              d="M34.406509,44.95 L22,37.7 L34.406509,55 L46.8205983,37.7 L34.4039822,44.95 L34.406509,44.95 Z M34.593491,15 L22.186982,35.37 L34.593491,42.6275 L47,35.3775 L34.593491,15 Z"
-              id="Shape" fill="#38393A"></path>
+
+            <g transform="translate(2.800000,66.000000) scale(0.0100000,-0.0100000)" fill="#38393A" stroke="none">
+              <path d="M3290 5082 c-19 -9 -129 -109 -245 -223 -302 -295 -399 -361 -650 -442 -180 -58 -262 -72 -427 -72 -159 0 -174 4 -221 67 -29 39 -17 78 58 192 106 160 82 164 -69 12 -331 -333 -549 -775 -453 -916 49 -74 200 -129 412 -150 394 -41 985 92 1445 326 164 83 279 160 420 280 144 123 383 361 439 436 74 100 99 205 67 282 -40 96 -217 163 -545 206 -184 24 -187 24 -231 2z"/>
+              <path d="M2500 5074 c-100 -27 -250 -108 -250 -136 0 -7 30 -9 89 -6 98 6 184 38 249 92 67 58 27 81 -88 50z"/>
+              <path d="M4761 4028 c-67 -140 -149 -249 -300 -398 -307 -303 -767 -596 -1262 -805 -476 -201 -1013 -303 -1440 -275 -168 12 -256 29 -417 82 -67 23 -125 38 -129 35 -12 -12 40 -144 126 -322 239 -492 354 -584 756 -602 535 -24 1289 186 1947 542 522 283 893 624 995 917 43 122 30 283 -43 543 -55 193 -134 377 -166 383 -13 3 -29 -22 -67 -100z"/>
+              <path d="M3370 3944 c-471 -309 -1103 -494 -1692 -494 -203 0 -224 -6 -304 -93 -48 -52 -79 -98 -114 -172 -64 -132 -81 -202 -78 -317 l3 -91 110 -39 c206 -74 479 -134 562 -125 56 6 119 37 304 153 200 125 568 337 789 453 357 189 478 273 556 389 24 34 50 86 59 115 23 75 30 222 13 272 -21 64 -42 59 -208 -51z"/>
+              <path d="M4908 2508 c-24 -29 -59 -73 -78 -98 -220 -292 -594 -561 -1000 -719 -382 -148 -736 -213 -1266 -231 -149 -5 -281 -13 -295 -18 -23 -9 -23 -10 16 -29 84 -43 331 -118 505 -153 412 -84 955 28 1360 279 234 146 430 339 593 586 85 130 228 418 213 432 -2 2 -24 -20 -48 -49z"/>
+            </g>
+
+            <!--<path d="M34.406509,44.95 L22,37.7 L34.406509,55 L46.8205983,37.7 L34.4039822,44.95 L34.406509,44.95 Z M34.593491,15 L22.186982,35.37 L34.593491,42.6275 L47,35.3775 L34.593491,15 Z" id="Shape" fill="#38393A"/>-->
             <g id="Group-6" transform="translate(46.000000, 44.000000)">
               <g id="Oval-Copy">
-                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
-                <circle stroke="#38393A" stroke-width="3" cx="17" cy="17" r="15.5"></circle>
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"/>
+                <circle stroke="#38393A" stroke-width="3" cx="17" cy="17" r="15.5"/>
               </g>
               <path
                 d="M19.0769231,15.4230769 L25.5,15.4230769 L25.5,19.5769231 L19.0769231,19.5769231 L19.0769231,26 L14.9230769,26 L14.9230769,19.5769231 L8.5,19.5769231 L8.5,15.4230769 L14.9230769,15.4230769 L14.9230769,9 L19.0769231,9 L19.0769231,15.4230769 Z"
-                id="Combined-Shape" fill="#38393A"></path>
+                id="Combined-Shape" fill="#38393A"/>
             </g>
           </g>
         </g>

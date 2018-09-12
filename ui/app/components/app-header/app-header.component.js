@@ -116,7 +116,7 @@ class AppHeader extends Component {
           >
             <img
               className="app-header__metafox"
-              src="/images/irmeta-fox.svg"
+              src="/images/irmeta-sphere.svg"
               height={42}
               width={42}
             />

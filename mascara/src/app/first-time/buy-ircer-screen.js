@@ -103,7 +103,7 @@ class BuyIrcerScreen extends Component {
     return (
       <div className='buy-ircer__action-content-wrapper'>
         <div>{this.renderCoinbaseLogo()}</div>
-        <div className='buy-ircer__body-text'>Coinbase is the world’s most popular way to buy and sell bitcoin, irchain, and litecoin.
+        <div className='buy-ircer__body-text'>Coinbase is the world’s most popular way to buy and sell bitcoin, ircoin, and litecoin.
         </div>
         <a className='first-time-flow__link buy-ircer__faq-link'>What is IrChain?</a>
         <div className='buy-ircer__buttons'>

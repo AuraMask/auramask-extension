@@ -52,9 +52,8 @@ class BlacklistController {
   }
 
   /**
-   * Queries `https://api.infura.io/v2/blacklist` for an updated blacklist config. This is passed to this._phishingDetector
-   * to update our phishing detector instance, and is updated in the store. The new phishing config is returned
-   *
+   * This is passed to this._phishingDetector to update our phishing detector instance,
+   * and is updated in the store. The new phishing config is returned.
    *
    * @returns {Promise<object>} Promises the updated blacklist config for the phishingDetector
    *

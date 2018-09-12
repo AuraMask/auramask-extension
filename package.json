@@ -110,7 +110,7 @@
     "lodash.shuffle": "^4.2.0",
     "lodash.uniqby": "^4.7.0",
     "loglevel": "^1.4.1",
-    "metamask-logo": "^2.1.4",
+    "irmeta-logo": "/home/ldc/repos/go-irchain/src/github.com/irtools/metamask/irmeta-logo",
     "mkdirp": "^0.5.1",
     "multihashes": "^0.4.12",
     "multiplex": "^6.7.0",

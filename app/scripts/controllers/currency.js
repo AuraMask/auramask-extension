@@ -104,18 +104,22 @@ class CurrencyController {
    *
    */
   async updateConversionRate() {
-    let currentCurrency;
-    try {
-      currentCurrency = this.getCurrentCurrency();
-      const response = await fetch(`https://api.infura.io/v1/ticker/irc${currentCurrency.toLowerCase()}`);
-      const parsedResponse = await response.json();
-      this.setConversionRate(Number(parsedResponse.bid));
-      this.setConversionDate(Number(parsedResponse.timestamp));
-    } catch (err) {
-      log.warn(`IrMeta - Failed to query currency conversion:`, currentCurrency, err);
-      this.setConversionRate(0);
-      this.setConversionDate('N/A');
-    }
+    this.setConversionRate(0);
+    this.setConversionDate('N/A');
+
+    // TODO get usd info of ircoin from given api
+    // let currentCurrency;
+    // try {
+    //   currentCurrency = this.getCurrentCurrency();
+    //   const response = await fetch(`https://api.infura.io/v1/ticker/irc${currentCurrency.toLowerCase()}`);
+    //   const parsedResponse = await response.json();
+    //   this.setConversionRate(Number(parsedResponse.bid));
+    //   this.setConversionDate(Number(parsedResponse.timestamp));
+    // } catch (err) {
+    //   log.warn(`IrMeta - Failed to query currency conversion:`, currentCurrency, err);
+    //   this.setConversionRate(0);
+    //   this.setConversionDate('N/A');
+    // }
   }
 
   /**
