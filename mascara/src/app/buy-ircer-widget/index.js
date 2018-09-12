@@ -41,10 +41,8 @@ class BuyIrcerWidget extends Component {
     };
   };
 
-  get state() {
-    return {
-      selectedOption: OPTION_VALUES.QR_CODE,
-    };
+  state = {
+    selectedOption: OPTION_VALUES.QR_CODE,
   };
 
   get copyToClipboard() {

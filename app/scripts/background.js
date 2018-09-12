@@ -440,6 +440,6 @@ function triggerUi() {
 // On first install, open a window to IrMeta website to how-it-works.
 extension.runtime.onInstalled.addListener(function(details) {
   if ((details.reason === 'install') && (!IRMETA_DEBUG)) {
-    extension.tabs.create({url: 'https://irmeta.io/#how-it-works'});
+    // extension.tabs.create({url: 'https://irmeta.io/#how-it-works'});
   }
 });
