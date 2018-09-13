@@ -1,7 +1,7 @@
 {
   "name": "IrMeta",
   "short_name": "IrMeta",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "manifest_version": 2,
   "author": "ldc",
   "description": "The Chrome extension for IrChain wallet.",
