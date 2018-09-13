@@ -5,13 +5,17 @@ const inherits = require('util').inherits;
 const connect = require('react-redux').connect;
 const actions = require('../../actions');
 const ShapeshiftForm = require('../shapeshift-form');
+const {getNetworkDisplayName} = require('../../../../app/scripts/controllers/network/util');
 
 let DIRECT_DEPOSIT_ROW_TITLE;
 let DIRECT_DEPOSIT_ROW_TEXT;
 let COINBASE_ROW_TITLE;
 let COINBASE_ROW_TEXT;
-// let SHAPESHIFT_ROW_TITLE;
-// let SHAPESHIFT_ROW_TEXT;
+let TAOBAO_ROW_TITLE;
+let TAOBAO_ROW_TEXT;
+let SHAPESHIFT_ROW_TITLE;
+let SHAPESHIFT_ROW_TEXT;
+let FAUCET_ROW_TITLE;
 
 function mapStateToProps(state) {
   return {
@@ -40,8 +44,11 @@ function DepositIrcerModal(props, context) {
   DIRECT_DEPOSIT_ROW_TEXT = context.t('directDepositIrcerExplainer');
   COINBASE_ROW_TITLE = context.t('buyCoinbase');
   COINBASE_ROW_TEXT = context.t('buyCoinbaseExplainer');
-  // SHAPESHIFT_ROW_TITLE = context.t('depositShapeShift');
-  // SHAPESHIFT_ROW_TEXT = context.t('depositShapeShiftExplainer');
+  TAOBAO_ROW_TITLE = context.t('buyTaobao');
+  TAOBAO_ROW_TEXT = context.t('buyTaobaoExplainer');
+  SHAPESHIFT_ROW_TITLE = context.t('depositShapeShift');
+  SHAPESHIFT_ROW_TEXT = context.t('depositShapeShiftExplainer');
+  FAUCET_ROW_TITLE = context.t('testFaucet');
 
   this.state = {
     buyingWithShapeshift: false,
@@ -79,22 +86,17 @@ DepositIrcerModal.prototype.renderRow = function({
     className: className || 'deposit-ircer-modal__buy-row',
   }, [
 
-    onBackClick && showBackButton && h('div.deposit-ircer-modal__buy-row__back', {
-      onClick: onBackClick,
-    }, [
-
-      h('i.fa.fa-arrow-left.cursor-pointer'),
-
-    ]),
+    onBackClick && showBackButton && h(
+      'div.deposit-ircer-modal__buy-row__back',
+      {onClick: onBackClick},
+      [h('i.fa.fa-arrow-left.cursor-pointer')],
+    ),
 
     h('div.deposit-ircer-modal__buy-row__logo-container', [logo]),
 
     h('div.deposit-ircer-modal__buy-row__description', [
-
       !hideTitle && h('div.deposit-ircer-modal__buy-row__description__title', [title]),
-
       h('div.deposit-ircer-modal__buy-row__description__text', [text]),
-
     ]),
 
     !hideButton && h('div.deposit-ircer-modal__buy-row__button', [
@@ -107,10 +109,9 @@ DepositIrcerModal.prototype.renderRow = function({
 };
 
 DepositIrcerModal.prototype.render = function() {
-  const {network, toCoinbase, address} = this.props;
+  const {network, toCoinbase, address, toFaucet} = this.props;
   const {buyingWithShapeshift} = this.state;
-
-  const isTestNetwork = ['3', '4', '42'].find(n => n === network);
+  const networkName = getNetworkDisplayName(network);
 
   return h('div.page-container.page-container--full-width.page-container--full-height', {}, [
 
@@ -146,6 +147,28 @@ DepositIrcerModal.prototype.render = function() {
           this.renderRow({
             logo: h('div.deposit-ircer-modal__logo', {
               style: {
+                backgroundImage: 'url(./images/logo.png)',
+                height: '60px',
+              },
+            }),
+            title: TAOBAO_ROW_TITLE,
+            text: TAOBAO_ROW_TEXT,
+            buttonLabel: this.context.t('getIrcer'),
+            onButtonClick: () => toCoinbase(address),
+          }),
+
+          this.renderRow({
+            logo: h('i.fa.fa-tint.fa-2x'),
+            title: FAUCET_ROW_TITLE,
+            text: this.facuetRowText(networkName),
+            buttonLabel: this.context.t('getIrcer'),
+            onButtonClick: () => toFaucet(network),
+            hide: true,
+          }),
+
+          this.renderRow({
+            logo: h('div.deposit-ircer-modal__logo', {
+              style: {
                 backgroundImage: 'url(./images/coinbase-logo.png)',
                 height: '40px',
               },
@@ -154,26 +177,24 @@ DepositIrcerModal.prototype.render = function() {
             text: COINBASE_ROW_TEXT,
             buttonLabel: this.context.t('continueToCoinbase'),
             onButtonClick: () => toCoinbase(address),
-            hide: isTestNetwork || buyingWithShapeshift,
+            hide: true,
           }),
 
-          // this.renderRow({
-          //   logo: h('div.deposit-ircer-modal__logo', {
-          //     style: {
-          //       backgroundImage: 'url(./images/shapeshift-logo.png)',
-          //     },
-          //   }),
-          //   title: SHAPESHIFT_ROW_TITLE,
-          //   text: SHAPESHIFT_ROW_TEXT,
-          //   buttonLabel: this.context.t('shapeshiftBuy'),
-          //   onButtonClick: () => this.setState({buyingWithShapeshift: true}),
-          //   hide: isTestNetwork,
-          //   hideButton: buyingWithShapeshift,
-          //   hideTitle: buyingWithShapeshift,
-          //   onBackClick: () => this.setState({buyingWithShapeshift: false}),
-          //   showBackButton: this.state.buyingWithShapeshift,
-          //   className: buyingWithShapeshift && 'deposit-ircer-modal__buy-row__shapeshift-buy',
-          // }),
+          this.renderRow({
+            logo: h('div.deposit-ircer-modal__logo', {
+              style: {backgroundImage: 'url(./images/shapeshift-logo.png)'},
+            }),
+            title: SHAPESHIFT_ROW_TITLE,
+            text: SHAPESHIFT_ROW_TEXT,
+            buttonLabel: this.context.t('shapeshiftBuy'),
+            onButtonClick: () => this.setState({buyingWithShapeshift: true}),
+            hide: true,
+            hideButton: buyingWithShapeshift,
+            hideTitle: buyingWithShapeshift,
+            onBackClick: () => this.setState({buyingWithShapeshift: false}),
+            showBackButton: this.state.buyingWithShapeshift,
+            className: buyingWithShapeshift && 'deposit-ircer-modal__buy-row__shapeshift-buy',
+          }),
 
           buyingWithShapeshift && h(ShapeshiftForm),
 

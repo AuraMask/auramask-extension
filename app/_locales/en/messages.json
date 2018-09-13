@@ -92,6 +92,9 @@
   "builtInCalifornia": {
     "message": "IrMeta is designed and built in California."
   },
+  "builtByIrChainTeam": {
+    "message": "IrMeta is designed and built by IrChain team."
+  },
   "buy": {
     "message": "Buy"
   },
@@ -99,7 +102,13 @@
     "message": "Buy on Coinbase"
   },
   "buyCoinbaseExplainer": {
-    "message": "Coinbase is the world’s most popular way to buy and sell Bitcoin, IrChain, and Litecoin."
+    "message": "Coinbase is the world’s most popular way to buy and sell Bitcoin, Ethereum, IrChain and Litecoin."
+  },
+  "buyTaobao": {
+    "message": "Buy on Taobao"
+  },
+  "buyTaobaoExplainer": {
+    "message": "Taobao is the most significant way to buy and sell Ircer."
   },
   "bytes": {
     "message": "Bytes"

@@ -88,7 +88,7 @@ class Info extends Component {
             h('div.settings__info-item', [
               h(
                 'div.settings__info-about',
-                this.context.t('builtInCalifornia'),
+                this.context.t('builtByIrChainTeam'),
               ),
             ]),
           ]),
