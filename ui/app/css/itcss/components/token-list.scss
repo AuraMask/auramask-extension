@@ -53,9 +53,6 @@ $wallet-balance-breakpoint-range: "screen and (min-width: #{$break-large}) and (
 
   &__identicon {
     min-width: 50px;
-    @media #{$wallet-balance-breakpoint-range} {
-      margin-right: 4%;
-    }
   }
 
   &__balance-ellipsis {
@@ -64,6 +61,10 @@ $wallet-balance-breakpoint-range: "screen and (min-width: #{$break-large}) and (
     align-items: center;
     min-width: 0;
     flex: 1;
+
+    @media #{$wallet-balance-breakpoint-range} {
+      margin-left: 4%;
+    }
   }
 
   &__ellipsis {
