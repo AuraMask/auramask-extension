@@ -18,7 +18,6 @@ const NewAccountModal = require('./new-account-modal');
 const ShapeshiftDepositTxModal = require('./shapeshift-deposit-tx-modal.js');
 const HideTokenConfirmationModal = require('./hide-token-confirmation-modal');
 const CustomizeGasModal = require('../customize-gas-modal');
-const NotifcationModal = require('./notification-modal');
 const ConfirmResetAccount = require('./confirm-reset-account');
 const ConfirmRemoveAccount = require('./confirm-remove-account');
 const QRScanner = require('./qr-scanner');
@@ -83,7 +82,6 @@ const MODALS = {
     ],
     mobileModalStyle: {
       width: '95%',
-      // top: isPopupOrNotification() === 'popup' ? '48vh' : '36.5vh',
       transform: 'none',
       left: '0',
       right: '0',
@@ -128,7 +126,7 @@ const MODALS = {
       boxShadow: '0 0 6px 0 rgba(0,0,0,0.3)',
       borderRadius: '7px',
       transform: 'none',
-      height: 'calc(80% - 20px)',
+      maxHeight: 'calc(80% - 20px)',
       overflowY: 'hidden',
     },
     contentStyle: {

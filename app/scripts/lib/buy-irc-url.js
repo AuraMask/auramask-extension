@@ -11,11 +11,11 @@ module.exports = getBuyIrcUrl;
  * network does not match any of the specified cases, or if no network is given, returns undefined.
  *
  */
-function getBuyIrcUrl({network, amount, address}) {
+function getBuyIrcUrl({network, address, amount}) {
   let url;
   switch (network) {
     case '1':
-      url = `https://buy.coinbase.com/?code=9ec56d01-7e81-5017-930c-513daa27bb6a&amount=${amount}&address=${address}&crypto_currency=IRC`;
+      url = `https://shop329523734.taobao.com/`;
       break;
   }
   return url;
