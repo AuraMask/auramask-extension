@@ -1,9 +1,8 @@
 # AuraMask Browser Extension
-[![Build Status](https://circleci.com/gh/AuraMask/auramask-extension.svg?style=shield&circle-token=a1ddcf3cd38e29267f254c9c59d556d513e3a1fd)](https://circleci.com/gh/AuraMask/auramask-extension) [![Coverage Status](https://coveralls.io/repos/github/AuraMask/auramask-extension/badge.svg?branch=master)](https://coveralls.io/github/AuraMask/auramask-extension?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/AuraMask/auramask-extension.svg)](https://greenkeeper.io/) [![Stories in Ready](https://badge.waffle.io/AuraMask/auramask-extension.png?label=in%20progress&title=waffle.io)](https://waffle.io/AuraMask/auramask-extension)
 
 ## Support
 
-If you're a user seeking support, [here is our support site](https://auramask.helpscoutdocs.com/).
+If you're a user seeking support, [here to wrote the issue](https://github.com/AuraMask/irmeta-extension/issues/).
 
 ## Introduction
 
